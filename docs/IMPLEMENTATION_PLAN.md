@@ -1,5 +1,24 @@
 # IMPLEMENTATION_PLAN.md
 
+## Current status
+
+Use this section to state the **actual** project status; do not leave examples in place.
+
+- Phase: <current phase name + short description>
+- Implemented:
+  - <shipped items>
+- In progress:
+  - <work underway (remove once shipped)>
+- Next (1–3 concrete actions):
+  - <upcoming work>
+
+### Status rules
+
+- Keep this section concise and factual; update it in the same PR as related code.
+- Remove items from **In progress** once they land; keep **Next** to 1–3 concrete actions.
+- Work in one phase at a time; if scope expands, update the phase description before coding.
+- Each meaningful change should reference its phase and refresh this status section.
+
 This plan steers development of the **frontend-first** Estonia drone location web app.
 
 **North star:** a single-map UI that can show drones, sensors, NOTAMs, and basic air traffic with fast iteration using mocks and polling.
