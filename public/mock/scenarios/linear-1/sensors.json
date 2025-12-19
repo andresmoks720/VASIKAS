@@ -1,0 +1,26 @@
+[
+    {
+        "id": "sensor-425006",
+        "name": "Demo AeroScope",
+        "kind": "aeroscope",
+        "position": {
+            "lon": 24.744,
+            "lat": 59.428
+        },
+        "config": {
+            "rangeMeters": 5000
+        }
+    },
+    {
+        "id": "sensor-radar-1",
+        "name": "Demo Radar",
+        "kind": "radar",
+        "position": {
+            "lon": 24.760,
+            "lat": 59.440
+        },
+        "config": {
+            "rangeMeters": 12000
+        }
+    }
+]

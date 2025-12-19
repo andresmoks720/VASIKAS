@@ -1,0 +1,19 @@
+[
+    {
+        "id": "drone-001",
+        "label": "DJI Mavic (demo)",
+        "position": {
+            "lon": 24.7536,
+            "lat": 59.4369
+        },
+        "headingDeg": 90,
+        "speedMps": 12.4,
+        "altitude": {
+            "meters": 86,
+            "ref": "AGL",
+            "source": "reported",
+            "comment": "AeroScope mock"
+        },
+        "eventTimeUtc": "2025-12-18T10:15:30Z"
+    }
+]
