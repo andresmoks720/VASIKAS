@@ -3,7 +3,6 @@ import * as path from 'node:path';
 
 // --- Configuration ---
 const SEED = 1337;
-const TALLINN_CENTER = { lon: 24.7536, lat: 59.4369 };
 const BASE_TIME = "2025-12-18T10:00:00Z";
 const DURATION_SEC = 120;
 
@@ -40,7 +39,7 @@ function ensureDir(dirPath: string) {
   }
 }
 
-function writeJson(filePath: string, data: any) {
+function writeJson(filePath: string, data: unknown) {
   ensureDir(path.dirname(filePath));
   // Use a replacer or just rely on V8 key order for now, generally stable for object literals defined mostly consistently.
   // For strictly deterministic keys, we'd need a consistent-stringify function.
@@ -49,7 +48,9 @@ function writeJson(filePath: string, data: any) {
   console.log(`Generated ${filePath}`);
 }
 
-function writeNdjson(filePath: string, items: any[]) {
+type WithEventTime = { eventTimeUtc: string };
+
+function writeNdjson<T extends WithEventTime>(filePath: string, items: T[]) {
   ensureDir(path.dirname(filePath));
   // Sort by eventTimeUtc to ensure NDJSON valid ordering conventions
   const sortedItems = [...items].sort((a, b) => {
@@ -64,11 +65,62 @@ function writeNdjson(filePath: string, items: any[]) {
 // --- Types ---
 
 type Position = { lon: number; lat: number };
-// ... existing types ...
+type Altitude = {
+  meters: number | null;
+  ref: "AGL" | "MSL";
+  source: "detected" | "reported" | "unknown";
+  comment?: string;
+  rawText?: string;
+};
+
+type Sensor = {
+  id: string;
+  name: string;
+  kind: string;
+  position: Position;
+  status: "online" | "offline" | "degraded";
+  lastSeenUtc: string;
+  coverage: { radiusMeters: number; minAltM: number; maxAltM: number };
+};
+
+type DroneSnapshot = {
+  id: string;
+  label: string;
+  position: Position;
+  headingDeg: number;
+  speedMps: number;
+  altitude: Altitude;
+  eventTimeUtc: string;
+};
+
+type AdsbSnapshot = {
+  id: string;
+  callsign: string;
+  position: Position;
+  trackDeg: number;
+  groundSpeedKmh: number;
+  altitude: Altitude;
+  eventTimeUtc: string;
+};
+
+type NotamItem = {
+  id: string;
+  text: string;
+  validFromUtc: string;
+  validToUtc: string;
+  geometryHint:
+    | { type: "circle"; center: Position; radiusMeters: number }
+    | { type: "polygon"; coordinates: [number, number][] };
+};
+
+type NotamFeed = {
+  generatedAtUtc: string;
+  items: NotamItem[];
+};
 
 // --- Generators ---
 
-function generateSensors() {
+function generateSensors(): Sensor[] {
   return [
     {
       id: "sensor-425006",
@@ -100,7 +152,7 @@ function generateSensors() {
   ];
 }
 
-function generateDrones() {
+function generateDrones(): DroneSnapshot[] {
   return [
     {
       id: "drone-001",
@@ -114,7 +166,7 @@ function generateDrones() {
   ];
 }
 
-function generateAdsb() {
+function generateAdsb(): AdsbSnapshot[] {
   return [
     {
       id: "4ca123",
@@ -133,7 +185,7 @@ function generateAdsb() {
   ];
 }
 
-function generateNotams() {
+function generateNotams(): NotamFeed {
   return {
     generatedAtUtc: "2025-12-18T10:00:00Z",
     items: [
@@ -169,6 +221,20 @@ function generateNotams() {
 }
 
 // --- Scenario Generation ---
+
+type Observation = {
+  eventTimeUtc: string;
+  ingestTimeUtc: string;
+  sensorId: string;
+  obsKind: "telemetry" | "track_update";
+  position: Position;
+  velocity?: { speedMps: number; headingDeg: number };
+  trackId?: string;
+  entityId?: string;
+  altitude: Altitude;
+  confidence: number;
+  raw: Record<string, unknown>;
+};
 
 function interpolate(start: number, end: number, fraction: number) {
   return start + (end - start) * fraction;
@@ -328,11 +394,10 @@ function generateScenarioLinear1() {
 
 
   // 4. observations.ndjson
-  const observations: any[] = [];
+  const observations: Observation[] = [];
 
   for (let i = 0; i < steps; i++) { // Don't include the last point for velocity calc simplicity or just do steps
     const t = droneTimes[i];
-    const nextT = droneTimes[i + 1] || t; // Fallback for last point
 
     // Drone Telemetry (AeroScope)
     const dronePos = { lon: droneCoords[i][0], lat: droneCoords[i][1] };
