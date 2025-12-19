@@ -31,7 +31,7 @@ function ToolNavButton({
 }
 
 export function MapShell() {
-  const { tool, entity, historyArea, historyDate, setTool } =
+  const { tool, entity, historyArea, historyDate, setTool, selectEntity } =
     useSidebarUrlState();
 
   return (
@@ -78,7 +78,10 @@ export function MapShell() {
         </Box>
 
         <Box sx={{ height: "100%" }}>
-          <MapView />
+          <MapView
+            selectedEntity={entity}
+            onSelectEntity={(next) => selectEntity(next, { replace: true })}
+          />
         </Box>
       </Box>
     </Box>

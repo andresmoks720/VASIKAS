@@ -1,39 +1,39 @@
 {
-    "version": "0.1",
-    "scenarioId": "linear-1",
-    "t0Utc": "2025-12-18T10:00:00Z",
-    "durationSec": 120,
-    "playback": {
-        "speed": 1,
-        "loop": true
+  "version": "0.1",
+  "scenarioId": "linear-1",
+  "t0Utc": "2025-12-18T10:00:00Z",
+  "durationSec": 120,
+  "playback": {
+    "speed": 1,
+    "loop": true
+  },
+  "truth": {
+    "format": "mfjson",
+    "path": "./truth.mfjson"
+  },
+  "sensors": {
+    "path": "./sensors.json"
+  },
+  "streams": [
+    {
+      "streamId": "aeroscope-demo",
+      "kind": "telemetry",
+      "sensorKind": "aeroscope",
+      "emitHz": 1,
+      "model": {
+        "noiseMeters": 2,
+        "dropoutPct": 0
+      }
     },
-    "truth": {
-        "format": "mfjson",
-        "path": "./truth.mfjson"
-    },
-    "sensors": {
-        "path": "./sensors.json"
-    },
-    "streams": [
-        {
-            "streamId": "aeroscope-demo",
-            "kind": "telemetry",
-            "sensorKind": "aeroscope",
-            "emitHz": 1,
-            "model": {
-                "noiseMeters": 2,
-                "dropoutPct": 0.0
-            }
-        },
-        {
-            "streamId": "radar-demo",
-            "kind": "track_update",
-            "sensorKind": "radar",
-            "emitHz": 1,
-            "model": {
-                "noiseMeters": 25,
-                "idSwapPct": 0.02
-            }
-        }
-    ]
+    {
+      "streamId": "radar-demo",
+      "kind": "track_update",
+      "sensorKind": "radar",
+      "emitHz": 1,
+      "model": {
+        "noiseMeters": 25,
+        "idSwapPct": 0.02
+      }
+    }
+  ]
 }

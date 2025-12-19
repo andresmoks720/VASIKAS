@@ -2,23 +2,18 @@
 
 ## Current status
 
-- Phase: Phase 0 — Repo scaffolding and baseline UI skeleton
+- Phase: Phase 1 — Mocked sensors + mocked moving drone + basic layers
 - Implemented:
-  - Vite + React + TypeScript project scaffold with npm scripts
-  - Path alias configuration for src modules and minimal app bootstrap
-  - MUI baseline wired at app root with default theme and runtime deps installed
-  - Router scaffold with /:tool contract, default /air redirect, and MapShell placeholder
-  - URL state helpers for tool/entity parsing with basic unit coverage
-  - MapShell layout with sidebar/map split, top tool nav, and stub panels
-  - OpenLayers MapView scaffold with OSM fallback, transforms, and Maa-amet WMTS placeholder
-  - Testing harness updates: Vitest + RTL with MSW skeleton and Playwright navigation smoke
-  - Architecture doc refreshed with layout, routing, and boundary guidance
+  - Phase 0 scaffold: routing, MapShell, OpenLayers baseline, URL helpers, and testing harness.
+  - Mock data generator (TypeScript) runnable via `npm run gen:mocks` to refresh snapshot + scenario assets.
+  - Shared polling hook with staleness classification plus drone client (mock motion) and sidebar status indicator.
+  - Sensors polling client with ingest timestamps and OpenLayers marker layer (mock-visible on load).
 - In progress:
-  - None
+  - Wiring mock feeds into map layers and expanding panel details for Phase 1.
 - Next (1–3 concrete actions):
-  - Begin Phase 1: add mocked sensors/ADS-B/drone data and basic vector layers
-  - Wire initial mapApi for selection/focus hooks from panels
-  - Start stubbing feature panels with mock data lists
+  - Add vector layers for sensors/drones on the map.
+  - Hook panels to formatted altitude/speed helpers.
+  - Incorporate ADS-B mock feed with shared polling.
 
 ### Status rules
 

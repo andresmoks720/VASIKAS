@@ -11,8 +11,8 @@
     "altitude": {
       "meters": 86,
       "ref": "AGL",
-      "source": "detected",
-      "comment": "RF + vision fused (Tallinn mock)"
+      "source": "reported",
+      "comment": "AeroScope mock"
     },
     "eventTimeUtc": "2025-12-18T10:15:30Z"
   }
