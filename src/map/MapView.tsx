@@ -12,7 +12,7 @@ import View from "ol/View";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
-import { to3857 } from "./transforms";
+import { to3857, to4326 } from "./transforms";
 import { useSensorsStream } from "@/services/sensors/sensorsClient";
 import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { useDronesStream } from "@/services/drones/droneClient";
@@ -26,12 +26,20 @@ type MapViewProps = {
   onSelectEntity: (entity: EntityRef) => void;
 };
 
+declare global {
+  interface Window {
+    __debugMap?: {
+      getFeaturePosition: (kind: EntityRef["kind"], id: string) => [number, number] | null;
+    };
+  }
+}
+
 export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
-  const sensorLayerRef = useRef<VectorLayer<VectorSource<Point>> | null>(null);
-  const adsbLayerRef = useRef<VectorLayer<VectorSource<Point | LineString>> | null>(null);
-  const droneLayerRef = useRef<VectorLayer<VectorSource<Point>> | null>(null);
+  const sensorLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+  const adsbLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+  const droneLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const { data: sensors } = useSensorsStream();
   const { data: aircraft } = useAdsbStream();
   const { data: drones } = useDronesStream();
@@ -52,7 +60,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
 
     const wmtsLayer = createMaaAmetOrthoLayer(import.meta.env.VITE_MAP_WMTS_URL);
 
-    const sensorSource = new VectorSource<Point>();
+    const sensorSource = new VectorSource();
     const sensorLayer = new VectorLayer({
       source: sensorSource,
       style: (feature) => {
@@ -67,7 +75,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       },
     });
 
-    const adsbSource = new VectorSource<Point | LineString>();
+    const adsbSource = new VectorSource();
     const adsbLayer = new VectorLayer({
       source: adsbSource,
       style: (feature) => {
@@ -88,7 +96,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       },
     });
 
-    const droneSource = new VectorSource<Point>();
+    const droneSource = new VectorSource();
     const droneLayer = new VectorLayer({
       source: droneSource,
       style: (feature) => {
@@ -138,6 +146,34 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       mapRef.current = null;
     };
   }, [isSelected, onSelectEntity]);
+
+  useEffect(() => {
+    window.__debugMap = {
+      getFeaturePosition: (kind: EntityRef["kind"], id: string) => {
+        const layer =
+          kind === "drone"
+            ? droneLayerRef.current
+            : kind === "sensor"
+              ? sensorLayerRef.current
+              : kind === "aircraft"
+                ? adsbLayerRef.current
+                : null;
+
+        const feature = layer?.getSource()?.getFeatureById(id);
+        const geometry = feature?.getGeometry();
+
+        if (!(geometry instanceof Point)) {
+          return null;
+        }
+
+        return to4326(geometry.getCoordinates() as [number, number]);
+      },
+    };
+
+    return () => {
+      delete window.__debugMap;
+    };
+  }, []);
 
   useEffect(() => {
     const layer = sensorLayerRef.current;
