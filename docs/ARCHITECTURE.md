@@ -1,163 +1,42 @@
 # ARCHITECTURE.md
 
-This is a **frontend-first** architecture for a prototype that shows:
+This page is a practical map-first guide for the prototype. The app is a **persistent MapShell**: the map stays mounted while the sidebar and toolbar react to URL state. No proxy servers are used.
 
-- Drone telemetry + sensor detections
-- ADS-B air traffic (prototype)
-- NOTAM overlays (EANS JSON)
+## Layout + routing contract
 
-**Goal:** ship a working GUI quickly using browser polling + mocks.
+- Path = **tool**: `/air`, `/sensors`, `/geofences`, `/known-drones`, `/history`
+- Query = **selection/history**: `?entity=kind:id`, optional `hDate`, `hArea`
+- MapShell pieces:
+  - **Toolbar**: switches tools (pushes history)
+  - **Sidebar**: shows a tool panel or object details (entity selection replaces history)
+  - **Map**: persistent OpenLayers view in EPSG:3857, domain data stored as EPSG:4326 `[lon, lat]`
 
-> Hard rule: **NO PROXY.** All network calls are direct from the browser until the GUI works.
+## Boundaries (what goes where)
 
----
+- `src/map/*`: **OpenLayers only** (MapView owns the map). Add base/vector layers in `map/layers/*`, styles in `map/styles/*`, projection helpers in `map/transforms.ts`. Panels must never import OL.
+- `src/layout/MapShell/*`: URL state, layout wiring, and sidebar orchestration. No map logic beyond mounting `<MapView />`.
+- `src/features/*`: **panels only** (React UI). Fetch state via services/hooks; talk to the map through a narrow `mapApi` once added.
+- `src/services/*`: data clients + polling + DTO→domain mapping. Keep VITE_* config and mocks here.
+- `src/shared/*`: domain types, time/unit helpers. Do not duplicate conversions elsewhere.
 
-## High-level layout
+## Where to add things next
 
-The app is a **persistent map shell** with tool panels inside it.
+- **New map layer**: create under `src/map/layers/`, wire into `MapView` (or a future `mapApi`) and keep styling in `src/map/styles/`.
+- **New panel**: add a component in `src/features/<tool>/`, export a heading, and register it in `LeftSidebar`.
+- **New client/polling**: implement in `src/services/<area>/`, expose hooks, and keep mock handlers in `src/mocks/handlers.ts`.
+- **URL handling**: extend `urlState.ts` and `useSidebarUrlState.ts` if more query params or tool routes are needed.
 
-- **MapShell** (always mounted)
-  - OpenLayers map (persistent)
-  - Top toolbar (tool navigation)
-  - Session controls (auth scaffold, `off` mode only)
-  - Left sidebar (either a tool panel or an object details panel)
+## Data + control flow (at a glance)
 
-Routing contract:
-
-- Tools live in the **path**: `/air`, `/sensors`, `/geofences`, `/known-drones`, `/history`
-- Selection is **global** and lives in query params: `?entity=sensor:425006`
-- History context is query params:
-  - `/history?hDate=2025-12-18`
-  - `/history?hDate=2025-12-18&hArea=T1`
-
-This keeps URLs clean, shareable, and consistent.
-
----
-
-## Key modules
-
-### 1) `src/layout/MapShell/*`
-
-Owns the overall page structure and URL-backed state.
-
-- `MapShell.tsx`: layout composition + wiring
-- `urlState.ts`: parse/format helpers for `tool` and `entity`
-- `useSidebarUrlState.ts`: the “hybrid brain” that reads URL state and provides setters
-- `LeftSidebar.tsx`: renders either a tool panel or the object details panel
-
-**Policy:**
-
-- Tool navigation pushes browser history
-- Entity selection replaces history by default (avoid back-button spam)
-
----
-
-### 2) `src/map/*` (OpenLayers boundary)
-
-OpenLayers is isolated to this folder.
-
-- `MapView.tsx` owns the OpenLayers `Map` instance and lifecycle
-- `layers/*` defines base and vector layers
-- `styles/*` defines OpenLayers styles
-- `transforms.ts` handles EPSG:4326 ⇄ EPSG:3857 conversions
-- `mapApi.ts` exposes a narrow API to the UI
-
-**Non-negotiable boundary:** panels in `src/features/*` must not import OpenLayers.
-
----
-
-### 3) `src/services/*` (data + polling)
-
-Responsible for:
-
-- fetching raw DTOs from live endpoints (or from mocks)
-- mapping DTOs → **domain objects**
-- exposing consistent data to UI via hooks
-
-Key pieces:
-
-- `services/polling/usePolling.ts`: a shared polling primitive
-  - uses `AbortController`
-  - keeps last known-good data
-  - exposes staleness metadata
-
-- `services/notam/notamInterpreter.ts`:
-  - best-effort NOTAM normalization (prototype only)
-  - stores altitudes in meters
-  - UI shows ft+m
-
----
-
-### 4) `src/shared/*` (single source of truth)
-
-All formatting and conversions live here.
-
-- `shared/time/*`: UTC parsing + local formatting
-- `shared/units/*`: m ↔ ft, speed formatting, etc.
-- `shared/types/domain.ts`: domain types (Altitude, EntityRef, etc.)
-
-Rule: do not re-implement unit/time logic inside components.
-
----
-
-## Data flow
-
-**One-way data flow** (services → state → rendering), with explicit selection actions.
-
-```text
-Browser fetch / mocks
-   │
-   ▼
-services/*Client.ts  (DTO fetch)
-   │
-   ▼
-services/* mapping    (DTO → domain)
-   │
-   ▼
-MapShell + Panels     (render domain)
-   │
-   ├─► mapApi          (focus/select, layer toggles)
-   └─► URL state       (entity + history context)
+```
+services (fetch + map DTOs)
+     ↓
+MapShell / panels (React state + render)
+     ↓             ↓
+  mapApi*       URL state (tool + entity)
 ```
 
-### Polling behavior
-
-- ADS-B: ~10s
-- Drones: ~1s
-- Sensors: ~1s
-- NOTAM: best-effort (prototype default ~60s unless decided otherwise)
-
-On error:
-
-- keep last known-good data
-- surface “stale” indicator based on `ingestTimeUtc`
-
----
-
-## State model
-
-### URL-backed state (shareable)
-
-- `tool` (path param)
-- `entity` (query param)
-- history context (`hDate`, `hArea`)
-
-### Local UI state (not shareable)
-
-- sidebar width/collapsed
-- transient filters (typing, dropdowns)
-- popovers/tooltips
-- draft geometry (until explicitly saved)
-
-This avoids noisy URLs and keeps shareable state intentional.
-
----
-
-## Map model
-
-### Projections
-
-- Domain geometry: EPSG:4326 `[lon, lat]`
+`mapApi` is the planned bridge for focus/select and layer toggles; panels never reach into OpenLayers directly.
 - Map `View`: EPSG:3857
 - Transform at boundaries only (feature creation/render)
 
@@ -235,4 +114,3 @@ These are expected later and are intentionally not part of the MVP:
 - `AGENTS.md` — working rules + folder map + constraints
 - `docs/DATA_SOURCES.md` — endpoints + JSON examples
 - `docs/UI_RULES.md` — display rules for time/units/labels
-
