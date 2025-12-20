@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatSpeed } from "./speed";
+import { formatAircraftSpeedKmh, formatDroneSpeedMps, formatSpeed } from "./speed";
 
 describe("formatSpeed", () => {
   it("formats drone speeds in m/s by default", () => {
@@ -12,6 +12,18 @@ describe("formatSpeed", () => {
   });
 
   it("handles missing speed values", () => {
-    expect(formatSpeed(null, "mps")).toBe("Unknown speed");
+    expect(formatSpeed(null, "mps")).toBe("—");
+  });
+});
+
+describe("specific speed helpers", () => {
+  it("formats drone speed helper", () => {
+    expect(formatDroneSpeedMps(5)).toBe("5 m/s");
+    expect(formatDroneSpeedMps(null)).toBe("—");
+  });
+
+  it("formats aircraft speed helper", () => {
+    expect(formatAircraftSpeedKmh(710.4)).toBe("710.4 km/h");
+    expect(formatAircraftSpeedKmh(null)).toBe("—");
   });
 });

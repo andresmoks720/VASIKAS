@@ -11,26 +11,33 @@ export type Altitude = {
   rawText?: string;
 };
 
-const formatNumber = (value: number) =>
-  Number.isInteger(value) ? value.toString() : value.toFixed(1);
+const formatNumber = (value: number) => (Number.isInteger(value) ? value.toString() : value.toFixed(1));
 
-export const ftToM = (feet: number) => feet * METERS_PER_FOOT;
+export const feetToMeters = (feet: number) => feet * METERS_PER_FOOT;
 
-export const mToFt = (meters: number) => meters / METERS_PER_FOOT;
+export const metersToFeet = (meters: number) => meters / METERS_PER_FOOT;
 
-export const formatAltitude = (altitude: Altitude) => {
-  const { meters, ref, source, comment } = altitude;
+export function formatAltitude(
+  altitude: Altitude,
+  opts: {
+    showFeet?: boolean;
+  } = {},
+) {
+  const showFeet = opts.showFeet ?? false;
+  const meters = altitude.meters;
+  const metersText = meters == null ? "—" : `${formatNumber(meters)}`;
+  const feetText = meters == null ? "—" : `${Math.round(metersToFeet(meters))}`;
 
-  const base =
-    meters == null
-      ? "Unknown altitude"
-      : `${formatNumber(meters)} m (${Math.round(mToFt(meters))} ft)`;
+  const numeric = meters == null ? "—" : showFeet ? `${metersText} m (${feetText} ft)` : `${metersText} m`;
 
-  const withMetadata = `${base} — ${ref} (${source})`;
+  const refSource = `${altitude.ref} (${altitude.source})`;
+  const comment = altitude.comment && altitude.comment.trim().length > 0 ? altitude.comment : "from upstream";
 
-  if (!comment) {
-    return withMetadata;
+  const parts = [numeric, refSource, comment];
+
+  if (meters == null && altitude.rawText) {
+    parts.push(`raw: ${altitude.rawText}`);
   }
 
-  return `${withMetadata} — ${comment}`;
-};
+  return parts.join(" — ");
+}

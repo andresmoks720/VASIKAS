@@ -38,6 +38,7 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Env var:** `VITE_DRONE_URL`
 - **Refresh:** `VITE_POLL_DRONES_MS` (default **1000 ms**)
 - **Fallback:** `/mock/drones.json`
+- **Motion (mock):** `/mock/drones.json` stores a `track` array per drone with `timeUtc`, position, heading, speed, and altitude. The frontend interpolates linearly between samples and loops the track to show continuous motion.
 
 ### Sensors
 
@@ -52,6 +53,7 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Env var:** `VITE_ADSB_URL`
 - **Refresh:** `VITE_POLL_ADSB_MS` (default **10000 ms**)
 - **Fallback:** `/mock/adsb.json`
+- **Motion (mock):** `/mock/adsb.json` includes a looping `track` array with timestamp offsets and positions. The frontend interpolates linearly between samples using `t0Utc` and `durationSec` so one airplane moves continuously without hard-coded points.
 
 ### Maa-amet WMTS basemap
 
@@ -103,31 +105,48 @@ These JSON shapes define what the **frontend prototype** expects.
 
 **File:** `public/mock/drones.json`
 
-**Type:** `DroneTelemetryDto[]`
+**Type:** `DroneTrackDto[]`
 
 ```json
 [
   {
     "id": "drone-001",
     "label": "DJI Mavic (demo)",
-    "position": { "lon": 24.7536, "lat": 59.4369 },
-    "headingDeg": 90,
-    "speedMps": 12.4,
-    "altitude": {
-      "meters": 86,
-      "ref": "AGL",
-      "source": "detected",
-      "comment": "RF+vision fused"
-    },
-    "eventTimeUtc": "2025-12-18T10:15:30Z"
+    "track": [
+      {
+        "timeUtc": "2025-12-18T10:15:30Z",
+        "position": { "lon": 24.7536, "lat": 59.4369 },
+        "headingDeg": 85,
+        "speedMps": 12.4,
+        "altitude": {
+          "meters": 86,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      },
+      {
+        "timeUtc": "2025-12-18T10:15:40Z",
+        "position": { "lon": 24.7568, "lat": 59.4392 },
+        "headingDeg": 110,
+        "speedMps": 12.6,
+        "altitude": {
+          "meters": 92,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      }
+    ]
   }
 ]
 ```
 
 **Mapping notes**
 
-- `ingestTimeUtc` is added client-side.
-- If upstream provides altitude as text (e.g., “120m AGL est.”), store parsable meters and keep the text in `altitude.rawText`.
+- `ingestTimeUtc` is added client-side at sampling time.
+- The frontend interpolates between consecutive `track` samples and wraps when it reaches the end to keep motion continuous.
+- If altitude text is missing a comment, the client injects a placeholder comment to comply with UI rules.
 
 ---
 
@@ -173,16 +192,34 @@ These JSON shapes define what the **frontend prototype** expects.
   {
     "id": "4ca123",
     "callsign": "FIN123",
-    "position": { "lon": 24.832, "lat": 59.413 },
-    "trackDeg": 275,
-    "groundSpeedKmh": 720,
-    "altitude": {
-      "meters": 3500,
-      "ref": "MSL",
-      "source": "reported",
-      "comment": "ADS-B reported (pressure altitude)"
-    },
-    "eventTimeUtc": "2025-12-18T10:15:20Z"
+    "t0Utc": "2025-12-18T10:15:20Z",
+    "durationSec": 60,
+    "track": [
+      {
+        "offsetSec": 0,
+        "position": { "lon": 24.832, "lat": 59.413 },
+        "trackDeg": 275,
+        "groundSpeedKmh": 720,
+        "altitude": {
+          "meters": 3500,
+          "ref": "MSL",
+          "source": "reported",
+          "comment": "ADS-B reported (pressure altitude)"
+        }
+      },
+      {
+        "offsetSec": 15,
+        "position": { "lon": 24.79, "lat": 59.42 },
+        "trackDeg": 280,
+        "groundSpeedKmh": 715,
+        "altitude": {
+          "meters": 3450,
+          "ref": "MSL",
+          "source": "reported",
+          "comment": "ADS-B reported (pressure altitude)"
+        }
+      }
+    ]
   }
 ]
 ```

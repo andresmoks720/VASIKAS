@@ -8,12 +8,15 @@
   - Mock data generator (TypeScript) runnable via `npm run gen:mocks` to refresh snapshot + scenario assets.
   - Shared polling hook with staleness classification plus drone client (mock motion) and sidebar status indicator.
   - Sensors polling client with ingest timestamps and OpenLayers marker layer (mock-visible on load).
+  - Sensor, drone, and ADS-B vector layers rendered in `MapView` with selection styling.
+  - Drone mock motion driven by looping track data from `public/mock/drones.json`.
+  - ADS-B mock motion driven by looping track data with interpolated positions.
 - In progress:
-  - Wiring mock feeds into map layers and expanding panel details for Phase 1.
+  - Expanding panel details and formatting for Phase 1 mock feeds.
 - Next (1–3 concrete actions):
-  - Add vector layers for sensors/drones on the map.
   - Hook panels to formatted altitude/speed helpers.
-  - Incorporate ADS-B mock feed with shared polling.
+  - Finalize Maa-amet WMTS layer configuration (layer id, matrix set, attribution).
+  - Flesh out UI formatting for ADS-B rows and details using domain helpers.
 
 ### Status rules
 

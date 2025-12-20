@@ -14,6 +14,9 @@ import {
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
 import { useDronesStream } from "@/services/drones/droneClient";
+import { formatAltitude } from "@/shared/units/altitude";
+import { formatDroneSpeedMps } from "@/shared/units/speed";
+import { formatUtcTimestamp } from "@/shared/time/utc";
 import { StatusPill } from "@/ui/StatusPill";
 
 function formatAge(ageSeconds: number | null) {
@@ -92,11 +95,13 @@ export function KnownDronesPanel() {
                             Lon/Lat: {drone.position.lon.toFixed(4)}, {drone.position.lat.toFixed(4)}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Altitude: {drone.altitude.meters ?? "?"} m — {drone.altitude.ref} ({drone.altitude.source})
-                            {drone.altitude.comment ? ` — ${drone.altitude.comment}` : ""}
+                            Altitude: {formatAltitude(drone.altitude, { showFeet: false })}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Last update: {drone.ingestTimeUtc}
+                            Speed: {formatDroneSpeedMps(drone.speedMps)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Last update: {formatUtcTimestamp(drone.ingestTimeUtc)}
                           </Typography>
                         </Stack>
                       }

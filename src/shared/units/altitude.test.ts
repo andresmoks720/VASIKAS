@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { Altitude, formatAltitude, ftToM, mToFt } from "./altitude";
+import { Altitude, feetToMeters, formatAltitude, metersToFeet } from "./altitude";
 
 describe("altitude conversions", () => {
   it("converts feet to meters", () => {
-    expect(ftToM(0)).toBe(0);
-    expect(ftToM(3280.84)).toBeCloseTo(1000, 2);
+    expect(feetToMeters(0)).toBe(0);
+    expect(feetToMeters(3280.84)).toBeCloseTo(1000, 2);
   });
 
   it("converts meters to feet", () => {
-    expect(mToFt(0)).toBe(0);
-    expect(mToFt(1000)).toBeCloseTo(3280.84, 2);
+    expect(metersToFeet(0)).toBe(0);
+    expect(metersToFeet(1000)).toBeCloseTo(3280.84, 2);
   });
 });
 
@@ -23,9 +23,7 @@ describe("formatAltitude", () => {
       comment: "RF + vision fused",
     };
 
-    expect(formatAltitude(altitude)).toBe(
-      "86 m (282 ft) — AGL (detected) — RF + vision fused",
-    );
+    expect(formatAltitude(altitude, { showFeet: true })).toBe("86 m (282 ft) — AGL (detected) — RF + vision fused");
   });
 
   it("formats altitude with decimal meters", () => {
@@ -35,9 +33,7 @@ describe("formatAltitude", () => {
       source: "reported",
     };
 
-    expect(formatAltitude(altitude)).toBe(
-      "120.5 m (395 ft) — MSL (reported)",
-    );
+    expect(formatAltitude(altitude, { showFeet: true })).toBe("120.5 m (395 ft) — MSL (reported) — from upstream");
   });
 
   it("handles missing altitude meters and retains comment", () => {
@@ -48,8 +44,17 @@ describe("formatAltitude", () => {
       comment: "Telemetry missing",
     };
 
-    expect(formatAltitude(altitude)).toBe(
-      "Unknown altitude — MSL (unknown) — Telemetry missing",
-    );
+    expect(formatAltitude(altitude)).toBe("— — MSL (unknown) — Telemetry missing");
+  });
+
+  it("falls back to comment and preserves raw text when meters are missing", () => {
+    const altitude: Altitude = {
+      meters: null,
+      ref: "AGL",
+      source: "reported",
+      rawText: "ALT ???",
+    };
+
+    expect(formatAltitude(altitude)).toBe("— — AGL (reported) — from upstream — raw: ALT ???");
   });
 });

@@ -1,16 +1,11 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
-import { Drone, DroneDto, LonLat, mapDroneDtos } from "./droneTypes";
+import { computeDroneAtTime } from "./droneMotion";
+import { Drone, DroneTrack, DroneTrackDto, mapDroneTrackDtos } from "./droneTypes";
 
 const DEFAULT_POLL_MS = 1000;
-const DEMO_PATH: LonLat[] = [
-  { lon: 24.7536, lat: 59.4369 },
-  { lon: 24.7565, lat: 59.439 },
-  { lon: 24.7605, lat: 59.4372 },
-  { lon: 24.7568, lat: 59.4348 },
-  { lon: 24.7525, lat: 59.4355 },
-];
+const MOTION_TICK_MS = 1000;
 
 function parsePollInterval(rawInterval?: string): number {
   const parsed = Number(rawInterval);
@@ -18,58 +13,41 @@ function parsePollInterval(rawInterval?: string): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_POLL_MS;
 }
 
-function bearingDegrees(from: LonLat, to: LonLat): number {
-  const dLon = to.lon - from.lon;
-  const dLat = to.lat - from.lat;
-  const heading = (Math.atan2(dLon, dLat) * 180) / Math.PI;
-
-  return (heading + 360) % 360;
-}
-
-export function applyDemoMotion(drones: Drone[], tick: number): Drone[] {
-  if (!drones.length) {
-    return drones;
-  }
-
-  const stepIndex = tick % DEMO_PATH.length;
-  const target = DEMO_PATH[stepIndex];
-  const previous = DEMO_PATH[(stepIndex + DEMO_PATH.length - 1) % DEMO_PATH.length];
-  const nextHeading = bearingDegrees(previous, target);
-
-  const [first, ...rest] = drones;
-  const updatedFirst: Drone = {
-    ...first,
-    position: target,
-    headingDeg: Number.isFinite(nextHeading) ? nextHeading : first.headingDeg,
-  };
-
-  return [updatedFirst, ...rest];
-}
-
-function parseDroneResponse(raw: unknown, ingestTimeUtc: string): Drone[] {
+function parseDroneResponse(raw: unknown): DroneTrack[] {
   if (!Array.isArray(raw)) {
     throw new Error("Drone response must be an array");
   }
 
-  return mapDroneDtos(raw as DroneDto[], ingestTimeUtc);
+  return mapDroneTrackDtos(raw as DroneTrackDto[]);
 }
 
 export function useDronesStream() {
   const url = import.meta.env.VITE_DRONE_URL ?? "/mock/drones.json";
   const pollMs = parsePollInterval(import.meta.env.VITE_POLL_DRONES_MS);
-  const enableDemoMotion = (import.meta.env.VITE_USE_MOCKS ?? "1") !== "0";
-  const tickRef = useRef(0);
+  const [motionTick, setMotionTick] = useState(0);
 
-  const mapper = useCallback(
-    (raw: unknown) => {
-      const ingestTimeUtc = new Date().toISOString();
-      const mapped = parseDroneResponse(raw, ingestTimeUtc);
-      tickRef.current += 1;
+  const mapper = useCallback((raw: unknown) => parseDroneResponse(raw), []);
 
-      return enableDemoMotion ? applyDemoMotion(mapped, tickRef.current) : mapped;
-    },
-    [enableDemoMotion],
-  );
+  const polled = usePolling<DroneTrack[]>(`drones:${url}`, url, pollMs, mapper);
 
-  return usePolling<Drone[]>(`drones:${url}`, url, pollMs, mapper);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setMotionTick((tick) => tick + 1);
+    }, MOTION_TICK_MS);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  const drones = useMemo(() => {
+    if (!polled.data) {
+      return null;
+    }
+
+    const nowUtc = new Date().toISOString();
+    return polled.data.map((track) => computeDroneAtTime(track, nowUtc, nowUtc));
+  }, [polled.data, motionTick]);
+
+  return { ...polled, data: drones as Drone[] | null };
 }
