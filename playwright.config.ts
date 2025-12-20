@@ -18,5 +18,8 @@ export default defineConfig({
     port: 4173,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    env: {
+      VITE_USE_MOCKS: "1",
+    },
   },
 });

@@ -11,6 +11,7 @@ import OSM from "ol/source/OSM";
 import View from "ol/View";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
+import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
 import { to3857, to4326 } from "./transforms";
 import { useSensorsStream } from "@/services/sensors/sensorsClient";
@@ -53,12 +54,27 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     [],
   );
 
+  const useMocksEnv = import.meta.env.VITE_USE_MOCKS;
+  const useMocks =
+    useMocksEnv === undefined || useMocksEnv === "1" || useMocksEnv === "true" || useMocksEnv === "yes";
+
+  const baseLayer = useMemo(() => {
+    if (useMocks) {
+      return createOfflineXyzLayer();
+    }
+
+    const wmtsLayer = createMaaAmetOrthoLayer(import.meta.env.VITE_MAP_WMTS_URL);
+    if (wmtsLayer) {
+      return wmtsLayer;
+    }
+
+    return new TileLayer({ source: new OSM() });
+  }, [useMocks]);
+
   useEffect(() => {
     if (!containerRef.current || mapRef.current) {
       return;
     }
-
-    const wmtsLayer = createMaaAmetOrthoLayer(import.meta.env.VITE_MAP_WMTS_URL);
 
     const sensorSource = new VectorSource();
     const sensorLayer = new VectorLayer({
@@ -113,7 +129,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
 
     const map = new Map({
       target: containerRef.current,
-      layers: [wmtsLayer ?? new TileLayer({ source: new OSM() }), sensorLayer, adsbLayer, droneLayer],
+      layers: [baseLayer, sensorLayer, adsbLayer, droneLayer],
       view: new View({
         projection: "EPSG:3857",
         center: to3857(ESTONIA_CENTER_LON_LAT),
@@ -145,7 +161,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       droneLayerRef.current = null;
       mapRef.current = null;
     };
-  }, [isSelected, onSelectEntity]);
+  }, [baseLayer, isSelected, onSelectEntity]);
 
   useEffect(() => {
     window.__debugMap = {
