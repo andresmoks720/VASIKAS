@@ -17,6 +17,7 @@ import { formatAltitude } from "@/shared/units/altitude";
 import { formatAircraftSpeedKmh } from "@/shared/units/speed";
 import { StatusPill } from "@/ui/StatusPill";
 import { useSharedAdsbStream } from "@/services/streams/StreamsProvider";
+import { PollingStatus } from "@/services/polling/usePolling";
 
 function formatAge(ageSeconds: number | null) {
   if (ageSeconds === null) return "No updates yet";
@@ -29,8 +30,29 @@ function formatAge(ageSeconds: number | null) {
 export function AirTrafficPanel() {
   const { data, status, ageSeconds, error } = useSharedAdsbStream();
   const { selectEntity } = useSidebarUrlState();
-  const flights = data ?? [];
+  const nowMs = Date.now();
+  const flights =
+    data
+      ?.map((flight) => {
+        const eventMs = Date.parse(flight.eventTimeUtc);
+        const age = Number.isFinite(eventMs) ? Math.max(0, Math.floor((nowMs - eventMs) / 1000)) : null;
+        return { flight, age };
+      })
+      .sort((a, b) => {
+        if (a.age === null && b.age === null) return a.flight.callsign.localeCompare(b.flight.callsign);
+        if (a.age === null) return 1;
+        if (b.age === null) return -1;
+        if (a.age !== b.age) return a.age - b.age;
+        return a.flight.callsign.localeCompare(b.flight.callsign);
+      }) ?? [];
   const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
+
+  const statusLabel = (pollingStatus: PollingStatus, age: number | null) => {
+    if (pollingStatus === "error") return "Error";
+    if (pollingStatus === "stale") return "Stale";
+    if (age === null) return "Unknown";
+    return formatAge(age);
+  };
 
   return (
     <Stack spacing={2}>
@@ -61,7 +83,7 @@ export function AirTrafficPanel() {
           </Box>
         ) : (
           <List dense disablePadding>
-            {flights.map((flight, index) => (
+            {flights.map(({ flight, age }, index) => (
               <React.Fragment key={flight.id}>
                 <ListItemButton
                   alignItems="flex-start"
@@ -88,6 +110,9 @@ export function AirTrafficPanel() {
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Ground speed: {formatAircraftSpeedKmh(flight.groundSpeedKmh)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {statusLabel(status, age)}
                           </Typography>
                         </Stack>
                       }

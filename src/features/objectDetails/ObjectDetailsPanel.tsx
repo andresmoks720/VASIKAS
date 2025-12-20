@@ -95,18 +95,22 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
 
       {(selection.kind === "aircraft" || selection.kind === "flight") ? (
         <Stack spacing={1}>
+          <KeyValueRow label="Hex" value={selection.item.id} />
           <KeyValueRow label="Callsign" value={selection.item.callsign} />
+          {selection.item.registration ? <KeyValueRow label="Registration" value={selection.item.registration} /> : null}
+          {selection.item.aircraftType ? <KeyValueRow label="Type" value={selection.item.aircraftType} /> : null}
           <KeyValueRow
             label="Position"
             value={formatPosition(selection.item.position.lon, selection.item.position.lat)}
           />
+          <KeyValueRow label="Track" value={selection.item.trackDeg != null ? `${selection.item.trackDeg}°` : "—"} />
           {selection.item.altitude ? (
             <KeyValueRow label="Altitude" value={formatAltitude(selection.item.altitude, { showFeet: true })} />
           ) : null}
           {selection.item.groundSpeedKmh ? (
             <KeyValueRow label="Ground speed" value={formatSpeed(selection.item.groundSpeedKmh, "kmh")} />
           ) : null}
-          <KeyValueRow label="Event time (UTC)" value={formatUtcTimestamp(selection.item.eventTimeUtc)} />
+          <KeyValueRow label="Last position update (UTC)" value={formatUtcTimestamp(selection.item.eventTimeUtc)} />
           <KeyValueRow label="Ingest time (UTC)" value={formatUtcTimestamp(selection.item.ingestTimeUtc)} />
         </Stack>
       ) : null}

@@ -123,6 +123,11 @@ function mapCallsign(dto: AircraftDto): string {
   return (dto.hex ?? "").trim();
 }
 
+function trimOptional(value?: string): string | undefined {
+  const trimmed = (value ?? "").trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
 export function mapAircraftDto(dto: AircraftDto, context: { nowEpochSec: number; ingestTimeUtc: string }): Aircraft | null {
   const id = (dto.hex ?? "").trim();
 
@@ -146,6 +151,8 @@ export function mapAircraftDto(dto: AircraftDto, context: { nowEpochSec: number;
     altitude: mapAltitude(dto.alt_baro),
     eventTimeUtc: deriveEventTimeUtc(context.nowEpochSec, dto),
     ingestTimeUtc: context.ingestTimeUtc,
+    registration: trimOptional(dto.r),
+    aircraftType: trimOptional(dto.t ?? dto.type),
   };
 }
 

@@ -49,6 +49,8 @@ export type Aircraft = {
   altitude: Altitude;
   eventTimeUtc: string;
   ingestTimeUtc: string;
+  registration?: string;
+  aircraftType?: string;
 };
 
 // Mock ADS-B track DTOs (legacy mock interpolation)
