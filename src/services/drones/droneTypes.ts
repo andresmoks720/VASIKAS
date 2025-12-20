@@ -2,7 +2,23 @@ import { Altitude, LonLat } from "@/shared/types/domain";
 
 export type { LonLat } from "@/shared/types/domain";
 
-export type DroneDto = {
+export type DroneTrackPointDto = {
+  timeUtc: string;
+  position: LonLat;
+  headingDeg: number;
+  speedMps: number;
+  altitude: Altitude;
+};
+
+export type DroneTrackDto = {
+  id: string;
+  label: string;
+  track: DroneTrackPointDto[];
+};
+
+export type DroneTrack = DroneTrackDto;
+
+export type Drone = {
   id: string;
   label: string;
   position: LonLat;
@@ -10,17 +26,29 @@ export type DroneDto = {
   speedMps: number;
   altitude: Altitude;
   eventTimeUtc: string;
+  ingestTimeUtc: string;
 };
 
-export type Drone = DroneDto & { ingestTimeUtc: string };
+function ensureAltitudeComment(altitude: Altitude): Altitude {
+  if (altitude.comment && altitude.comment.trim().length > 0) {
+    return altitude;
+  }
+  return { ...altitude, comment: "mock track" };
+}
 
-export function mapDroneDto(dto: DroneDto, ingestTimeUtc: string): Drone {
+export function mapDroneTrackDto(dto: DroneTrackDto): DroneTrack {
+  if (!Array.isArray(dto.track) || dto.track.length === 0) {
+    throw new Error("Drone track must contain at least one sample");
+  }
+
   return {
     ...dto,
-    ingestTimeUtc,
+    track: dto.track
+      .map((point) => ({ ...point, altitude: ensureAltitudeComment(point.altitude) }))
+      .sort((a, b) => Date.parse(a.timeUtc) - Date.parse(b.timeUtc)),
   };
 }
 
-export function mapDroneDtos(dtos: DroneDto[], ingestTimeUtc: string): Drone[] {
-  return dtos.map((dto) => mapDroneDto(dto, ingestTimeUtc));
+export function mapDroneTrackDtos(dtos: DroneTrackDto[]): DroneTrack[] {
+  return dtos.map(mapDroneTrackDto);
 }

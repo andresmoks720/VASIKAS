@@ -14,6 +14,8 @@ import {
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
 import { useAdsbStream } from "@/services/adsb/adsbClient";
+import { formatAltitude } from "@/shared/units/altitude";
+import { formatAircraftSpeedKmh } from "@/shared/units/speed";
 import { StatusPill } from "@/ui/StatusPill";
 
 function formatAge(ageSeconds: number | null) {
@@ -82,10 +84,10 @@ export function AirTrafficPanel() {
                             Position: {flight.position.lon.toFixed(4)}, {flight.position.lat.toFixed(4)}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Altitude: {flight.altitude.meters ?? "?"} m — {flight.altitude.ref} ({flight.altitude.source})
+                            Altitude: {formatAltitude(flight.altitude, { showFeet: true })}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Ground speed: {flight.groundSpeedKmh} km/h
+                            Ground speed: {formatAircraftSpeedKmh(flight.groundSpeedKmh)}
                           </Typography>
                         </Stack>
                       }

@@ -68,7 +68,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
             label="Position"
             value={formatPosition(selection.item.position.lon, selection.item.position.lat)}
           />
-          <KeyValueRow label="Altitude" value={formatAltitude(selection.item.altitude)} />
+          <KeyValueRow label="Altitude" value={formatAltitude(selection.item.altitude, { showFeet: false })} />
           <KeyValueRow label="Speed" value={formatSpeed(selection.item.speedMps, "mps")} />
           <KeyValueRow label="Heading" value={`${selection.item.headingDeg}°`} />
           <KeyValueRow label="Event time (UTC)" value={formatUtcTimestamp(selection.item.eventTimeUtc)} />
@@ -98,7 +98,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
             value={formatPosition(selection.item.position.lon, selection.item.position.lat)}
           />
           {selection.item.altitude ? (
-            <KeyValueRow label="Altitude" value={formatAltitude(selection.item.altitude)} />
+            <KeyValueRow label="Altitude" value={formatAltitude(selection.item.altitude, { showFeet: true })} />
           ) : null}
           {selection.item.groundSpeedKmh ? (
             <KeyValueRow label="Ground speed" value={formatSpeed(selection.item.groundSpeedKmh, "kmh")} />

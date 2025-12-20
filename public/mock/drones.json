@@ -2,18 +2,55 @@
   {
     "id": "drone-001",
     "label": "DJI Mavic (demo)",
-    "position": {
-      "lon": 24.7536,
-      "lat": 59.4369
-    },
-    "headingDeg": 90,
-    "speedMps": 12.4,
-    "altitude": {
-      "meters": 86,
-      "ref": "AGL",
-      "source": "reported",
-      "comment": "AeroScope mock"
-    },
-    "eventTimeUtc": "2025-12-18T10:15:30Z"
+    "track": [
+      {
+        "timeUtc": "2025-12-18T10:15:30Z",
+        "position": { "lon": 24.7536, "lat": 59.4369 },
+        "headingDeg": 85,
+        "speedMps": 12.4,
+        "altitude": {
+          "meters": 86,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      },
+      {
+        "timeUtc": "2025-12-18T10:15:40Z",
+        "position": { "lon": 24.7568, "lat": 59.4392 },
+        "headingDeg": 110,
+        "speedMps": 12.6,
+        "altitude": {
+          "meters": 92,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      },
+      {
+        "timeUtc": "2025-12-18T10:15:50Z",
+        "position": { "lon": 24.7604, "lat": 59.4371 },
+        "headingDeg": 190,
+        "speedMps": 12.2,
+        "altitude": {
+          "meters": 90,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      },
+      {
+        "timeUtc": "2025-12-18T10:16:00Z",
+        "position": { "lon": 24.7551, "lat": 59.435 },
+        "headingDeg": 270,
+        "speedMps": 12.0,
+        "altitude": {
+          "meters": 88,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      }
+    ]
   }
 ]
