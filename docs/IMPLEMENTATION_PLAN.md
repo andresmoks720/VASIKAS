@@ -2,18 +2,22 @@
 
 ## Current status
 
-- Phase: Phase 2 — Geofences + sensor add/remove with mock persistence
+- Phase: Phase 3 — NOTAM ingest + NOTAM overlays
 - Implemented:
   - Phase 0 scaffold: routing, MapShell, OpenLayers baseline, URL helpers, and testing harness.
   - Phase 1 mock data: generator script, polling hooks, drone and ADS-B mock motion, sensor polling client, and vector layers with selection styling.
-  - Local persistence adapter (versioned) for user-created geofences and sensors using browser storage with safe defaults.
-  - Geofence domain model with WGS-84 circle-to-polygon helper for rendering.
-  - Geofence Store (in-memory + local persistence) with CRUD operations and on-demand circle-to-polygon conversion.
-  - Geofence Map Layer (vector rendering) & MapAPI for decoupled UI updates.
-  - Geofence Management UI (List, Create Circle, Rename, Delete) and Object Details integration.
+  - Phase 2: Local persistence adapter, geofence domain model, geofence store with CRUD, geofence map layer, geofence management UI, sensor creation/deletion UI.
+  - NOTAM client + polling integration (P3-01): `notamClient.ts` with `fetchNotamRaw(signal)`, `useNotamPolling.ts` hook using shared polling infrastructure.
+  - NOTAM types + normalized domain model (P3-02): `notamTypes.ts` with `NormalizedNotam`, `NotamGeometry`, and summary formatting helpers.
+  - NOTAM interpreter v0 (P3-03): `notamInterpreter.ts` with altitude parsing (SFC, FT AMSL/MSL/AGL, FL) and geometryHint parsing.
+  - NOTAM map overlay layer (P3-04): `notams.ts` layer with orange styling and `mapApi.setNotams()` integration.
 - In progress:
   - (None)
 - Done:
+  - P3-04: Map overlay layer for NOTAM geometry (no OpenLayers in panels)
+  - P3-03: NOTAM interpreter v0 (best-effort altitudes + geometryHint)
+  - P3-02: NOTAM types + normalized domain model (frontend contract)
+  - P3-01: NOTAM client + polling integration (browser fetch with mock fallback)
   - Phase 2 E2E: "Editable world" smoke test (P2-07)
   - Sensor creation/deletion UI (P2-06)
   - Geofences (create/edit/delete) (P2-03, P2-04, P2-05)

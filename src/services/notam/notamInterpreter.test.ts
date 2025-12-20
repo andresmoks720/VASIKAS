@@ -1,0 +1,323 @@
+import { describe, expect, it } from "vitest";
+
+import { normalizeNotams, parseAltitudesFromText, parseGeometryHint } from "./notamInterpreter";
+
+const NOW_UTC = "2025-12-18T12:00:00Z";
+
+describe("parseAltitudesFromText", () => {
+    it("parses SFC as 0m AGL", () => {
+        const altitudes = parseAltitudesFromText("RESTRICTED AREA SFC TO 3000FT");
+        const sfc = altitudes.find((a) => a.rawText === "SFC");
+
+        expect(sfc).toBeDefined();
+        expect(sfc?.meters).toBe(0);
+        expect(sfc?.ref).toBe("AGL");
+        expect(sfc?.source).toBe("reported");
+        expect(sfc?.comment).toBe("SFC from NOTAM");
+    });
+
+    it("parses GND as 0m AGL", () => {
+        const altitudes = parseAltitudesFromText("FROM GND TO 500FT AGL");
+        const gnd = altitudes.find((a) => a.rawText === "GND");
+
+        expect(gnd).toBeDefined();
+        expect(gnd?.meters).toBe(0);
+        expect(gnd?.ref).toBe("AGL");
+        expect(gnd?.comment).toBe("GND from NOTAM");
+    });
+
+    it("parses FT AMSL correctly", () => {
+        const altitudes = parseAltitudesFromText("SFC TO 3000FT AMSL");
+        const amsl = altitudes.find((a) => a.rawText === "3000FT AMSL");
+
+        expect(amsl).toBeDefined();
+        expect(amsl?.meters).toBe(914); // 3000 * 0.3048 ≈ 914
+        expect(amsl?.ref).toBe("MSL");
+        expect(amsl?.source).toBe("reported");
+        expect(amsl?.comment).toContain("3000FT AMSL");
+    });
+
+    it("parses FT MSL variant", () => {
+        const altitudes = parseAltitudesFromText("UP TO 5000 FT MSL");
+        const msl = altitudes.find((a) => a.ref === "MSL" && a.meters !== null && a.meters > 0);
+
+        expect(msl).toBeDefined();
+        expect(msl?.meters).toBe(1524); // 5000 * 0.3048
+        expect(msl?.comment).toMatch(/from NOTAM/);
+    });
+
+    it("parses FT AGL correctly", () => {
+        const altitudes = parseAltitudesFromText("DRONE EXERCISE 500FT AGL");
+        const agl = altitudes.find((a) => a.rawText === "500FT AGL");
+
+        expect(agl).toBeDefined();
+        expect(agl?.meters).toBe(152); // 500 * 0.3048 ≈ 152
+        expect(agl?.ref).toBe("AGL");
+        expect(agl?.comment).toContain("500FT AGL");
+    });
+
+    it("parses FL (Flight Level)", () => {
+        const altitudes = parseAltitudesFromText("AIRSPACE FL100 TO FL350");
+        const fl100 = altitudes.find((a) => a.rawText === "FL100");
+        const fl350 = altitudes.find((a) => a.rawText === "FL350");
+
+        expect(fl100).toBeDefined();
+        expect(fl100?.meters).toBe(3048); // FL100 = 10000ft
+        expect(fl100?.ref).toBe("MSL");
+
+        expect(fl350).toBeDefined();
+        expect(fl350?.meters).toBe(10668); // FL350 = 35000ft
+    });
+
+    it("always includes comment", () => {
+        const altitudes = parseAltitudesFromText("SFC TO 3000FT AMSL AND 500FT AGL");
+
+        for (const alt of altitudes) {
+            expect(alt.comment).toBeDefined();
+            expect(alt.comment!.length).toBeGreaterThan(0);
+        }
+    });
+
+    it("deduplicates identical altitudes", () => {
+        const altitudes = parseAltitudesFromText("SFC TO SFC FROM SFC");
+
+        const sfcCount = altitudes.filter((a) => a.rawText === "SFC").length;
+        expect(sfcCount).toBe(1);
+    });
+
+    it("returns empty array for text without altitudes", () => {
+        const altitudes = parseAltitudesFromText("NO ALTITUDE INFO HERE");
+        expect(altitudes).toEqual([]);
+    });
+});
+
+describe("parseGeometryHint", () => {
+    it("parses circle geometry", () => {
+        const geometry = parseGeometryHint({
+            type: "circle",
+            center: { lon: 24.7536, lat: 59.4369 },
+            radiusMeters: 1000,
+        });
+
+        expect(geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 1000,
+        });
+    });
+
+    it("parses polygon geometry", () => {
+        const geometry = parseGeometryHint({
+            type: "polygon",
+            coordinates: [
+                [24.74, 59.43],
+                [24.76, 59.43],
+                [24.76, 59.44],
+                [24.74, 59.44],
+                [24.74, 59.43],
+            ],
+        });
+
+        expect(geometry).toEqual({
+            kind: "polygon",
+            coordinates: [
+                [
+                    [24.74, 59.43],
+                    [24.76, 59.43],
+                    [24.76, 59.44],
+                    [24.74, 59.44],
+                    [24.74, 59.43],
+                ],
+            ],
+        });
+    });
+
+    it("closes unclosed polygon ring", () => {
+        const geometry = parseGeometryHint({
+            type: "polygon",
+            coordinates: [
+                [24.74, 59.43],
+                [24.76, 59.43],
+                [24.76, 59.44],
+                [24.74, 59.44],
+                // Missing closing point
+            ],
+        });
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            const ring = geometry.coordinates[0];
+            const first = ring[0];
+            const last = ring[ring.length - 1];
+            expect(first).toEqual(last);
+        }
+    });
+
+    it("returns null for invalid geometry", () => {
+        expect(parseGeometryHint(null)).toBeNull();
+        expect(parseGeometryHint(undefined)).toBeNull();
+        expect(parseGeometryHint({ type: "unknown" })).toBeNull();
+        expect(parseGeometryHint({ type: "circle" })).toBeNull(); // Missing center/radius
+    });
+
+    it("returns null for polygon with too few points", () => {
+        const geometry = parseGeometryHint({
+            type: "polygon",
+            coordinates: [[24.74, 59.43], [24.76, 59.43]], // Only 2 points
+        });
+
+        expect(geometry).toBeNull();
+    });
+});
+
+describe("normalizeNotams", () => {
+    const mockRaw = {
+        generatedAtUtc: "2025-12-18T10:00:00Z",
+        items: [
+            {
+                id: "A1234/25",
+                text: "TEMP RESTRICTED AREA ... SFC TO 3000FT AMSL ...",
+                validFromUtc: "2025-12-18T00:00:00Z",
+                validToUtc: "2025-12-19T23:59:59Z",
+                geometryHint: {
+                    type: "circle",
+                    center: { lon: 24.7536, lat: 59.4369 },
+                    radiusMeters: 1000,
+                },
+            },
+            {
+                id: "B5678/25",
+                text: "DRONE EXERCISE ... GND TO 500FT AGL ...",
+                validFromUtc: "2025-12-18T08:00:00Z",
+                validToUtc: "2025-12-18T16:00:00Z",
+                geometryHint: {
+                    type: "polygon",
+                    coordinates: [
+                        [24.74, 59.43],
+                        [24.76, 59.43],
+                        [24.76, 59.44],
+                        [24.74, 59.44],
+                        [24.74, 59.43],
+                    ],
+                },
+            },
+        ],
+    };
+
+    it("extracts IDs correctly", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams).toHaveLength(2);
+        expect(notams[0].id).toBe("A1234/25");
+        expect(notams[1].id).toBe("B5678/25");
+    });
+
+    it("extracts text and generates summary", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[0].text).toContain("TEMP RESTRICTED AREA");
+        expect(notams[0].summary.length).toBeLessThanOrEqual(60);
+    });
+
+    it("extracts validity dates", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[0].validFromUtc).toBe("2025-12-18T00:00:00Z");
+        expect(notams[0].validToUtc).toBe("2025-12-19T23:59:59Z");
+    });
+
+    it("uses generatedAtUtc for eventTimeUtc", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[0].eventTimeUtc).toBe("2025-12-18T10:00:00Z");
+    });
+
+    it("falls back to nowUtcIso when generatedAtUtc is missing", () => {
+        const rawWithoutGenerated = { items: mockRaw.items };
+        const notams = normalizeNotams(rawWithoutGenerated, NOW_UTC);
+
+        expect(notams[0].eventTimeUtc).toBe(NOW_UTC);
+    });
+
+    it("parses altitudes correctly", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        // First NOTAM: SFC TO 3000FT AMSL
+        const notam1Alts = notams[0].altitudes;
+        expect(notam1Alts.length).toBeGreaterThanOrEqual(2);
+
+        const sfc = notam1Alts.find((a) => a.meters === 0);
+        expect(sfc).toBeDefined();
+        expect(sfc?.comment).toBeDefined();
+
+        const amsl = notam1Alts.find((a) => a.meters === 914);
+        expect(amsl).toBeDefined();
+        expect(amsl?.ref).toBe("MSL");
+
+        // Second NOTAM: GND TO 500FT AGL
+        const notam2Alts = notams[1].altitudes;
+        const agl = notam2Alts.find((a) => a.meters === 152);
+        expect(agl).toBeDefined();
+        expect(agl?.ref).toBe("AGL");
+    });
+
+    it("ensures altitude.comment is always present", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        for (const notam of notams) {
+            for (const alt of notam.altitudes) {
+                expect(alt.comment).toBeDefined();
+                expect(alt.comment!.length).toBeGreaterThan(0);
+            }
+        }
+    });
+
+    it("parses circle geometry from geometryHint", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[0].geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 1000,
+        });
+    });
+
+    it("parses polygon geometry from geometryHint", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[1].geometry?.kind).toBe("polygon");
+        if (notams[1].geometry?.kind === "polygon") {
+            expect(notams[1].geometry.coordinates).toHaveLength(1);
+            expect(notams[1].geometry.coordinates[0]).toHaveLength(5);
+        }
+    });
+
+    it("preserves raw payload for debugging", () => {
+        const notams = normalizeNotams(mockRaw, NOW_UTC);
+
+        expect(notams[0].raw).toEqual(mockRaw.items[0]);
+        expect(notams[1].raw).toEqual(mockRaw.items[1]);
+    });
+
+    it("handles empty input gracefully", () => {
+        expect(normalizeNotams(null, NOW_UTC)).toEqual([]);
+        expect(normalizeNotams({}, NOW_UTC)).toEqual([]);
+        expect(normalizeNotams({ items: [] }, NOW_UTC)).toEqual([]);
+    });
+
+    it("skips invalid items", () => {
+        const rawWithInvalid = {
+            items: [
+                { id: "A1234/25", text: "Valid NOTAM" },
+                { id: "Invalid" }, // Missing text
+                { text: "Also invalid" }, // Missing id
+                null,
+                "not an object",
+            ],
+        };
+
+        const notams = normalizeNotams(rawWithInvalid, NOW_UTC);
+        expect(notams).toHaveLength(1);
+        expect(notams[0].id).toBe("A1234/25");
+    });
+});

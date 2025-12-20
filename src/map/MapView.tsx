@@ -18,13 +18,44 @@ import { EntityRef } from "@/layout/MapShell/urlState";
 import { ENV } from "@/shared/env";
 import { useSharedAdsbStream, useSharedDronesStream, useSharedSensorsStream } from "@/services/streams/StreamsProvider";
 import { createGeofenceLayer } from "./layers/geofences";
+import { createNotamLayer } from "./layers/notams";
 import { mapApi } from "./mapApi";
 import { geofenceStore } from "@/services/geofences/geofenceStore";
-import { Polygon } from "ol/geom";
+import { Polygon, Circle as CircleGeom } from "ol/geom";
+import { fromCircle } from "ol/geom/Polygon";
+import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
 
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [24.7536, 59.437];
 const DEFAULT_ZOOM = 7;
+
+/**
+ * Converts NormalizedNotam geometry (WGS-84) to OpenLayers geometry (EPSG:3857).
+ * Returns null if geometry is null or cannot be converted.
+ */
+function notamGeometryToOl(geometry: NotamGeometry): Polygon | null {
+  if (!geometry) return null;
+
+  if (geometry.kind === "circle") {
+    // Create circle from center point and radius
+    const center3857 = to3857(geometry.center);
+    // OL Circle requires coordinates in the projection units (meters for 3857)
+    const circle = new CircleGeom(center3857, geometry.radiusMeters);
+    // Convert circle to polygon for consistent rendering
+    return fromCircle(circle, 64); // 64 sides for smooth circle
+  }
+
+  if (geometry.kind === "polygon") {
+    // coordinates is GeoJSON format: [[[lon, lat], [lon, lat], ...]]
+    // Transform each ring to EPSG:3857
+    const rings = geometry.coordinates.map((ring) =>
+      ring.map((coord) => to3857(coord))
+    );
+    return new Polygon(rings);
+  }
+
+  return null;
+}
 
 type MapViewProps = {
   selectedEntity: EntityRef | null;
@@ -49,6 +80,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
 
   const droneLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const geofenceLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+  const notamLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
 
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
@@ -153,10 +185,11 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     });
 
     const geofenceLayer = createGeofenceLayer();
+    const notamLayer = createNotamLayer();
 
     const map = new Map({
       target: containerRef.current,
-      layers: [baseLayer, sensorLayer, adsbLayer, droneLayer, geofenceLayer],
+      layers: [baseLayer, sensorLayer, adsbLayer, droneLayer, geofenceLayer, notamLayer],
       view: new View({
 
         projection: "EPSG:3857",
@@ -170,6 +203,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     adsbLayerRef.current = adsbLayer;
     droneLayerRef.current = droneLayer;
     geofenceLayerRef.current = geofenceLayer;
+    notamLayerRef.current = notamLayer;
 
 
     map.on("singleclick", (evt) => {
@@ -193,6 +227,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       adsbLayerRef.current = null;
       droneLayerRef.current = null;
       geofenceLayerRef.current = null;
+      notamLayerRef.current = null;
       mapRef.current = null;
     };
   }, [baseLayer, isSelected, onSelectEntity]);
@@ -200,6 +235,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
 
   // Subscribe to mapApi events
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSetGeofences = (geofences: any[]) => {
       const source = geofenceLayerRef.current?.getSource();
       if (!source) return;
@@ -220,13 +256,55 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       });
     };
 
+    const handleSetNotams = (notams: NormalizedNotam[]) => {
+      const source = notamLayerRef.current?.getSource();
+      if (!source) return;
+
+      source.clear();
+      notams.forEach((notam) => {
+        const geom = notamGeometryToOl(notam.geometry);
+        if (!geom) return;
+
+        const feature = new Feature({
+          geometry: geom,
+          notamId: notam.id,
+          entityKind: "notam",
+        });
+        feature.setId(notam.id);
+        source.addFeature(feature);
+      });
+    };
+
+    const handleSetLayerVisibility = ({ id, visible }: { id: string; visible: boolean }) => {
+      const layer =
+        id === "sensors" || id === "sensor"
+          ? sensorLayerRef.current
+          : id === "adsb" || id === "flight"
+            ? adsbLayerRef.current
+            : id === "drones" || id === "drone"
+              ? droneLayerRef.current
+              : id === "geofences" || id === "geofence"
+                ? geofenceLayerRef.current
+                : id === "notams" || id === "notam"
+                  ? notamLayerRef.current
+                  : null;
+
+      if (layer) {
+        layer.setVisible(visible);
+      }
+    };
+
     mapApi.on("set-geofences", handleSetGeofences);
+    mapApi.on("set-notams", handleSetNotams);
+    mapApi.on("set-layer-visibility", handleSetLayerVisibility);
 
     // Initial load
     handleSetGeofences(geofenceStore.getAll());
 
     return () => {
       mapApi.off("set-geofences", handleSetGeofences);
+      mapApi.off("set-notams", handleSetNotams);
+      mapApi.off("set-layer-visibility", handleSetLayerVisibility);
     };
   }, []);
 
