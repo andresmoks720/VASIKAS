@@ -171,7 +171,8 @@ export function parseLiveAdsbResponse(raw: unknown, ingestTimeUtc: string): Airc
 }
 
 export function useAdsbStream() {
-  const useMocks = ENV.useMocks();
+  const adsbMode = ENV.adsb.mode();
+  const useMocks = adsbMode === "mock";
   const url = useMocks ? "/mock/adsb.json" : ENV.adsbUrl();
   const pollMs = parsePollInterval(ENV.poll.adsbMs());
   const [motionTick, setMotionTick] = useState(0);

@@ -9,6 +9,7 @@ type EnvValues = {
   sensorsUrl: string;
   adsbUrl: string;
   adsb: {
+    mode: "live" | "mock";
     baseUrl: string;
     centerLat: number;
     centerLon: number;
@@ -90,17 +91,23 @@ function buildAdsbPointUrl(baseUrl: string, centerLat: number, centerLon: number
   return `${trimmedBase}/point/${centerLat}/${centerLon}/${radiusNm}`;
 }
 
+function parseAdsbMode(rawValue: string | undefined): "live" | "mock" {
+  const value = (rawValue ?? "live").trim().toLowerCase();
+  return value === "mock" ? "mock" : "live";
+}
+
 const DEFAULT_ADSB_BASE_URL = "https://api.airplanes.live/v2";
 const DEFAULT_ADSB_CENTER_LAT = 58.5953;
 const DEFAULT_ADSB_CENTER_LON = 25.0136;
 const DEFAULT_ADSB_RADIUS_NM = 250;
 
 const useMocks = parseBooleanFlag("VITE_USE_MOCKS", import.meta.env.VITE_USE_MOCKS, true);
+const adsbMode = parseAdsbMode(import.meta.env.VITE_ADSB_MODE);
 const adsbBaseUrl = optionalString("VITE_ADSB_BASE_URL", import.meta.env.VITE_ADSB_BASE_URL) ?? DEFAULT_ADSB_BASE_URL;
 const adsbCenterLat = parseNumberInRange("VITE_ADSB_CENTER_LAT", import.meta.env.VITE_ADSB_CENTER_LAT, DEFAULT_ADSB_CENTER_LAT, -90, 90);
 const adsbCenterLon = parseNumberInRange("VITE_ADSB_CENTER_LON", import.meta.env.VITE_ADSB_CENTER_LON, DEFAULT_ADSB_CENTER_LON, -180, 180);
 const adsbRadiusNm = parseNumberInRange("VITE_ADSB_RADIUS_NM", import.meta.env.VITE_ADSB_RADIUS_NM, DEFAULT_ADSB_RADIUS_NM, 1, 250);
-const adsbUrl = useMocks ? "/mock/adsb.json" : buildAdsbPointUrl(adsbBaseUrl, adsbCenterLat, adsbCenterLon, adsbRadiusNm);
+const adsbUrl = adsbMode === "mock" ? "/mock/adsb.json" : buildAdsbPointUrl(adsbBaseUrl, adsbCenterLat, adsbCenterLon, adsbRadiusNm);
 
 const envValues: EnvValues = {
   useMocks,
@@ -113,6 +120,7 @@ const envValues: EnvValues = {
   }),
   adsbUrl,
   adsb: {
+    mode: adsbMode,
     baseUrl: adsbBaseUrl,
     centerLat: adsbCenterLat,
     centerLon: adsbCenterLon,
@@ -147,6 +155,7 @@ export const ENV = {
   droneUrl: () => envValues.droneUrl,
   sensorsUrl: () => envValues.sensorsUrl,
   adsb: {
+    mode: () => envValues.adsb.mode,
     baseUrl: () => envValues.adsb.baseUrl,
     centerLat: () => envValues.adsb.centerLat,
     centerLon: () => envValues.adsb.centerLon,
