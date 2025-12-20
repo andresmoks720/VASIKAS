@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { ENV } from "@/shared/env";
+
 export type PollingStatus = "idle" | "loading" | "live" | "stale" | "error";
 
 export type PollingResult<T> = {
@@ -21,7 +23,7 @@ type InternalState<T> = {
   tick: number;
 };
 
-const DEFAULT_INTERVAL_MS = Number(import.meta.env.VITE_POLL_INTERVAL_MS ?? 5000);
+const DEFAULT_INTERVAL_MS = ENV.poll.defaultMs();
 
 function initialState<T>(): InternalState<T> {
   return {

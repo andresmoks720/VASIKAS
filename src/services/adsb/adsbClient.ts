@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
-import { chooseDataUrl, shouldUseMocks } from "@/shared/env";
+import { ENV } from "@/shared/env";
 import { computeAircraftAtTime } from "./adsbMotion";
 import { AdsbTrack, AdsbTrackDto, mapAdsbTrackDtos } from "./adsbTypes";
 
 const DEFAULT_POLL_MS = 10000;
 const MOTION_TICK_MS = 1000;
 
-function parsePollInterval(raw?: string): number {
+function parsePollInterval(raw?: string | number): number {
   const parsed = Number(raw);
 
   return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_POLL_MS;
@@ -23,9 +23,9 @@ function parseAdsbResponse(raw: unknown): AdsbTrack[] {
 }
 
 export function useAdsbStream() {
-  const useMocks = shouldUseMocks();
-  const url = chooseDataUrl(useMocks, import.meta.env.VITE_ADSB_URL, "/mock/adsb.json");
-  const pollMs = parsePollInterval(import.meta.env.VITE_POLL_ADSB_MS);
+  const useMocks = ENV.useMocks();
+  const url = useMocks ? "/mock/adsb.json" : ENV.adsbUrl();
+  const pollMs = parsePollInterval(ENV.poll.adsbMs());
   const [motionTick, setMotionTick] = useState(0);
 
   const mapper = useCallback((raw: unknown) => parseAdsbResponse(raw), []);

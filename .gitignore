@@ -7,3 +7,5 @@ dist
 .cache
 coverage
 .playwright
+.env.local
+.env.*.local

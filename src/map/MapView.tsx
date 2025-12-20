@@ -15,7 +15,7 @@ import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
 import { to3857, to4326 } from "./transforms";
 import { EntityRef } from "@/layout/MapShell/urlState";
-import { shouldUseMocks } from "@/shared/env";
+import { ENV } from "@/shared/env";
 import { useSharedAdsbStream, useSharedDronesStream, useSharedSensorsStream } from "@/services/streams/StreamsProvider";
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [24.7536, 59.437];
@@ -53,14 +53,14 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     [],
   );
 
-  const useMocks = shouldUseMocks();
+  const useMocks = ENV.useMocks();
 
   const baseLayer = useMemo(() => {
     if (useMocks) {
       return createOfflineXyzLayer();
     }
 
-    const wmtsLayer = createMaaAmetOrthoLayer(import.meta.env.VITE_MAP_WMTS_URL);
+    const wmtsLayer = createMaaAmetOrthoLayer(ENV.mapWmtsUrl());
     if (wmtsLayer) {
       return wmtsLayer;
     }

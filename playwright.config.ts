@@ -19,6 +19,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
     env: {
+      // Keep Playwright defaults in sync with src/shared/env.ts validation and app defaults.
       VITE_USE_MOCKS: "1",
     },
   },
