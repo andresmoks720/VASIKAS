@@ -8,14 +8,7 @@ export const TOOLS = [
 
 export type Tool = (typeof TOOLS)[number];
 
-const ENTITY_KINDS = [
-  "drone",
-  "aircraft",
-  "sensor",
-  "geofence",
-  "notam",
-  "object",
-] as const;
+const ENTITY_KINDS = ["drone", "aircraft", "flight", "sensor", "geofence", "notam", "object"] as const;
 
 export type EntityKind = (typeof ENTITY_KINDS)[number];
 

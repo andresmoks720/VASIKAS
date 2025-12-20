@@ -50,8 +50,15 @@ This document inventories **all data sources** used by the **frontend-first** pr
 ### ADS-B (prototype)
 
 - **Purpose:** show basic air traffic overlays.
-- **Env var:** `VITE_ADSB_URL`
-- **Refresh:** `VITE_POLL_ADSB_MS` (default **10000 ms**)
+- **Base URL:** `https://api.airplanes.live/v2`
+- **Endpoint:** `/point/{lat}/{lon}/{radiusNm}` (radius in **nautical miles**, max **250 nm**). The app builds this from:
+  - `VITE_ADSB_BASE_URL`
+  - `VITE_ADSB_CENTER_LAT`
+  - `VITE_ADSB_CENTER_LON`
+  - `VITE_ADSB_RADIUS_NM`
+- **Polling:** every `VITE_POLL_ADSB_MS` (default **10000 ms / 10s**)
+- **Rate limit:** upstream allows **1 req/sec**; current polling is safely below.
+- **Fields consumed:** `hex`, `flight`, `lat`, `lon`, `track`, `gs`, `alt_baro`, `seen_pos`, `seen`, `lastPosition`. Keys may be absent when data is stale; `lastPosition` provides the last known coordinates when current `lat/lon` are missing.
 - **Fallback:** `/mock/adsb.json`
 - **Motion (mock):** `/mock/adsb.json` includes a looping `track` array with timestamp offsets and positions. The frontend interpolates linearly between samples using `t0Utc` and `durationSec` so one airplane moves continuously without hard-coded points.
 

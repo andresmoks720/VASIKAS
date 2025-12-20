@@ -73,26 +73,6 @@ const SENSORS = [
   },
 ] as const;
 
-const ADSB = [
-  {
-    id: "4ca123",
-    callsign: "FIN123",
-    position: {
-      lon: 24.832,
-      lat: 59.413,
-    },
-    trackDeg: 275,
-    groundSpeedKmh: 720,
-    altitude: {
-      meters: 3500,
-      ref: "MSL" as const,
-      source: "reported" as const,
-      comment: "ADS-B reported",
-    },
-    eventTimeUtc: "2025-12-18T10:15:20Z",
-  },
-] as const;
-
 let droneRequestCount = 0;
 
 const nextDroneStep = () => {
@@ -106,8 +86,34 @@ export function resetMockHandlers() {
   droneRequestCount = 0;
 }
 
+const adsbHandlers: ReturnType<typeof http.get>[] = [];
+
+if (process.env.MSW_ENABLE_ADSB === "1") {
+  const ADSB = [
+    {
+      id: "4ca123",
+      callsign: "FIN123",
+      position: {
+        lon: 24.832,
+        lat: 59.413,
+      },
+      trackDeg: 275,
+      groundSpeedKmh: 720,
+      altitude: {
+        meters: 3500,
+        ref: "MSL" as const,
+        source: "reported" as const,
+        comment: "ADS-B reported",
+      },
+      eventTimeUtc: "2025-12-18T10:15:20Z",
+    },
+  ] as const;
+
+  adsbHandlers.push(http.get("/mock/adsb.json", () => HttpResponse.json(ADSB)));
+}
+
 export const handlers = [
   http.get("/mock/drones.json", () => HttpResponse.json(nextDroneStep())),
   http.get("/mock/sensors.json", () => HttpResponse.json(SENSORS)),
-  http.get("/mock/adsb.json", () => HttpResponse.json(ADSB)),
+  ...adsbHandlers,
 ];

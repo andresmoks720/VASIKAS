@@ -1,5 +1,59 @@
 import { Altitude, LonLat } from "@/shared/types/domain";
 
+// Live ADS-B DTOs (airplanes.live)
+export type AdsbPointResponseDto = {
+  now?: number;
+  msg?: string;
+  total?: number;
+  ctime?: number;
+  ptime?: number;
+  aircraft?: AircraftDto[];
+};
+
+export type LastPositionDto = {
+  lat?: number;
+  lon?: number;
+  seen_pos?: number;
+  seen?: number;
+};
+
+export type AircraftDto = {
+  hex?: string;
+  flight?: string;
+  lat?: number;
+  lon?: number;
+  seen_pos?: number;
+  seen?: number;
+  alt_baro?: number | "ground";
+  gs?: number;
+  track?: number;
+  true_heading?: number;
+  mag_heading?: number;
+  r?: string; // registration
+  t?: string; // type
+  type?: string;
+  lastPosition?: LastPositionDto;
+  rr_lat?: number;
+  rr_lon?: number;
+};
+
+export type PositionSource = "current" | "lastPosition" | "rough";
+
+export type Aircraft = {
+  id: string;
+  callsign: string;
+  position: LonLat;
+  positionSource: PositionSource;
+  trackDeg: number | null;
+  groundSpeedKmh: number | null;
+  altitude: Altitude;
+  eventTimeUtc: string;
+  ingestTimeUtc: string;
+  registration?: string;
+  aircraftType?: string;
+};
+
+// Mock ADS-B track DTOs (legacy mock interpolation)
 export type AdsbTrackPointDto = {
   offsetSec: number;
   position: LonLat;
@@ -18,17 +72,6 @@ export type AdsbTrackDto = {
 
 export type AdsbTrack = Omit<AdsbTrackDto, "track"> & {
   track: AdsbTrackPointDto[];
-};
-
-export type Aircraft = {
-  id: string;
-  callsign: string;
-  position: LonLat;
-  trackDeg: number;
-  groundSpeedKmh: number;
-  altitude: Altitude;
-  eventTimeUtc: string;
-  ingestTimeUtc: string;
 };
 
 export function mapAdsbTrackDto(dto: AdsbTrackDto): AdsbTrack {
