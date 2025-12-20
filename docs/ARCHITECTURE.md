@@ -1,6 +1,6 @@
 # ARCHITECTURE.md
 
-This page is a practical map-first guide for the prototype. The app is a **persistent MapShell**: the map stays mounted while the sidebar and toolbar react to URL state. No proxy servers are used.
+This page is a practical map-first guide for the prototype. The app is a **persistent MapShell**: the map stays mounted while the sidebar and toolbar react to URL state. **Direct API calls from the browser only—no proxy/back-end**.
 
 ## Layout + routing contract
 

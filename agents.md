@@ -86,7 +86,10 @@ Recommended:
 
 - `VITE_USE_MOCKS=1|0` (default `1` for MVP)
 - `VITE_NOTAM_URL=https://aim.eans.ee/web/notampib/area24.json`
-- `VITE_ADSB_URL=...`
+- `VITE_ADSB_BASE_URL=https://api.airplanes.live/v2`
+- `VITE_ADSB_CENTER_LAT=58.5953`
+- `VITE_ADSB_CENTER_LON=25.0136`
+- `VITE_ADSB_RADIUS_NM=250`
 - `VITE_DRONE_URL=...`
 - `VITE_SENSORS_URL=...`
 - `VITE_MAP_WMTS_URL=...` (Maa-amet WMTS base URL)

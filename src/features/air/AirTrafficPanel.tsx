@@ -66,7 +66,7 @@ export function AirTrafficPanel() {
                 <ListItemButton
                   alignItems="flex-start"
                   sx={{ py: 1.25, px: 2 }}
-                  onClick={() => selectEntity({ kind: "aircraft", id: flight.id })}
+                  onClick={() => selectEntity({ kind: "flight", id: flight.id })}
                 >
                   <ListItem alignItems="flex-start" disablePadding sx={{ width: "100%" }}>
                     <ListItemText

@@ -9,7 +9,7 @@ import TileLayer from "ol/layer/Tile";
 import VectorSource from "ol/source/Vector";
 import OSM from "ol/source/OSM";
 import View from "ol/View";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Circle as CircleStyle, Fill, RegularShape, Stroke, Style } from "ol/style";
 
 import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
@@ -41,15 +41,26 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
   const adsbLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const droneLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const { data: sensors } = useSharedSensorsStream();
-  const { data: aircraft } = useSharedAdsbStream();
+  const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
 
   const selectedRef = useRef<EntityRef | null>(selectedEntity);
   selectedRef.current = selectedEntity;
 
   const isSelected = useMemo(
-    () => (kind: EntityRef["kind"], id: string) =>
-      selectedRef.current?.kind === kind && selectedRef.current?.id === id,
+    () => (kind: EntityRef["kind"], id: string) => {
+      const sel = selectedRef.current;
+      if (!sel) return false;
+      if (
+        (sel.kind === "aircraft" || sel.kind === "flight") &&
+        (kind === "aircraft" || kind === "flight") &&
+        sel.id === id
+      ) {
+        return true;
+      }
+
+      return sel.kind === kind && sel.id === id;
+    },
     [],
   );
 
@@ -93,17 +104,24 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       source: adsbSource,
       style: (feature) => {
         const isTrack = feature.getGeometry() instanceof LineString;
+        const flightId = feature.get("flightId") as string | undefined;
+        const selected = flightId ? isSelected("flight", flightId) : false;
+
         if (isTrack) {
           return new Style({
-            stroke: new Stroke({ color: "#ff9800", width: 2 }),
+            stroke: new Stroke({ color: selected ? "#e65100" : "#ff9800", width: selected ? 3 : 2 }),
           });
         }
-        const selected = isSelected("aircraft", String(feature.getId() ?? ""));
+
+        const trackDeg = feature.get("trackDeg") as number | null | undefined;
+        const rotation = ((trackDeg ?? 0) * Math.PI) / 180;
         return new Style({
-          image: new CircleStyle({
-            radius: selected ? 8 : 6,
+          image: new RegularShape({
+            points: 3,
+            radius: selected ? 10 : 8,
+            rotation,
             fill: new Fill({ color: selected ? "#ef6c00" : "#ff9800" }),
-            stroke: new Stroke({ color: "#e65100", width: selected ? 3 : 2 }),
+            stroke: new Stroke({ color: selected ? "#e65100" : "#b26a00", width: selected ? 3 : 2 }),
           }),
         });
       },
@@ -168,7 +186,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
             ? droneLayerRef.current
             : kind === "sensor"
               ? sensorLayerRef.current
-              : kind === "aircraft"
+              : kind === "aircraft" || kind === "flight"
                 ? adsbLayerRef.current
                 : null;
 
@@ -212,20 +230,74 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     const source = layer?.getSource();
     if (!source) return;
 
-    source.clear();
+    const seen = new Set<string>();
+
+    if (adsbTracks) {
+      adsbTracks.forEach((points, id) => {
+        if (points.length < 2) return;
+        const featureId = `flightTrack:${id}`;
+        const coords = points.map((pt) => to3857([pt.position.lon, pt.position.lat]));
+        const line = new LineString(coords);
+        const existing = source.getFeatureById(featureId) as Feature<LineString> | null;
+        const feature =
+          existing ??
+          new Feature({
+            entityKind: "flight",
+            flightId: id,
+          });
+
+        feature.setId(featureId);
+        feature.set("flightId", id);
+        feature.setGeometry(line);
+        if (!existing) {
+          source.addFeature(feature);
+        }
+        seen.add(featureId);
+      });
+    }
 
     (aircraft ?? []).forEach((item) => {
-      const point = new Point(to3857([item.position.lon, item.position.lat]));
-      const pointFeature = new Feature({
-        geometry: point,
-        callsign: item.callsign,
-        entityKind: "aircraft",
-      });
-      pointFeature.setId(item.id);
-      source.addFeature(pointFeature);
+      const featureId = `flight:${item.id}`;
+      const point = to3857([item.position.lon, item.position.lat]);
+      const existing = source.getFeatureById(featureId) as Feature<Point> | null;
+      const geometry = existing?.getGeometry() as Point | null;
+      const pointGeometry = geometry ?? new Point(point);
+
+      if (!geometry) {
+        pointGeometry.setCoordinates(point);
+      } else {
+        geometry.setCoordinates(point);
+      }
+
+      const feature =
+        existing ??
+        new Feature({
+          entityKind: "flight",
+          flightId: item.id,
+        });
+
+      feature.setId(featureId);
+      feature.set("flightId", item.id);
+      feature.set("trackDeg", item.trackDeg ?? 0);
+      feature.setGeometry(pointGeometry);
+
+      if (!existing) {
+        source.addFeature(feature);
+      }
+
+      seen.add(featureId);
     });
+
+    source.getFeatures().forEach((feature) => {
+      const id = feature.getId();
+      if (typeof id !== "string") return;
+      if ((id.startsWith("flight:") || id.startsWith("flightTrack:")) && !seen.has(id)) {
+        source.removeFeature(feature);
+      }
+    });
+
     layer?.changed();
-  }, [aircraft]);
+  }, [aircraft, adsbTracks]);
 
   useEffect(() => {
     const layer = droneLayerRef.current;

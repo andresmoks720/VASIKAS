@@ -25,7 +25,7 @@ const formatPosition = (lon?: number, lat?: number) => {
 type Selection =
   | { kind: "drone"; item: Drone | undefined }
   | { kind: "sensor"; item: Sensor | undefined }
-  | { kind: "aircraft"; item: Aircraft | undefined }
+  | { kind: "aircraft" | "flight"; item: Aircraft | undefined }
   | { kind: EntityRef["kind"]; item: undefined };
 
 export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
@@ -40,6 +40,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
       case "sensor":
         return { kind: entity.kind, item: (sensors ?? []).find((sensor) => sensor.id === entity.id) };
       case "aircraft":
+      case "flight":
         return { kind: entity.kind, item: (aircraft ?? []).find((flight) => flight.id === entity.id) };
       default:
         return { kind: entity.kind, item: undefined };
@@ -92,7 +93,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
         </Stack>
       ) : null}
 
-      {selection.kind === "aircraft" ? (
+      {(selection.kind === "aircraft" || selection.kind === "flight") ? (
         <Stack spacing={1}>
           <KeyValueRow label="Callsign" value={selection.item.callsign} />
           <KeyValueRow

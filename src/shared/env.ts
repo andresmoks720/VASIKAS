@@ -5,9 +5,15 @@ type EnvValues = {
   useMocks: boolean;
   mapWmtsUrl?: string;
   notamUrl: string;
-  adsbUrl: string;
   droneUrl: string;
   sensorsUrl: string;
+  adsbUrl: string;
+  adsb: {
+    baseUrl: string;
+    centerLat: number;
+    centerLon: number;
+    radiusNm: number;
+  };
   poll: {
     defaultMs: number;
     notamMs: number;
@@ -54,6 +60,16 @@ function optionalString(name: string, rawValue: string | undefined): string | un
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+function parseNumberInRange(name: string, rawValue: string | number | undefined, defaultValue: number, min: number, max: number): number {
+  const parsed = rawValue === undefined ? defaultValue : Number(rawValue);
+
+  if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
+    throw new Error(`${name} must be a number between ${min} and ${max} (received "${String(rawValue)}")`);
+  }
+
+  return parsed;
+}
+
 function resolveDataUrl({ name, mockUrl, useMocks, rawValue }: { name: string; mockUrl: string; useMocks: boolean; rawValue: string | undefined }): string {
   const value = optionalString(name, rawValue);
 
@@ -68,7 +84,23 @@ function resolveDataUrl({ name, mockUrl, useMocks, rawValue }: { name: string; m
   return value;
 }
 
+function buildAdsbPointUrl(baseUrl: string, centerLat: number, centerLon: number, radiusNm: number): string {
+  const trimmedBase = baseUrl.replace(/\/+$/, "");
+
+  return `${trimmedBase}/point/${centerLat}/${centerLon}/${radiusNm}`;
+}
+
+const DEFAULT_ADSB_BASE_URL = "https://api.airplanes.live/v2";
+const DEFAULT_ADSB_CENTER_LAT = 58.5953;
+const DEFAULT_ADSB_CENTER_LON = 25.0136;
+const DEFAULT_ADSB_RADIUS_NM = 250;
+
 const useMocks = parseBooleanFlag("VITE_USE_MOCKS", import.meta.env.VITE_USE_MOCKS, true);
+const adsbBaseUrl = optionalString("VITE_ADSB_BASE_URL", import.meta.env.VITE_ADSB_BASE_URL) ?? DEFAULT_ADSB_BASE_URL;
+const adsbCenterLat = parseNumberInRange("VITE_ADSB_CENTER_LAT", import.meta.env.VITE_ADSB_CENTER_LAT, DEFAULT_ADSB_CENTER_LAT, -90, 90);
+const adsbCenterLon = parseNumberInRange("VITE_ADSB_CENTER_LON", import.meta.env.VITE_ADSB_CENTER_LON, DEFAULT_ADSB_CENTER_LON, -180, 180);
+const adsbRadiusNm = parseNumberInRange("VITE_ADSB_RADIUS_NM", import.meta.env.VITE_ADSB_RADIUS_NM, DEFAULT_ADSB_RADIUS_NM, 1, 250);
+const adsbUrl = useMocks ? "/mock/adsb.json" : buildAdsbPointUrl(adsbBaseUrl, adsbCenterLat, adsbCenterLon, adsbRadiusNm);
 
 const envValues: EnvValues = {
   useMocks,
@@ -79,12 +111,13 @@ const envValues: EnvValues = {
     rawValue: import.meta.env.VITE_NOTAM_URL,
     useMocks,
   }),
-  adsbUrl: resolveDataUrl({
-    name: "VITE_ADSB_URL",
-    mockUrl: "/mock/adsb.json",
-    rawValue: import.meta.env.VITE_ADSB_URL,
-    useMocks,
-  }),
+  adsbUrl,
+  adsb: {
+    baseUrl: adsbBaseUrl,
+    centerLat: adsbCenterLat,
+    centerLon: adsbCenterLon,
+    radiusNm: adsbRadiusNm,
+  },
   droneUrl: resolveDataUrl({
     name: "VITE_DRONE_URL",
     mockUrl: "/mock/drones.json",
@@ -113,6 +146,12 @@ export const ENV = {
   adsbUrl: () => envValues.adsbUrl,
   droneUrl: () => envValues.droneUrl,
   sensorsUrl: () => envValues.sensorsUrl,
+  adsb: {
+    baseUrl: () => envValues.adsb.baseUrl,
+    centerLat: () => envValues.adsb.centerLat,
+    centerLon: () => envValues.adsb.centerLon,
+    radiusNm: () => envValues.adsb.radiusNm,
+  },
   poll: {
     defaultMs: () => envValues.poll.defaultMs,
     notamMs: () => envValues.poll.notamMs,
