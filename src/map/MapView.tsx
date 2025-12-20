@@ -17,6 +17,11 @@ import { to3857, to4326 } from "./transforms";
 import { EntityRef } from "@/layout/MapShell/urlState";
 import { ENV } from "@/shared/env";
 import { useSharedAdsbStream, useSharedDronesStream, useSharedSensorsStream } from "@/services/streams/StreamsProvider";
+import { createGeofenceLayer } from "./layers/geofences";
+import { mapApi } from "./mapApi";
+import { geofenceStore } from "@/services/geofences/geofenceStore";
+import { Polygon } from "ol/geom";
+
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [24.7536, 59.437];
 const DEFAULT_ZOOM = 7;
@@ -39,7 +44,12 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
   const mapRef = useRef<Map | null>(null);
   const sensorLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const adsbLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+
+
+
   const droneLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+  const geofenceLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
+
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
@@ -142,10 +152,13 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       },
     });
 
+    const geofenceLayer = createGeofenceLayer();
+
     const map = new Map({
       target: containerRef.current,
-      layers: [baseLayer, sensorLayer, adsbLayer, droneLayer],
+      layers: [baseLayer, sensorLayer, adsbLayer, droneLayer, geofenceLayer],
       view: new View({
+
         projection: "EPSG:3857",
         center: to3857(ESTONIA_CENTER_LON_LAT),
         zoom: DEFAULT_ZOOM,
@@ -156,6 +169,8 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     sensorLayerRef.current = sensorLayer;
     adsbLayerRef.current = adsbLayer;
     droneLayerRef.current = droneLayer;
+    geofenceLayerRef.current = geofenceLayer;
+
 
     map.on("singleclick", (evt) => {
       map.forEachFeatureAtPixel(evt.pixel, (feature) => {
@@ -165,7 +180,10 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
           onSelectEntity({ kind: entityKind, id });
           return true;
         }
+        // Special case for geofences which might not have entityKind set on feature creation yet, or we set it now
+        // But for now, let's assume no interaction needed for geofences in requirements P2-04
         return false;
+
       });
     });
 
@@ -174,9 +192,44 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       sensorLayerRef.current = null;
       adsbLayerRef.current = null;
       droneLayerRef.current = null;
+      geofenceLayerRef.current = null;
       mapRef.current = null;
     };
   }, [baseLayer, isSelected, onSelectEntity]);
+
+
+  // Subscribe to mapApi events
+  useEffect(() => {
+    const handleSetGeofences = (geofences: any[]) => {
+      const source = geofenceLayerRef.current?.getSource();
+      if (!source) return;
+
+      source.clear();
+      geofences.forEach((g) => {
+        const poly = geofenceStore.asPolygon(g);
+        // poly.coordinates[0] is the outer ring [Lon, Lat][]
+        // We need to transform to [x, y]
+        const ring = poly.coordinates[0].map((pt: [number, number]) => to3857(pt));
+        const feature = new Feature({
+          geometry: new Polygon([ring]),
+          name: g.name,
+          entityKind: "geofence",
+        });
+        feature.setId(g.id);
+        source.addFeature(feature);
+      });
+    };
+
+    mapApi.on("set-geofences", handleSetGeofences);
+
+    // Initial load
+    handleSetGeofences(geofenceStore.getAll());
+
+    return () => {
+      mapApi.off("set-geofences", handleSetGeofences);
+    };
+  }, []);
+
 
   useEffect(() => {
     window.__debugMap = {

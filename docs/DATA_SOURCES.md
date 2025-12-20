@@ -195,6 +195,8 @@ These JSON shapes define what the **frontend prototype** expects.
 
 **Mapping notes**
 
+- **Base Sensors:** Loaded from `/mock/sensors.json` (or `VITE_SENSORS_URL`). Marked with `source: "base"`.
+- **User Sensors:** Created via UI, persisted in `localStorage` (`cuas.state.v1`). Marked with `source: "user"`.
 - Sensor coverage is optional in MVP; keep `coverage` nullable if not known.
 - If a sensor also emits detections, keep detections in the **drone/object** stream, not embedded in the sensor record.
 

@@ -10,12 +10,15 @@ export type SensorDto = {
   coverage: { radiusMeters: number; minAltM: number; maxAltM: number };
 };
 
-export type Sensor = SensorDto & { ingestTimeUtc: string };
+export type Sensor = SensorDto & {
+  ingestTimeUtc: string;
+  source: "base" | "user";
+};
 
-export function mapSensorDto(dto: SensorDto, ingestTimeUtc: string): Sensor {
-  return { ...dto, ingestTimeUtc };
+export function mapSensorDto(dto: SensorDto, ingestTimeUtc: string, source: "base" | "user" = "base"): Sensor {
+  return { ...dto, ingestTimeUtc, source };
 }
 
 export function mapSensorDtos(dtos: SensorDto[], ingestTimeUtc: string): Sensor[] {
-  return dtos.map((dto) => mapSensorDto(dto, ingestTimeUtc));
+  return dtos.map((dto) => mapSensorDto(dto, ingestTimeUtc, "base"));
 }

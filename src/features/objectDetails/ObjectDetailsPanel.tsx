@@ -5,6 +5,7 @@ import { EntityRef } from "@/layout/MapShell/urlState";
 import { Aircraft } from "@/services/adsb/adsbTypes";
 import { Drone } from "@/services/drones/droneTypes";
 import { Sensor } from "@/services/sensors/sensorsTypes";
+import { geofenceStore, Geofence } from "@/services/geofences/geofenceStore";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatSpeed } from "@/shared/units/speed";
@@ -25,8 +26,10 @@ const formatPosition = (lon?: number, lat?: number) => {
 type Selection =
   | { kind: "drone"; item: Drone | undefined }
   | { kind: "sensor"; item: Sensor | undefined }
+  | { kind: "geofence"; item: Geofence | undefined }
   | { kind: "aircraft" | "flight"; item: Aircraft | undefined }
   | { kind: EntityRef["kind"]; item: undefined };
+
 
 export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
   const { data: drones } = useSharedDronesStream();
@@ -42,6 +45,8 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
       case "aircraft":
       case "flight":
         return { kind: entity.kind, item: (aircraft ?? []).find((flight) => flight.id === entity.id) };
+      case "geofence":
+        return { kind: entity.kind, item: geofenceStore.getById(entity.id) };
       default:
         return { kind: entity.kind, item: undefined };
     }
@@ -114,6 +119,25 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
           <KeyValueRow label="Ingest time (UTC)" value={formatUtcTimestamp(selection.item.ingestTimeUtc)} />
         </Stack>
       ) : null}
+
+      {selection.kind === "geofence" ? (
+        <Stack spacing={1}>
+          <KeyValueRow label="Name" value={selection.item.name} />
+          <KeyValueRow label="Kind" value={selection.item.geometry.kind} />
+          {selection.item.geometry.kind === "circle" ? (
+            <>
+              <KeyValueRow
+                label="Center"
+                value={formatPosition(selection.item.geometry.center.lon, selection.item.geometry.center.lat)}
+              />
+              <KeyValueRow label="Radius" value={`${selection.item.geometry.radiusMeters} m`} />
+            </>
+          ) : null}
+          {selection.item.description ? <KeyValueRow label="Description" value={selection.item.description} /> : null}
+          <KeyValueRow label="Updated (UTC)" value={formatUtcTimestamp(selection.item.updatedAtUtc)} />
+        </Stack>
+      ) : null}
     </Stack>
+
   );
 }

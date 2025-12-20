@@ -8,12 +8,17 @@
   - Phase 1 mock data: generator script, polling hooks, drone and ADS-B mock motion, sensor polling client, and vector layers with selection styling.
   - Local persistence adapter (versioned) for user-created geofences and sensors using browser storage with safe defaults.
   - Geofence domain model with WGS-84 circle-to-polygon helper for rendering.
+  - Geofence Store (in-memory + local persistence) with CRUD operations and on-demand circle-to-polygon conversion.
+  - Geofence Map Layer (vector rendering) & MapAPI for decoupled UI updates.
+  - Geofence Management UI (List, Create Circle, Rename, Delete) and Object Details integration.
 - In progress:
-  - Expanding panel details and formatting for Phase 2 user-created geofences/sensors.
-- Next (1–3 concrete actions):
-  - Wire persistence adapter and geofence geometry helpers into creation flows.
-  - Ensure persistence-driven data renders on map layers and panels after refresh.
+  - (None)
+- Done:
+  - Phase 2 E2E: "Editable world" smoke test (P2-07)
+  - Sensor creation/deletion UI (P2-06)
+  - Geofences (create/edit/delete) (P2-03, P2-04, P2-05)
   - Finalize Maa-amet WMTS layer configuration (layer id, matrix set, attribution).
+
 
 ### Status rules
 
