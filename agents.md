@@ -75,9 +75,12 @@ Expected `package.json` scripts:
 
 ---
 
-## Runtime configuration (Vite env vars)
+## Build-time configuration (Vite env vars)
 
-All runtime config uses **Vite env vars** (`VITE_*`). Do not hardcode URLs.
+All build-time config uses **Vite env vars** (`VITE_*`). Vite injects `VITE_*` values
+into `import.meta.env` **when the dev server starts or during a build**; changing
+OS env vars after the server is running will not update an already-built bundle.
+Access env values only through `src/shared/env.ts`, which validates and parses them.
 
 Recommended:
 
@@ -91,6 +94,15 @@ Recommended:
 - `VITE_POLL_ADSB_MS=10000`
 - `VITE_POLL_DRONES_MS=1000`
 - `VITE_POLL_SENSORS_MS=1000`
+
+Vite loads `.env`, `.env.local`, `.env.[mode]`, `.env.[mode].local`, and OS env
+vars in that order. Dev uses the `development` mode, tests may use `test`, and
+production builds use `production`. `*.local` files are machine-specific and are
+gitignored; track the schema in `.env.example`.
+
+- `.env.example` must list all supported `VITE_*` keys with safe defaults/comments.
+- `.env.local` stays untracked for developer-specific overrides.
+- If we need runtime-tweakable config later, introduce a server-served JSON (e.g., `/config.json`) and document it separately from Vite envs.
 
 **Important:** even if some docs suggest a proxy for Maa-amet or other endpoints, we do not do that in MVP.
 

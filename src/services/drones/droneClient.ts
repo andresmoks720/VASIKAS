@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
-import { chooseDataUrl, shouldUseMocks } from "@/shared/env";
+import { ENV } from "@/shared/env";
 import { computeDroneAtTime } from "./droneMotion";
 import { Drone, DroneTrack, DroneTrackDto, mapDroneTrackDtos } from "./droneTypes";
 
 const DEFAULT_POLL_MS = 1000;
 const MOTION_TICK_MS = 1000;
 
-function parsePollInterval(rawInterval?: string): number {
+function parsePollInterval(rawInterval?: string | number): number {
   const parsed = Number(rawInterval);
 
   return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_POLL_MS;
@@ -23,9 +23,9 @@ function parseDroneResponse(raw: unknown): DroneTrack[] {
 }
 
 export function useDronesStream() {
-  const useMocks = shouldUseMocks();
-  const url = chooseDataUrl(useMocks, import.meta.env.VITE_DRONE_URL, "/mock/drones.json");
-  const pollMs = parsePollInterval(import.meta.env.VITE_POLL_DRONES_MS);
+  const useMocks = ENV.useMocks();
+  const url = useMocks ? "/mock/drones.json" : ENV.droneUrl();
+  const pollMs = parsePollInterval(ENV.poll.dronesMs());
   const [motionTick, setMotionTick] = useState(0);
 
   const mapper = useCallback((raw: unknown) => parseDroneResponse(raw), []);
