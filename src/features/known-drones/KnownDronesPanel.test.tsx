@@ -4,8 +4,8 @@ import { vi } from "vitest";
 
 import { KnownDronesPanel } from "./KnownDronesPanel";
 
-vi.mock("@/services/drones/droneClient", () => ({
-  useDronesStream: () => ({
+vi.mock("@/services/streams/StreamsProvider", () => ({
+  useSharedDronesStream: () => ({
     data: [
       {
         id: "drone-001",

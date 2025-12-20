@@ -14,10 +14,9 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
 import { to3857, to4326 } from "./transforms";
-import { useSensorsStream } from "@/services/sensors/sensorsClient";
-import { useAdsbStream } from "@/services/adsb/adsbClient";
-import { useDronesStream } from "@/services/drones/droneClient";
 import { EntityRef } from "@/layout/MapShell/urlState";
+import { shouldUseMocks } from "@/shared/env";
+import { useSharedAdsbStream, useSharedDronesStream, useSharedSensorsStream } from "@/services/streams/StreamsProvider";
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [24.7536, 59.437];
 const DEFAULT_ZOOM = 7;
@@ -41,9 +40,9 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
   const sensorLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const adsbLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const droneLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
-  const { data: sensors } = useSensorsStream();
-  const { data: aircraft } = useAdsbStream();
-  const { data: drones } = useDronesStream();
+  const { data: sensors } = useSharedSensorsStream();
+  const { data: aircraft } = useSharedAdsbStream();
+  const { data: drones } = useSharedDronesStream();
 
   const selectedRef = useRef<EntityRef | null>(selectedEntity);
   selectedRef.current = selectedEntity;
@@ -54,9 +53,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     [],
   );
 
-  const useMocksEnv = import.meta.env.VITE_USE_MOCKS;
-  const useMocks =
-    useMocksEnv === undefined || useMocksEnv === "1" || useMocksEnv === "true" || useMocksEnv === "yes";
+  const useMocks = shouldUseMocks();
 
   const baseLayer = useMemo(() => {
     if (useMocks) {

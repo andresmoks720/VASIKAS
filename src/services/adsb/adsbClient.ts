@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
+import { chooseDataUrl, shouldUseMocks } from "@/shared/env";
 import { computeAircraftAtTime } from "./adsbMotion";
-import { Aircraft, AdsbTrack, AdsbTrackDto, mapAdsbTrackDtos } from "./adsbTypes";
+import { AdsbTrack, AdsbTrackDto, mapAdsbTrackDtos } from "./adsbTypes";
 
 const DEFAULT_POLL_MS = 10000;
 const MOTION_TICK_MS = 1000;
@@ -22,7 +23,8 @@ function parseAdsbResponse(raw: unknown): AdsbTrack[] {
 }
 
 export function useAdsbStream() {
-  const url = import.meta.env.VITE_ADSB_URL ?? "/mock/adsb.json";
+  const useMocks = shouldUseMocks();
+  const url = chooseDataUrl(useMocks, import.meta.env.VITE_ADSB_URL, "/mock/adsb.json");
   const pollMs = parsePollInterval(import.meta.env.VITE_POLL_ADSB_MS);
   const [motionTick, setMotionTick] = useState(0);
 
@@ -45,6 +47,7 @@ export function useAdsbStream() {
       return null;
     }
 
+    void motionTick;
     const nowUtc = new Date().toISOString();
 
     return polled.data.map((track) => computeAircraftAtTime(track, nowUtc, nowUtc));

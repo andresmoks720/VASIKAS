@@ -2,16 +2,18 @@ import React, { useMemo } from "react";
 import { Alert, Divider, Stack, Typography } from "@mui/material";
 
 import { EntityRef } from "@/layout/MapShell/urlState";
-import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { Aircraft } from "@/services/adsb/adsbTypes";
-import { useDronesStream } from "@/services/drones/droneClient";
 import { Drone } from "@/services/drones/droneTypes";
-import { useSensorsStream } from "@/services/sensors/sensorsClient";
 import { Sensor } from "@/services/sensors/sensorsTypes";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatSpeed } from "@/shared/units/speed";
 import { KeyValueRow } from "@/ui/KeyValueRow";
+import {
+  useSharedAdsbStream,
+  useSharedDronesStream,
+  useSharedSensorsStream,
+} from "@/services/streams/StreamsProvider";
 
 const formatPosition = (lon?: number, lat?: number) => {
   if (lon == null || lat == null) {
@@ -27,9 +29,9 @@ type Selection =
   | { kind: EntityRef["kind"]; item: undefined };
 
 export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
-  const { data: drones } = useDronesStream();
-  const { data: sensors } = useSensorsStream();
-  const { data: aircraft } = useAdsbStream();
+  const { data: drones } = useSharedDronesStream();
+  const { data: sensors } = useSharedSensorsStream();
+  const { data: aircraft } = useSharedAdsbStream();
 
   const selection: Selection = useMemo(() => {
     switch (entity.kind) {

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
+import { chooseDataUrl, shouldUseMocks } from "@/shared/env";
 import { computeDroneAtTime } from "./droneMotion";
 import { Drone, DroneTrack, DroneTrackDto, mapDroneTrackDtos } from "./droneTypes";
 
@@ -22,7 +23,8 @@ function parseDroneResponse(raw: unknown): DroneTrack[] {
 }
 
 export function useDronesStream() {
-  const url = import.meta.env.VITE_DRONE_URL ?? "/mock/drones.json";
+  const useMocks = shouldUseMocks();
+  const url = chooseDataUrl(useMocks, import.meta.env.VITE_DRONE_URL, "/mock/drones.json");
   const pollMs = parsePollInterval(import.meta.env.VITE_POLL_DRONES_MS);
   const [motionTick, setMotionTick] = useState(0);
 
@@ -45,6 +47,7 @@ export function useDronesStream() {
       return null;
     }
 
+    void motionTick;
     const nowUtc = new Date().toISOString();
     return polled.data.map((track) => computeDroneAtTime(track, nowUtc, nowUtc));
   }, [polled.data, motionTick]);
