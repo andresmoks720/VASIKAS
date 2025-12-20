@@ -14,6 +14,12 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - Data is loaded from `public/mock/*` via `fetch("/mock/<file>.json")`
 - MSW may be used in tests to mock remote endpoints deterministically.
 
+### Local persistence (Phase 2)
+
+- User-created **geofences** and **sensors** are stored in **browser localStorage** for the prototype.
+- Schema is versioned; current key is `cuas.state.v1` (alternatively split keys `cuas.geofences.v1` / `cuas.sensors.v1`).
+- If localStorage is empty or holds corrupt JSON, the app falls back to mock defaults so the UI still loads.
+
 ### Use live endpoints
 
 - Set `VITE_USE_MOCKS=0`
