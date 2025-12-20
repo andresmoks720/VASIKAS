@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
-import { useDronesStream } from "@/services/drones/droneClient";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatDroneSpeedMps } from "@/shared/units/speed";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { StatusPill } from "@/ui/StatusPill";
+import { useSharedDronesStream } from "@/services/streams/StreamsProvider";
 
 function formatAge(ageSeconds: number | null) {
   if (ageSeconds === null) {
@@ -37,7 +37,7 @@ function formatAge(ageSeconds: number | null) {
 }
 
 export function KnownDronesPanel() {
-  const { data, status, ageSeconds, error } = useDronesStream();
+  const { data, status, ageSeconds, error } = useSharedDronesStream();
   const { selectEntity } = useSidebarUrlState();
   const drones = data ?? [];
 

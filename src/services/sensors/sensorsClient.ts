@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
+import { chooseDataUrl, shouldUseMocks } from "@/shared/env";
 import { mapSensorDtos, Sensor, SensorDto } from "./sensorsTypes";
 
 const DEFAULT_POLL_MS = 1000;
@@ -20,7 +21,8 @@ function parseSensorResponse(raw: unknown, ingestTimeUtc: string): Sensor[] {
 }
 
 export function useSensorsStream() {
-  const url = import.meta.env.VITE_SENSORS_URL ?? "/mock/sensors.json";
+  const useMocks = shouldUseMocks();
+  const url = chooseDataUrl(useMocks, import.meta.env.VITE_SENSORS_URL, "/mock/sensors.json");
   const pollMs = parsePollInterval(import.meta.env.VITE_POLL_SENSORS_MS);
 
   const mapper = useCallback((raw: unknown) => {

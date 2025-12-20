@@ -4,8 +4,8 @@ import { vi } from "vitest";
 
 import { AirTrafficPanel } from "./AirTrafficPanel";
 
-vi.mock("@/services/adsb/adsbClient", () => ({
-  useAdsbStream: () => ({
+vi.mock("@/services/streams/StreamsProvider", () => ({
+  useSharedAdsbStream: () => ({
     data: [
       {
         id: "4ca123",

@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
-import { useSensorsStream } from "@/services/sensors/sensorsClient";
 import { StatusPill } from "@/ui/StatusPill";
+import { useSharedSensorsStream } from "@/services/streams/StreamsProvider";
 
 function formatAge(ageSeconds: number | null) {
   if (ageSeconds === null) return "No updates yet";
@@ -25,7 +25,7 @@ function formatAge(ageSeconds: number | null) {
 }
 
 export function SensorsPanel() {
-  const { data, status, ageSeconds, error } = useSensorsStream();
+  const { data, status, ageSeconds, error } = useSharedSensorsStream();
   const { selectEntity } = useSidebarUrlState();
   const sensors = data ?? [];
   const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);

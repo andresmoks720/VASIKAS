@@ -13,10 +13,10 @@ import {
 } from "@mui/material";
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
-import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatAircraftSpeedKmh } from "@/shared/units/speed";
 import { StatusPill } from "@/ui/StatusPill";
+import { useSharedAdsbStream } from "@/services/streams/StreamsProvider";
 
 function formatAge(ageSeconds: number | null) {
   if (ageSeconds === null) return "No updates yet";
@@ -27,7 +27,7 @@ function formatAge(ageSeconds: number | null) {
 }
 
 export function AirTrafficPanel() {
-  const { data, status, ageSeconds, error } = useAdsbStream();
+  const { data, status, ageSeconds, error } = useSharedAdsbStream();
   const { selectEntity } = useSidebarUrlState();
   const flights = data ?? [];
   const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
