@@ -62,6 +62,12 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Refresh:** tiles load on demand.
 - **Notes:** WMTS config details are tracked as TODOs in `src/map/layers/maaAmetOrthoWmts.ts`.
 
+### Offline basemap (mock mode)
+
+- **Purpose:** provide a deterministic basemap without external tile traffic when `VITE_USE_MOCKS=1` (default).
+- **Tile path:** `/tiles/demo/{z}/{x}/{y}.png` served from `public/tiles/demo`. A placeholder in-memory tile is used so no binary assets are committed; drop lightweight PNG tiles here if you have a demo set covering Estonia/Tallinn for zoom levels 7–10.
+- **Behavior:** MapView selects the offline XYZ layer first when mocks are enabled, avoiding any network calls to third-party basemap providers. Maa-amet WMTS remains TODO and is **not required** for mock/offline runs.
+
 ---
 
 ## Shared conventions
