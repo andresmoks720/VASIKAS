@@ -2,21 +2,18 @@
 
 ## Current status
 
-- Phase: Phase 1 — Mocked sensors + mocked moving drone + basic layers
+- Phase: Phase 2 — Geofences + sensor add/remove with mock persistence
 - Implemented:
   - Phase 0 scaffold: routing, MapShell, OpenLayers baseline, URL helpers, and testing harness.
-  - Mock data generator (TypeScript) runnable via `npm run gen:mocks` to refresh snapshot + scenario assets.
-  - Shared polling hook with staleness classification plus drone client (mock motion) and sidebar status indicator.
-  - Sensors polling client with ingest timestamps and OpenLayers marker layer (mock-visible on load).
-  - Sensor, drone, and ADS-B vector layers rendered in `MapView` with selection styling.
-  - Drone mock motion driven by looping track data from `public/mock/drones.json`.
-  - ADS-B mock motion driven by looping track data with interpolated positions.
+  - Phase 1 mock data: generator script, polling hooks, drone and ADS-B mock motion, sensor polling client, and vector layers with selection styling.
+  - Local persistence adapter (versioned) for user-created geofences and sensors using browser storage with safe defaults.
+  - Geofence domain model with WGS-84 circle-to-polygon helper for rendering.
 - In progress:
-  - Expanding panel details and formatting for Phase 1 mock feeds.
+  - Expanding panel details and formatting for Phase 2 user-created geofences/sensors.
 - Next (1–3 concrete actions):
-  - Hook panels to formatted altitude/speed helpers.
+  - Wire persistence adapter and geofence geometry helpers into creation flows.
+  - Ensure persistence-driven data renders on map layers and panels after refresh.
   - Finalize Maa-amet WMTS layer configuration (layer id, matrix set, attribution).
-  - Flesh out UI formatting for ADS-B rows and details using domain helpers.
 
 ### Status rules
 
