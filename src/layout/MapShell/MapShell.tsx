@@ -41,7 +41,7 @@ export function MapShell() {
         <AppBar position="static" color="default" elevation={1}>
           <Toolbar sx={{ gap: 1 }}>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              VASIKAS Prototype
+              Virtual Airspace Surveillance Interface for Key Area Security
             </Typography>
             {TOOLS.map((toolName) => (
               <ToolNavButton
