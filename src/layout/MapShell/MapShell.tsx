@@ -37,10 +37,10 @@ export function MapShell() {
 
   return (
     <StreamsProvider>
-      <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
         <AppBar position="static" color="default" elevation={1}>
           <Toolbar sx={{ gap: 1 }}>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
               Virtual Airspace Surveillance Interface for Key Area Security
             </Typography>
             {TOOLS.map((toolName) => (
@@ -61,6 +61,7 @@ export function MapShell() {
             gridTemplateColumns: `${SIDEBAR_WIDTH}px 1fr`,
             minHeight: 0,
             flex: 1,
+            overflow: "hidden",
           }}
         >
           <Box
@@ -81,6 +82,7 @@ export function MapShell() {
 
           <Box sx={{ height: "100%" }}>
             <MapView
+              tool={tool}
               selectedEntity={entity}
               onSelectEntity={(next) => selectEntity(next, { replace: true })}
             />

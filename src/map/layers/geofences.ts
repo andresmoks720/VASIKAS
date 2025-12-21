@@ -1,33 +1,47 @@
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { Style, Stroke, Text, Fill } from "ol/style";
+import { Style, Stroke, Text, Fill, Circle as CircleStyle } from "ol/style";
+import Point from "ol/geom/Point";
 
 export function createGeofenceLayer(): VectorLayer<VectorSource> {
     return new VectorLayer({
         source: new VectorSource(),
         style: (feature) => {
             const name = feature.get("name") as string | undefined;
-            return new Style({
+            const center = feature.get("center") as [number, number] | undefined;
+
+            const areaStyle = new Style({
                 stroke: new Stroke({
-                    color: "#d32f2f", // Red-ish for geofence boundary
+                    color: "#C71585", // MediumVioletRed
                     width: 2,
-                    lineDash: [10, 10],
+                    lineDash: [6, 6],
                 }),
                 fill: new Fill({
-                    color: "rgba(211, 47, 47, 0.1)", // Very light transparent red
+                    color: "rgba(255, 20, 147, 0.15)", // Pinkish transparent
                 }),
                 text: name
                     ? new Text({
                         text: name,
-                        font: "12px sans-serif",
+                        font: "bold 13px sans-serif",
                         overflow: true,
-                        fill: new Fill({ color: "#d32f2f" }),
+                        fill: new Fill({ color: "#C71585" }),
                         stroke: new Stroke({ color: "#fff", width: 3 }),
                         offsetY: -15,
                     })
                     : undefined,
             });
+
+            const centerStyle = center ? new Style({
+                geometry: new Point(center),
+                image: new CircleStyle({
+                    radius: 4,
+                    fill: new Fill({ color: "#C71585" }),
+                    stroke: new Stroke({ color: "#fff", width: 2 }),
+                }),
+            }) : null;
+
+            return centerStyle ? [areaStyle, centerStyle] : [areaStyle];
         },
-        zIndex: 10, // Ensure it's above base layers
+        zIndex: 10,
     });
 }

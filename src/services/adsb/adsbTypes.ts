@@ -8,6 +8,7 @@ export type AdsbPointResponseDto = {
   ctime?: number;
   ptime?: number;
   aircraft?: AircraftDto[];
+  ac?: AircraftDto[]; // airplanes.live uses 'ac'
 };
 
 export type LastPositionDto = {

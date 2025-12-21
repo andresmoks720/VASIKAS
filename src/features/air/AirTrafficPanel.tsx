@@ -18,6 +18,7 @@ import { formatAircraftSpeedKmh } from "@/shared/units/speed";
 import { StatusPill } from "@/ui/StatusPill";
 import { useSharedAdsbStream } from "@/services/streams/StreamsProvider";
 import { PollingStatus } from "@/services/polling/usePolling";
+import { ENV } from "@/shared/env";
 
 function formatAge(ageSeconds: number | null) {
   if (ageSeconds === null) return "No updates yet";
@@ -29,22 +30,27 @@ function formatAge(ageSeconds: number | null) {
 
 export function AirTrafficPanel() {
   const { data, status, ageSeconds, error } = useSharedAdsbStream();
+  const adsbMode = ENV.adsb.mode();
   const { selectEntity } = useSidebarUrlState();
   const nowMs = Date.now();
-  const flights =
-    data
-      ?.map((flight) => {
-        const eventMs = Date.parse(flight.eventTimeUtc);
+  const flights = useMemo(() => {
+    return (data ?? [])
+      .map((flight) => {
+        const eventMs = flight.eventTimeUtc ? Date.parse(flight.eventTimeUtc) : NaN;
         const age = Number.isFinite(eventMs) ? Math.max(0, Math.floor((nowMs - eventMs) / 1000)) : null;
         return { flight, age };
       })
       .sort((a, b) => {
-        if (a.age === null && b.age === null) return a.flight.callsign.localeCompare(b.flight.callsign);
+        const callsignA = a.flight.callsign || "";
+        const callsignB = b.flight.callsign || "";
+        if (a.age === null && b.age === null) return callsignA.localeCompare(callsignB);
         if (a.age === null) return 1;
         if (b.age === null) return -1;
         if (a.age !== b.age) return a.age - b.age;
-        return a.flight.callsign.localeCompare(b.flight.callsign);
-      }) ?? [];
+        return callsignA.localeCompare(callsignB);
+      });
+  }, [data, nowMs]);
+
   const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
 
   const statusLabel = (pollingStatus: PollingStatus, age: number | null) => {
@@ -58,7 +64,7 @@ export function AirTrafficPanel() {
     <Stack spacing={2}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Air Traffic
+          Air Traffic <Typography component="span" variant="caption" sx={{ opacity: 0.7 }}>– {adsbMode === "live" ? "Live API" : "Mock Data"}</Typography>
         </Typography>
         <StatusPill status={status} />
         {status === "loading" ? <CircularProgress size={16} /> : null}
@@ -103,10 +109,10 @@ export function AirTrafficPanel() {
                       secondary={
                         <Stack spacing={0.5}>
                           <Typography variant="body2" color="text.secondary">
-                            Position: {flight.position.lon.toFixed(4)}, {flight.position.lat.toFixed(4)}
+                            Position: {flight.position ? `${flight.position.lon.toFixed(4)}, ${flight.position.lat.toFixed(4)}` : "—"}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Altitude: {formatAltitude(flight.altitude, { showFeet: true })}
+                            Altitude: {flight.altitude ? formatAltitude(flight.altitude, { showFeet: true }) : "—"}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Ground speed: {formatAircraftSpeedKmh(flight.groundSpeedKmh)}

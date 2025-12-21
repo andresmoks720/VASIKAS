@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Feature from "ol/Feature";
 import Map from "ol/Map";
 import Point from "ol/geom/Point";
@@ -26,8 +26,15 @@ import { fromCircle } from "ol/geom/Polygon";
 import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
 
 
-const ESTONIA_CENTER_LON_LAT: [number, number] = [24.7536, 59.437];
-const DEFAULT_ZOOM = 7;
+const ESTONIA_CENTER_LON_LAT: [number, number] = [25.1122, 58.5648]; // Match new ADS-B default center
+const DEFAULT_ZOOM = 7.5;
+
+// Shared view singleton to maintain state across remounts/tool switches
+const sharedView = new View({
+  projection: "EPSG:3857",
+  center: to3857(ESTONIA_CENTER_LON_LAT),
+  zoom: DEFAULT_ZOOM,
+});
 
 /**
  * Converts NormalizedNotam geometry (WGS-84) to OpenLayers geometry (EPSG:3857).
@@ -57,7 +64,10 @@ function notamGeometryToOl(geometry: NotamGeometry): Polygon | null {
   return null;
 }
 
+import { Tool } from "@/layout/MapShell/urlState";
+
 type MapViewProps = {
+  tool: Tool;
   selectedEntity: EntityRef | null;
   onSelectEntity: (entity: EntityRef) => void;
 };
@@ -70,7 +80,7 @@ declare global {
   }
 }
 
-export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
+export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
   const sensorLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
@@ -88,6 +98,9 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
 
   const selectedRef = useRef<EntityRef | null>(selectedEntity);
   selectedRef.current = selectedEntity;
+
+  const onSelectEntityRef = useRef(onSelectEntity);
+  onSelectEntityRef.current = onSelectEntity;
 
   const isSelected = useMemo(
     () => (kind: EntityRef["kind"], id: string) => {
@@ -109,17 +122,13 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
   const useMocks = ENV.useMocks();
 
   const baseLayer = useMemo(() => {
-    if (useMocks) {
-      return createOfflineXyzLayer();
-    }
-
     const wmtsLayer = createMaaAmetOrthoLayer(ENV.mapWmtsUrl());
     if (wmtsLayer) {
       return wmtsLayer;
     }
 
     return new TileLayer({ source: new OSM() });
-  }, [useMocks]);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) {
@@ -130,7 +139,23 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     const sensorLayer = new VectorLayer({
       source: sensorSource,
       style: (feature) => {
-        const selected = isSelected("sensor", String(feature.getId() ?? ""));
+        const isCoverage = feature.get("isCoverage") === true;
+        const sensorId = String(feature.getId() ?? "").replace("-coverage", "");
+        const selected = selectedEntity?.kind === "sensor" && selectedEntity?.id === sensorId;
+
+        if (isCoverage) {
+          return new Style({
+            stroke: new Stroke({
+              color: "#2196f3",
+              width: 1,
+              lineDash: [4, 4],
+            }),
+            fill: new Fill({
+              color: "rgba(33, 150, 243, 0.15)",
+            }),
+          });
+        }
+
         return new Style({
           image: new CircleStyle({
             radius: selected ? 8 : 6,
@@ -147,7 +172,8 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       style: (feature) => {
         const isTrack = feature.getGeometry() instanceof LineString;
         const flightId = feature.get("flightId") as string | undefined;
-        const selected = flightId ? isSelected("flight", flightId) : false;
+        // Check selection directly from the current prop during render
+        const selected = flightId && selectedEntity?.kind === "flight" && selectedEntity?.id === flightId;
 
         if (isTrack) {
           return new Style({
@@ -173,7 +199,8 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     const droneLayer = new VectorLayer({
       source: droneSource,
       style: (feature) => {
-        const selected = isSelected("drone", String(feature.getId() ?? ""));
+        const droneId = String(feature.getId() ?? "");
+        const selected = selectedEntity?.kind === "drone" && selectedEntity?.id === droneId;
         return new Style({
           image: new CircleStyle({
             radius: selected ? 9 : 7,
@@ -190,12 +217,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     const map = new Map({
       target: containerRef.current,
       layers: [baseLayer, sensorLayer, adsbLayer, droneLayer, geofenceLayer, notamLayer],
-      view: new View({
-
-        projection: "EPSG:3857",
-        center: to3857(ESTONIA_CENTER_LON_LAT),
-        zoom: DEFAULT_ZOOM,
-      }),
+      view: sharedView,
     });
 
     mapRef.current = map;
@@ -205,19 +227,24 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     geofenceLayerRef.current = geofenceLayer;
     notamLayerRef.current = notamLayer;
 
+    // Synchronize initial visibility
+    adsbLayer.setVisible(true);
+    sensorLayer.setVisible(true);
+    droneLayer.setVisible(true);
+    geofenceLayer.setVisible(true);
+    notamLayer.setVisible(true);
 
     map.on("singleclick", (evt) => {
       map.forEachFeatureAtPixel(evt.pixel, (feature) => {
         const entityKind = feature.get("entityKind") as EntityRef["kind"] | undefined;
-        const id = String(feature.getId() ?? "");
+        let id = String(feature.getId() ?? "");
+        if (id.endsWith("-coverage")) id = id.replace("-coverage", "");
+
         if (entityKind && id) {
-          onSelectEntity({ kind: entityKind, id });
+          onSelectEntityRef.current({ kind: entityKind, id });
           return true;
         }
-        // Special case for geofences which might not have entityKind set on feature creation yet, or we set it now
-        // But for now, let's assume no interaction needed for geofences in requirements P2-04
         return false;
-
       });
     });
 
@@ -230,7 +257,7 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
       notamLayerRef.current = null;
       mapRef.current = null;
     };
-  }, [baseLayer, isSelected, onSelectEntity]);
+  }, [baseLayer]);
 
 
   // Subscribe to mapApi events
@@ -246,9 +273,14 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
         // poly.coordinates[0] is the outer ring [Lon, Lat][]
         // We need to transform to [x, y]
         const ring = poly.coordinates[0].map((pt: [number, number]) => to3857(pt));
+
+        // Extract center for styling if it's a circle
+        const center3857 = g.geometry.kind === "circle" ? to3857([g.geometry.center.lon, g.geometry.center.lat]) : null;
+
         const feature = new Feature({
           geometry: new Polygon([ring]),
           name: g.name,
+          center: center3857,
           entityKind: "geofence",
         });
         feature.setId(g.id);
@@ -345,8 +377,23 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     source.clear();
 
     (sensors ?? []).forEach((sensor) => {
+      const center = to3857([sensor.position.lon, sensor.position.lat]);
+
+      // Coverage circle
+      const radius = sensor.coverage?.radiusMeters ?? 3000;
+      const coverageCircle = new CircleGeom(center, radius);
+      const coverageFeature = new Feature({
+        geometry: fromCircle(coverageCircle, 64),
+        sensorId: sensor.id,
+        entityKind: "sensor",
+        isCoverage: true,
+      });
+      coverageFeature.setId(`${sensor.id}-coverage`);
+      source.addFeature(coverageFeature);
+
+      // Sensor point
       const feature = new Feature({
-        geometry: new Point(to3857([sensor.position.lon, sensor.position.lat])),
+        geometry: new Point(center),
         sensorId: sensor.id,
         entityKind: "sensor",
       });
@@ -445,11 +492,112 @@ export function MapView({ selectedEntity, onSelectEntity }: MapViewProps) {
     layer?.changed();
   }, [drones]);
 
+  // Mouse hover coordinates overlay
+  const [hoverCoords, setHoverCoords] = React.useState<[number, number] | null>(null);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handlePointerMove = (evt: any) => {
+      if (evt.coordinate) {
+        const coords = to4326(evt.coordinate as [number, number]);
+        setHoverCoords(coords);
+      }
+    };
+
+    map.on("pointermove", handlePointerMove);
+    return () => {
+      map.un("pointermove", handlePointerMove);
+    };
+  }, [baseLayer]); // baseLayer is stable enough, but ensures it runs after map init
+
+  // Center map on selection
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selectedEntity) return;
+
+    const layers = [
+      sensorLayerRef.current,
+      adsbLayerRef.current,
+      droneLayerRef.current,
+      geofenceLayerRef.current,
+      notamLayerRef.current,
+    ];
+
+    let foundGeom: any = null;
+    const lookupId = selectedEntity.kind === "flight" ? `flight:${selectedEntity.id}` : selectedEntity.id;
+
+    for (const layer of layers) {
+      if (!layer) continue;
+      const feature = layer.getSource()?.getFeatureById(lookupId);
+      if (feature) {
+        foundGeom = feature.getGeometry();
+        break;
+      }
+    }
+
+    if (foundGeom) {
+      const view = map.getView();
+      const currentZoom = view.getZoom() ?? 0;
+
+      if (foundGeom instanceof Point) {
+        // Keep current zoom, but ensure it's at least a reasonable level (e.g., 14) if zooming in is needed
+        // The user says "would not zoom out but keep the latest state"
+        view.animate({
+          center: foundGeom.getCoordinates(),
+          duration: 500,
+          zoom: Math.max(currentZoom, 14),
+        });
+      } else {
+        // For extents (geofences), fit them but strictly avoid zooming out
+        const currentRes = view.getResolution();
+        view.fit(foundGeom.getExtent(), {
+          padding: [50, 50, 50, 50],
+          duration: 500,
+          minResolution: currentRes, // This prevents zooming out
+          maxZoom: 16, // But allow zooming in up to 16
+        });
+      }
+    }
+  }, [selectedEntity]);
+
+  // Force redraw on selection change
   useEffect(() => {
     sensorLayerRef.current?.changed();
     adsbLayerRef.current?.changed();
     droneLayerRef.current?.changed();
+    geofenceLayerRef.current?.changed();
   }, [selectedEntity]);
 
-  return <Box ref={containerRef} sx={{ height: "100%", width: "100%" }} />;
+  // Sync layer visibility with tool
+  useEffect(() => {
+    if (tool === "air") {
+      adsbLayerRef.current?.setVisible(true);
+    }
+    // You could add logic here to hide/show other layers if desired,
+    // but for now we just ensure ADS-B is ON when in Air tool.
+  }, [tool]);
+
+  return (
+    <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
+      <Box ref={containerRef} sx={{ height: "100%", width: "100%" }} />
+      {hoverCoords && (
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 24,
+            right: 24,
+            backgroundColor: "transparent",
+            pointerEvents: "none",
+            zIndex: 1000,
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "black", fontWeight: 600, fontFamily: "monospace" }}>
+            {hoverCoords[1].toFixed(6)}°N, {hoverCoords[0].toFixed(6)}°E
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  );
 }

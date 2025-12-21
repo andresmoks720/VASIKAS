@@ -39,9 +39,10 @@ export function useSidebarUrlState(): SidebarState {
 
   const setTool = useCallback(
     (nextTool: Tool) => {
-      navigate({ pathname: `/${nextTool}`, search: searchParams.toString() });
+      // When switching top-level tools, clear all parameters to start fresh
+      navigate({ pathname: `/${nextTool}`, search: "" });
     },
-    [navigate, searchParams]
+    [navigate]
   );
 
   const selectEntity = useCallback(

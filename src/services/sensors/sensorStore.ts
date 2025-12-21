@@ -13,6 +13,7 @@ export type CreateSensorParams = {
     kind: string;
     position: LonLat;
     description?: string;
+    coverageRadiusMeters?: number;
 };
 
 export class SensorStore {
@@ -57,7 +58,7 @@ export class SensorStore {
             createdAtUtc: new Date().toISOString(),
             updatedAtUtc: new Date().toISOString(),
             coverage: {
-                radiusMeters: 5000, // Default coverage
+                radiusMeters: params.coverageRadiusMeters ?? 3000,
                 minAltM: 0,
                 maxAltM: 1000,
             },
@@ -68,6 +69,24 @@ export class SensorStore {
         this.notify();
 
         return newSensor;
+    }
+
+    update(id: string, params: Partial<CreateSensorParams>): boolean {
+        const state = this.adapter.load();
+        const sensorIndex = state.sensors.findIndex((s) => s.id === id);
+
+        if (sensorIndex !== -1) {
+            state.sensors[sensorIndex] = {
+                ...state.sensors[sensorIndex],
+                ...params,
+                updatedAtUtc: new Date().toISOString(),
+            };
+            this.adapter.save(state);
+            this.notify();
+            return true;
+        }
+
+        return false;
     }
 
     remove(id: string): boolean {

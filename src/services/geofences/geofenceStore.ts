@@ -57,6 +57,25 @@ export class GeofenceStore {
         return newGeofence;
     }
 
+    update(id: string, params: Partial<CreateCircleParams>): Geofence | undefined {
+        const state = this.adapter.load();
+        const geofence = state.geofences.find((g) => g.id === id);
+
+        if (geofence) {
+            if (params.name !== undefined) geofence.name = params.name;
+            if (params.description !== undefined) geofence.description = params.description;
+            if (geofence.geometry.kind === "circle") {
+                if (params.center !== undefined) geofence.geometry.center = params.center;
+                if (params.radiusMeters !== undefined) geofence.geometry.radiusMeters = params.radiusMeters;
+            }
+            geofence.updatedAtUtc = new Date().toISOString();
+            this.adapter.save(state);
+            return geofence;
+        }
+
+        return undefined;
+    }
+
     rename(id: string, newName: string): Geofence | undefined {
         const state = this.adapter.load();
         const geofence = state.geofences.find((g) => g.id === id);

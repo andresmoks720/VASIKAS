@@ -72,6 +72,17 @@ For polled data, show staleness based on `ingestTimeUtc`:
 - OpenLayers `View` is EPSG:3857.
 - Transform only at boundaries (feature creation/render). Do not store 3857 in domain.
 
+### Map controls and overlays
+
+- **Cursor Coordinates Overlay**:
+  - Show current mouse cursor coordinates in the bottom-right corner of the map.
+  - Format: `DD.DDDDDD°N, DD.DDDDDD°E`.
+  - Style: 100% transparent background (no box/border) to minimize map obstruction.
+  - Interaction: Non-interactive (pointer-events: none) so it doesn't block map clicks.
+- **Map View Persistence**:
+  - The map view state (zoom level and center position) MUST be persistent across navigations and tool switches.
+  - Selecting a different tool in the sidebar or navigating via the URL must not reset the map's current focus, unless explicitly requested by the feature logic (e.g., clicking on a specific aircraft in a list).
+
 ---
 
 ## Units rules

@@ -43,6 +43,7 @@ function AddSensorDialog({ open, onClose }: AddSensorDialogProps) {
   const [kind, setKind] = useState("radar");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
+  const [radius, setRadius] = useState("3000");
 
   const handleCreate = () => {
     const latNum = parseFloat(lat);
@@ -56,6 +57,7 @@ function AddSensorDialog({ open, onClose }: AddSensorDialogProps) {
       name,
       kind,
       position: { lat: latNum, lon: lonNum },
+      coverageRadiusMeters: parseInt(radius) || 3000,
     });
     onClose();
     setName("");
@@ -74,6 +76,13 @@ function AddSensorDialog({ open, onClose }: AddSensorDialogProps) {
             <TextField label="Latitude" fullWidth value={lat} onChange={(e) => setLat(e.target.value)} />
             <TextField label="Longitude" fullWidth value={lon} onChange={(e) => setLon(e.target.value)} />
           </Stack>
+          <TextField
+            label="Coverage Radius (m)"
+            fullWidth
+            type="number"
+            value={radius}
+            onChange={(e) => setRadius(e.target.value)}
+          />
         </Stack>
       </DialogContent>
       <DialogActions>
@@ -193,13 +202,11 @@ function SensorRow({
       <ListItem alignItems="flex-start" disablePadding sx={{ width: "100%" }}>
         <ListItemText
           primary={
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
               <Typography variant="subtitle1">{sensor.name}</Typography>
-              {onDelete && (
-                <Button size="small" color="error" onClick={onDelete} sx={{ ml: "auto", minWidth: 0 }}>
-                  Delete
-                </Button>
-              )}
+              <Box>
+                <StatusPill status={sensor.status === "online" ? "live" : "error"} />
+              </Box>
             </Stack>
           }
           secondary={
@@ -208,7 +215,7 @@ function SensorRow({
                 {sensor.id}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {sensor.kind} — {sensor.status}
+                {sensor.kind}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {sensor.position.lon.toFixed(4)}, {sensor.position.lat.toFixed(4)}

@@ -163,7 +163,7 @@ export function parseLiveAdsbResponse(raw: unknown, ingestTimeUtc: string): Airc
 
   const response = raw as AdsbPointResponseDto;
   const nowEpochSec = isFiniteNumber(response.now) ? response.now : Math.floor(Date.now() / 1000);
-  const aircraftList = Array.isArray(response.aircraft) ? response.aircraft : [];
+  const aircraftList = Array.isArray(response.aircraft) ? response.aircraft : (Array.isArray(response.ac) ? response.ac : []);
 
   return aircraftList
     .map((aircraft) => mapAircraftDto(aircraft, { nowEpochSec, ingestTimeUtc }))
@@ -215,7 +215,7 @@ export function useAdsbStream() {
   }, [polled.data, useMocks, motionTick]);
 
   const tracks = useMemo(() => {
-    if (!aircraft || useMocks) {
+    if (!aircraft) {
       trackStoreRef.current = new Map();
       return new Map();
     }
