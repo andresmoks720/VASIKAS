@@ -5,7 +5,12 @@ type MapApiEvent = {
     "set-geofences": Geofence[];
     "set-notams": NormalizedNotam[];
     "set-layer-visibility": { id: string; visible: boolean };
+    "center-on-entity": { kind: EntityRef["kind"]; id: string };
+    "set-focus": { kind: EntityRef["kind"]; id: string | null };
+    "set-track-visibility": { kind: EntityRef["kind"]; id: string; visible: boolean };
 };
+
+import { EntityRef } from "@/layout/MapShell/urlState";
 
 type MapApiListener<K extends keyof MapApiEvent> = (data: MapApiEvent[K]) => void;
 
@@ -38,6 +43,18 @@ class MapApi {
 
     setLayerVisibility(id: string, visible: boolean) {
         this.emit("set-layer-visibility", { id, visible });
+    }
+
+    centerOnEntity(kind: EntityRef["kind"], id: string) {
+        this.emit("center-on-entity", { kind, id });
+    }
+
+    setFocus(kind: EntityRef["kind"], id: string | null) {
+        this.emit("set-focus", { kind, id });
+    }
+
+    setTrackVisibility(kind: EntityRef["kind"], id: string, visible: boolean) {
+        this.emit("set-track-visibility", { kind, id, visible });
     }
 
     private emit<K extends keyof MapApiEvent>(event: K, data: MapApiEvent[K]) {

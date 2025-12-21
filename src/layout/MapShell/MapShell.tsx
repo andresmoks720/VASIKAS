@@ -40,17 +40,19 @@ export function MapShell() {
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
         <AppBar position="static" color="default" elevation={1}>
           <Toolbar sx={{ gap: 1 }}>
-            <Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              {TOOLS.map((toolName) => (
+                <ToolNavButton
+                  key={toolName}
+                  tool={toolName}
+                  currentTool={tool}
+                  onSelect={setTool}
+                />
+              ))}
+            </Box>
+            <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "right" }} noWrap>
               Virtual Airspace Surveillance Interface for Key Area Security
             </Typography>
-            {TOOLS.map((toolName) => (
-              <ToolNavButton
-                key={toolName}
-                tool={toolName}
-                currentTool={tool}
-                onSelect={setTool}
-              />
-            ))}
           </Toolbar>
         </AppBar>
 
@@ -70,6 +72,9 @@ export function MapShell() {
               borderColor: "divider",
               height: "100%",
               minWidth: SIDEBAR_WIDTH,
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
             }}
           >
             <LeftSidebar

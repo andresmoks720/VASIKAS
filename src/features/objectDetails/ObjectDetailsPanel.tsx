@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Alert, Box, Button, Divider, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Checkbox, Divider, FormControlLabel, IconButton, Stack, TextField, Typography } from "@mui/material";
 
 import { EntityRef } from "@/layout/MapShell/urlState";
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
@@ -12,6 +12,7 @@ import { formatAltitude } from "@/shared/units/altitude";
 import { formatSpeed } from "@/shared/units/speed";
 import { sensorStore } from "@/services/sensors/sensorStore";
 import { KeyValueRow } from "@/ui/KeyValueRow";
+import { mapApi } from "@/map/mapApi";
 import {
   useSharedAdsbStream,
   useSharedDronesStream,
@@ -71,13 +72,31 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
     );
   }
 
+  const title = useMemo(() => {
+    if (!selection.item) return "Object Details";
+    if (selection.kind === "aircraft" || selection.kind === "flight") {
+      const callsign = (selection.item as Aircraft).callsign;
+      return callsign ? `${callsign} Details` : "Airplane Details";
+    }
+    if (selection.kind === "drone") {
+      return `${(selection.item as Drone).label} Details`;
+    }
+    if (selection.kind === "sensor") {
+      return `${(selection.item as Sensor).name} Details`;
+    }
+    if (selection.kind === "geofence") {
+      return `${(selection.item as Geofence).name} Details`;
+    }
+    return "Object Details";
+  }, [selection]);
+
   return (
     <Stack spacing={1.5}>
       <Stack direction="row" alignItems="center" spacing={1}>
         <IconButton onClick={() => selectEntity(null)} size="small">
           <Typography sx={{ fontSize: "1.2rem", lineHeight: 1 }}>←</Typography>
         </IconButton>
-        <Typography variant="h6">Object Details</Typography>
+        <Typography variant="h6">{title}</Typography>
       </Stack>
       <Typography variant="subtitle2" color="text.secondary">
         {selection.kind}:{entity.id}
@@ -96,7 +115,43 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
           <KeyValueRow label="Speed" value={formatSpeed(selection.item.speedMps, "mps")} />
           <KeyValueRow label="Heading" value={`${selection.item.headingDeg}°`} />
           <KeyValueRow label="Event time (UTC)" value={formatUtcTimestamp(selection.item.eventTimeUtc)} />
-          <KeyValueRow label="Ingest time (UTC)" value={formatUtcTimestamp(selection.item.ingestTimeUtc)} />
+          <KeyValueRow
+            label="Last update (UTC)"
+            value={
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body2">{formatUtcTimestamp(selection.item.ingestTimeUtc)}</Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => mapApi.centerOnEntity("drone", selection.item!.id)}
+                >
+                  Center
+                </Button>
+              </Stack>
+            }
+          />
+
+          <Divider sx={{ my: 1 }} />
+          <Stack spacing={0.5}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  onChange={(e: any) => mapApi.setFocus("drone", e.target.checked ? selection.item!.id : null)}
+                />
+              }
+              label={<Typography variant="body2">Keep in focus</Typography>}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  onChange={(e: any) => mapApi.setTrackVisibility("drone", selection.item!.id, e.target.checked)}
+                />
+              }
+              label={<Typography variant="body2">Track (Trajectory)</Typography>}
+            />
+          </Stack>
         </Stack>
       ) : null}
 
@@ -121,8 +176,44 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
           {selection.item.groundSpeedKmh ? (
             <KeyValueRow label="Ground speed" value={formatSpeed(selection.item.groundSpeedKmh, "kmh")} />
           ) : null}
-          <KeyValueRow label="Last position update (UTC)" value={formatUtcTimestamp(selection.item.eventTimeUtc)} />
+          <KeyValueRow
+            label="Last update (UTC)"
+            value={
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body2">{formatUtcTimestamp(selection.item.eventTimeUtc)}</Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => mapApi.centerOnEntity("flight", selection.item!.id)}
+                >
+                  Center
+                </Button>
+              </Stack>
+            }
+          />
           <KeyValueRow label="Ingest time (UTC)" value={formatUtcTimestamp(selection.item.ingestTimeUtc)} />
+
+          <Divider sx={{ my: 1 }} />
+          <Stack spacing={0.5}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  onChange={(e: any) => mapApi.setFocus("flight", e.target.checked ? selection.item!.id : null)}
+                />
+              }
+              label={<Typography variant="body2">Keep in focus</Typography>}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  onChange={(e: any) => mapApi.setTrackVisibility("flight", selection.item!.id, e.target.checked)}
+                />
+              }
+              label={<Typography variant="body2">Track (Trajectory)</Typography>}
+            />
+          </Stack>
         </Stack>
       ) : null}
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Checkbox, FormControlLabel, IconButton, Stack, Typography } from "@mui/material";
 import Feature from "ol/Feature";
-import Map from "ol/Map";
+import OlMap from "ol/Map";
 import Point from "ol/geom/Point";
 import LineString from "ol/geom/LineString";
 import VectorLayer from "ol/layer/Vector";
@@ -80,9 +80,12 @@ declare global {
   }
 }
 
+const ESTONIA_CENTER: [number, number] = [25.013, 58.595];
+const ESTONIA_ZOOM = 7.2;
+
 export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<Map | null>(null);
+  const mapRef = useRef<OlMap | null>(null);
   const sensorLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
   const adsbLayerRef = useRef<VectorLayer<VectorSource> | null>(null);
 
@@ -101,6 +104,8 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
   const onSelectEntityRef = useRef(onSelectEntity);
   onSelectEntityRef.current = onSelectEntity;
+  const [focusedEntity, setFocusedEntity] = React.useState<{ kind: EntityRef["kind"]; id: string } | null>(null);
+  const [visibleTracks, setVisibleTracks] = React.useState<Set<string>>(new Set());
 
   const isSelected = useMemo(
     () => (kind: EntityRef["kind"], id: string) => {
@@ -214,7 +219,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     const geofenceLayer = createGeofenceLayer();
     const notamLayer = createNotamLayer();
 
-    const map = new Map({
+    const map = new OlMap({
       target: containerRef.current,
       layers: [baseLayer, sensorLayer, adsbLayer, droneLayer, geofenceLayer, notamLayer],
       view: sharedView,
@@ -259,6 +264,15 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     };
   }, [baseLayer]);
 
+  const handleHomeClick = () => {
+    const map = mapRef.current;
+    if (!map) return;
+    map.getView().animate({
+      center: to3857(ESTONIA_CENTER),
+      zoom: ESTONIA_ZOOM,
+      duration: 1000,
+    });
+  };
 
   // Subscribe to mapApi events
   useEffect(() => {
@@ -270,11 +284,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       source.clear();
       geofences.forEach((g) => {
         const poly = geofenceStore.asPolygon(g);
-        // poly.coordinates[0] is the outer ring [Lon, Lat][]
-        // We need to transform to [x, y]
         const ring = poly.coordinates[0].map((pt: [number, number]) => to3857(pt));
-
-        // Extract center for styling if it's a circle
         const center3857 = g.geometry.kind === "circle" ? to3857([g.geometry.center.lon, g.geometry.center.lat]) : null;
 
         const feature = new Feature({
@@ -326,9 +336,46 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       }
     };
 
+    const handleCenterOnEntity = ({ kind, id }: { kind: EntityRef["kind"]; id: string }) => {
+      const point = window.__debugMap?.getFeaturePosition(kind, id);
+      if (point) {
+        const view = mapRef.current?.getView();
+        if (view) {
+          view.animate({
+            center: to3857(point),
+            duration: 500,
+            zoom: Math.max(view.getZoom() ?? 0, 14),
+          });
+        }
+      }
+    };
+
+    const handleSetFocus = ({ kind, id }: { kind: EntityRef["kind"]; id: string | null }) => {
+      if (!id) {
+        setFocusedEntity(null);
+      } else {
+        setFocusedEntity({ kind, id });
+      }
+    };
+
+    const handleSetTrackVisibility = ({ id, visible }: { id: string; visible: boolean }) => {
+      setVisibleTracks((prev) => {
+        const next = new Set(prev);
+        if (visible) {
+          next.add(id);
+        } else {
+          next.delete(id);
+        }
+        return next;
+      });
+    };
+
     mapApi.on("set-geofences", handleSetGeofences);
     mapApi.on("set-notams", handleSetNotams);
     mapApi.on("set-layer-visibility", handleSetLayerVisibility);
+    mapApi.on("center-on-entity", handleCenterOnEntity);
+    mapApi.on("set-focus", handleSetFocus);
+    mapApi.on("set-track-visibility", handleSetTrackVisibility);
 
     // Initial load
     handleSetGeofences(geofenceStore.getAll());
@@ -337,6 +384,9 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       mapApi.off("set-geofences", handleSetGeofences);
       mapApi.off("set-notams", handleSetNotams);
       mapApi.off("set-layer-visibility", handleSetLayerVisibility);
+      mapApi.off("center-on-entity", handleCenterOnEntity);
+      mapApi.off("set-focus", handleSetFocus);
+      mapApi.off("set-track-visibility", handleSetTrackVisibility);
     };
   }, []);
 
@@ -353,7 +403,8 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
                 ? adsbLayerRef.current
                 : null;
 
-        const feature = layer?.getSource()?.getFeatureById(id);
+        const lookupId = (kind === "aircraft" || kind === "flight") ? `flight:${id}` : id;
+        const feature = layer?.getSource()?.getFeatureById(lookupId);
         const geometry = feature?.getGeometry();
 
         if (!(geometry instanceof Point)) {
@@ -414,7 +465,15 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       adsbTracks.forEach((points, id) => {
         if (points.length < 2) return;
         const featureId = `flightTrack:${id}`;
-        const coords = points.map((pt) => to3857([pt.position.lon, pt.position.lat]));
+
+        // Only render if visibleTracks has it
+        if (!visibleTracks.has(id)) {
+          const feature = source.getFeatureById(featureId);
+          if (feature) source.removeFeature(feature);
+          return;
+        }
+
+        const coords = points.map((pt: any) => to3857([pt.position.lon, pt.position.lat]));
         const line = new LineString(coords);
         const existing = source.getFeatureById(featureId) as Feature<LineString> | null;
         const feature =
@@ -475,22 +534,116 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     });
 
     layer?.changed();
-  }, [aircraft, adsbTracks]);
+  }, [aircraft, adsbTracks, visibleTracks]);
+
+  // Placeholder for Drone Tracks
+  const droneTracks = useMemo(() => {
+    // This is a placeholder since drone tracks aren't fully implemented in the service layer yet.
+    // For now, we'll just mock it if visibleTracks has the drone ID.
+    const tracks = new Map<string, Array<{ position: { lon: number; lat: number } }>>();
+    (drones ?? []).forEach((drone) => {
+      if (visibleTracks.has(drone.id)) {
+        // Just show a tiny segment back from current position as a placeholder
+        tracks.set(drone.id, [
+          { position: { lon: drone.position.lon - 0.001, lat: drone.position.lat - 0.001 } },
+          { position: { lon: drone.position.lon, lat: drone.position.lat } },
+        ]);
+      }
+    });
+    return tracks;
+  }, [drones, visibleTracks]);
 
   useEffect(() => {
     const layer = droneLayerRef.current;
     const source = layer?.getSource();
     if (!source) return;
 
-    source.clear();
+    // Clear old tracks (features starting with 'droneTrack:')
+    source.getFeatures().forEach((f: any) => {
+      const id = String(f.getId() ?? "");
+      if (id.startsWith("droneTrack:")) {
+        source.removeFeature(f);
+      }
+    });
+
+    droneTracks.forEach((points: any, id: string) => {
+      if (points.length < 2) return;
+      const coords = points.map((pt: any) => to3857([pt.position.lon, pt.position.lat]));
+      const line = new LineString(coords);
+      const feature = new Feature({
+        geometry: line,
+        entityKind: "drone",
+        droneId: id,
+        isTrack: true,
+      });
+      feature.setId(`droneTrack:${id}`);
+      source.addFeature(feature);
+    });
+
     (drones ?? []).forEach((drone) => {
       const point = new Point(to3857([drone.position.lon, drone.position.lat]));
-      const pointFeature = new Feature({ geometry: point, entityKind: "drone" });
-      pointFeature.setId(drone.id);
-      source.addFeature(pointFeature);
+      const existing = source.getFeatureById(drone.id) as Feature<Point> | null;
+      if (existing) {
+        existing.setGeometry(point);
+      } else {
+        const pointFeature = new Feature({ geometry: point, entityKind: "drone" });
+        pointFeature.setId(drone.id);
+        source.addFeature(pointFeature);
+      }
     });
     layer?.changed();
-  }, [drones]);
+  }, [drones, droneTracks]);
+
+  // Also style the drone track
+  useEffect(() => {
+    const layer = droneLayerRef.current;
+    if (!layer) return;
+
+    const originalStyle = layer.getStyle();
+    layer.setStyle((feature: any) => {
+      const isTrack = feature.get("isTrack") === true;
+      const droneId = feature.get("droneId") as string | undefined;
+      const selectedId = selectedRef.current?.kind === "drone" ? selectedRef.current.id : null;
+      const selected = (droneId && droneId === selectedId) || (feature.getId() === selectedId);
+
+      if (isTrack) {
+        return new Style({
+          stroke: new Stroke({
+            color: selected ? "#1b5e20" : "#4caf50",
+            width: selected ? 3 : 2,
+            lineDash: [4, 4], // dashed for placeholder
+          }),
+        });
+      }
+
+      // Default style for drone points
+      const droneIdPoint = String(feature.getId() ?? "");
+      const selectedPoint = selectedRef.current?.kind === "drone" && selectedRef.current.id === droneIdPoint;
+      return new Style({
+        image: new CircleStyle({
+          radius: selectedPoint ? 9 : 7,
+          fill: new Fill({ color: selectedPoint ? "#2e7d32" : "#4caf50" }),
+          stroke: new Stroke({ color: "#1b5e20", width: selectedPoint ? 3 : 2 }),
+        }),
+      });
+    });
+  }, [selectedEntity]);
+
+  // Auto-focus move logic
+  useEffect(() => {
+    if (!focusedEntity) return;
+
+    const point = window.__debugMap?.getFeaturePosition(focusedEntity.kind, focusedEntity.id);
+    if (point) {
+      const view = mapRef.current?.getView();
+      if (view) {
+        view.animate({
+          center: to3857(point),
+          duration: 300,
+        });
+      }
+    }
+  }, [aircraft, drones, focusedEntity]);
 
   // Mouse hover coordinates overlay
   const [hoverCoords, setHoverCoords] = React.useState<[number, number] | null>(null);
@@ -572,7 +725,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
   // Sync layer visibility with tool
   useEffect(() => {
-    if (tool === "air") {
+    if (tool === "airplanes") {
       adsbLayerRef.current?.setVisible(true);
     }
     // You could add logic here to hide/show other layers if desired,
@@ -582,6 +735,38 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
       <Box ref={containerRef} sx={{ height: "100%", width: "100%" }} />
+
+      {/* Map Controls */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 8,
+          left: 48, // Next to zoom +/-
+          zIndex: 1000,
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+        }}
+      >
+        <IconButton
+          size="small"
+          onClick={handleHomeClick}
+          title="Center on Estonia"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            border: "2px solid rgba(0,0,0,0.2)",
+            borderRadius: "4px",
+            width: "32px",
+            height: "32px",
+            "&:hover": {
+              backgroundColor: "white",
+            },
+          }}
+        >
+          <Typography sx={{ fontSize: "1.1rem", lineHeight: 1 }}>🏠</Typography>
+        </IconButton>
+      </Box>
+
       {hoverCoords && (
         <Box
           sx={{

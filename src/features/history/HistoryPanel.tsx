@@ -9,7 +9,7 @@ export function HistoryPanel({
   historyArea: string | null;
 }) {
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} sx={{ flex: 1, overflowY: "auto" }}>
       <Typography variant="h6">History</Typography>
       {historyDate && <Typography variant="body2">Date: {historyDate}</Typography>}
       {historyArea && <Typography variant="body2">Area: {historyArea}</Typography>}

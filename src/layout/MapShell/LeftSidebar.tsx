@@ -18,11 +18,15 @@ type LeftSidebarProps = {
 
 export function LeftSidebar({ tool, entity, historyArea, historyDate }: LeftSidebarProps) {
   return (
-    <Box sx={{ height: "100%", overflow: "auto", p: 2 }}>
+    <Box sx={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       {entity ? (
-        <ObjectDetailsPanel entity={entity} />
+        <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
+          <ObjectDetailsPanel entity={entity} />
+        </Box>
       ) : (
-        <SidebarPanel tool={tool} historyArea={historyArea} historyDate={historyDate} />
+        <Box sx={{ flex: 1, p: 2, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <SidebarPanel tool={tool} historyArea={historyArea} historyDate={historyDate} />
+        </Box>
       )}
     </Box>
   );
@@ -38,13 +42,13 @@ function SidebarPanel({
   historyArea: string | null;
 }) {
   switch (tool) {
-    case "air":
+    case "airplanes":
       return <AirTrafficPanel />;
     case "sensors":
       return <SensorsPanel />;
     case "geofences":
       return <GeofencesPanel />;
-    case "known-drones":
+    case "drones":
       return <KnownDronesPanel />;
     case "history":
       return <HistoryPanel historyArea={historyArea} historyDate={historyDate} />;

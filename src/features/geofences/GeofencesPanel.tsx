@@ -93,8 +93,8 @@ export function GeofencesPanel() {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+    <Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6">Geofences</Typography>
         <Button
           variant="contained"
@@ -106,48 +106,52 @@ export function GeofencesPanel() {
         </Button>
       </Stack>
 
-      <List>
-        {geofences.map((g) => (
-          <ListItem
-            key={g.id}
-            disablePadding
-            sx={{
-              mb: 1,
-              border: "1px solid #ddd",
-              borderRadius: 1,
-              "&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" },
-            }}
-            onClick={() => selectEntity({ kind: "geofence", id: g.id })}
-            secondaryAction={
-              <Stack direction="row">
-                <Button size="small" onClick={(e) => startRename(g, e)} sx={{ minWidth: 0, px: 1 }}>
-                  Edit
-                </Button>
-                <Button size="small" onClick={(e) => handleDelete(g.id, e)} color="error" sx={{ minWidth: 0, px: 1 }}>
-                  Delete
-                </Button>
-              </Stack>
-            }
+      <Box sx={{ flex: 1, overflow: "auto", border: 1, borderColor: "divider", borderRadius: 1 }}>
+        <List>
+          {geofences.map((g) => (
+            <ListItem
+              key={g.id}
+              disablePadding
+              sx={{
+                mb: 1,
+                border: "1px solid #ddd",
+                borderRadius: 1,
+                "&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" },
+              }}
+              onClick={() => selectEntity({ kind: "geofence", id: g.id })}
+              secondaryAction={
+                <Stack direction="row">
+                  <Button size="small" onClick={(e) => startRename(g, e)} sx={{ minWidth: 0, px: 1 }}>
+                    Edit
+                  </Button>
+                  <Button size="small" onClick={(e) => handleDelete(g.id, e)} color="error" sx={{ minWidth: 0, px: 1 }}>
+                    Delete
+                  </Button>
+                </Stack>
+              }
 
-          >
-            <Box sx={{ p: 2, width: "100%" }}>
-              <ListItemText
-                primary={g.name}
-                secondary={
-                  g.geometry.kind === "circle"
-                    ? `Circle (r=${g.geometry.radiusMeters}m)`
-                    : "Polygon"
-                }
-              />
+            >
+              <Box sx={{ p: 2, width: "100%" }}>
+                <ListItemText
+                  primary={g.name}
+                  secondary={
+                    g.geometry.kind === "circle"
+                      ? `Circle (r=${g.geometry.radiusMeters}m)`
+                      : "Polygon"
+                  }
+                />
+              </Box>
+            </ListItem>
+          ))}
+          {geofences.length === 0 && (
+            <Box sx={{ p: 2 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ fontStyle: "italic" }}>
+                No geofences created yet.
+              </Typography>
             </Box>
-          </ListItem>
-        ))}
-        {geofences.length === 0 && (
-          <Typography variant="body2" color="text.secondary" sx={{ fontStyle: "italic" }}>
-            No geofences created yet.
-          </Typography>
-        )}
-      </List>
+          )}
+        </List>
+      </Box>
 
       {/* Create Dialog */}
       <Dialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)}>
@@ -212,6 +216,6 @@ export function GeofencesPanel() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Stack>
   );
 }

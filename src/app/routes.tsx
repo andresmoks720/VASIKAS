@@ -3,7 +3,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import { MapShell } from "@/layout/MapShell/MapShell";
 
 export const routes = [
-  { path: "/", element: <Navigate to="/air" replace /> },
+  { path: "/", element: <Navigate to="/airplanes" replace /> },
   {
     path: "/:tool",
     element: <MapShell />,

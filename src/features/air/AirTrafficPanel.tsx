@@ -61,10 +61,10 @@ export function AirTrafficPanel() {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Air Traffic <Typography component="span" variant="caption" sx={{ opacity: 0.7 }}>– {adsbMode === "live" ? "Live API" : "Mock Data"}</Typography>
+          Airplanes <Typography component="span" variant="caption" sx={{ opacity: 0.7 }}>– {adsbMode === "live" ? "Live API" : "Mock Data"}</Typography>
         </Typography>
         <StatusPill status={status} />
         {status === "loading" ? <CircularProgress size={16} /> : null}
@@ -80,7 +80,7 @@ export function AirTrafficPanel() {
         </Alert>
       ) : null}
 
-      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, overflow: "hidden", flex: 1 }}>
+      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, overflow: "auto", flex: 1 }}>
         {flights.length === 0 ? (
           <Box sx={{ p: 2 }}>
             <Typography variant="body2" color="text.secondary">

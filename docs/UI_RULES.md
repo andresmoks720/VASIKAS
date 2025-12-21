@@ -246,6 +246,16 @@ Do not re-implement conversion/formatting inside components.
 
 ---
 
+## Layout and Scrolling
+
+### Sidebar Panels
+- All sidebar panels (Airplanes, Drones, Sensors, Geofences, etc.) must be scrollable.
+- **Header Persistence**: Ideally, the panel header (title, status, primary actions) should remain visible at the top while the list or detail content scrolls.
+- **Scroll Bars**: List containers within panels must use `overflow: "auto"` (not `hidden`) and have their heights constrained (e.g., via `flex: 1` in a `height: 100%` container) to ensure scrollbars appear when content exceeds the available space.
+- **No Page Scroll**: The main application layout is fixed to the viewport (`100vh`). Scrolling must be contained within specific UI regions (Sidebar, Map Detail, etc.).
+
+---
+
 ## TODOs (expected to evolve)
 
 - Decide canonical coordinate display (lat/lon vs lon/lat) for UI fields.
