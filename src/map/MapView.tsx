@@ -84,6 +84,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const { data: drones } = useSharedDronesStream();
   const { data: notams } = useSharedNotamStream();
   const mocksEnabled = ENV.useMocks();
+  const notamsWithGeometry = useMemo(() => (notams ?? []).filter((notam) => notam.geometry), [notams]);
 
   const onSelectEntityRef = useRef(onSelectEntity);
   onSelectEntityRef.current = onSelectEntity;
@@ -403,8 +404,8 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   }, [sensorsController.layer, dronesController.layer, notamsController.layer]);
 
   useEffect(() => {
-    mapApi.setNotams(notams ?? []);
-  }, [notams]);
+    mapApi.setNotams(notamsWithGeometry);
+  }, [notamsWithGeometry]);
 
   useEffect(() => {
     sensorsController.setData(sensors ?? []);
