@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeNotams, parseAltitudesFromText, parseGeometryHint } from "./notamInterpreter";
+import { normalizeNotams, parseAltitudesFromText, parseGeometryHint, parseNotamGeometry } from "./notamInterpreter";
 
 const NOW_UTC = "2025-12-18T12:00:00Z";
 
@@ -167,6 +167,44 @@ describe("parseGeometryHint", () => {
         });
 
         expect(geometry).toBeNull();
+    });
+});
+
+describe("parseNotamGeometry", () => {
+    it("parses root-level circle fields", () => {
+        const geometry = parseNotamGeometry({
+            lat: 59.4369,
+            lon: 24.7536,
+            radius: 1200,
+        });
+
+        expect(geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 1200,
+        });
+    });
+
+    it("parses GeoJSON polygon geometry", () => {
+        const geometry = parseNotamGeometry({
+            geometry: {
+                type: "Polygon",
+                coordinates: [
+                    [
+                        [24.74, 59.43],
+                        [24.76, 59.43],
+                        [24.76, 59.44],
+                        [24.74, 59.44],
+                        [24.74, 59.43],
+                    ],
+                ],
+            },
+        });
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            expect(geometry.coordinates[0]).toHaveLength(5);
+        }
     });
 });
 
