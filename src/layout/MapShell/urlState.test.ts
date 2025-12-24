@@ -12,6 +12,7 @@ describe("parseTool", () => {
   it("returns null for missing or unknown values", () => {
     expect(parseTool(undefined)).toBeNull();
     expect(parseTool(null)).toBeNull();
+    expect(parseTool("")).toBeNull();
     expect(parseTool("unknown" as typeof TOOLS[number])).toBeNull();
   });
 });
@@ -21,6 +22,10 @@ describe("parseEntity", () => {
     expect(parseEntity("sensor:425006")).toEqual({
       kind: "sensor",
       id: "425006",
+    });
+    expect(parseEntity("flight:ABCD123")).toEqual({
+      kind: "flight",
+      id: "ABCD123",
     });
   });
 
@@ -48,5 +53,10 @@ describe("formatEntity", () => {
         id: "test-1",
       }),
     ).toBe("geofence:test-1");
+  });
+
+  it("roundtrips through parseEntity", () => {
+    const entity = { kind: "sensor" as const, id: "sensor-9" };
+    expect(parseEntity(formatEntity(entity))).toEqual(entity);
   });
 });

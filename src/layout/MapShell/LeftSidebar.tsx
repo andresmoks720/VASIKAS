@@ -5,6 +5,7 @@ import { AirTrafficPanel } from "@/features/air/AirTrafficPanel";
 import { GeofencesPanel } from "@/features/geofences/GeofencesPanel";
 import { HistoryPanel } from "@/features/history/HistoryPanel";
 import { KnownDronesPanel } from "@/features/known-drones/KnownDronesPanel";
+import { NotamsPanel } from "@/features/notams/NotamsPanel";
 import { ObjectDetailsPanel } from "@/features/objectDetails/ObjectDetailsPanel";
 import { SensorsPanel } from "@/features/sensors/SensorsPanel";
 import { EntityRef, Tool } from "./urlState";
@@ -48,6 +49,8 @@ function SidebarPanel({
       return <SensorsPanel />;
     case "geofences":
       return <GeofencesPanel />;
+    case "notams":
+      return <NotamsPanel />;
     case "drones":
       return <KnownDronesPanel />;
     case "history":

@@ -16,6 +16,15 @@
   - Map selection manager to toggle feature highlight state via feature properties.
   - Shared HTTP apiClient for consistent fetch error handling across services.
   - Test factories + render helpers, plus smoke-path E2E coverage.
+  - Coverage v1 enabled in Vitest with v8 reporting and baseline thresholds.
+  - Lightweight testing docs + test case register for unit/component/E2E tracking.
+  - CI workflow runs lint/typecheck/tests with coverage artifact upload.
+  - Playwright smoke test and report artifact added to CI.
+  - Expanded unit/component tests for URL state, altitude formatting, ADS-B mapping, and sensors status UI.
+  - Added UTC formatting, sensor DTO mapping, StatusPill UI, and URL-navigation E2E coverage.
+  - Tightened UTC formatting validation to require timezone offsets in timestamps with regression coverage.
+  - Map selection now uses entity IDs from feature metadata for reliable URL updates on marker clicks.
+  - NOTAM stream now polls and normalizes data for sidebar display, map overlay sync, and hover tooltips.
 - In progress:
   - (None)
 - Done:

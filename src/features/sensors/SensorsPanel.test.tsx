@@ -66,6 +66,29 @@ describe("SensorsPanel", () => {
         expect(screen.getByText("User Radar")).toBeInTheDocument();
     });
 
+    it("renders stale status and sensor row indicator", () => {
+        const mockSensors = [
+            makeSensor({ id: "s1", name: "Offline Radar", source: "base", status: "offline" }),
+        ];
+
+        vi.spyOn(StreamsProvider, "useSharedSensorsStream").mockReturnValue({
+            data: mockSensors,
+            status: "stale",
+            lastOkUtc: "",
+            lastErrorUtc: null,
+            tick: 0,
+            ageSeconds: 120,
+            error: null,
+        });
+
+        renderWithRouter(<SensorsPanel />, { route: "/sensors" });
+
+        expect(screen.getByText("Stale")).toBeInTheDocument();
+        expect(screen.getByText("Updated 2m ago")).toBeInTheDocument();
+        expect(screen.getByText("Offline Radar")).toBeInTheDocument();
+        expect(screen.getByText("Error")).toBeInTheDocument();
+    });
+
     it("opens add dialog", () => {
         vi.spyOn(StreamsProvider, "useSharedSensorsStream").mockReturnValue({
             data: [],

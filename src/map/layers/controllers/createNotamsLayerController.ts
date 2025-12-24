@@ -41,6 +41,9 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
       const feature = new Feature({
         geometry: geom,
         notamId: notam.id,
+        summary: notam.summary,
+        validFromUtc: notam.validFromUtc,
+        validToUtc: notam.validToUtc,
         entityKind: "notam",
       });
       feature.setId(notam.id);

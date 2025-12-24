@@ -15,10 +15,16 @@ import View from "ol/View";
 import { Fill, RegularShape, Stroke, Style } from "ol/style";
 
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
+import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { to3857, to4326 } from "./transforms";
 import { EntityRef, Tool } from "@/layout/MapShell/urlState";
 import { ENV } from "@/shared/env";
-import { useSharedAdsbStream, useSharedDronesStream, useSharedSensorsStream } from "@/services/streams/StreamsProvider";
+import {
+  useSharedAdsbStream,
+  useSharedDronesStream,
+  useSharedNotamStream,
+  useSharedSensorsStream,
+} from "@/services/streams/StreamsProvider";
 import { mapApi } from "./mapApi";
 import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
 import { createDronesLayerController } from "@/map/layers/controllers/createDronesLayerController";
@@ -45,10 +51,17 @@ type MapViewProps = {
   onSelectEntity: (entity: EntityRef) => void;
 };
 
+type HoveredNotam = {
+  id: string;
+  summary: string;
+  pixel: { x: number; y: number };
+};
+
 declare global {
   interface Window {
     __debugMap?: {
       getFeaturePosition: (kind: EntityRef["kind"], id: string) => [number, number] | null;
+      getFeaturePixel: (kind: EntityRef["kind"], id: string) => { x: number; y: number } | null;
     };
   }
 }
@@ -69,6 +82,8 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
+  const { data: notams } = useSharedNotamStream();
+  const mocksEnabled = ENV.useMocks();
 
   const onSelectEntityRef = useRef(onSelectEntity);
   onSelectEntityRef.current = onSelectEntity;
@@ -113,13 +128,17 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   }, [dronesController.layer, geofencesController.layer, notamsController.layer, sensorsController.layer]);
 
   const baseLayer = useMemo(() => {
+    if (mocksEnabled) {
+      return createOfflineXyzLayer();
+    }
+
     const wmtsLayer = createMaaAmetOrthoLayer(ENV.mapWmtsUrl());
     if (wmtsLayer) {
       return wmtsLayer;
     }
 
     return new TileLayer({ source: new OSM() });
-  }, []);
+  }, [mocksEnabled]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) {
@@ -179,7 +198,26 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     map.on("singleclick", (evt) => {
       map.forEachFeatureAtPixel(evt.pixel, (feature) => {
         const entityKind = feature.get("entityKind") as EntityRef["kind"] | undefined;
-        let id = String(feature.getId() ?? "");
+        const featureId = feature.getId();
+        const sensorId = feature.get("sensorId");
+        const droneId = feature.get("droneId");
+        const flightId = feature.get("flightId");
+        const notamId = feature.get("notamId");
+
+        let id = "";
+
+        if (entityKind === "sensor" && typeof sensorId === "string") {
+          id = sensorId;
+        } else if (entityKind === "drone" && typeof droneId === "string") {
+          id = droneId;
+        } else if (entityKind === "flight" && typeof flightId === "string") {
+          id = flightId;
+        } else if (entityKind === "notam" && typeof notamId === "string") {
+          id = notamId;
+        } else if (typeof featureId === "string") {
+          id = featureId;
+        }
+
         if (id.endsWith("-coverage")) id = id.replace("-coverage", "");
 
         if (entityKind && id) {
@@ -323,12 +361,50 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
         return to4326(geometry.getCoordinates() as [number, number]);
       },
+      getFeaturePixel: (kind: EntityRef["kind"], id: string) => {
+        const layer =
+          kind === "drone"
+            ? dronesController.layer
+          : kind === "sensor"
+            ? sensorsController.layer
+          : kind === "aircraft" || kind === "flight"
+            ? adsbLayerRef.current
+            : kind === "notam"
+              ? notamsController.layer
+              : null;
+
+        const lookupId = kind === "aircraft" || kind === "flight" ? `flight:${id}` : id;
+        const feature = layer?.getSource()?.getFeatureById(lookupId);
+        const geometry = feature?.getGeometry();
+
+        let coordinate: [number, number] | null = null;
+        if (geometry instanceof Point) {
+          coordinate = geometry.getCoordinates() as [number, number];
+        } else if (geometry instanceof LineString) {
+          coordinate = geometry.getCoordinateAt(0.5) as [number, number];
+        }
+
+        if (!coordinate) {
+          return null;
+        }
+
+        const pixel = mapRef.current?.getPixelFromCoordinate(coordinate);
+        if (!pixel) {
+          return null;
+        }
+
+        return { x: pixel[0], y: pixel[1] };
+      },
     };
 
     return () => {
       delete window.__debugMap;
     };
-  }, [sensorsController.layer, dronesController.layer]);
+  }, [sensorsController.layer, dronesController.layer, notamsController.layer]);
+
+  useEffect(() => {
+    mapApi.setNotams(notams ?? []);
+  }, [notams]);
 
   useEffect(() => {
     sensorsController.setData(sensors ?? []);
@@ -440,6 +516,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
   // Mouse hover coordinates overlay
   const [hoverCoords, setHoverCoords] = React.useState<[number, number] | null>(null);
+  const [hoveredNotam, setHoveredNotam] = React.useState<HoveredNotam | null>(null);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -450,6 +527,29 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
         const coords = to4326(evt.coordinate as [number, number]);
         setHoverCoords(coords);
       }
+
+      let nextHovered: HoveredNotam | null = null;
+      map.forEachFeatureAtPixel(evt.pixel, (feature) => {
+        const entityKind = feature.get("entityKind") as EntityRef["kind"] | undefined;
+        if (entityKind !== "notam") {
+          return false;
+        }
+
+        const notamId = feature.get("notamId");
+        if (typeof notamId !== "string") {
+          return false;
+        }
+
+        const summary = feature.get("summary");
+        nextHovered = {
+          id: notamId,
+          summary: typeof summary === "string" ? summary : "",
+          pixel: { x: evt.pixel[0], y: evt.pixel[1] },
+        };
+        return true;
+      });
+
+      setHoveredNotam(nextHovered);
     };
 
     map.on("pointermove", handlePointerMove as (event: Event | BaseEvent) => void);
@@ -519,7 +619,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
-      <Box ref={containerRef} sx={{ height: "100%", width: "100%" }} />
+      <Box ref={containerRef} data-testid="map-root" sx={{ height: "100%", width: "100%" }} />
 
       {/* Map Controls */}
       <Box
@@ -566,6 +666,31 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
           <Typography variant="body2" sx={{ color: "black", fontWeight: 600, fontFamily: "monospace" }}>
             {hoverCoords[1].toFixed(6)}°N, {hoverCoords[0].toFixed(6)}°E
           </Typography>
+        </Box>
+      )}
+
+      {hoveredNotam && (
+        <Box
+          sx={{
+            position: "absolute",
+            left: hoveredNotam.pixel.x + 12,
+            top: hoveredNotam.pixel.y + 12,
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            border: "1px solid rgba(0,0,0,0.2)",
+            borderRadius: 1,
+            padding: 1,
+            maxWidth: 260,
+            pointerEvents: "none",
+            zIndex: 1000,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+          }}
+        >
+          <Typography variant="subtitle2">{hoveredNotam.id}</Typography>
+          {hoveredNotam.summary ? (
+            <Typography variant="body2" color="text.secondary">
+              {hoveredNotam.summary}
+            </Typography>
+          ) : null}
         </Box>
       )}
     </Box>

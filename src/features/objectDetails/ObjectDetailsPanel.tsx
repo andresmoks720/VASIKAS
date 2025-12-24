@@ -16,8 +16,10 @@ import { mapApi } from "@/map/mapApi";
 import {
   useSharedAdsbStream,
   useSharedDronesStream,
+  useSharedNotamStream,
   useSharedSensorsStream,
 } from "@/services/streams/StreamsProvider";
+import { NormalizedNotam } from "@/services/notam/notamTypes";
 
 const formatPosition = (lon?: number, lat?: number) => {
   if (lon == null || lat == null) {
@@ -31,6 +33,7 @@ type Selection =
   | { kind: "sensor"; item: Sensor | undefined }
   | { kind: "geofence"; item: Geofence | undefined }
   | { kind: "aircraft" | "flight"; item: Aircraft | undefined }
+  | { kind: "notam"; item: NormalizedNotam | undefined }
   | { kind: EntityRef["kind"]; item: undefined };
 
 
@@ -39,6 +42,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
   const { data: drones } = useSharedDronesStream();
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft } = useSharedAdsbStream();
+  const { data: notams } = useSharedNotamStream();
 
   const selection: Selection = useMemo(() => {
     switch (entity.kind) {
@@ -51,10 +55,12 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
         return { kind: entity.kind, item: (aircraft ?? []).find((flight) => flight.id === entity.id) };
       case "geofence":
         return { kind: entity.kind, item: geofenceStore.getById(entity.id) };
+      case "notam":
+        return { kind: entity.kind, item: (notams ?? []).find((notam) => notam.id === entity.id) };
       default:
         return { kind: entity.kind, item: undefined };
     }
-  }, [aircraft, drones, entity.id, entity.kind, sensors]);
+  }, [aircraft, drones, entity.id, entity.kind, notams, sensors]);
 
   const title = useMemo(() => {
     if (!selection.item) return "Object Details";
@@ -70,6 +76,9 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
     }
     if (selection.kind === "geofence") {
       return `${(selection.item as Geofence).name} Details`;
+    }
+    if (selection.kind === "notam") {
+      return `NOTAM ${selection.item.id}`;
     }
     return "Object Details";
   }, [selection]);
@@ -227,6 +236,10 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
 
       {selection.kind === "geofence" ? (
         <GeofenceDetailsSection geofence={selection.item} />
+      ) : null}
+
+      {selection.kind === "notam" ? (
+        <NotamDetailsSection notam={selection.item} />
       ) : null}
     </Stack>
 
@@ -445,6 +458,39 @@ function GeofenceDetailsSection({ geofence }: { geofence: Geofence }) {
           Delete
         </Button>
       </Stack>
+    </Stack>
+  );
+}
+
+function NotamDetailsSection({ notam }: { notam: NormalizedNotam }) {
+  const altitudes =
+    notam.altitudes.length > 0
+      ? notam.altitudes.map((alt) => formatAltitude(alt, { showFeet: true }))
+      : ["No altitude limits"];
+
+  return (
+    <Stack spacing={1}>
+      <KeyValueRow label="Summary" value={notam.summary} />
+      <KeyValueRow label="Valid from (UTC)" value={formatUtcTimestamp(notam.validFromUtc ?? null)} />
+      <KeyValueRow label="Valid to (UTC)" value={formatUtcTimestamp(notam.validToUtc ?? null)} />
+      <KeyValueRow label="Event time (UTC)" value={formatUtcTimestamp(notam.eventTimeUtc)} />
+      <Stack spacing={0.5}>
+        <Typography variant="subtitle2" color="text.secondary">
+          Altitudes
+        </Typography>
+        {altitudes.map((altitude) => (
+          <Typography key={altitude} variant="body2">
+            {altitude}
+          </Typography>
+        ))}
+      </Stack>
+      <Divider sx={{ my: 1 }} />
+      <Typography variant="subtitle2" color="text.secondary">
+        NOTAM Text
+      </Typography>
+      <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
+        {notam.text}
+      </Typography>
     </Stack>
   );
 }
