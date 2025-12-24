@@ -30,6 +30,6 @@ test.describe("smoke path", () => {
     await expect(page.getByText("Sensor Alpha")).toBeVisible();
 
     await page.getByText("Sensor Alpha").click();
-    await expect(page).toHaveURL(/entity=sensor:/);
+    await expect(page).toHaveURL(/entity=sensor%3A/);
   });
 });

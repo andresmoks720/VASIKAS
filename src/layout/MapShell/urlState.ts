@@ -2,6 +2,7 @@ export const TOOLS = [
   "airplanes",
   "sensors",
   "geofences",
+  "notams",
   "drones",
   "history",
 ] as const;

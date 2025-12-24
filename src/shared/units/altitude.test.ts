@@ -26,6 +26,21 @@ describe("formatAltitude", () => {
     expect(formatAltitude(altitude, { showFeet: true })).toBe("86 m (282 ft) — AGL (detected) — RF + vision fused");
   });
 
+  it("shows meters and feet when showFeet is enabled", () => {
+    const altitude: Altitude = {
+      meters: 300,
+      ref: "MSL",
+      source: "reported",
+      comment: "from NOTAM text",
+    };
+
+    const formatted = formatAltitude(altitude, { showFeet: true });
+
+    expect(formatted).toContain("300 m");
+    expect(formatted).toContain("ft");
+    expect(formatted).toContain("— MSL (reported) — from NOTAM text");
+  });
+
   it("formats altitude with decimal meters", () => {
     const altitude: Altitude = {
       meters: 120.5,
@@ -56,5 +71,16 @@ describe("formatAltitude", () => {
     };
 
     expect(formatAltitude(altitude)).toBe("— — AGL (reported) — from upstream — raw: ALT ???");
+  });
+
+  it("ensures the comment appears after the altitude and ref", () => {
+    const altitude: Altitude = {
+      meters: 42,
+      ref: "AGL",
+      source: "reported",
+      comment: "from sensor",
+    };
+
+    expect(formatAltitude(altitude)).toBe("42 m — AGL (reported) — from sensor");
   });
 });

@@ -110,6 +110,40 @@ describe("mapAircraftDto (live ADS-B)", () => {
     expect(callsign?.callsign).toBe("ABC123");
     expect(registration?.callsign).toBe("ES-TST");
   });
+
+  it("returns null when required fields are missing", () => {
+    const missingId = mapAircraftDto(
+      {
+        lat: 1,
+        lon: 2,
+      },
+      baseContext,
+    );
+
+    const missingPosition = mapAircraftDto(
+      {
+        hex: "abcd12",
+      },
+      baseContext,
+    );
+
+    expect(missingId).toBeNull();
+    expect(missingPosition).toBeNull();
+  });
+
+  it("converts ground speed from knots to km/h", () => {
+    const mapped = mapAircraftDto(
+      {
+        hex: "abcd12",
+        lat: 1,
+        lon: 2,
+        gs: 120,
+      },
+      baseContext,
+    );
+
+    expect(mapped?.groundSpeedKmh).toBeCloseTo(222.24, 2);
+  });
 });
 
 describe("parseLiveAdsbResponse", () => {

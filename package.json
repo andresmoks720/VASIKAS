@@ -10,6 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "gen:mocks": "tsx scripts/generate-mocks.ts",
     "test:e2e": "playwright test"
   },
@@ -33,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/coverage-v8": "^1.6.1",
     "eslint": "^8.57.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.3",

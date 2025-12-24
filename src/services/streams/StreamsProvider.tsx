@@ -3,11 +3,13 @@ import React, { createContext, PropsWithChildren, useContext } from "react";
 import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { useDronesStream } from "@/services/drones/droneClient";
 import { useSensorsStream } from "@/services/sensors/sensorsClient";
+import { useNotamStream } from "@/services/notam/notamStream";
 
 type StreamContextValue = {
   adsb: ReturnType<typeof useAdsbStream>;
   drones: ReturnType<typeof useDronesStream>;
   sensors: ReturnType<typeof useSensorsStream>;
+  notams: ReturnType<typeof useNotamStream>;
 };
 
 const StreamsContext = createContext<StreamContextValue | null>(null);
@@ -16,8 +18,13 @@ export function StreamsProvider({ children }: PropsWithChildren) {
   const adsb = useAdsbStream();
   const drones = useDronesStream();
   const sensors = useSensorsStream();
+  const notams = useNotamStream();
 
-  return <StreamsContext.Provider value={{ adsb, drones, sensors }}>{children}</StreamsContext.Provider>;
+  return (
+    <StreamsContext.Provider value={{ adsb, drones, sensors, notams }}>
+      {children}
+    </StreamsContext.Provider>
+  );
 }
 
 function useStreamsContext(): StreamContextValue {
@@ -39,4 +46,8 @@ export function useSharedDronesStream() {
 
 export function useSharedSensorsStream() {
   return useStreamsContext().sensors;
+}
+
+export function useSharedNotamStream() {
+  return useStreamsContext().notams;
 }
