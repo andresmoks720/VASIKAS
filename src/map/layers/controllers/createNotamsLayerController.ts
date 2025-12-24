@@ -34,9 +34,13 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
     if (!source) return;
 
     source.clear();
+    let missingGeometryCount = 0;
     notams.forEach((notam) => {
       const geom = notamGeometryToOl(notam.geometry);
-      if (!geom) return;
+      if (!geom) {
+        missingGeometryCount += 1;
+        return;
+      }
 
       const feature = new Feature({
         geometry: geom,
@@ -49,6 +53,13 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
       feature.setId(notam.id);
       source.addFeature(feature);
     });
+
+    if (import.meta.env.DEV && missingGeometryCount > 0) {
+      // eslint-disable-next-line no-console
+      console.debug("[map] notams without geometry", {
+        count: missingGeometryCount,
+      });
+    }
   };
 
   const dispose = () => {
