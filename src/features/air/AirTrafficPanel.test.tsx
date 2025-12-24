@@ -1,28 +1,14 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { AirTrafficPanel } from "./AirTrafficPanel";
+import { makeAircraft } from "@/shared/test/factories";
+import { renderWithRouter } from "@/shared/test/render";
 
 vi.mock("@/services/streams/StreamsProvider", () => ({
   useSharedAdsbStream: () => ({
-    data: [
-      {
-        id: "4ca123",
-        callsign: "FIN123",
-        position: { lon: 24.832, lat: 59.413 },
-        trackDeg: 180,
-        groundSpeedKmh: 720,
-        altitude: {
-          meters: 3500,
-          ref: "MSL",
-          source: "reported",
-          comment: "ADS-B reported",
-        },
-        eventTimeUtc: "2025-12-18T10:15:20Z",
-        ingestTimeUtc: "2025-12-18T10:15:21Z",
-      },
-    ],
+    data: [makeAircraft()],
     status: "live",
     ageSeconds: 1,
     error: null,
@@ -35,7 +21,7 @@ vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
 
 describe("AirTrafficPanel", () => {
   it("renders formatted altitude and speed for aircraft", () => {
-    render(<AirTrafficPanel />);
+    renderWithRouter(<AirTrafficPanel />, { route: "/air" });
 
     expect(screen.getByText(/FIN123/)).toBeInTheDocument();
     expect(

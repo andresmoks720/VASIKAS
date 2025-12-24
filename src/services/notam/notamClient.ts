@@ -1,4 +1,5 @@
 import { ENV } from "@/shared/env";
+import { getJson } from "@/services/http/apiClient";
 
 /**
  * Fetches raw NOTAM JSON from the configured endpoint.
@@ -13,16 +14,5 @@ import { ENV } from "@/shared/env";
 export async function fetchNotamRaw(signal?: AbortSignal): Promise<unknown> {
     const url = ENV.notamUrl();
 
-    const response = await fetch(url, {
-        signal,
-        cache: "no-store",
-    });
-
-    if (!response.ok) {
-        throw new Error(
-            `NOTAM fetch failed: ${response.status} ${response.statusText} (${url})`,
-        );
-    }
-
-    return response.json();
+    return getJson<unknown>(url, { signal });
 }

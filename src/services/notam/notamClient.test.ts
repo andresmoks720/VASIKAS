@@ -27,6 +27,8 @@ describe("fetchNotamRaw", () => {
         vi.mocked(fetch).mockResolvedValue({
             ok: true,
             json: async () => mockResponse,
+            status: 200,
+            statusText: "OK",
         } as Response);
 
         const result = await fetchNotamRaw();
@@ -45,9 +47,11 @@ describe("fetchNotamRaw", () => {
             statusText: "Internal Server Error",
         } as Response);
 
-        await expect(fetchNotamRaw()).rejects.toThrow(
-            "NOTAM fetch failed: 500 Internal Server Error (/mock/notams.sample.json)",
-        );
+        await expect(fetchNotamRaw()).rejects.toMatchObject({
+            kind: "http",
+            status: 500,
+            url: "/mock/notams.sample.json",
+        });
     });
 
     it("throws descriptive error on 404", async () => {
@@ -57,15 +61,20 @@ describe("fetchNotamRaw", () => {
             statusText: "Not Found",
         } as Response);
 
-        await expect(fetchNotamRaw()).rejects.toThrow(
-            "NOTAM fetch failed: 404 Not Found",
-        );
+        await expect(fetchNotamRaw()).rejects.toMatchObject({
+            kind: "http",
+            status: 404,
+            url: "/mock/notams.sample.json",
+        });
     });
 
     it("propagates network errors", async () => {
         vi.mocked(fetch).mockRejectedValue(new Error("Network error"));
 
-        await expect(fetchNotamRaw()).rejects.toThrow("Network error");
+        await expect(fetchNotamRaw()).rejects.toMatchObject({
+            kind: "network",
+            url: "/mock/notams.sample.json",
+        });
     });
 
     it("respects AbortSignal", async () => {
@@ -82,6 +91,8 @@ describe("fetchNotamRaw", () => {
         vi.mocked(fetch).mockResolvedValue({
             ok: true,
             json: async () => mockResponse,
+            status: 200,
+            statusText: "OK",
         } as Response);
 
         const controller = new AbortController();

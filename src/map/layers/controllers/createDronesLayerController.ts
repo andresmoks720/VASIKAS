@@ -1,13 +1,16 @@
 import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
 import LineString from "ol/geom/LineString";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
-import { EntityRef } from "@/layout/MapShell/urlState";
 import { Drone } from "@/services/drones/droneTypes";
 import { to3857 } from "@/map/transforms";
+import {
+  removeMissingFeatures,
+  updateGeometryIfChanged,
+  upsertPointFeature,
+} from "@/map/utils/featureUpsert";
 
 import { buildPlaceholderDroneTracks } from "./droneTracks";
 import { LayerController } from "./types";
@@ -18,15 +21,11 @@ export type DronesLayerData = {
 };
 
 export function createDronesLayerController(): LayerController<DronesLayerData> {
-  let selectedEntity: EntityRef | null = null;
-
   const layer = new VectorLayer({
     source: new VectorSource(),
     style: (feature) => {
       const isTrack = feature.get("isTrack") === true;
-      const droneId = feature.get("droneId") as string | undefined;
-      const selectedId = selectedEntity?.kind === "drone" ? selectedEntity.id : null;
-      const selected = (droneId && droneId === selectedId) || feature.getId() === selectedId;
+      const selected = feature.get("selected") === true;
 
       if (isTrack) {
         return new Style({
@@ -52,45 +51,69 @@ export function createDronesLayerController(): LayerController<DronesLayerData> 
     const source = layer.getSource();
     if (!source) return;
 
-    source.getFeatures().forEach((feature) => {
-      const id = String(feature.getId() ?? "");
-      if (id.startsWith("droneTrack:")) {
-        source.removeFeature(feature);
-      }
-    });
+    let addedCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
 
     const tracks = buildPlaceholderDroneTracks(drones, visibleTrackIds);
+    const allowedTrackIds = new Set<string>();
     tracks.forEach((points, id) => {
       if (points.length < 2) return;
+      allowedTrackIds.add(id);
       const coords = points.map((pt) => to3857([pt.position.lon, pt.position.lat]));
       const line = new LineString(coords);
-      const feature = new Feature({
-        geometry: line,
-        entityKind: "drone",
-        droneId: id,
-        isTrack: true,
-      });
-      feature.setId(`droneTrack:${id}`);
-      source.addFeature(feature);
-    });
 
-    drones.forEach((drone) => {
-      const point = new Point(to3857([drone.position.lon, drone.position.lat]));
-      const existing = source.getFeatureById(drone.id) as Feature<Point> | null;
+      const featureId = `droneTrack:${id}`;
+      const existing = source.getFeatureById(featureId) as Feature<LineString> | null;
       if (existing) {
-        existing.setGeometry(point);
+        const geometryUpdated = updateGeometryIfChanged(existing, line);
+        existing.setProperties({ entityKind: "drone", droneId: id, isTrack: true });
+        if (geometryUpdated) {
+          updatedCount += 1;
+        }
       } else {
-        const pointFeature = new Feature({ geometry: point, entityKind: "drone" });
-        pointFeature.setId(drone.id);
-        source.addFeature(pointFeature);
+        const feature = new Feature({
+          geometry: line,
+          entityKind: "drone",
+          droneId: id,
+          isTrack: true,
+        });
+        feature.setId(featureId);
+        source.addFeature(feature);
+        addedCount += 1;
       }
     });
 
-    layer.changed();
-  };
+    const allowedDroneIds = new Set<string>();
+    drones.forEach((drone) => {
+      allowedDroneIds.add(drone.id);
+      const result = upsertPointFeature(
+        source,
+        drone.id,
+        [drone.position.lon, drone.position.lat],
+        { entityKind: "drone", droneId: drone.id },
+      );
+      if (result.added) {
+        addedCount += 1;
+      } else if (result.updated) {
+        updatedCount += 1;
+      }
+    });
 
-  const setSelection = (entity: EntityRef | null) => {
-    selectedEntity = entity;
+    const allowedIds = new Set<string>();
+    allowedDroneIds.forEach((id) => allowedIds.add(id));
+    allowedTrackIds.forEach((id) => allowedIds.add(`droneTrack:${id}`));
+    removedCount += removeMissingFeatures(source, allowedIds);
+
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug("[map] drones layer update", {
+        added: addedCount,
+        updated: updatedCount,
+        removed: removedCount,
+      });
+    }
+
     layer.changed();
   };
 
@@ -101,7 +124,6 @@ export function createDronesLayerController(): LayerController<DronesLayerData> 
   return {
     layer,
     setData,
-    setSelection,
     dispose,
   };
 }

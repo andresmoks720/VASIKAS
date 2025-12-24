@@ -25,6 +25,7 @@ import { createDronesLayerController } from "@/map/layers/controllers/createDron
 import { createGeofencesLayerController } from "@/map/layers/controllers/createGeofencesLayerController";
 import { createNotamsLayerController } from "@/map/layers/controllers/createNotamsLayerController";
 import { createSensorsLayerController } from "@/map/layers/controllers/createSensorsLayerController";
+import { createSelectionManager } from "@/map/selection/selectionManager";
 import { NormalizedNotam } from "@/services/notam/notamTypes";
 import { TrackPoint } from "@/services/adsb/trackStore";
 
@@ -69,14 +70,47 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
 
-  const selectedRef = useRef<EntityRef | null>(selectedEntity);
-  selectedRef.current = selectedEntity;
-
   const onSelectEntityRef = useRef(onSelectEntity);
   onSelectEntityRef.current = onSelectEntity;
 
   const [focusedEntity, setFocusedEntity] = React.useState<{ kind: EntityRef["kind"]; id: string } | null>(null);
   const [visibleTracks, setVisibleTracks] = React.useState<Set<string>>(new Set());
+  const [mapReady, setMapReady] = React.useState(false);
+
+  const selectionManager = useMemo(() => {
+    const resolveFeatures = (entity: EntityRef) => {
+      const features: Feature[] = [];
+      const addFeature = (feature: Feature | null | undefined) => {
+        if (feature) {
+          features.push(feature);
+        }
+      };
+
+      if (entity.kind === "sensor") {
+        const source = sensorsController.layer.getSource();
+        addFeature(source?.getFeatureById(entity.id));
+        addFeature(source?.getFeatureById(`${entity.id}-coverage`));
+      } else if (entity.kind === "drone") {
+        const source = dronesController.layer.getSource();
+        addFeature(source?.getFeatureById(entity.id));
+        addFeature(source?.getFeatureById(`droneTrack:${entity.id}`));
+      } else if (entity.kind === "flight" || entity.kind === "aircraft") {
+        const source = adsbLayerRef.current?.getSource();
+        addFeature(source?.getFeatureById(`flight:${entity.id}`));
+        addFeature(source?.getFeatureById(`flightTrack:${entity.id}`));
+      } else if (entity.kind === "geofence") {
+        const source = geofencesController.layer.getSource();
+        addFeature(source?.getFeatureById(entity.id));
+      } else if (entity.kind === "notam") {
+        const source = notamsController.layer.getSource();
+        addFeature(source?.getFeatureById(entity.id));
+      }
+
+      return features;
+    };
+
+    return createSelectionManager(resolveFeatures);
+  }, [dronesController.layer, geofencesController.layer, notamsController.layer, sensorsController.layer]);
 
   const baseLayer = useMemo(() => {
     const wmtsLayer = createMaaAmetOrthoLayer(ENV.mapWmtsUrl());
@@ -97,9 +131,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       source: adsbSource,
       style: (feature) => {
         const isTrack = feature.getGeometry() instanceof LineString;
-        const flightId = feature.get("flightId") as string | undefined;
-        const selected =
-          flightId && selectedRef.current?.kind === "flight" && selectedRef.current?.id === flightId;
+        const selected = feature.get("selected") === true;
 
         if (isTrack) {
           return new Style({
@@ -136,6 +168,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
     mapRef.current = map;
     adsbLayerRef.current = adsbLayer;
+    setMapReady(true);
 
     adsbLayer.setVisible(true);
     sensorsController.layer.setVisible(true);
@@ -161,6 +194,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       map.setTarget(undefined);
       adsbLayerRef.current = null;
       mapRef.current = null;
+      setMapReady(false);
       sensorsController.dispose();
       dronesController.dispose();
       geofencesController.dispose();
@@ -183,11 +217,6 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       duration: 1000,
     });
   };
-
-  useEffect(() => {
-    sensorsController.setSelection?.(selectedEntity);
-    dronesController.setSelection?.(selectedEntity);
-  }, [selectedEntity, sensorsController, dronesController]);
 
   // Subscribe to mapApi events
   useEffect(() => {
@@ -476,13 +505,10 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     }
   }, [selectedEntity, sensorsController, dronesController, geofencesController, notamsController]);
 
-  // Force redraw on selection change
   useEffect(() => {
-    sensorsController.layer.changed();
-    adsbLayerRef.current?.changed();
-    dronesController.layer.changed();
-    geofencesController.layer.changed();
-  }, [selectedEntity, sensorsController, dronesController, geofencesController]);
+    if (!mapReady) return;
+    selectionManager.setSelectedEntity(selectedEntity);
+  }, [mapReady, selectedEntity, selectionManager]);
 
   // Sync layer visibility with tool
   useEffect(() => {

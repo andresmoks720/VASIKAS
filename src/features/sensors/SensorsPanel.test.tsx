@@ -1,9 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { SensorsPanel } from "./SensorsPanel";
-import { Sensor } from "@/services/sensors/sensorsTypes";
 import * as StreamsProvider from "@/services/streams/StreamsProvider";
+import { makeSensor } from "@/shared/test/factories";
+import { renderWithRouter } from "@/shared/test/render";
 
 // Mock the sidebar state
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
@@ -38,14 +39,14 @@ describe("SensorsPanel", () => {
             error: null,
         });
 
-        render(<SensorsPanel />);
+        renderWithRouter(<SensorsPanel />, { route: "/sensors" });
         expect(screen.getByText("No sensors available.")).toBeInTheDocument();
     });
 
     it("renders sensors split by source", () => {
-        const mockSensors: Sensor[] = [
-            { id: "s1", name: "Base Radar", kind: "radar", position: { lat: 0, lon: 0 }, status: "online", lastSeenUtc: "", coverage: { radiusMeters: 0, minAltM: 0, maxAltM: 0 }, ingestTimeUtc: "", source: "base" },
-            { id: "s2", name: "User Radar", kind: "radar", position: { lat: 0, lon: 0 }, status: "online", lastSeenUtc: "", coverage: { radiusMeters: 0, minAltM: 0, maxAltM: 0 }, ingestTimeUtc: "", source: "user" },
+        const mockSensors = [
+            makeSensor({ id: "s1", name: "Base Radar", source: "base" }),
+            makeSensor({ id: "s2", name: "User Radar", source: "user" }),
         ];
 
         vi.spyOn(StreamsProvider, "useSharedSensorsStream").mockReturnValue({
@@ -58,7 +59,7 @@ describe("SensorsPanel", () => {
             error: null,
         });
 
-        render(<SensorsPanel />);
+        renderWithRouter(<SensorsPanel />, { route: "/sensors" });
         expect(screen.getByText("Base Sensors")).toBeInTheDocument();
         expect(screen.getByText("User Sensors")).toBeInTheDocument();
         expect(screen.getByText("Base Radar")).toBeInTheDocument();
@@ -76,7 +77,7 @@ describe("SensorsPanel", () => {
             error: null,
         });
 
-        render(<SensorsPanel />);
+        renderWithRouter(<SensorsPanel />, { route: "/sensors" });
         fireEvent.click(screen.getByRole("button", { name: "Add" }));
     });
 });

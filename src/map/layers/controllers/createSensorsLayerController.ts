@@ -1,36 +1,36 @@
 import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
 import { Circle as CircleGeom } from "ol/geom";
 import { fromCircle } from "ol/geom/Polygon";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 
-import { EntityRef } from "@/layout/MapShell/urlState";
 import { Sensor } from "@/services/sensors/sensorsTypes";
 import { to3857 } from "@/map/transforms";
+import {
+  removeMissingFeatures,
+  updateGeometryIfChanged,
+  upsertPointFeature,
+} from "@/map/utils/featureUpsert";
 
 import { LayerController } from "./types";
 
 export function createSensorsLayerController(): LayerController<Sensor[]> {
-  let selectedEntity: EntityRef | null = null;
-
   const layer = new VectorLayer({
     source: new VectorSource(),
     style: (feature) => {
       const isCoverage = feature.get("isCoverage") === true;
-      const sensorId = String(feature.getId() ?? "").replace("-coverage", "");
-      const selected = selectedEntity?.kind === "sensor" && selectedEntity?.id === sensorId;
+      const selected = feature.get("selected") === true;
 
       if (isCoverage) {
         return new Style({
           stroke: new Stroke({
-            color: "#2196f3",
-            width: 1,
+            color: selected ? "#1565c0" : "#2196f3",
+            width: selected ? 2 : 1,
             lineDash: [4, 4],
           }),
           fill: new Fill({
-            color: "rgba(33, 150, 243, 0.15)",
+            color: selected ? "rgba(21, 101, 192, 0.2)" : "rgba(33, 150, 243, 0.15)",
           }),
         });
       }
@@ -49,10 +49,15 @@ export function createSensorsLayerController(): LayerController<Sensor[]> {
     const source = layer.getSource();
     if (!source) return;
 
-    source.clear();
+    let addedCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
+    const allowedIds = new Set<string>();
 
     sensors.forEach((sensor) => {
       const center = to3857([sensor.position.lon, sensor.position.lat]);
+      allowedIds.add(sensor.id);
+      allowedIds.add(`${sensor.id}-coverage`);
 
       const radius = sensor.coverage?.radiusMeters ?? 3000;
       const coverageCircle = new CircleGeom(center, radius);
@@ -63,22 +68,51 @@ export function createSensorsLayerController(): LayerController<Sensor[]> {
         isCoverage: true,
       });
       coverageFeature.setId(`${sensor.id}-coverage`);
-      source.addFeature(coverageFeature);
+      const existingCoverage = source.getFeatureById(`${sensor.id}-coverage`) as
+        | Feature
+        | null;
+      if (existingCoverage) {
+        const geometryUpdated = updateGeometryIfChanged(
+          existingCoverage,
+          coverageFeature.getGeometry()!,
+        );
+        existingCoverage.setProperties({
+          sensorId: sensor.id,
+          entityKind: "sensor",
+          isCoverage: true,
+        });
+        if (geometryUpdated) {
+          updatedCount += 1;
+        }
+      } else {
+        source.addFeature(coverageFeature);
+        addedCount += 1;
+      }
 
-      const feature = new Feature({
-        geometry: new Point(center),
-        sensorId: sensor.id,
-        entityKind: "sensor",
-      });
-      feature.setId(sensor.id);
-      source.addFeature(feature);
+      const result = upsertPointFeature(
+        source,
+        sensor.id,
+        [sensor.position.lon, sensor.position.lat],
+        { sensorId: sensor.id, entityKind: "sensor" },
+      );
+      if (result.added) {
+        addedCount += 1;
+      } else if (result.updated) {
+        updatedCount += 1;
+      }
     });
 
-    layer.changed();
-  };
+    removedCount += removeMissingFeatures(source, allowedIds);
 
-  const setSelection = (entity: EntityRef | null) => {
-    selectedEntity = entity;
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug("[map] sensors layer update", {
+        added: addedCount,
+        updated: updatedCount,
+        removed: removedCount,
+      });
+    }
+
     layer.changed();
   };
 
@@ -89,7 +123,6 @@ export function createSensorsLayerController(): LayerController<Sensor[]> {
   return {
     layer,
     setData,
-    setSelection,
     dispose,
   };
 }
