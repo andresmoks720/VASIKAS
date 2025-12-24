@@ -213,6 +213,209 @@ export function parseGeometryHint(hint: unknown): NotamGeometry {
     return null;
 }
 
+function parsePoint(value: unknown): [number, number] | null {
+    if (isArray(value) && value.length >= 2 && isNumber(value[0]) && isNumber(value[1])) {
+        return [value[0], value[1]];
+    }
+
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const lat = getNumber(value, "lat") ?? getNumber(value, "latitude") ?? getNumber(value, "y");
+    const lon = getNumber(value, "lon") ?? getNumber(value, "longitude") ?? getNumber(value, "x");
+
+    if (lat === undefined || lon === undefined) {
+        return null;
+    }
+
+    return [lon, lat];
+}
+
+function looksLikePoint(value: unknown): boolean {
+    if (isArray(value)) {
+        return value.length >= 2 && isNumber(value[0]) && isNumber(value[1]);
+    }
+
+    if (!isObject(value)) {
+        return false;
+    }
+
+    return (
+        (isNumber(value.lat) && isNumber(value.lon)) ||
+        (isNumber(value.latitude) && isNumber(value.longitude)) ||
+        (isNumber(value.x) && isNumber(value.y))
+    );
+}
+
+function parseRing(value: unknown): [number, number][] | null {
+    if (!isArray(value)) {
+        return null;
+    }
+
+    const ring: [number, number][] = [];
+    for (const coord of value) {
+        const point = parsePoint(coord);
+        if (point) {
+            ring.push(point);
+        }
+    }
+
+    if (ring.length < 3) {
+        return null;
+    }
+
+    const first = ring[0];
+    const last = ring[ring.length - 1];
+    if (first[0] !== last[0] || first[1] !== last[1]) {
+        ring.push([first[0], first[1]]);
+    }
+
+    return ring;
+}
+
+function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
+    if (!isArray(coords) || coords.length === 0) {
+        return null;
+    }
+
+    if (looksLikePoint(coords[0])) {
+        const ring = parseRing(coords);
+        return ring ? [ring] : null;
+    }
+
+    if (isArray(coords[0]) && coords[0].length > 0 && looksLikePoint(coords[0][0])) {
+        const rings: [number, number][][] = [];
+        for (const ringCandidate of coords) {
+            const ring = parseRing(ringCandidate);
+            if (ring) {
+                rings.push(ring);
+            }
+        }
+
+        return rings.length > 0 ? rings : null;
+    }
+
+    if (isArray(coords[0]) && coords[0].length > 0) {
+        return parsePolygonCoordinates(coords[0]);
+    }
+
+    return null;
+}
+
+function parseCircleFrom(value: unknown): NotamGeometry {
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const radiusMeters = getNumber(value, "radiusMeters") ?? getNumber(value, "radius");
+    if (radiusMeters === undefined) {
+        return null;
+    }
+
+    const center = parsePoint(value.center ?? value.coordinates);
+    if (!center) {
+        return null;
+    }
+
+    return {
+        kind: "circle",
+        center,
+        radiusMeters,
+    };
+}
+
+function parseGeometryCandidate(value: unknown): NotamGeometry {
+    if (!value) {
+        return null;
+    }
+
+    if (isObject(value)) {
+        const type = getString(value, "type");
+
+        if (type === "Polygon") {
+            const polygon = parsePolygonCoordinates(value.coordinates);
+            return polygon ? { kind: "polygon", coordinates: polygon } : null;
+        }
+
+        if (type === "MultiPolygon") {
+            if (isArray(value.coordinates) && value.coordinates.length > 0) {
+                const polygon = parsePolygonCoordinates(value.coordinates[0]);
+                return polygon ? { kind: "polygon", coordinates: polygon } : null;
+            }
+            return null;
+        }
+
+        if (type === "Point") {
+            return parseCircleFrom(value);
+        }
+
+        const circle = parseCircleFrom(value);
+        if (circle) {
+            return circle;
+        }
+
+        if (value.coordinates) {
+            const polygon = parsePolygonCoordinates(value.coordinates);
+            return polygon ? { kind: "polygon", coordinates: polygon } : null;
+        }
+    }
+
+    if (isArray(value)) {
+        const polygon = parsePolygonCoordinates(value);
+        return polygon ? { kind: "polygon", coordinates: polygon } : null;
+    }
+
+    return null;
+}
+
+export function parseNotamGeometry(raw: unknown): NotamGeometry {
+    if (!isObject(raw)) {
+        return null;
+    }
+
+    const hintGeometry = parseGeometryHint(raw.geometryHint);
+    if (hintGeometry) {
+        return hintGeometry;
+    }
+
+    const candidateKeys = ["geometry", "geom", "shape", "area", "areaGeometry", "geoJson", "geojson"] as const;
+    const candidates: unknown[] = candidateKeys.map((key) => raw[key]).filter((value) => value !== undefined);
+
+    if (raw.coordinates !== undefined) {
+        candidates.push(raw.coordinates);
+    }
+
+    if (raw.polygon !== undefined) {
+        candidates.push(raw.polygon);
+    }
+
+    if (raw.polygons !== undefined) {
+        candidates.push(raw.polygons);
+    }
+
+    if (raw.circle !== undefined) {
+        candidates.push(raw.circle);
+    }
+
+    if (raw.center !== undefined || raw.radius !== undefined || raw.radiusMeters !== undefined) {
+        candidates.push({
+            center: raw.center,
+            radius: raw.radius,
+            radiusMeters: raw.radiusMeters,
+        });
+    }
+
+    for (const candidate of candidates) {
+        const geometry = parseGeometryCandidate(candidate);
+        if (geometry) {
+            return geometry;
+        }
+    }
+
+    return null;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Item normalization
 // ─────────────────────────────────────────────────────────────────────────────
@@ -234,7 +437,7 @@ function normalizeNotamItem(item: unknown, eventTimeUtc: string): NormalizedNota
     const validToUtc = getString(item, "validToUtc");
     const summary = formatNotamSummary(text, 60);
     const altitudes = parseAltitudesFromText(text);
-    const geometry = parseGeometryHint(item.geometryHint);
+    const geometry = parseNotamGeometry(item);
 
     return {
         id,
