@@ -206,6 +206,104 @@ describe("parseNotamGeometry", () => {
             expect(geometry.coordinates[0]).toHaveLength(5);
         }
     });
+
+    it("uses outer ring for GeoJSON polygon with holes", () => {
+        const geometry = parseNotamGeometry({
+            geometry: {
+                type: "Polygon",
+                coordinates: [
+                    [
+                        [24.74, 59.43],
+                        [24.76, 59.43],
+                        [24.76, 59.44],
+                        [24.74, 59.44],
+                        [24.74, 59.43],
+                    ],
+                    [
+                        [24.745, 59.435],
+                        [24.755, 59.435],
+                        [24.755, 59.439],
+                        [24.745, 59.439],
+                        [24.745, 59.435],
+                    ],
+                ],
+            },
+        });
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            expect(geometry.coordinates).toHaveLength(1);
+            expect(geometry.coordinates[0]).toEqual([
+                [24.74, 59.43],
+                [24.76, 59.43],
+                [24.76, 59.44],
+                [24.74, 59.44],
+                [24.74, 59.43],
+            ]);
+        }
+    });
+
+    it("parses GeoJSON multipolygon using first polygon outer ring", () => {
+        const geometry = parseNotamGeometry({
+            geometry: {
+                type: "MultiPolygon",
+                coordinates: [
+                    [
+                        [
+                            [24.74, 59.43],
+                            [24.76, 59.43],
+                            [24.76, 59.44],
+                            [24.74, 59.44],
+                            [24.74, 59.43],
+                        ],
+                        [
+                            [24.745, 59.435],
+                            [24.755, 59.435],
+                            [24.755, 59.439],
+                            [24.745, 59.439],
+                            [24.745, 59.435],
+                        ],
+                    ],
+                    [
+                        [
+                            [25.0, 60.0],
+                            [25.1, 60.0],
+                            [25.1, 60.1],
+                            [25.0, 60.1],
+                            [25.0, 60.0],
+                        ],
+                    ],
+                ],
+            },
+        });
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            expect(geometry.coordinates).toHaveLength(1);
+            expect(geometry.coordinates[0]).toEqual([
+                [24.74, 59.43],
+                [24.76, 59.43],
+                [24.76, 59.44],
+                [24.74, 59.44],
+                [24.74, 59.43],
+            ]);
+        }
+    });
+
+    it("parses circle variant with x/y center", () => {
+        const geometry = parseNotamGeometry({
+            circle: {
+                center: { x: 24.7536, y: 59.4369 },
+                radius: 1500,
+            },
+        });
+
+        expect(geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 1500,
+        });
+    });
 });
 
 describe("normalizeNotams", () => {
