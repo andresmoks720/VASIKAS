@@ -93,6 +93,7 @@ export function computeAircraftAtTime(track: AdsbTrack, nowUtc: string, ingestTi
     id: track.id,
     callsign: track.callsign,
     position: sample.position,
+    positionSource: "current",
     trackDeg: sample.trackDeg,
     groundSpeedKmh: sample.groundSpeedKmh,
     altitude: sample.altitude,

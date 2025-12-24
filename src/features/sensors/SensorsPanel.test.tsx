@@ -1,3 +1,4 @@
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { SensorsPanel } from "./SensorsPanel";
@@ -16,8 +17,8 @@ const mockRemove = vi.fn();
 const mockCreate = vi.fn();
 vi.mock("@/services/sensors/sensorStore", () => ({
     sensorStore: {
-        remove: (...args: any[]) => mockRemove(...args),
-        create: (...args: any[]) => mockCreate(...args),
+        remove: (...args: unknown[]) => mockRemove(...args),
+        create: (...args: unknown[]) => mockCreate(...args),
     },
 }));
 

@@ -62,6 +62,3 @@ describe("SensorStore", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 });
-
-// Helper for memory persistence in tests, slightly modified from real one to expose storage
-import { PersistenceDefaults, StorageLike, createMemoryStorage as makeMem } from "@/services/persistence/localPersistence";

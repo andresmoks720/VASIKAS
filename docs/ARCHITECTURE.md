@@ -13,7 +13,7 @@ This page is a practical map-first guide for the prototype. The app is a **persi
 
 ## Boundaries (what goes where)
 
-- `src/map/*`: **OpenLayers only** (MapView owns the map). Add base/vector layers in `map/layers/*`, styles in `map/styles/*`, projection helpers in `map/transforms.ts`. Panels must never import OL.
+- `src/map/*`: **OpenLayers only** (MapView owns the map). Add base/vector layers in `map/layers/*`, layer controllers in `map/layers/controllers/*`, styles in `map/styles/*`, projection helpers in `map/transforms.ts`. Panels must never import OL.
 - `src/layout/MapShell/*`: URL state, layout wiring, and sidebar orchestration. No map logic beyond mounting `<MapView />`.
 - `src/features/*`: **panels only** (React UI). Fetch state via services/hooks; talk to the map through a narrow `mapApi` once added.
 - `src/services/*`: data clients + polling + DTO→domain mapping. Keep VITE_* config and mocks here.
@@ -21,7 +21,7 @@ This page is a practical map-first guide for the prototype. The app is a **persi
 
 ## Where to add things next
 
-- **New map layer**: create under `src/map/layers/`, wire into `MapView` (or a future `mapApi`) and keep styling in `src/map/styles/`.
+- **New map layer**: create the OpenLayers layer in `src/map/layers/` and a controller in `src/map/layers/controllers/` to manage data/selection; wire the controller into `MapView`.
 - **New panel**: add a component in `src/features/<tool>/`, export a heading, and register it in `LeftSidebar`.
 - **New client/polling**: implement in `src/services/<area>/`, expose hooks, and keep mock handlers in `src/mocks/handlers.ts`.
 - **URL handling**: extend `urlState.ts` and `useSidebarUrlState.ts` if more query params or tool routes are needed.
@@ -43,7 +43,7 @@ MapShell / panels (React state + render)
 ### Layers
 
 - **Base layer:** Maa-amet orthophoto WMTS
-- **Vector layers:** drones, sensors, ADS-B tracks, NOTAM overlays
+- **Vector layers:** drones, sensors, ADS-B tracks, NOTAM overlays (data wiring via layer controllers)
 
 All WMTS config is centralized in `src/map/layers/maaAmetOrthoWmts.ts`.
 

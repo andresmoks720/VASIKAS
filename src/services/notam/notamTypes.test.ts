@@ -50,7 +50,7 @@ describe("formatNotamSummary", () => {
         const dirtyLongText = "TEMP\x00RESTRICTED   AREA\n" + "X".repeat(100);
         const result = formatNotamSummary(dirtyLongText, 30);
 
-        expect(result).not.toMatch(/\x00/);
+        expect(result).not.toContain("\u0000");
         expect(result).not.toMatch(/\s{2,}/);
         expect(result.length).toBeLessThanOrEqual(30);
     });

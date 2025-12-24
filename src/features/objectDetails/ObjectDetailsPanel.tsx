@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Alert, Box, Button, Checkbox, Divider, FormControlLabel, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Button, Checkbox, Divider, FormControlLabel, IconButton, Stack, TextField, Typography } from "@mui/material";
 
 import { EntityRef } from "@/layout/MapShell/urlState";
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
@@ -56,22 +56,6 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
     }
   }, [aircraft, drones, entity.id, entity.kind, sensors]);
 
-  if (!selection.item) {
-    return (
-      <Stack spacing={2}>
-        <Button
-          onClick={() => selectEntity(null)}
-          sx={{ alignSelf: "flex-start" }}
-        >
-          ← Back
-        </Button>
-        <Alert severity="info" variant="outlined">
-          No data found for {entity.kind}:{entity.id}
-        </Alert>
-      </Stack>
-    );
-  }
-
   const title = useMemo(() => {
     if (!selection.item) return "Object Details";
     if (selection.kind === "aircraft" || selection.kind === "flight") {
@@ -89,6 +73,22 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
     }
     return "Object Details";
   }, [selection]);
+
+  if (!selection.item) {
+    return (
+      <Stack spacing={2}>
+        <Button
+          onClick={() => selectEntity(null)}
+          sx={{ alignSelf: "flex-start" }}
+        >
+          ← Back
+        </Button>
+        <Alert severity="info" variant="outlined">
+          No data found for {entity.kind}:{entity.id}
+        </Alert>
+      </Stack>
+    );
+  }
 
   return (
     <Stack spacing={1.5}>
@@ -137,7 +137,9 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
               control={
                 <Checkbox
                   size="small"
-                  onChange={(e: any) => mapApi.setFocus("drone", e.target.checked ? selection.item!.id : null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    mapApi.setFocus("drone", e.target.checked ? selection.item!.id : null)
+                  }
                 />
               }
               label={<Typography variant="body2">Keep in focus</Typography>}
@@ -146,7 +148,9 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
               control={
                 <Checkbox
                   size="small"
-                  onChange={(e: any) => mapApi.setTrackVisibility("drone", selection.item!.id, e.target.checked)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    mapApi.setTrackVisibility("drone", selection.item!.id, e.target.checked)
+                  }
                 />
               }
               label={<Typography variant="body2">Track (Trajectory)</Typography>}
@@ -199,7 +203,9 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
               control={
                 <Checkbox
                   size="small"
-                  onChange={(e: any) => mapApi.setFocus("flight", e.target.checked ? selection.item!.id : null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    mapApi.setFocus("flight", e.target.checked ? selection.item!.id : null)
+                  }
                 />
               }
               label={<Typography variant="body2">Keep in focus</Typography>}
@@ -208,7 +214,9 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
               control={
                 <Checkbox
                   size="small"
-                  onChange={(e: any) => mapApi.setTrackVisibility("flight", selection.item!.id, e.target.checked)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    mapApi.setTrackVisibility("flight", selection.item!.id, e.target.checked)
+                  }
                 />
               }
               label={<Typography variant="body2">Track (Trajectory)</Typography>}
@@ -321,10 +329,10 @@ function GeofenceDetailsSection({ geofence }: { geofence: Geofence }) {
   const { selectEntity } = useSidebarUrlState();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(geofence.name);
-  const isCircle = geofence.geometry.kind === "circle";
-  const [lat, setLat] = useState(isCircle ? (geofence.geometry as any).center.lat.toString() : "");
-  const [lon, setLon] = useState(isCircle ? (geofence.geometry as any).center.lon.toString() : "");
-  const [radius, setRadius] = useState(isCircle ? (geofence.geometry as any).radiusMeters.toString() : "");
+  const circleGeometry = geofence.geometry.kind === "circle" ? geofence.geometry : null;
+  const [lat, setLat] = useState(circleGeometry ? circleGeometry.center.lat.toString() : "");
+  const [lon, setLon] = useState(circleGeometry ? circleGeometry.center.lon.toString() : "");
+  const [radius, setRadius] = useState(circleGeometry ? circleGeometry.radiusMeters.toString() : "");
   const [description, setDescription] = useState(geofence.description || "");
 
   const handleSave = () => {
@@ -337,8 +345,8 @@ function GeofenceDetailsSection({ geofence }: { geofence: Geofence }) {
     geofenceStore.update(geofence.id, {
       name,
       description,
-      center: isCircle ? { lat: latNum, lon: lonNum } : undefined,
-      radiusMeters: isCircle ? radiusNum : undefined,
+      center: circleGeometry ? { lat: latNum, lon: lonNum } : undefined,
+      radiusMeters: circleGeometry ? radiusNum : undefined,
     });
     setIsEditing(false);
   };
@@ -360,7 +368,7 @@ function GeofenceDetailsSection({ geofence }: { geofence: Geofence }) {
           fullWidth
           size="small"
         />
-        {isCircle && (
+        {circleGeometry && (
           <>
             <Stack direction="row" spacing={2}>
               <TextField
@@ -414,13 +422,13 @@ function GeofenceDetailsSection({ geofence }: { geofence: Geofence }) {
       <Stack spacing={0.5}>
         <KeyValueRow label="Name" value={geofence.name} />
         <KeyValueRow label="Kind" value={geofence.geometry.kind} />
-        {isCircle && (
+        {circleGeometry && (
           <>
             <KeyValueRow
               label="Center"
-              value={formatPosition((geofence.geometry as any).center.lon, (geofence.geometry as any).center.lat)}
+              value={formatPosition(circleGeometry.center.lon, circleGeometry.center.lat)}
             />
-            <KeyValueRow label="Radius" value={`${(geofence.geometry as any).radiusMeters} m`} />
+            <KeyValueRow label="Radius" value={`${circleGeometry.radiusMeters} m`} />
           </>
         )}
         {geofence.description ? <KeyValueRow label="Description" value={geofence.description} /> : null}
