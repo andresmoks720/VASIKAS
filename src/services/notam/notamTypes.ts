@@ -48,10 +48,15 @@ const MAX_SUMMARY_LENGTH = 80;
  * Sanitize text by collapsing whitespace and removing control characters.
  */
 export function sanitizeText(text: string): string {
-    return text
-        .replace(/[\x00-\x1F\x7F]/g, " ") // Control chars → space
-        .replace(/\s+/g, " ") // Collapse whitespace
-        .trim();
+    const cleaned = Array.from(text, (char) => {
+        const code = char.charCodeAt(0);
+        if (code <= 0x1f || code === 0x7f) {
+            return " ";
+        }
+        return char;
+    }).join("");
+
+    return cleaned.replace(/\s+/g, " ").trim();
 }
 
 /**

@@ -1,3 +1,4 @@
+import ImageTile from "ol/ImageTile";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 
@@ -43,8 +44,10 @@ export function createOfflineXyzLayer() {
     minZoom: 7,
     maxZoom: 10,
     tileLoadFunction: (tile) => {
-      const image = tile.getImage() as HTMLImageElement;
-      image.src = getPlaceholderTileDataUrl();
+      if (tile instanceof ImageTile) {
+        const image = tile.getImage() as HTMLImageElement;
+        image.src = getPlaceholderTileDataUrl();
+      }
     },
   });
 

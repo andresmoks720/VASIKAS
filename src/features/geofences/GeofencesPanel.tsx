@@ -13,7 +13,6 @@ import {
   DialogContent,
   DialogActions,
   Stack,
-  Divider,
 } from "@mui/material";
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";

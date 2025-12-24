@@ -75,8 +75,6 @@ describe("GeofenceStore", () => {
 
     describe("rename", () => {
         it("should rename an existing geofence and update persistence", async () => {
-            const g1 = store.createCircle({ name: "Old Name", center: { lon: 0, lat: 0 }, radiusMeters: 100 });
-
             // Force an older timestamp to ensure change is detected
             // We need to access the internal state via getAll/getById to modify it "behind the scenes" 
             // or just wait. But since we mock the adapter, we can just assume the next call changes it.

@@ -1,7 +1,7 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { GeofencesPanel } from "./GeofencesPanel";
-import { geofenceStore } from "@/services/geofences/geofenceStore";
+import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
 import { mapApi } from "@/map/mapApi";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 
@@ -18,11 +18,11 @@ vi.mock("@/map/mapApi", () => ({
 }));
 
 describe("GeofencesPanel", () => {
-    const mockGeofences = [
+    const mockedGeofenceStore = vi.mocked(geofenceStore);
+    const mockGeofences: Geofence[] = [
         {
             id: "1",
             name: "Test Zone",
-            kind: "circle",
             geometry: { kind: "circle", center: { lon: 24, lat: 59 }, radiusMeters: 500 },
             createdAtUtc: "2023-01-01",
             updatedAtUtc: "2023-01-01",
@@ -31,7 +31,7 @@ describe("GeofencesPanel", () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        (geofenceStore.getAll as any).mockReturnValue(mockGeofences);
+        mockedGeofenceStore.getAll.mockReturnValue(mockGeofences);
     });
 
     afterEach(() => {
@@ -50,7 +50,7 @@ describe("GeofencesPanel", () => {
     });
 
     it("calls store.createCircle on create submit", async () => {
-        (geofenceStore.getAll as any).mockReturnValue([]);
+        mockedGeofenceStore.getAll.mockReturnValue([]);
         render(<GeofencesPanel />);
 
         // Open dialog
@@ -65,7 +65,7 @@ describe("GeofencesPanel", () => {
         // Submit
         fireEvent.click(screen.getByText("Create"));
 
-        expect(geofenceStore.createCircle).toHaveBeenCalledWith(expect.objectContaining({
+        expect(mockedGeofenceStore.createCircle).toHaveBeenCalledWith(expect.objectContaining({
             name: "New Zone",
             center: { lon: 24.5, lat: 59.5 },
             radiusMeters: 100
@@ -81,7 +81,7 @@ describe("GeofencesPanel", () => {
 
         fireEvent.click(screen.getByText("Delete"));
 
-        expect(geofenceStore.remove).toHaveBeenCalledWith("1");
+        expect(mockedGeofenceStore.remove).toHaveBeenCalledWith("1");
         expect(mapApi.setGeofences).toHaveBeenCalled();
         confirmSpy.mockRestore();
     });

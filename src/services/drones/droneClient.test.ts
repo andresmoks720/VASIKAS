@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { mapDroneTrackDto } from "./droneTypes";
+import { DroneTrackDto, mapDroneTrackDto } from "./droneTypes";
 
-const BASE_DTO = {
+const BASE_DTO: DroneTrackDto = {
   id: "demo-drone",
   label: "Demo",
   track: [

@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -98,7 +97,7 @@ function AddSensorDialog({ open, onClose }: AddSensorDialogProps) {
 export function SensorsPanel() {
   const { data, status, ageSeconds, error } = useSharedSensorsStream();
   const { selectEntity } = useSidebarUrlState();
-  const sensors = data ?? [];
+  const sensors = useMemo(() => data ?? [], [data]);
   const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
@@ -220,6 +219,20 @@ function SensorRow({
               <Typography variant="body2" color="text.secondary">
                 {sensor.position.lon.toFixed(4)}, {sensor.position.lat.toFixed(4)}
               </Typography>
+              {onDelete ? (
+                <Box>
+                  <Button
+                    size="small"
+                    color="error"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onDelete(event);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </Box>
+              ) : null}
             </Stack>
           }
         />
