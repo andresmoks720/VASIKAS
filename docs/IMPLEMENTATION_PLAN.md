@@ -12,6 +12,10 @@
   - NOTAM interpreter v0 (P3-03): `notamInterpreter.ts` with altitude parsing (SFC, FT AMSL/MSL/AGL, FL) and geometryHint parsing.
   - NOTAM map overlay layer (P3-04): `notams.ts` layer with orange styling and `mapApi.setNotams()` integration.
   - Map layer controllers for drones, sensors, geofences, and NOTAM overlays to keep MapView orchestration-focused.
+  - Incremental OpenLayers feature upserts for drones/sensors (no full clear/re-add per poll).
+  - Map selection manager to toggle feature highlight state via feature properties.
+  - Shared HTTP apiClient for consistent fetch error handling across services.
+  - Test factories + render helpers, plus smoke-path E2E coverage.
 - In progress:
   - (None)
 - Done:

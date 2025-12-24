@@ -1,9 +1,11 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { GeofencesPanel } from "./GeofencesPanel";
 import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
 import { mapApi } from "@/map/mapApi";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
+import { makeGeofence } from "@/shared/test/factories";
+import { renderWithRouter } from "@/shared/test/render";
 
 // Mock dependencies
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
@@ -19,15 +21,7 @@ vi.mock("@/map/mapApi", () => ({
 
 describe("GeofencesPanel", () => {
     const mockedGeofenceStore = vi.mocked(geofenceStore);
-    const mockGeofences: Geofence[] = [
-        {
-            id: "1",
-            name: "Test Zone",
-            geometry: { kind: "circle", center: { lon: 24, lat: 59 }, radiusMeters: 500 },
-            createdAtUtc: "2023-01-01",
-            updatedAtUtc: "2023-01-01",
-        },
-    ];
+    const mockGeofences: Geofence[] = [makeGeofence({ id: "1", name: "Test Zone" })];
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -39,19 +33,19 @@ describe("GeofencesPanel", () => {
     });
 
     it("renders list of geofences", () => {
-        render(<GeofencesPanel />);
+        renderWithRouter(<GeofencesPanel />, { route: "/geofences" });
         expect(screen.getByText("Test Zone")).toBeInTheDocument();
     });
 
     it("opens create dialog on Add click", () => {
-        render(<GeofencesPanel />);
+        renderWithRouter(<GeofencesPanel />, { route: "/geofences" });
         fireEvent.click(screen.getByText("Add"));
         expect(screen.getByText("Create Geofence")).toBeInTheDocument();
     });
 
     it("calls store.createCircle on create submit", async () => {
         mockedGeofenceStore.getAll.mockReturnValue([]);
-        render(<GeofencesPanel />);
+        renderWithRouter(<GeofencesPanel />, { route: "/geofences" });
 
         // Open dialog
         fireEvent.click(screen.getByText("Add"));
@@ -77,7 +71,7 @@ describe("GeofencesPanel", () => {
 
     it("calls store.remove on delete click", () => {
         const confirmSpy = vi.spyOn(window, "confirm").mockImplementation(() => true);
-        render(<GeofencesPanel />);
+        renderWithRouter(<GeofencesPanel />, { route: "/geofences" });
 
         fireEvent.click(screen.getByText("Delete"));
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ENV } from "@/shared/env";
+import { getJson } from "@/services/http/apiClient";
 
 export type PollingStatus = "idle" | "loading" | "live" | "stale" | "error";
 
@@ -134,13 +135,7 @@ export function usePolling<T>(
       setInternal((prev) => ({ ...prev, isFetching: true }));
 
       try {
-        const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
-
-        if (!response.ok) {
-          throw new Error(`Polling ${key} failed with status ${response.status}`);
-        }
-
-        const raw = await response.json();
+        const raw = await getJson<unknown>(url, { signal: controller.signal });
         const mapped = (mapFn ? mapFn(raw) : (raw as T));
         const now = Date.now();
 

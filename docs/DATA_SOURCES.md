@@ -25,6 +25,7 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - Set `VITE_USE_MOCKS=0`
 - Provide the relevant `VITE_*_URL` env vars
 - If any endpoint fails due to CORS/network, revert to mocks and note it below.
+- **Error handling:** Fetches go through a shared `apiClient` wrapper to normalize HTTP, parse, and network errors while still preserving polling "last-good" behavior.
 
 ---
 
