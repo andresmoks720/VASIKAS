@@ -156,61 +156,7 @@ export function parseAltitudesFromText(text: string): Altitude[] {
  * Supports circle and polygon types from mock data.
  */
 export function parseGeometryHint(hint: unknown): NotamGeometry {
-    if (!isObject(hint)) {
-        return null;
-    }
-
-    const type = getString(hint, "type");
-
-    if (type === "circle") {
-        const center = hint.center;
-        if (!isObject(center)) return null;
-
-        const lon = getNumber(center, "lon");
-        const lat = getNumber(center, "lat");
-        const radiusMeters = getNumber(hint, "radiusMeters");
-
-        if (lon === undefined || lat === undefined || radiusMeters === undefined) {
-            return null;
-        }
-
-        return {
-            kind: "circle",
-            center: [lon, lat],
-            radiusMeters,
-        };
-    }
-
-    if (type === "polygon") {
-        const coordinates = hint.coordinates;
-        if (!isArray(coordinates)) return null;
-
-        // Convert [lon, lat] pairs to the expected format
-        const ring: [number, number][] = [];
-        for (const coord of coordinates) {
-            if (isArray(coord) && coord.length >= 2 && isNumber(coord[0]) && isNumber(coord[1])) {
-                ring.push([coord[0], coord[1]]);
-            }
-        }
-
-        if (ring.length < 3) {
-            return null;
-        }
-
-        // Ensure ring is closed
-        const first = ring[0];
-        const last = ring[ring.length - 1];
-        if (first[0] !== last[0] || first[1] !== last[1]) {
-            ring.push([first[0], first[1]]);
-        }
-
-        return {
-            kind: "polygon",
-            coordinates: [ring], // Single outer ring, GeoJSON format
-        };
-    }
-
-    return null;
+    return parseGeometryCandidate(hint);
 }
 
 function parsePoint(value: unknown): [number, number] | null {
@@ -313,7 +259,7 @@ function parseCircleFrom(value: unknown): NotamGeometry {
         return null;
     }
 
-    const center = parsePoint(value.center ?? value.coordinates);
+    const center = parsePoint(value.center ?? value.coordinates ?? value);
     if (!center) {
         return null;
     }
@@ -401,6 +347,15 @@ export function parseNotamGeometry(raw: unknown): NotamGeometry {
     if (raw.center !== undefined || raw.radius !== undefined || raw.radiusMeters !== undefined) {
         candidates.push({
             center: raw.center,
+            radius: raw.radius,
+            radiusMeters: raw.radiusMeters,
+        });
+    }
+
+    const rootCenter = parsePoint(raw);
+    if (rootCenter && (raw.radius !== undefined || raw.radiusMeters !== undefined)) {
+        candidates.push({
+            center: rootCenter,
             radius: raw.radius,
             radiusMeters: raw.radiusMeters,
         });

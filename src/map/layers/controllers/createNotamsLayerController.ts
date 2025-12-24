@@ -37,19 +37,18 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
     let missingGeometryCount = 0;
     notams.forEach((notam) => {
       const geom = notamGeometryToOl(notam.geometry);
-      if (!geom) {
-        missingGeometryCount += 1;
-        return;
-      }
-
       const feature = new Feature({
-        geometry: geom,
         notamId: notam.id,
         summary: notam.summary,
         validFromUtc: notam.validFromUtc,
         validToUtc: notam.validToUtc,
         entityKind: "notam",
       });
+      if (geom) {
+        feature.setGeometry(geom);
+      } else {
+        missingGeometryCount += 1;
+      }
       feature.setId(notam.id);
       source.addFeature(feature);
     });
