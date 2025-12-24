@@ -220,6 +220,16 @@ function parseRing(value: unknown): [number, number][] | null {
     return ring;
 }
 
+function parseGeoJsonOuterRingCoordinates(coords: unknown): [number, number][][] | null {
+    if (!isArray(coords) || coords.length === 0) {
+        return null;
+    }
+
+    const outerRingCandidate = coords[0];
+    const outerRing = parseRing(outerRingCandidate);
+    return outerRing ? [outerRing] : null;
+}
+
 function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
     if (!isArray(coords) || coords.length === 0) {
         return null;
@@ -280,13 +290,13 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
         const type = getString(value, "type");
 
         if (type === "Polygon") {
-            const polygon = parsePolygonCoordinates(value.coordinates);
+            const polygon = parseGeoJsonOuterRingCoordinates(value.coordinates);
             return polygon ? { kind: "polygon", coordinates: polygon } : null;
         }
 
         if (type === "MultiPolygon") {
             if (isArray(value.coordinates) && value.coordinates.length > 0) {
-                const polygon = parsePolygonCoordinates(value.coordinates[0]);
+                const polygon = parseGeoJsonOuterRingCoordinates(value.coordinates[0]);
                 return polygon ? { kind: "polygon", coordinates: polygon } : null;
             }
             return null;
@@ -313,6 +323,19 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
     }
 
     return null;
+}
+
+export function parseAnyGeometry(item: unknown): NotamGeometry {
+    if (!isObject(item)) {
+        return null;
+    }
+
+    const hintGeometry = parseGeometryHint(item.geometryHint);
+    if (hintGeometry) {
+        return hintGeometry;
+    }
+
+    return parseNotamGeometry(item);
 }
 
 export function parseNotamGeometry(raw: unknown): NotamGeometry {
@@ -392,7 +415,7 @@ function normalizeNotamItem(item: unknown, eventTimeUtc: string): NormalizedNota
     const validToUtc = getString(item, "validToUtc");
     const summary = formatNotamSummary(text, 60);
     const altitudes = parseAltitudesFromText(text);
-    const geometry = parseNotamGeometry(item);
+    const geometry = parseAnyGeometry(item);
 
     return {
         id,
