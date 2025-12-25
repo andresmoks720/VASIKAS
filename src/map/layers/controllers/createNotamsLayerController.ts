@@ -1,7 +1,6 @@
 import Feature from "ol/Feature";
-import { Circle as CircleGeom } from "ol/geom";
+import { Circle as CircleGeom, MultiPolygon, Polygon } from "ol/geom";
 import { fromCircle } from "ol/geom/Polygon";
-import { Polygon } from "ol/geom";
 
 import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
 import { to3857 } from "@/map/transforms";
@@ -9,7 +8,7 @@ import { createNotamLayer } from "@/map/layers/notams";
 
 import { LayerController } from "./types";
 
-function notamGeometryToOl(geometry: NotamGeometry): Polygon | null {
+function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolygon | null {
   if (!geometry) return null;
 
   if (geometry.kind === "circle") {
@@ -21,6 +20,13 @@ function notamGeometryToOl(geometry: NotamGeometry): Polygon | null {
   if (geometry.kind === "polygon") {
     const rings = geometry.coordinates.map((ring) => ring.map((coord) => to3857(coord)));
     return new Polygon(rings);
+  }
+
+  if (geometry.kind === "multiPolygon") {
+    const polygons = geometry.coordinates.map((polygon) =>
+      polygon.map((ring) => ring.map((coord) => to3857(coord))),
+    );
+    return new MultiPolygon(polygons);
   }
 
   return null;
