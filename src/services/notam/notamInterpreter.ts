@@ -1,12 +1,20 @@
 import type { Altitude } from "@/shared/types/domain";
 
-import { formatNotamSummary, NormalizedNotam, NotamGeometry, NotamRaw } from "./notamTypes";
+import {
+    formatNotamSummary,
+    GeometryParseReason,
+    NormalizedNotam,
+    NotamGeometry,
+    NotamRaw,
+} from "./notamTypes";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────────────
 
 const FT_TO_METERS = 0.3048;
+const KM_TO_METERS = 1000;
+const NM_TO_METERS = 1852;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Type guards and helpers
@@ -36,6 +44,29 @@ function getString(obj: Record<string, unknown>, key: string): string | undefine
 function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
     const value = obj[key];
     return isNumber(value) ? value : undefined;
+}
+
+function parseRadiusMeters(value: Record<string, unknown>): number | null {
+    const meters =
+        getNumber(value, "radiusMeters") ??
+        getNumber(value, "radius_m") ??
+        getNumber(value, "radiusM") ??
+        getNumber(value, "radius");
+    if (meters !== undefined) {
+        return meters;
+    }
+
+    const km = getNumber(value, "radiusKm") ?? getNumber(value, "radiusKM");
+    if (km !== undefined) {
+        return km * KM_TO_METERS;
+    }
+
+    const nm = getNumber(value, "radiusNm") ?? getNumber(value, "radiusNM");
+    if (nm !== undefined) {
+        return nm * NM_TO_METERS;
+    }
+
+    return null;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -178,39 +209,6 @@ function parsePoint(value: unknown): [number, number] | null {
     return [lon, lat];
 }
 
-function parsePointFlexible(value: unknown): [number, number] | null {
-    if (isArray(value) && value.length >= 2 && isNumber(value[0]) && isNumber(value[1])) {
-        const first = value[0];
-        const second = value[1];
-        const lon = Math.abs(first) > 180 && Math.abs(second) <= 90 ? second : first;
-        const lat = Math.abs(first) > 180 && Math.abs(second) <= 90 ? first : second;
-        return [lon, lat];
-    }
-
-    if (!isObject(value)) {
-        return null;
-    }
-
-    const lat =
-        getNumber(value, "lat") ??
-        getNumber(value, "latitude") ??
-        getNumber(value, "latitude_deg") ??
-        getNumber(value, "y");
-    const lon =
-        getNumber(value, "lon") ??
-        getNumber(value, "longitude") ??
-        getNumber(value, "longitude_deg") ??
-        getNumber(value, "lng") ??
-        getNumber(value, "long") ??
-        getNumber(value, "x");
-
-    if (lat === undefined || lon === undefined) {
-        return null;
-    }
-
-    return [lon, lat];
-}
-
 function looksLikePoint(value: unknown): boolean {
     if (isArray(value)) {
         return value.length >= 2 && isNumber(value[0]) && isNumber(value[1]);
@@ -223,23 +221,6 @@ function looksLikePoint(value: unknown): boolean {
     return (
         (isNumber(value.lat) && isNumber(value.lon)) ||
         (isNumber(value.latitude) && isNumber(value.longitude)) ||
-        (isNumber(value.x) && isNumber(value.y))
-    );
-}
-
-function looksLikePointFlexible(value: unknown): boolean {
-    if (isArray(value)) {
-        return value.length >= 2 && isNumber(value[0]) && isNumber(value[1]);
-    }
-
-    if (!isObject(value)) {
-        return false;
-    }
-
-    return (
-        (isNumber(value.lat) && (isNumber(value.lon) || isNumber(value.long) || isNumber(value.lng))) ||
-        (isNumber(value.latitude) && isNumber(value.longitude)) ||
-        (isNumber(value.latitude_deg) && isNumber(value.longitude_deg)) ||
         (isNumber(value.x) && isNumber(value.y))
     );
 }
@@ -268,52 +249,6 @@ function parseRing(value: unknown): [number, number][] | null {
     }
 
     return ring;
-}
-
-function parseRingFlexible(value: unknown): [number, number][] | null {
-    if (!isArray(value)) {
-        return null;
-    }
-
-    const ring: [number, number][] = [];
-    for (const coord of value) {
-        const point = parsePointFlexible(coord);
-        if (point) {
-            ring.push(point);
-        }
-    }
-
-    if (ring.length < 3) {
-        return null;
-    }
-
-    const first = ring[0];
-    const last = ring[ring.length - 1];
-    if (first[0] !== last[0] || first[1] !== last[1]) {
-        ring.push([first[0], first[1]]);
-    }
-
-    return ring;
-}
-
-function parseGeoJsonOuterRingCoordinates(coords: unknown): [number, number][][] | null {
-    if (!isArray(coords) || coords.length === 0) {
-        return null;
-    }
-
-    const outerRingCandidate = coords[0];
-    const outerRing = parseRing(outerRingCandidate);
-    return outerRing ? [outerRing] : null;
-}
-
-function parseGeoJsonOuterRingCoordinatesFlexible(coords: unknown): [number, number][][] | null {
-    if (!isArray(coords) || coords.length === 0) {
-        return null;
-    }
-
-    const outerRingCandidate = coords[0];
-    const outerRing = parseRingFlexible(outerRingCandidate);
-    return outerRing ? [outerRing] : null;
 }
 
 function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
@@ -345,42 +280,13 @@ function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
     return null;
 }
 
-function parsePolygonCoordinatesFlexible(coords: unknown): [number, number][][] | null {
-    if (!isArray(coords) || coords.length === 0) {
-        return null;
-    }
-
-    if (looksLikePointFlexible(coords[0])) {
-        const ring = parseRingFlexible(coords);
-        return ring ? [ring] : null;
-    }
-
-    if (isArray(coords[0]) && coords[0].length > 0 && looksLikePointFlexible(coords[0][0])) {
-        const rings: [number, number][][] = [];
-        for (const ringCandidate of coords) {
-            const ring = parseRingFlexible(ringCandidate);
-            if (ring) {
-                rings.push(ring);
-            }
-        }
-
-        return rings.length > 0 ? rings : null;
-    }
-
-    if (isArray(coords[0]) && coords[0].length > 0) {
-        return parsePolygonCoordinatesFlexible(coords[0]);
-    }
-
-    return null;
-}
-
 function parseCircleFrom(value: unknown): NotamGeometry {
     if (!isObject(value)) {
         return null;
     }
 
-    const radiusMeters = getNumber(value, "radiusMeters") ?? getNumber(value, "radius");
-    if (radiusMeters === undefined) {
+    const radiusMeters = parseRadiusMeters(value);
+    if (radiusMeters === null) {
         return null;
     }
 
@@ -397,26 +303,7 @@ function parseCircleFrom(value: unknown): NotamGeometry {
 }
 
 function parseGeometryCandidateStrict(value: unknown): NotamGeometry {
-function parseCircleFromFlexible(value: unknown): NotamGeometry {
-    if (!isObject(value)) {
-        return null;
-    }
-
-    const radiusMeters = getNumber(value, "radiusMeters") ?? getNumber(value, "radius");
-    if (radiusMeters === undefined) {
-        return null;
-    }
-
-    const center = parsePointFlexible(value.center ?? value.coordinates ?? value);
-    if (!center) {
-        return null;
-    }
-
-    return {
-        kind: "circle",
-        center,
-        radiusMeters,
-    };
+    return parseGeometryCandidate(value);
 }
 
 function parseGeometryCandidate(value: unknown): NotamGeometry {
@@ -471,92 +358,6 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
     return null;
 }
 
-function unwrapGeoJsonContainer(value: unknown): unknown | null {
-    if (!isObject(value)) {
-        return null;
-    }
-
-    const type = getString(value, "type");
-    if (type === "Feature") {
-        return value.geometry ?? null;
-    }
-
-    if (type === "FeatureCollection" && isArray(value.features)) {
-        for (const feature of value.features) {
-            if (!isObject(feature)) {
-                continue;
-            }
-            const geometryCandidate = feature.geometry ?? null;
-            if (geometryCandidate && parseGeometryCandidateStrict(geometryCandidate)) {
-                return geometryCandidate;
-            }
-        }
-    }
-
-    return null;
-}
-
-function parseGeometryCandidateLoose(value: unknown): NotamGeometry {
-    if (!value) {
-        return null;
-    }
-
-    const unwrapped = unwrapGeoJsonContainer(value);
-    if (unwrapped) {
-        const geometry = parseGeometryCandidateStrict(unwrapped);
-        if (geometry) {
-            return geometry;
-        }
-    }
-
-    if (isObject(value) && value.geometry !== undefined) {
-        const geometry = parseGeometryCandidateStrict(value.geometry);
-        if (geometry) {
-            return geometry;
-        }
-function parseGeometryCandidateFlexible(value: unknown): NotamGeometry {
-    if (!value) {
-        return null;
-    }
-
-    if (isObject(value)) {
-        const type = getString(value, "type");
-
-        if (type === "Polygon") {
-            const polygon = parseGeoJsonOuterRingCoordinatesFlexible(value.coordinates);
-            return polygon ? { kind: "polygon", coordinates: polygon } : null;
-        }
-
-        if (type === "MultiPolygon") {
-            if (isArray(value.coordinates) && value.coordinates.length > 0) {
-                const polygon = parseGeoJsonOuterRingCoordinatesFlexible(value.coordinates[0]);
-                return polygon ? { kind: "polygon", coordinates: polygon } : null;
-            }
-            return null;
-        }
-
-        if (type === "Point") {
-            return parseCircleFromFlexible(value);
-        }
-
-        const circle = parseCircleFromFlexible(value);
-        if (circle) {
-            return circle;
-        }
-
-        if (value.coordinates) {
-            const polygon = parsePolygonCoordinatesFlexible(value.coordinates);
-            return polygon ? { kind: "polygon", coordinates: polygon } : null;
-        }
-    }
-
-    if (isArray(value)) {
-        const polygon = parsePolygonCoordinatesFlexible(value);
-        return polygon ? { kind: "polygon", coordinates: polygon } : null;
-    }
-
-    return null;
-}
 
 export function parseAnyGeometry(item: unknown): NotamGeometry {
     if (!isObject(item)) {
@@ -571,82 +372,229 @@ export function parseAnyGeometry(item: unknown): NotamGeometry {
     return parseNotamGeometry(item);
 }
 
-export function parseNotamGeometry(raw: unknown): NotamGeometry {
-    if (!isObject(raw)) {
-        return null;
-    }
-
-    const hintGeometry = parseGeometryHint(raw.geometryHint);
-    if (hintGeometry) {
-        return hintGeometry;
-    }
-
-    const candidateKeys = [
-        "geometry",
-        "geom",
-        "shape",
-        "area",
-        "areaGeometry",
-        "geoJson",
-        "geojson",
-        "feature",
-        "features",
-        "geometry_json",
-        "geometryJSON",
-        "boundary",
-        "outline",
-    ] as const;
-    const candidates: unknown[] = candidateKeys.map((key) => raw[key]).filter((value) => value !== undefined);
-
-    if (raw.coordinates !== undefined) {
-        candidates.push(raw.coordinates);
-    }
-
-    if (raw.polygon !== undefined) {
-        candidates.push(raw.polygon);
-    }
-
-    if (raw.polygons !== undefined) {
-        candidates.push(raw.polygons);
-    }
-
-    if (raw.circle !== undefined) {
-        candidates.push(raw.circle);
-    }
-
-    if (raw.center !== undefined || raw.radius !== undefined || raw.radiusMeters !== undefined) {
-        candidates.push({
-            center: raw.center,
-            radius: raw.radius,
-            radiusMeters: raw.radiusMeters,
-        });
-    }
-
-    const rootCenter = parsePoint(raw);
-    if (rootCenter && (raw.radius !== undefined || raw.radiusMeters !== undefined)) {
-        candidates.push({
-            center: rootCenter,
-            radius: raw.radius,
-            radiusMeters: raw.radiusMeters,
-        });
-    }
+function extractGeometryCandidate(item: Record<string, unknown>): unknown {
+    const candidates = [
+        item.geometryHint,
+        item.geometry,
+        item.geojson,
+        item.polygon,
+        item.circle,
+        item.shape,
+        item.area,
+    ];
 
     for (const candidate of candidates) {
-        const strictGeometry = parseGeometryCandidateStrict(candidate);
-        if (strictGeometry) {
-            return strictGeometry;
-        }
-
-        const looseGeometry = parseGeometryCandidateLoose(candidate);
-        if (looseGeometry) {
-            return looseGeometry;
-        const geometry = parseGeometryCandidateFlexible(candidate);
-        if (geometry) {
-            return geometry;
+        if (candidate !== null && candidate !== undefined) {
+            return candidate;
         }
     }
 
     return null;
+}
+
+function normalizeCoord(value: unknown): [number, number] | null {
+    if (isArray(value) && value.length >= 2) {
+        const first = normalizeCoordValue(value[0]);
+        const second = normalizeCoordValue(value[1]);
+        if (first === null || second === null) {
+            return null;
+        }
+
+        if (Math.abs(first) <= 90 && Math.abs(second) <= 180) {
+            return [second, first];
+        }
+
+        return [first, second];
+    }
+
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const lat =
+        normalizeCoordValue(value.lat) ??
+        normalizeCoordValue(value.latitude) ??
+        normalizeCoordValue(value.y);
+    const lon =
+        normalizeCoordValue(value.lon) ??
+        normalizeCoordValue(value.lng) ??
+        normalizeCoordValue(value.longitude) ??
+        normalizeCoordValue(value.x);
+
+    if (lat === null || lon === null) {
+        return null;
+    }
+
+    return [lon, lat];
+}
+
+function normalizeCoordValue(value: unknown): number | null {
+    if (isNumber(value)) {
+        return value;
+    }
+
+    if (isString(value)) {
+        const parsed = Number.parseFloat(value);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+
+    return null;
+}
+
+function normalizeRing(value: unknown): [number, number][] | null {
+    if (!isArray(value)) {
+        return null;
+    }
+
+    const ring: [number, number][] = [];
+    for (const coord of value) {
+        const point = normalizeCoord(coord);
+        if (point) {
+            ring.push(point);
+        }
+    }
+
+    if (ring.length < 3) {
+        return null;
+    }
+
+    const first = ring[0];
+    const last = ring[ring.length - 1];
+    if (first[0] !== last[0] || first[1] !== last[1]) {
+        ring.push([first[0], first[1]]);
+    }
+
+    return ring;
+}
+
+function normalizePolygonRings(value: unknown): [number, number][][] | null {
+    if (!isArray(value) || value.length === 0) {
+        return null;
+    }
+
+    if (normalizeCoord(value[0])) {
+        const ring = normalizeRing(value);
+        return ring ? [ring] : null;
+    }
+
+    const rings: [number, number][][] = [];
+    for (const ringCandidate of value) {
+        const ring = normalizeRing(ringCandidate);
+        if (ring) {
+            rings.push(ring);
+        }
+    }
+
+    return rings.length > 0 ? rings : null;
+}
+
+function normalizeMultiPolygon(value: unknown): [number, number][][][] | null {
+    if (!isArray(value) || value.length === 0) {
+        return null;
+    }
+
+    const polygons: [number, number][][][] = [];
+    for (const polygonCandidate of value) {
+        const polygon = normalizePolygonRings(polygonCandidate);
+        if (polygon) {
+            polygons.push(polygon);
+        }
+    }
+
+    return polygons.length > 0 ? polygons : null;
+}
+
+function normalizeCircleFrom(value: Record<string, unknown>): NotamGeometry {
+    const radiusMeters = parseRadiusMeters(value);
+    if (radiusMeters === null) {
+        return null;
+    }
+
+    const centerCandidate =
+        value.center ?? value.coordinates ?? value.position ?? value.location ?? value.centerPoint ?? value;
+    const center = normalizeCoord(centerCandidate);
+    if (!center) {
+        return null;
+    }
+
+    return {
+        kind: "circle",
+        center,
+        radiusMeters,
+    };
+}
+
+export type GeometryParseResult = { geometry: NotamGeometry | null; reason?: GeometryParseReason };
+
+export function parseNotamGeometry(candidate: unknown): NotamGeometry {
+    return parseNotamGeometryWithReason(candidate).geometry;
+}
+
+export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseResult {
+    if (!candidate) {
+        return { geometry: null, reason: "NO_CANDIDATE" };
+    }
+
+    if (!isArray(candidate)) {
+        const strictGeometry = parseGeometryHint(candidate);
+        if (strictGeometry) {
+            return { geometry: strictGeometry };
+        }
+    }
+
+    if (isObject(candidate)) {
+        const nestedCandidate = extractGeometryCandidate(candidate);
+        if (nestedCandidate && nestedCandidate !== candidate) {
+            return parseNotamGeometryWithReason(nestedCandidate);
+        }
+
+        const circle = normalizeCircleFrom(candidate);
+        if (circle) {
+            return { geometry: circle };
+        }
+
+        const type = getString(candidate, "type");
+        if (type === "Feature") {
+            return parseNotamGeometryWithReason(candidate.geometry);
+        }
+
+        if (type === "FeatureCollection" && isArray(candidate.features)) {
+            for (const feature of candidate.features) {
+                const geometry = parseNotamGeometryWithReason(feature);
+                if (geometry.geometry) {
+                    return geometry;
+                }
+            }
+            return { geometry: null, reason: "EMPTY" };
+        }
+
+        if (type === "Polygon") {
+            const rings = normalizePolygonRings(candidate.coordinates);
+            return rings
+                ? { geometry: { kind: "polygon", coordinates: rings } }
+                : { geometry: null, reason: "INVALID_COORDS" };
+        }
+
+        if (type === "MultiPolygon") {
+            const polygons = normalizeMultiPolygon(candidate.coordinates);
+            return polygons
+                ? { geometry: { kind: "multiPolygon", coordinates: polygons } }
+                : { geometry: null, reason: "INVALID_COORDS" };
+        }
+
+        if (type) {
+            return { geometry: null, reason: "UNSUPPORTED_TYPE" };
+        }
+    }
+
+    if (isArray(candidate)) {
+        const rings = normalizePolygonRings(candidate);
+        return rings
+            ? { geometry: { kind: "polygon", coordinates: rings } }
+            : { geometry: null, reason: "INVALID_COORDS" };
+    }
+
+    return { geometry: null, reason: "UNSUPPORTED_TYPE" };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -670,7 +618,14 @@ function normalizeNotamItem(item: unknown, eventTimeUtc: string): NormalizedNota
     const validToUtc = getString(item, "validToUtc");
     const summary = formatNotamSummary(text, 60);
     const altitudes = parseAltitudesFromText(text);
-    const geometry = parseAnyGeometry(item);
+    const geometryCandidate = extractGeometryCandidate(item);
+    const geometryResult = parseNotamGeometryWithReason(geometryCandidate);
+    const geometry = geometryResult.geometry;
+
+    if (!geometry && typeof process !== "undefined" && process.env.NODE_ENV !== "production") {
+        // eslint-disable-next-line no-console
+        console.debug("[notam] missing geometry", { id, geometryCandidate });
+    }
 
     return {
         id,
@@ -680,6 +635,7 @@ function normalizeNotamItem(item: unknown, eventTimeUtc: string): NormalizedNota
         validToUtc,
         altitudes,
         geometry,
+        geometryParseReason: geometryResult.reason,
         eventTimeUtc,
         raw: item,
     };

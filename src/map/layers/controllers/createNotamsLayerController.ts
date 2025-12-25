@@ -8,6 +8,28 @@ import { createNotamLayer } from "@/map/layers/notams";
 
 import { LayerController } from "./types";
 
+const GEOMETRY_KEYS = [
+  "geometryHint",
+  "geometry",
+  "geojson",
+  "geoJson",
+  "shape",
+  "area",
+  "polygon",
+  "circle",
+] as const;
+
+function getGeometryFieldSnapshot(raw: NormalizedNotam["raw"]): Record<string, boolean> {
+  if (!raw || typeof raw !== "object") {
+    return {};
+  }
+
+  const record = raw as Record<string, unknown>;
+  return Object.fromEntries(
+    GEOMETRY_KEYS.map((key) => [key, record[key] !== undefined && record[key] !== null]),
+  );
+}
+
 function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolygon | null {
   if (!geometry) return null;
 
@@ -45,6 +67,15 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
       const geom = notamGeometryToOl(notam.geometry);
       if (!geom) {
         missingGeometryCount += 1;
+        if (import.meta.env.DEV) {
+          const presentFields = getGeometryFieldSnapshot(notam.raw);
+          // eslint-disable-next-line no-console
+          console.debug("[map] notam missing geometry", {
+            id: notam.id,
+            presentFields,
+            reason: notam.geometryParseReason,
+          });
+        }
         return;
       }
       const feature = new Feature({

@@ -15,6 +15,8 @@ export type NotamGeometry =
     | { kind: "multiPolygon"; coordinates: [number, number][][][] } // GeoJSON polygons -> rings -> [lon, lat]
     | null;
 
+export type GeometryParseReason = "NO_CANDIDATE" | "UNSUPPORTED_TYPE" | "INVALID_COORDS" | "EMPTY";
+
 /**
  * Normalized NOTAM for UI and map layers, independent of upstream schema.
  */
@@ -33,6 +35,8 @@ export type NormalizedNotam = {
     altitudes: Altitude[];
     /** Spatial extent if parseable (WGS-84) */
     geometry: NotamGeometry;
+    /** Optional parse failure reason for debugging */
+    geometryParseReason?: GeometryParseReason;
     /** When the NOTAM was generated/published (ISO 8601 UTC) */
     eventTimeUtc: string;
     /** Original upstream payload preserved for debugging */
