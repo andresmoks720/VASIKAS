@@ -1,8 +1,20 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { normalizeNotams, parseAltitudesFromText, parseGeometryHint, parseNotamGeometry } from "./notamInterpreter";
+import {
+    normalizeNotams,
+    parseAltitudesFromText,
+    parseGeometryHint,
+    parseNotamGeometry,
+    parseNotamGeometryWithReason,
+} from "./notamInterpreter";
 
 const NOW_UTC = "2025-12-18T12:00:00Z";
+const FIXTURE_PATH = resolve(process.cwd(), "test/fixtures/area24.sample.json");
+const FIXTURE = JSON.parse(readFileSync(FIXTURE_PATH, "utf8")) as {
+    items: Array<Record<string, unknown>>;
+};
 
 describe("parseAltitudesFromText", () => {
     it("parses SFC as 0m AGL", () => {
@@ -171,6 +183,8 @@ describe("parseGeometryHint", () => {
 });
 
 describe("parseNotamGeometry", () => {
+    const [legacyCircle, geoJsonPolygonFeature, geoJsonMultiPolygonFeature] = FIXTURE.items;
+
     it("parses root-level circle fields", () => {
         const geometry = parseNotamGeometry({
             lat: 59.4369,
@@ -329,6 +343,73 @@ describe("parseNotamGeometry", () => {
             center: [24.7536, 59.4369],
             radiusMeters: 1500,
         });
+    });
+
+    it("parses legacy geometryHint circle from fixture", () => {
+        const geometry = parseNotamGeometry(legacyCircle);
+
+        expect(geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 1000,
+        });
+    });
+
+    it("parses GeoJSON polygon feature from fixture with ring closure", () => {
+        const geometry = parseNotamGeometry(geoJsonPolygonFeature);
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            const ring = geometry.coordinates[0];
+            expect(ring[0]).toEqual(ring[ring.length - 1]);
+        }
+    });
+
+    it("parses GeoJSON multipolygon feature from fixture", () => {
+        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature);
+
+        expect(geometry?.kind).toBe("multiPolygon");
+        if (geometry?.kind === "multiPolygon") {
+            expect(geometry.coordinates).toHaveLength(2);
+        }
+    });
+
+    it("prefers GeoJSON geometry when polygon fallback also exists", () => {
+        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature);
+
+        expect(geometry?.kind).toBe("multiPolygon");
+    });
+
+    it("parses polygon with object coordinates and numeric strings", () => {
+        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature?.polygon);
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            expect(geometry.coordinates[0][0]).toEqual([24.74, 59.43]);
+            const ring = geometry.coordinates[0];
+            expect(ring[0]).toEqual(ring[ring.length - 1]);
+        }
+    });
+
+    it("swaps lat/lon for array coordinates when needed", () => {
+        const geometry = parseNotamGeometry([
+            [59.43, 24.74],
+            [59.43, 24.76],
+            [59.44, 24.76],
+            [59.44, 24.74],
+        ]);
+
+        expect(geometry?.kind).toBe("polygon");
+        if (geometry?.kind === "polygon") {
+            expect(geometry.coordinates[0][0]).toEqual([24.74, 59.43]);
+        }
+    });
+
+    it("returns invalid coords reason for bad geometry", () => {
+        const result = parseNotamGeometryWithReason([[24.7]]);
+
+        expect(result.geometry).toBeNull();
+        expect(result.reason).toBe("INVALID_COORDS");
     });
 });
 
