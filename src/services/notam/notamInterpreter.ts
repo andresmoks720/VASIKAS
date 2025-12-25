@@ -428,16 +428,24 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
         const type = getString(value, "type");
 
         if (type === "Polygon") {
-            const polygon = parseGeoJsonOuterRingCoordinates(value.coordinates);
+            const polygon = parsePolygonCoordinates(value.coordinates);
             return polygon ? { kind: "polygon", coordinates: polygon } : null;
         }
 
         if (type === "MultiPolygon") {
-            if (isArray(value.coordinates) && value.coordinates.length > 0) {
-                const polygon = parseGeoJsonOuterRingCoordinates(value.coordinates[0]);
-                return polygon ? { kind: "polygon", coordinates: polygon } : null;
+            if (!isArray(value.coordinates) || value.coordinates.length === 0) {
+                return null;
             }
-            return null;
+
+            const polygons: [number, number][][][] = [];
+            for (const polygonCandidate of value.coordinates) {
+                const polygon = parsePolygonCoordinates(polygonCandidate);
+                if (polygon) {
+                    polygons.push(polygon);
+                }
+            }
+
+            return polygons.length > 0 ? { kind: "multiPolygon", coordinates: polygons } : null;
         }
 
         if (type === "Point") {

@@ -207,7 +207,7 @@ describe("parseNotamGeometry", () => {
         }
     });
 
-    it("uses outer ring for GeoJSON polygon with holes", () => {
+    it("preserves rings for GeoJSON polygon with holes", () => {
         const geometry = parseNotamGeometry({
             geometry: {
                 type: "Polygon",
@@ -232,18 +232,26 @@ describe("parseNotamGeometry", () => {
 
         expect(geometry?.kind).toBe("polygon");
         if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates).toHaveLength(1);
-            expect(geometry.coordinates[0]).toEqual([
-                [24.74, 59.43],
-                [24.76, 59.43],
-                [24.76, 59.44],
-                [24.74, 59.44],
-                [24.74, 59.43],
+            expect(geometry.coordinates).toEqual([
+                [
+                    [24.74, 59.43],
+                    [24.76, 59.43],
+                    [24.76, 59.44],
+                    [24.74, 59.44],
+                    [24.74, 59.43],
+                ],
+                [
+                    [24.745, 59.435],
+                    [24.755, 59.435],
+                    [24.755, 59.439],
+                    [24.745, 59.439],
+                    [24.745, 59.435],
+                ],
             ]);
         }
     });
 
-    it("parses GeoJSON multipolygon using first polygon outer ring", () => {
+    it("parses GeoJSON multipolygon preserving polygons and rings", () => {
         const geometry = parseNotamGeometry({
             geometry: {
                 type: "MultiPolygon",
@@ -277,15 +285,33 @@ describe("parseNotamGeometry", () => {
             },
         });
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates).toHaveLength(1);
+        expect(geometry?.kind).toBe("multiPolygon");
+        if (geometry?.kind === "multiPolygon") {
+            expect(geometry.coordinates).toHaveLength(2);
             expect(geometry.coordinates[0]).toEqual([
-                [24.74, 59.43],
-                [24.76, 59.43],
-                [24.76, 59.44],
-                [24.74, 59.44],
-                [24.74, 59.43],
+                [
+                    [24.74, 59.43],
+                    [24.76, 59.43],
+                    [24.76, 59.44],
+                    [24.74, 59.44],
+                    [24.74, 59.43],
+                ],
+                [
+                    [24.745, 59.435],
+                    [24.755, 59.435],
+                    [24.755, 59.439],
+                    [24.745, 59.439],
+                    [24.745, 59.435],
+                ],
+            ]);
+            expect(geometry.coordinates[1]).toEqual([
+                [
+                    [25.0, 60.0],
+                    [25.1, 60.0],
+                    [25.1, 60.1],
+                    [25.0, 60.1],
+                    [25.0, 60.0],
+                ],
             ]);
         }
     });

@@ -12,6 +12,7 @@ export type NotamRaw = unknown;
 export type NotamGeometry =
     | { kind: "circle"; center: [number, number]; radiusMeters: number }
     | { kind: "polygon"; coordinates: [number, number][][] } // GeoJSON polygon rings [lon, lat]
+    | { kind: "multiPolygon"; coordinates: [number, number][][][] } // GeoJSON polygons -> rings -> [lon, lat]
     | null;
 
 /**
