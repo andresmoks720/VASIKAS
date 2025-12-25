@@ -156,7 +156,7 @@ export function parseAltitudesFromText(text: string): Altitude[] {
  * Supports circle and polygon types from mock data.
  */
 export function parseGeometryHint(hint: unknown): NotamGeometry {
-    return parseGeometryCandidate(hint);
+    return parseGeometryCandidateStrict(hint);
 }
 
 function parsePoint(value: unknown): [number, number] | null {
@@ -396,6 +396,7 @@ function parseCircleFrom(value: unknown): NotamGeometry {
     };
 }
 
+function parseGeometryCandidateStrict(value: unknown): NotamGeometry {
 function parseCircleFromFlexible(value: unknown): NotamGeometry {
     if (!isObject(value)) {
         return null;
@@ -462,6 +463,49 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
     return null;
 }
 
+function unwrapGeoJsonContainer(value: unknown): unknown | null {
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const type = getString(value, "type");
+    if (type === "Feature") {
+        return value.geometry ?? null;
+    }
+
+    if (type === "FeatureCollection" && isArray(value.features)) {
+        for (const feature of value.features) {
+            if (!isObject(feature)) {
+                continue;
+            }
+            const geometryCandidate = feature.geometry ?? null;
+            if (geometryCandidate && parseGeometryCandidateStrict(geometryCandidate)) {
+                return geometryCandidate;
+            }
+        }
+    }
+
+    return null;
+}
+
+function parseGeometryCandidateLoose(value: unknown): NotamGeometry {
+    if (!value) {
+        return null;
+    }
+
+    const unwrapped = unwrapGeoJsonContainer(value);
+    if (unwrapped) {
+        const geometry = parseGeometryCandidateStrict(unwrapped);
+        if (geometry) {
+            return geometry;
+        }
+    }
+
+    if (isObject(value) && value.geometry !== undefined) {
+        const geometry = parseGeometryCandidateStrict(value.geometry);
+        if (geometry) {
+            return geometry;
+        }
 function parseGeometryCandidateFlexible(value: unknown): NotamGeometry {
     if (!value) {
         return null;
@@ -529,7 +573,21 @@ export function parseNotamGeometry(raw: unknown): NotamGeometry {
         return hintGeometry;
     }
 
-    const candidateKeys = ["geometry", "geom", "shape", "area", "areaGeometry", "geoJson", "geojson"] as const;
+    const candidateKeys = [
+        "geometry",
+        "geom",
+        "shape",
+        "area",
+        "areaGeometry",
+        "geoJson",
+        "geojson",
+        "feature",
+        "features",
+        "geometry_json",
+        "geometryJSON",
+        "boundary",
+        "outline",
+    ] as const;
     const candidates: unknown[] = candidateKeys.map((key) => raw[key]).filter((value) => value !== undefined);
 
     if (raw.coordinates !== undefined) {
@@ -566,6 +624,14 @@ export function parseNotamGeometry(raw: unknown): NotamGeometry {
     }
 
     for (const candidate of candidates) {
+        const strictGeometry = parseGeometryCandidateStrict(candidate);
+        if (strictGeometry) {
+            return strictGeometry;
+        }
+
+        const looseGeometry = parseGeometryCandidateLoose(candidate);
+        if (looseGeometry) {
+            return looseGeometry;
         const geometry = parseGeometryCandidateFlexible(candidate);
         if (geometry) {
             return geometry;
