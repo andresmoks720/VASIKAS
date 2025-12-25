@@ -156,7 +156,7 @@ export function parseAltitudesFromText(text: string): Altitude[] {
  * Supports circle and polygon types from mock data.
  */
 export function parseGeometryHint(hint: unknown): NotamGeometry {
-    return parseGeometryCandidate(hint);
+    return parseGeometryCandidateStrict(hint);
 }
 
 function parsePoint(value: unknown): [number, number] | null {
@@ -178,6 +178,39 @@ function parsePoint(value: unknown): [number, number] | null {
     return [lon, lat];
 }
 
+function parsePointFlexible(value: unknown): [number, number] | null {
+    if (isArray(value) && value.length >= 2 && isNumber(value[0]) && isNumber(value[1])) {
+        const first = value[0];
+        const second = value[1];
+        const lon = Math.abs(first) > 180 && Math.abs(second) <= 90 ? second : first;
+        const lat = Math.abs(first) > 180 && Math.abs(second) <= 90 ? first : second;
+        return [lon, lat];
+    }
+
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const lat =
+        getNumber(value, "lat") ??
+        getNumber(value, "latitude") ??
+        getNumber(value, "latitude_deg") ??
+        getNumber(value, "y");
+    const lon =
+        getNumber(value, "lon") ??
+        getNumber(value, "longitude") ??
+        getNumber(value, "longitude_deg") ??
+        getNumber(value, "lng") ??
+        getNumber(value, "long") ??
+        getNumber(value, "x");
+
+    if (lat === undefined || lon === undefined) {
+        return null;
+    }
+
+    return [lon, lat];
+}
+
 function looksLikePoint(value: unknown): boolean {
     if (isArray(value)) {
         return value.length >= 2 && isNumber(value[0]) && isNumber(value[1]);
@@ -190,6 +223,23 @@ function looksLikePoint(value: unknown): boolean {
     return (
         (isNumber(value.lat) && isNumber(value.lon)) ||
         (isNumber(value.latitude) && isNumber(value.longitude)) ||
+        (isNumber(value.x) && isNumber(value.y))
+    );
+}
+
+function looksLikePointFlexible(value: unknown): boolean {
+    if (isArray(value)) {
+        return value.length >= 2 && isNumber(value[0]) && isNumber(value[1]);
+    }
+
+    if (!isObject(value)) {
+        return false;
+    }
+
+    return (
+        (isNumber(value.lat) && (isNumber(value.lon) || isNumber(value.long) || isNumber(value.lng))) ||
+        (isNumber(value.latitude) && isNumber(value.longitude)) ||
+        (isNumber(value.latitude_deg) && isNumber(value.longitude_deg)) ||
         (isNumber(value.x) && isNumber(value.y))
     );
 }
@@ -218,6 +268,52 @@ function parseRing(value: unknown): [number, number][] | null {
     }
 
     return ring;
+}
+
+function parseRingFlexible(value: unknown): [number, number][] | null {
+    if (!isArray(value)) {
+        return null;
+    }
+
+    const ring: [number, number][] = [];
+    for (const coord of value) {
+        const point = parsePointFlexible(coord);
+        if (point) {
+            ring.push(point);
+        }
+    }
+
+    if (ring.length < 3) {
+        return null;
+    }
+
+    const first = ring[0];
+    const last = ring[ring.length - 1];
+    if (first[0] !== last[0] || first[1] !== last[1]) {
+        ring.push([first[0], first[1]]);
+    }
+
+    return ring;
+}
+
+function parseGeoJsonOuterRingCoordinates(coords: unknown): [number, number][][] | null {
+    if (!isArray(coords) || coords.length === 0) {
+        return null;
+    }
+
+    const outerRingCandidate = coords[0];
+    const outerRing = parseRing(outerRingCandidate);
+    return outerRing ? [outerRing] : null;
+}
+
+function parseGeoJsonOuterRingCoordinatesFlexible(coords: unknown): [number, number][][] | null {
+    if (!isArray(coords) || coords.length === 0) {
+        return null;
+    }
+
+    const outerRingCandidate = coords[0];
+    const outerRing = parseRingFlexible(outerRingCandidate);
+    return outerRing ? [outerRing] : null;
 }
 
 function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
@@ -249,6 +345,35 @@ function parsePolygonCoordinates(coords: unknown): [number, number][][] | null {
     return null;
 }
 
+function parsePolygonCoordinatesFlexible(coords: unknown): [number, number][][] | null {
+    if (!isArray(coords) || coords.length === 0) {
+        return null;
+    }
+
+    if (looksLikePointFlexible(coords[0])) {
+        const ring = parseRingFlexible(coords);
+        return ring ? [ring] : null;
+    }
+
+    if (isArray(coords[0]) && coords[0].length > 0 && looksLikePointFlexible(coords[0][0])) {
+        const rings: [number, number][][] = [];
+        for (const ringCandidate of coords) {
+            const ring = parseRingFlexible(ringCandidate);
+            if (ring) {
+                rings.push(ring);
+            }
+        }
+
+        return rings.length > 0 ? rings : null;
+    }
+
+    if (isArray(coords[0]) && coords[0].length > 0) {
+        return parsePolygonCoordinatesFlexible(coords[0]);
+    }
+
+    return null;
+}
+
 function parseCircleFrom(value: unknown): NotamGeometry {
     if (!isObject(value)) {
         return null;
@@ -260,6 +385,29 @@ function parseCircleFrom(value: unknown): NotamGeometry {
     }
 
     const center = parsePoint(value.center ?? value.coordinates ?? value);
+    if (!center) {
+        return null;
+    }
+
+    return {
+        kind: "circle",
+        center,
+        radiusMeters,
+    };
+}
+
+function parseGeometryCandidateStrict(value: unknown): NotamGeometry {
+function parseCircleFromFlexible(value: unknown): NotamGeometry {
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const radiusMeters = getNumber(value, "radiusMeters") ?? getNumber(value, "radius");
+    if (radiusMeters === undefined) {
+        return null;
+    }
+
+    const center = parsePointFlexible(value.center ?? value.coordinates ?? value);
     if (!center) {
         return null;
     }
@@ -323,6 +471,93 @@ function parseGeometryCandidate(value: unknown): NotamGeometry {
     return null;
 }
 
+function unwrapGeoJsonContainer(value: unknown): unknown | null {
+    if (!isObject(value)) {
+        return null;
+    }
+
+    const type = getString(value, "type");
+    if (type === "Feature") {
+        return value.geometry ?? null;
+    }
+
+    if (type === "FeatureCollection" && isArray(value.features)) {
+        for (const feature of value.features) {
+            if (!isObject(feature)) {
+                continue;
+            }
+            const geometryCandidate = feature.geometry ?? null;
+            if (geometryCandidate && parseGeometryCandidateStrict(geometryCandidate)) {
+                return geometryCandidate;
+            }
+        }
+    }
+
+    return null;
+}
+
+function parseGeometryCandidateLoose(value: unknown): NotamGeometry {
+    if (!value) {
+        return null;
+    }
+
+    const unwrapped = unwrapGeoJsonContainer(value);
+    if (unwrapped) {
+        const geometry = parseGeometryCandidateStrict(unwrapped);
+        if (geometry) {
+            return geometry;
+        }
+    }
+
+    if (isObject(value) && value.geometry !== undefined) {
+        const geometry = parseGeometryCandidateStrict(value.geometry);
+        if (geometry) {
+            return geometry;
+        }
+function parseGeometryCandidateFlexible(value: unknown): NotamGeometry {
+    if (!value) {
+        return null;
+    }
+
+    if (isObject(value)) {
+        const type = getString(value, "type");
+
+        if (type === "Polygon") {
+            const polygon = parseGeoJsonOuterRingCoordinatesFlexible(value.coordinates);
+            return polygon ? { kind: "polygon", coordinates: polygon } : null;
+        }
+
+        if (type === "MultiPolygon") {
+            if (isArray(value.coordinates) && value.coordinates.length > 0) {
+                const polygon = parseGeoJsonOuterRingCoordinatesFlexible(value.coordinates[0]);
+                return polygon ? { kind: "polygon", coordinates: polygon } : null;
+            }
+            return null;
+        }
+
+        if (type === "Point") {
+            return parseCircleFromFlexible(value);
+        }
+
+        const circle = parseCircleFromFlexible(value);
+        if (circle) {
+            return circle;
+        }
+
+        if (value.coordinates) {
+            const polygon = parsePolygonCoordinatesFlexible(value.coordinates);
+            return polygon ? { kind: "polygon", coordinates: polygon } : null;
+        }
+    }
+
+    if (isArray(value)) {
+        const polygon = parsePolygonCoordinatesFlexible(value);
+        return polygon ? { kind: "polygon", coordinates: polygon } : null;
+    }
+
+    return null;
+}
+
 export function parseAnyGeometry(item: unknown): NotamGeometry {
     if (!isObject(item)) {
         return null;
@@ -346,7 +581,21 @@ export function parseNotamGeometry(raw: unknown): NotamGeometry {
         return hintGeometry;
     }
 
-    const candidateKeys = ["geometry", "geom", "shape", "area", "areaGeometry", "geoJson", "geojson"] as const;
+    const candidateKeys = [
+        "geometry",
+        "geom",
+        "shape",
+        "area",
+        "areaGeometry",
+        "geoJson",
+        "geojson",
+        "feature",
+        "features",
+        "geometry_json",
+        "geometryJSON",
+        "boundary",
+        "outline",
+    ] as const;
     const candidates: unknown[] = candidateKeys.map((key) => raw[key]).filter((value) => value !== undefined);
 
     if (raw.coordinates !== undefined) {
@@ -383,7 +632,15 @@ export function parseNotamGeometry(raw: unknown): NotamGeometry {
     }
 
     for (const candidate of candidates) {
-        const geometry = parseGeometryCandidate(candidate);
+        const strictGeometry = parseGeometryCandidateStrict(candidate);
+        if (strictGeometry) {
+            return strictGeometry;
+        }
+
+        const looseGeometry = parseGeometryCandidateLoose(candidate);
+        if (looseGeometry) {
+            return looseGeometry;
+        const geometry = parseGeometryCandidateFlexible(candidate);
         if (geometry) {
             return geometry;
         }
