@@ -25,7 +25,7 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Purpose:** Deterministic, stateful simulation (e.g., moving drones).
 - **Run:** `npm run dev:mock-api` (standalone) or `npm run dev:all`.
 - **Docs:** [MOCK_API.md](./MOCK_API.md).
-- **Usage:** Set `VITE_DRONE_URL=http://localhost:8787/v1/drones?center=...` to use this instead of static files.
+- **Usage:** Set `VITE_DRONES_MODE=snapshot` and `VITE_DRONE_SNAPSHOT_URL=http://localhost:8787/v1/drones`.
  
 ### Use live endpoints
 
@@ -55,9 +55,13 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Refresh:** `VITE_POLL_DRONES_MS` (default **1000 ms**)
 - **Fallback:** `/mock/drones.json`
 - **Fallback:** `/mock/drones.json`
+
 - **Motion (mock):**
-  - **Static File (`/mock/drones.json`):** Stores a `track` array. Frontend interpolates.
-  - **Mock API Server (`/v1/drones`):** Returns snapshots calculated on the fly using a circular motion model. See [MOCK_API.md](./MOCK_API.md).
+  - **Static File (`/mock/drones.json`):** Stores a `track` array. Frontend interpolates (default `track` mode).
+  - **Mock API Server:** Set `VITE_DRONES_MODE=snapshot`. Returns snapshots calculated on the fly using a circular motion model.
+    - URL config: `VITE_DRONE_SNAPSHOT_URL=http://localhost:8787/v1/drones`
+    - Params: `VITE_DRONES_CENTER_LAT`, `VITE_DRONES_CENTER_LON`, `VITE_DRONES_RADIUS_M`, `VITE_DRONES_N`, `VITE_DRONES_PERIOD_S`.
+    - See [MOCK_API.md](./MOCK_API.md) for full setup.
 
 
 ### Sensors

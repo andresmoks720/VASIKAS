@@ -21,7 +21,25 @@ To run both the Vite development server and the mock API concurrently:
 npm run dev:all
 ```
 
-## Endpoints
+## Frontend Configuration
+
+To configure the frontend to use this mock API for drone data, set the following environment variables (e.g., in `.env`):
+
+```bash
+# Enable snapshot mode (polls the mock server instead of playing back static track files)
+VITE_DRONES_MODE=snapshot
+
+# Point to the local mock server
+VITE_DRONE_SNAPSHOT_URL=http://localhost:8787/v1/drones
+
+# Optional: Override simulation parameters (these are auto-appended to the URL)
+VITE_DRONES_CENTER_LAT=58.5953
+VITE_DRONES_CENTER_LON=25.0136
+VITE_DRONES_RADIUS_M=5000
+VITE_DRONES_N=5
+VITE_DRONES_PERIOD_S=60
+```
+
 
 ### `GET /v1/drones`
 

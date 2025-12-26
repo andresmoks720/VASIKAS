@@ -161,7 +161,9 @@ const envValues: EnvValues = {
   }),
   drones: {
     mode: (import.meta.env.VITE_DRONES_MODE ?? "track") === "snapshot" ? "snapshot" : "track",
+    // Base URL for the snapshot API (e.g. http://localhost:8787/v1/drones)
     snapshotUrl: optionalString("VITE_DRONE_SNAPSHOT_URL", import.meta.env.VITE_DRONE_SNAPSHOT_URL) ?? "http://localhost:8787/v1/drones",
+    // Optional center override. If not set, user must provide it or server default applies.
     centerLat: optionalString("VITE_DRONES_CENTER_LAT", import.meta.env.VITE_DRONES_CENTER_LAT) ? Number(import.meta.env.VITE_DRONES_CENTER_LAT) : undefined,
     centerLon: optionalString("VITE_DRONES_CENTER_LON", import.meta.env.VITE_DRONES_CENTER_LON) ? Number(import.meta.env.VITE_DRONES_CENTER_LON) : undefined,
     radiusM: parsePositiveInt("VITE_DRONES_RADIUS_M", import.meta.env.VITE_DRONES_RADIUS_M, 2000),
