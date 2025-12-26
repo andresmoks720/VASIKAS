@@ -906,6 +906,27 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
  * @param nowUtcIso - Current UTC time as ISO string (fallback for eventTimeUtc)
  * @returns Array of normalized NOTAMs
  */
+export function countNotamItems(raw: NotamRaw): number {
+    if (!isObject(raw)) {
+        return isArray(raw) ? raw.length : 0;
+    }
+
+    if (isArray(raw.items)) {
+        return raw.items.length;
+    }
+    if (isArray(raw.notams)) {
+        return raw.notams.length;
+    }
+    if (isArray(raw.data)) {
+        return raw.data.length;
+    }
+    if (isArray(raw)) {
+        return raw.length;
+    }
+
+    return 0;
+}
+
 export function normalizeNotams(raw: NotamRaw, nowUtcIso: string): NormalizedNotam[] {
     const results: NormalizedNotam[] = [];
 

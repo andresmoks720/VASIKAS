@@ -1,10 +1,12 @@
 import React from "react";
-import { screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { fireEvent, screen } from "@testing-library/react";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { NotamsPanel } from "./NotamsPanel";
 import * as StreamsProvider from "@/services/streams/StreamsProvider";
 import { makeNotam } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
+
+const toggleUseLiveNotams = vi.fn();
 
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
   useSidebarUrlState: () => ({
@@ -12,7 +14,18 @@ vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
   }),
 }));
 
+vi.mock("@/services/notam/notamMode", () => ({
+  useNotamMode: () => ({
+    useLiveNotams: false,
+    toggleUseLiveNotams,
+  }),
+}));
+
 describe("NotamsPanel", () => {
+  beforeEach(() => {
+    toggleUseLiveNotams.mockReset();
+  });
+
   it("renders empty state when no NOTAMs are available", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
       data: [],
@@ -22,11 +35,16 @@ describe("NotamsPanel", () => {
       tick: 0,
       ageSeconds: null,
       error: null,
+      rawCount: 0,
+      displayedCount: 0,
+      dataSource: "mock",
+      liveError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
     expect(screen.getByText("No NOTAMs available right now.")).toBeInTheDocument();
+    expect(screen.getByText("Total: 0 • Displayed: 0")).toBeInTheDocument();
   });
 
   it("renders NOTAMs even without geometry", () => {
@@ -44,12 +62,17 @@ describe("NotamsPanel", () => {
       tick: 0,
       ageSeconds: 5,
       error: null,
+      rawCount: 1,
+      displayedCount: 1,
+      dataSource: "live",
+      liveError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
     expect(screen.getByText("C1234/25")).toBeInTheDocument();
     expect(screen.getByText("TEST NOTAM WITHOUT GEOMETRY")).toBeInTheDocument();
+    expect(screen.getByText("Total: 1 • Displayed: 1")).toBeInTheDocument();
   });
 
   it("renders a list of NOTAMs with altitude fallbacks", () => {
@@ -71,6 +94,10 @@ describe("NotamsPanel", () => {
       tick: 0,
       ageSeconds: 10,
       error: null,
+      rawCount: 2,
+      displayedCount: 2,
+      dataSource: "live",
+      liveError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -80,5 +107,48 @@ describe("NotamsPanel", () => {
     expect(screen.getByText("A0002/25")).toBeInTheDocument();
     expect(screen.getByText("NO ALT LIMIT")).toBeInTheDocument();
     expect(screen.getByText("No altitude limits")).toBeInTheDocument();
+  });
+
+  it("toggles the NOTAM live mode control", () => {
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
+      data: [],
+      status: "live",
+      lastOkUtc: null,
+      lastErrorUtc: null,
+      tick: 0,
+      ageSeconds: null,
+      error: null,
+      rawCount: 0,
+      displayedCount: 0,
+      dataSource: "mock",
+      liveError: null,
+    });
+
+    renderWithRouter(<NotamsPanel />, { route: "/notams" });
+
+    fireEvent.click(screen.getByRole("button", { name: "notams->live" }));
+
+    expect(toggleUseLiveNotams).toHaveBeenCalledTimes(1);
+  });
+
+  it("labels live fallback data as mock fallback", () => {
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
+      data: [],
+      status: "live",
+      lastOkUtc: null,
+      lastErrorUtc: null,
+      tick: 0,
+      ageSeconds: null,
+      error: null,
+      rawCount: 0,
+      displayedCount: 0,
+      dataSource: "fallback",
+      liveError: new Error("Timeout"),
+    });
+
+    renderWithRouter(<NotamsPanel />, { route: "/notams" });
+
+    expect(screen.getByText("Mock (live fallback)")).toBeInTheDocument();
+    expect(screen.getByText(/Live NOTAM fetch failed: Timeout/)).toBeInTheDocument();
   });
 });

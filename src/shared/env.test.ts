@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   buildAdsbPointUrl,
@@ -99,7 +99,26 @@ describe("resolveDataUrl", () => {
     ).toBe("https://example.com/data.json");
   });
 
-  it("throws when mocks disabled and URL missing", () => {
+  it("falls back to mock with a warning when configured", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    expect(
+      resolveDataUrl({
+        name: "URL",
+        mockUrl: "/mock/data.json",
+        useMocks: false,
+        rawValue: "",
+        fallbackToMock: true,
+      }),
+    ).toBe("/mock/data.json");
+    expect(warnSpy).toHaveBeenCalledWith(
+      "[env] URL is not set while mocks are disabled; falling back to /mock/data.json.",
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it("throws when mocks disabled and URL missing without fallback", () => {
     expect(() =>
       resolveDataUrl({
         name: "URL",

@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+    countNotamItems,
     normalizeNotams,
     parseAltitudesFromText,
     parseGeometryHint,
@@ -598,5 +599,20 @@ describe("normalizeNotams", () => {
         const notams = normalizeNotams(rawWithInvalid, NOW_UTC);
         expect(notams).toHaveLength(1);
         expect(notams[0].id).toBe("A1234/25");
+    });
+});
+
+describe("countNotamItems", () => {
+    it("counts items from mock payloads", () => {
+        expect(countNotamItems({ items: [{}, {}] })).toBe(2);
+    });
+
+    it("counts items from live payloads", () => {
+        expect(countNotamItems({ notams: [{}, {}, {}] })).toBe(3);
+    });
+
+    it("counts arrays directly and handles invalid payloads", () => {
+        expect(countNotamItems([{}, {}])).toBe(2);
+        expect(countNotamItems(null)).toBe(0);
     });
 });

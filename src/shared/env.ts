@@ -5,6 +5,10 @@ type EnvValues = {
   useMocks: boolean;
   mapWmtsUrl?: string;
   notamUrl: string;
+  notam: {
+    mockUrl: string;
+    liveUrl?: string;
+  };
   droneUrl: string;
   drones: {
     mode: "track" | "snapshot";
@@ -116,11 +120,13 @@ export function resolveDataUrl({
   mockUrl,
   useMocks,
   rawValue,
+  fallbackToMock = false,
 }: {
   name: string;
   mockUrl: string;
   useMocks: boolean;
   rawValue: string | undefined;
+  fallbackToMock?: boolean;
 }): string {
   const value = optionalString(name, rawValue);
 
@@ -129,6 +135,10 @@ export function resolveDataUrl({
   }
 
   if (!value) {
+    if (fallbackToMock) {
+      console.warn(`[env] ${name} is not set while mocks are disabled; falling back to ${mockUrl}.`);
+      return mockUrl;
+    }
     throw new Error(`${name} is required when VITE_USE_MOCKS is false`);
   }
 
@@ -161,15 +171,23 @@ const adsbCenterLon = parseNumberInRange("VITE_ADSB_CENTER_LON", import.meta.env
 const adsbRadiusNm = parseNumberInRange("VITE_ADSB_RADIUS_NM", import.meta.env.VITE_ADSB_RADIUS_NM, DEFAULT_ADSB_RADIUS_NM, 1, 250);
 const adsbUrl = adsbMode === "mock" ? "/mock/adsb.json" : buildAdsbPointUrl(adsbBaseUrl, adsbCenterLat, adsbCenterLon, adsbRadiusNm);
 
+const NOTAM_MOCK_URL = "/mock/notams.sample.json";
+const notamLiveUrl = optionalString("VITE_NOTAM_URL", import.meta.env.VITE_NOTAM_URL);
+
 const envValues: EnvValues = {
   useMocks,
   mapWmtsUrl: optionalString("VITE_MAP_WMTS_URL", import.meta.env.VITE_MAP_WMTS_URL),
   notamUrl: resolveDataUrl({
     name: "VITE_NOTAM_URL",
-    mockUrl: "/mock/notams.sample.json",
-    rawValue: import.meta.env.VITE_NOTAM_URL,
+    mockUrl: NOTAM_MOCK_URL,
+    rawValue: notamLiveUrl,
     useMocks,
+    fallbackToMock: true,
   }),
+  notam: {
+    mockUrl: NOTAM_MOCK_URL,
+    liveUrl: notamLiveUrl,
+  },
   adsbUrl,
   adsb: {
     mode: adsbMode,
@@ -214,6 +232,10 @@ export const ENV = {
   useMocks: () => envValues.useMocks,
   mapWmtsUrl: () => envValues.mapWmtsUrl,
   notamUrl: () => envValues.notamUrl,
+  notam: {
+    mockUrl: () => envValues.notam.mockUrl,
+    liveUrl: () => envValues.notam.liveUrl,
+  },
   adsbUrl: () => envValues.adsbUrl,
   droneUrl: () => envValues.droneUrl,
   drones: {
