@@ -45,7 +45,8 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Default URL:** `https://aim.eans.ee/web/notampib/area24.json`
 - **Refresh:** poll every `VITE_POLL_NOTAM_MS` (default **60000 ms / 60s**)
 - **Mock fallback:** When `VITE_USE_MOCKS=1`, fetches `/mock/notams.sample.json` instead.
-- **Error handling:** On network/CORS errors, the app keeps the last good payload and shows a "stale" or "error" status indicator.
+- **Runtime toggle:** The `notams->live` control switches between live and mock feeds; the choice persists in local storage. The NOTAM panel shows raw vs displayed counts to spot discrepancies, and labels when live fetches fall back to mock data.
+- **Error handling:** On network/CORS errors, the app keeps the last good payload and shows a "stale" or "error" status indicator. Live fetch failures fall back to mock data with a warning.
 - **Notes:** NOTAM interpretation is **frontend-only** for the prototype; later moved to backend.
 
 ### Drone telemetry

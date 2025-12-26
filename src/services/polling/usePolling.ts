@@ -15,6 +15,8 @@ export type PollingResult<T> = {
   tick: number;
 };
 
+type FetchOptions = { signal?: AbortSignal; timeoutMs?: number };
+
 type InternalState<T> = {
   data: T | null;
   lastOkMs: number | null;
@@ -104,6 +106,7 @@ export function usePolling<T>(
   url: string,
   intervalMs?: number,
   mapFn?: (raw: unknown) => T,
+  fetchFn: (url: string, options?: FetchOptions) => Promise<unknown> = getJson,
 ): PollingResult<T> {
   const resolvedInterval = normalizeInterval(intervalMs);
   const abortRef = useRef<AbortController | null>(null);
@@ -136,7 +139,7 @@ export function usePolling<T>(
       setInternal((prev) => ({ ...prev, isFetching: true }));
 
       try {
-        const raw = await getJson<unknown>(url, { signal: controller.signal });
+        const raw = await fetchFn(url, { signal: controller.signal });
         const mapped = (mapFn ? mapFn(raw) : (raw as T));
         const now = Date.now();
 
@@ -181,7 +184,7 @@ export function usePolling<T>(
       abortRef.current?.abort();
       window.clearInterval(intervalId);
     };
-  }, [key, mapFn, resolvedInterval, url]);
+  }, [fetchFn, key, mapFn, resolvedInterval, url]);
 
   const status = useMemo(
     () =>
