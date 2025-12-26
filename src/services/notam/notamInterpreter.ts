@@ -58,12 +58,12 @@ function parseRadiusMeters(value: Record<string, unknown>): number | null {
 
     const km = parseRadiusValue(value.radiusKm, "km") ?? parseRadiusValue(value.radiusKM, "km");
     if (km !== undefined) {
-        return km * KM_TO_METERS;
+        return km;
     }
 
     const nm = parseRadiusValue(value.radiusNm, "nm") ?? parseRadiusValue(value.radiusNM, "nm");
     if (nm !== undefined) {
-        return nm * NM_TO_METERS;
+        return nm;
     }
 
     return null;
@@ -71,6 +71,12 @@ function parseRadiusMeters(value: Record<string, unknown>): number | null {
 
 function parseRadiusValue(value: unknown, unitHint: "m" | "km" | "nm"): number | undefined {
     if (isNumber(value)) {
+        if (unitHint === "km") {
+            return value * KM_TO_METERS;
+        }
+        if (unitHint === "nm") {
+            return value * NM_TO_METERS;
+        }
         return value;
     }
 

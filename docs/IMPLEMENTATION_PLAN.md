@@ -10,6 +10,7 @@
   - NOTAM client + polling integration (P3-01): `notamClient.ts` with `fetchNotamRaw(signal)`, `useNotamPolling.ts` hook using shared polling infrastructure.
   - NOTAM types + normalized domain model (P3-02): `notamTypes.ts` with `NormalizedNotam`, `NotamGeometry`, and summary formatting helpers.
   - NOTAM interpreter v0 (P3-03): `notamInterpreter.ts` with altitude parsing (SFC, FT AMSL/MSL/AGL, FL) and geometryHint parsing.
+  - Normalized NOTAM circle radius unit handling with regression coverage for km/nm inputs.
   - NOTAM map overlay layer (P3-04): `notams.ts` layer with orange styling and `mapApi.setNotams()` integration.
   - Map layer controllers for drones, sensors, geofences, and NOTAM overlays to keep MapView orchestration-focused.
   - Incremental OpenLayers feature upserts for drones/sensors (no full clear/re-add per poll).
