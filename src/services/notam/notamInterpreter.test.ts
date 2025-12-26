@@ -118,6 +118,42 @@ describe("parseGeometryHint", () => {
         });
     });
 
+    it("normalizes circle radius units from numeric and string inputs", () => {
+        const numericKm = parseGeometryHint({
+            type: "circle",
+            center: { lon: 24.7536, lat: 59.4369 },
+            radiusKm: 5,
+        });
+
+        const stringKm = parseGeometryHint({
+            type: "circle",
+            center: { lon: 24.7536, lat: 59.4369 },
+            radiusKm: "5 km",
+        });
+
+        const stringNm = parseGeometryHint({
+            type: "circle",
+            center: { lon: 24.7536, lat: 59.4369 },
+            radiusNm: "2 nm",
+        });
+
+        expect(numericKm.geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 5000,
+        });
+        expect(stringKm.geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 5000,
+        });
+        expect(stringNm.geometry).toEqual({
+            kind: "circle",
+            center: [24.7536, 59.4369],
+            radiusMeters: 3704,
+        });
+    });
+
     it("parses polygon geometry", () => {
         const result = parseGeometryHint({
             type: "polygon",

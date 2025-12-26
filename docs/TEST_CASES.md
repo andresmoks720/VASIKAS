@@ -36,6 +36,7 @@
 | UI-NOTAM-001 | NotamsPanel empty + list render | Yes | `src/features/notams/NotamsPanel.test.tsx` | Empty state + list render coverage. |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `src/services/notam/notamInterpreter.test.ts` | Covers km/nm string and numeric radius inputs. |
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 
@@ -64,6 +65,7 @@
 | UI-NOTAM-001 | NotamsPanel empty + list render. (Implemented) | UI | `src/features/notams/NotamsPanel.test.tsx` |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization. (Implemented) | Unit | `src/services/notam/notamInterpreter.test.ts` |
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler (no external mock server). (Implemented) | Unit | `src/services/drones/droneSnapshotClient.msw.test.ts` |
