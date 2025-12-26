@@ -26,6 +26,7 @@
 | UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures | Yes | `src/services/notam/notamGeometryParsing.test.ts` | Fixture-driven schema guardrails. |
 | TOOL-NOTAM-REPORT-001 | NOTAM geometry report script | Yes | `scripts/notam-geometry-report.ts` | Local diagnosis tool. |
 | UNIT-ENV-001 | Env parsing helpers | Yes | `src/shared/env.test.ts` | Boolean/number parsing and URL resolution. |
+| UNIT-ENV-002 | Optional env coordinate range validation | Yes | `src/shared/env.test.ts` | Rejects NaN/out-of-range optional coordinates. |
 | UNIT-ADSB-TYPES-001 | ADS-B track DTO sorting | Yes | `src/services/adsb/adsbTypes.test.ts` | Sorting and validation coverage. |
 | UNIT-DRONE-TYPES-001 | Drone track DTO mapping | Yes | `src/services/drones/droneTypes.test.ts` | Sorting and altitude comment defaults. |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API | Yes | `src/services/drones/droneClient.test.ts` | Support for `{ drones: [] }` format. |
@@ -51,6 +52,7 @@
 | UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures + success-rate guardrail. (Implemented) | Unit | `src/services/notam/notamGeometryParsing.test.ts`, `test/fixtures/notams.geometry.contract.json` |
 | TOOL-NOTAM-REPORT-001 | NOTAM geometry report script for local diagnosis. (Implemented) | Tooling | `scripts/notam-geometry-report.ts` |
 | UNIT-ENV-001 | Env parsing helpers: booleans, ranges, URLs. (Implemented) | Unit | `src/shared/env.test.ts` |
+| UNIT-ENV-002 | Optional env coordinate validation for snapshot drones. (Implemented) | Unit | `src/shared/env.test.ts` |
 | UNIT-ADSB-TYPES-001 | ADS-B track sorting + validation. (Implemented) | Unit | `src/services/adsb/adsbTypes.test.ts` |
 | UNIT-DRONE-TYPES-001 | Drone track mapping + altitude comments. (Implemented) | Unit | `src/services/drones/droneTypes.test.ts` |
 | UI-HISTORY-001 | HistoryPanel empty + populated render. (Implemented) | UI | `src/features/history/HistoryPanel.test.tsx` |

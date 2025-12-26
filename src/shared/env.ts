@@ -86,6 +86,31 @@ export function parseNumberInRange(
   return parsed;
 }
 
+export function parseOptionalNumberInRange(
+  name: string,
+  rawValue: string | number | undefined,
+  min: number,
+  max: number,
+): number | undefined {
+  if (rawValue === undefined || rawValue === null) {
+    return undefined;
+  }
+
+  const trimmed = String(rawValue).trim();
+
+  if (trimmed.length === 0) {
+    return undefined;
+  }
+
+  const parsed = Number(trimmed);
+
+  if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
+    throw new Error(`${name} must be a number between ${min} and ${max} (received "${String(rawValue)}")`);
+  }
+
+  return parsed;
+}
+
 export function resolveDataUrl({
   name,
   mockUrl,
@@ -164,8 +189,8 @@ const envValues: EnvValues = {
     // Base URL for the snapshot API (e.g. http://localhost:8787/v1/drones)
     snapshotUrl: optionalString("VITE_DRONE_SNAPSHOT_URL", import.meta.env.VITE_DRONE_SNAPSHOT_URL) ?? "http://localhost:8787/v1/drones",
     // Optional center override. If not set, user must provide it or server default applies.
-    centerLat: optionalString("VITE_DRONES_CENTER_LAT", import.meta.env.VITE_DRONES_CENTER_LAT) ? Number(import.meta.env.VITE_DRONES_CENTER_LAT) : undefined,
-    centerLon: optionalString("VITE_DRONES_CENTER_LON", import.meta.env.VITE_DRONES_CENTER_LON) ? Number(import.meta.env.VITE_DRONES_CENTER_LON) : undefined,
+    centerLat: parseOptionalNumberInRange("VITE_DRONES_CENTER_LAT", import.meta.env.VITE_DRONES_CENTER_LAT, -90, 90),
+    centerLon: parseOptionalNumberInRange("VITE_DRONES_CENTER_LON", import.meta.env.VITE_DRONES_CENTER_LON, -180, 180),
     radiusM: parsePositiveInt("VITE_DRONES_RADIUS_M", import.meta.env.VITE_DRONES_RADIUS_M, 2000),
     n: parsePositiveInt("VITE_DRONES_N", import.meta.env.VITE_DRONES_N, 1),
     periodS: parsePositiveInt("VITE_DRONES_PERIOD_S", import.meta.env.VITE_DRONES_PERIOD_S, 60),

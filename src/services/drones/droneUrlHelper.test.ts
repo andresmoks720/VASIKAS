@@ -13,6 +13,11 @@ describe('buildSnapshotDronesUrl', () => {
         expect(buildSnapshotDronesUrl('/api/drones', config)).toBe('/api/drones');
     });
 
+    it('returns baseUrl unchanged if center is not finite', () => {
+        const config = { ...defaults, centerLat: Number.NaN, centerLon: 25.0 };
+        expect(buildSnapshotDronesUrl('/api/drones', config)).toBe('/api/drones');
+    });
+
     it('appends params when baseUrl has no query', () => {
         const config = { ...defaults, centerLat: 58.0, centerLon: 25.0 };
         const url = buildSnapshotDronesUrl('http://localhost:8787/v1/drones', config);
