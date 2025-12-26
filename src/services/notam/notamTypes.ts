@@ -11,11 +11,21 @@ export type NotamRaw = unknown;
  */
 export type NotamGeometry =
     | { kind: "circle"; center: [number, number]; radiusMeters: number }
-    | { kind: "polygon"; coordinates: [number, number][][] } // GeoJSON polygon rings [lon, lat]
-    | { kind: "multiPolygon"; coordinates: [number, number][][][] } // GeoJSON polygons -> rings -> [lon, lat]
+    | { kind: "polygon"; rings: [number, number][][] } // GeoJSON polygon rings [lon, lat]
+    | { kind: "multiPolygon"; polygons: [number, number][][][] } // GeoJSON polygons -> rings -> [lon, lat]
     | null;
 
-export type GeometryParseReason = "NO_CANDIDATE" | "UNSUPPORTED_TYPE" | "INVALID_COORDS" | "EMPTY";
+export type GeometryParseReason =
+    | "NO_CANDIDATE"
+    | "UNSUPPORTED_FORMAT"
+    | "UNSUPPORTED_GEOJSON_TYPE"
+    | "INVALID_COORDS"
+    | "EMPTY"
+    | "EXCEPTION";
+
+export type GeometryParseResult =
+    | { geometry: NotamGeometry; reason?: undefined; details?: undefined }
+    | { geometry: null; reason: GeometryParseReason; details?: Record<string, unknown> };
 
 /**
  * Normalized NOTAM for UI and map layers, independent of upstream schema.
@@ -37,6 +47,8 @@ export type NormalizedNotam = {
     geometry: NotamGeometry;
     /** Optional parse failure reason for debugging */
     geometryParseReason?: GeometryParseReason;
+    /** Optional parse failure details for debugging */
+    geometryParseDetails?: Record<string, unknown>;
     /** When the NOTAM was generated/published (ISO 8601 UTC) */
     eventTimeUtc: string;
     /** Original upstream payload preserved for debugging */

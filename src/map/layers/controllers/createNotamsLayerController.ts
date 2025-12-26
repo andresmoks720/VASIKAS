@@ -8,29 +8,32 @@ import { createNotamLayer } from "@/map/layers/notams";
 
 import { LayerController } from "./types";
 
-const GEOMETRY_KEYS = [
-  "geometryHint",
-  "geometry",
-  "geojson",
-  "geoJson",
-  "shape",
-  "area",
-  "polygon",
-  "circle",
-] as const;
+const isDevLoggingEnabled = () =>
+  import.meta.env.DEV && (typeof process === "undefined" || process.env.NODE_ENV !== "production");
 
-function getGeometryFieldSnapshot(raw: NormalizedNotam["raw"]): Record<string, boolean> {
-  if (!raw || typeof raw !== "object") {
-    return {};
+const notamGeometryTelemetry = {
+  total: 0,
+  rendered: 0,
+  skipped: 0,
+  byReason: {} as Record<string, number>,
+};
+
+function recordTelemetrySnapshot(batchStats: {
+  total: number;
+  rendered: number;
+  skipped: number;
+  byReason: Record<string, number>;
+}) {
+  if (!isDevLoggingEnabled()) return;
+  notamGeometryTelemetry.total += batchStats.total;
+  notamGeometryTelemetry.rendered += batchStats.rendered;
+  notamGeometryTelemetry.skipped += batchStats.skipped;
+  for (const [reason, count] of Object.entries(batchStats.byReason)) {
+    notamGeometryTelemetry.byReason[reason] = (notamGeometryTelemetry.byReason[reason] ?? 0) + count;
   }
-
-  const record = raw as Record<string, unknown>;
-  return Object.fromEntries(
-    GEOMETRY_KEYS.map((key) => [key, record[key] !== undefined && record[key] !== null]),
-  );
 }
 
-function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolygon | null {
+export function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolygon | null {
   if (!geometry) return null;
 
   if (geometry.kind === "circle") {
@@ -40,12 +43,12 @@ function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolygon | nu
   }
 
   if (geometry.kind === "polygon") {
-    const rings = geometry.coordinates.map((ring) => ring.map((coord) => to3857(coord)));
+    const rings = geometry.rings.map((ring) => ring.map((coord) => to3857(coord)));
     return new Polygon(rings);
   }
 
   if (geometry.kind === "multiPolygon") {
-    const polygons = geometry.coordinates.map((polygon) =>
+    const polygons = geometry.polygons.map((polygon) =>
       polygon.map((ring) => ring.map((coord) => to3857(coord))),
     );
     return new MultiPolygon(polygons);
@@ -63,21 +66,17 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
 
     source.clear();
     let missingGeometryCount = 0;
+    const batchStats = { total: notams.length, rendered: 0, skipped: 0, byReason: {} as Record<string, number> };
     notams.forEach((notam) => {
       const geom = notamGeometryToOl(notam.geometry);
       if (!geom) {
         missingGeometryCount += 1;
-        if (import.meta.env.DEV) {
-          const presentFields = getGeometryFieldSnapshot(notam.raw);
-          // eslint-disable-next-line no-console
-          console.debug("[map] notam missing geometry", {
-            id: notam.id,
-            presentFields,
-            reason: notam.geometryParseReason,
-          });
-        }
+        batchStats.skipped += 1;
+        const reason = notam.geometryParseReason ?? "UNKNOWN";
+        batchStats.byReason[reason] = (batchStats.byReason[reason] ?? 0) + 1;
         return;
       }
+      batchStats.rendered += 1;
       const feature = new Feature({
         notamId: notam.id,
         summary: notam.summary,
@@ -90,11 +89,26 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
       source.addFeature(feature);
     });
 
-    if (import.meta.env.DEV && missingGeometryCount > 0) {
-      // eslint-disable-next-line no-console
-      console.debug("[map] notams without geometry", {
-        count: missingGeometryCount,
-      });
+    if (isDevLoggingEnabled()) {
+      recordTelemetrySnapshot(batchStats);
+      if (missingGeometryCount > 0) {
+        const failureRatio = batchStats.total > 0 ? batchStats.skipped / batchStats.total : 0;
+        // eslint-disable-next-line no-console
+        console.warn("[map] NOTAM geometry skipped", {
+          total: batchStats.total,
+          rendered: batchStats.rendered,
+          skipped: batchStats.skipped,
+          byReason: batchStats.byReason,
+        });
+        if (failureRatio > 0.2) {
+          // eslint-disable-next-line no-console
+          console.warn("[map] high NOTAM geometry failure ratio", {
+            total: batchStats.total,
+            skipped: batchStats.skipped,
+            byReason: batchStats.byReason,
+          });
+        }
+      }
     }
   };
 

@@ -25,6 +25,12 @@
   - Tightened UTC formatting validation to require timezone offsets in timestamps with regression coverage.
   - Map selection now uses entity IDs from feature metadata for reliable URL updates on marker clicks.
   - NOTAM stream now polls and normalizes data for sidebar display, map overlay sync, and hover tooltips.
+  - Testing culture documented with updated testing guide, test case register, and PR checklist.
+  - NOTAM geometry parsing now reports structured reasons with dev-only map-layer warnings and regression coverage.
+  - Added NOTAM geometry contract fixtures and a local report script for schema drift diagnosis.
+  - Added unit coverage for env parsing, ADS-B/drone track mapping, and HistoryPanel rendering.
+  - Added coverage for NOTAM polling/stream hooks, StreamsProvider context, and AirTrafficPanel empty/list states.
+  - Added coverage for ADS-B/drone motion edge cases, API timeout boundaries, and KnownDronesPanel empty/list states.
 - In progress:
   - (None)
 - Done:

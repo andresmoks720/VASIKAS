@@ -1,0 +1,12 @@
+{
+  "type": "Polygon",
+  "coordinates": [
+    [
+      { "longitude": "24.74", "latitude": "59.43" },
+      { "longitude": "24.76", "latitude": "59.43" },
+      { "longitude": "24.76", "latitude": "59.44" },
+      { "longitude": "24.74", "latitude": "59.44" },
+      { "longitude": "24.74", "latitude": "59.43" }
+    ]
+  ]
+}

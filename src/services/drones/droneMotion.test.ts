@@ -57,4 +57,40 @@ describe("computeDroneAtTime", () => {
     expect(drone.position.lon).toBeCloseTo(24.7575, 6);
     expect(drone.position.lat).toBeCloseTo(59.4315, 6);
   });
+
+  it("returns the first sample when only one point is present", () => {
+    const nowUtc = "2025-12-18T10:15:35Z";
+    const ingestTimeUtc = "2025-12-18T10:15:35Z";
+    const singlePoint: DroneTrack = {
+      id: "drone-002",
+      label: "Solo",
+      track: [
+        {
+          timeUtc: "2025-12-18T10:15:30Z",
+          position: { lon: 24.7, lat: 59.4 },
+          headingDeg: 45,
+          speedMps: 0,
+          altitude: { meters: null, ref: "AGL", source: "reported", comment: "track sample" },
+        },
+      ],
+    };
+
+    const drone = computeDroneAtTime(singlePoint, nowUtc, ingestTimeUtc);
+
+    expect(drone.position.lon).toBeCloseTo(24.7, 6);
+    expect(drone.altitude.meters).toBeNull();
+    expect(drone.eventTimeUtc).toBe(singlePoint.track[0].timeUtc);
+  });
+
+  it("throws on invalid timestamp input", () => {
+    const ingestTimeUtc = "2025-12-18T10:15:35Z";
+
+    expect(() => computeDroneAtTime(TRACK, "invalid", ingestTimeUtc)).toThrowError(/invalid/i);
+  });
+
+  it("throws on empty track data", () => {
+    const ingestTimeUtc = "2025-12-18T10:15:35Z";
+
+    expect(() => computeDroneAtTime({ ...TRACK, track: [] }, "2025-12-18T10:15:35Z", ingestTimeUtc)).toThrowError();
+  });
 });

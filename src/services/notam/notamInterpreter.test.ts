@@ -105,13 +105,13 @@ describe("parseAltitudesFromText", () => {
 
 describe("parseGeometryHint", () => {
     it("parses circle geometry", () => {
-        const geometry = parseGeometryHint({
+        const result = parseGeometryHint({
             type: "circle",
             center: { lon: 24.7536, lat: 59.4369 },
             radiusMeters: 1000,
         });
 
-        expect(geometry).toEqual({
+        expect(result.geometry).toEqual({
             kind: "circle",
             center: [24.7536, 59.4369],
             radiusMeters: 1000,
@@ -119,7 +119,7 @@ describe("parseGeometryHint", () => {
     });
 
     it("parses polygon geometry", () => {
-        const geometry = parseGeometryHint({
+        const result = parseGeometryHint({
             type: "polygon",
             coordinates: [
                 [24.74, 59.43],
@@ -130,9 +130,9 @@ describe("parseGeometryHint", () => {
             ],
         });
 
-        expect(geometry).toEqual({
+        expect(result.geometry).toEqual({
             kind: "polygon",
-            coordinates: [
+            rings: [
                 [
                     [24.74, 59.43],
                     [24.76, 59.43],
@@ -145,7 +145,7 @@ describe("parseGeometryHint", () => {
     });
 
     it("closes unclosed polygon ring", () => {
-        const geometry = parseGeometryHint({
+        const result = parseGeometryHint({
             type: "polygon",
             coordinates: [
                 [24.74, 59.43],
@@ -156,9 +156,9 @@ describe("parseGeometryHint", () => {
             ],
         });
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            const ring = geometry.coordinates[0];
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            const ring = result.geometry.rings[0];
             const first = ring[0];
             const last = ring[ring.length - 1];
             expect(first).toEqual(last);
@@ -166,19 +166,19 @@ describe("parseGeometryHint", () => {
     });
 
     it("returns null for invalid geometry", () => {
-        expect(parseGeometryHint(null)).toBeNull();
-        expect(parseGeometryHint(undefined)).toBeNull();
-        expect(parseGeometryHint({ type: "unknown" })).toBeNull();
-        expect(parseGeometryHint({ type: "circle" })).toBeNull(); // Missing center/radius
+        expect(parseGeometryHint(null).geometry).toBeNull();
+        expect(parseGeometryHint(undefined).geometry).toBeNull();
+        expect(parseGeometryHint({ type: "unknown" }).geometry).toBeNull();
+        expect(parseGeometryHint({ type: "circle" }).geometry).toBeNull(); // Missing center/radius
     });
 
     it("returns null for polygon with too few points", () => {
-        const geometry = parseGeometryHint({
+        const result = parseGeometryHint({
             type: "polygon",
             coordinates: [[24.74, 59.43], [24.76, 59.43]], // Only 2 points
         });
 
-        expect(geometry).toBeNull();
+        expect(result.geometry).toBeNull();
     });
 });
 
@@ -186,13 +186,13 @@ describe("parseNotamGeometry", () => {
     const [legacyCircle, geoJsonPolygonFeature, geoJsonMultiPolygonFeature] = FIXTURE.items;
 
     it("parses root-level circle fields", () => {
-        const geometry = parseNotamGeometry({
+        const result = parseNotamGeometry({
             lat: 59.4369,
             lon: 24.7536,
             radius: 1200,
         });
 
-        expect(geometry).toEqual({
+        expect(result.geometry).toEqual({
             kind: "circle",
             center: [24.7536, 59.4369],
             radiusMeters: 1200,
@@ -200,7 +200,7 @@ describe("parseNotamGeometry", () => {
     });
 
     it("parses GeoJSON polygon geometry", () => {
-        const geometry = parseNotamGeometry({
+        const result = parseNotamGeometry({
             geometry: {
                 type: "Polygon",
                 coordinates: [
@@ -215,14 +215,14 @@ describe("parseNotamGeometry", () => {
             },
         });
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates[0]).toHaveLength(5);
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            expect(result.geometry.rings[0]).toHaveLength(5);
         }
     });
 
     it("preserves rings for GeoJSON polygon with holes", () => {
-        const geometry = parseNotamGeometry({
+        const result = parseNotamGeometry({
             geometry: {
                 type: "Polygon",
                 coordinates: [
@@ -244,9 +244,9 @@ describe("parseNotamGeometry", () => {
             },
         });
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates).toEqual([
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            expect(result.geometry.rings).toEqual([
                 [
                     [24.74, 59.43],
                     [24.76, 59.43],
@@ -266,7 +266,7 @@ describe("parseNotamGeometry", () => {
     });
 
     it("parses GeoJSON multipolygon preserving polygons and rings", () => {
-        const geometry = parseNotamGeometry({
+        const result = parseNotamGeometry({
             geometry: {
                 type: "MultiPolygon",
                 coordinates: [
@@ -299,10 +299,10 @@ describe("parseNotamGeometry", () => {
             },
         });
 
-        expect(geometry?.kind).toBe("multiPolygon");
-        if (geometry?.kind === "multiPolygon") {
-            expect(geometry.coordinates).toHaveLength(2);
-            expect(geometry.coordinates[0]).toEqual([
+        expect(result.geometry?.kind).toBe("multiPolygon");
+        if (result.geometry?.kind === "multiPolygon") {
+            expect(result.geometry.polygons).toHaveLength(2);
+            expect(result.geometry.polygons[0]).toEqual([
                 [
                     [24.74, 59.43],
                     [24.76, 59.43],
@@ -318,7 +318,7 @@ describe("parseNotamGeometry", () => {
                     [24.745, 59.435],
                 ],
             ]);
-            expect(geometry.coordinates[1]).toEqual([
+            expect(result.geometry.polygons[1]).toEqual([
                 [
                     [25.0, 60.0],
                     [25.1, 60.0],
@@ -331,14 +331,14 @@ describe("parseNotamGeometry", () => {
     });
 
     it("parses circle variant with x/y center", () => {
-        const geometry = parseNotamGeometry({
+        const result = parseNotamGeometry({
             circle: {
                 center: { x: 24.7536, y: 59.4369 },
                 radius: 1500,
             },
         });
 
-        expect(geometry).toEqual({
+        expect(result.geometry).toEqual({
             kind: "circle",
             center: [24.7536, 59.4369],
             radiusMeters: 1500,
@@ -346,9 +346,9 @@ describe("parseNotamGeometry", () => {
     });
 
     it("parses legacy geometryHint circle from fixture", () => {
-        const geometry = parseNotamGeometry(legacyCircle);
+        const result = parseNotamGeometry(legacyCircle);
 
-        expect(geometry).toEqual({
+        expect(result.geometry).toEqual({
             kind: "circle",
             center: [24.7536, 59.4369],
             radiusMeters: 1000,
@@ -356,52 +356,52 @@ describe("parseNotamGeometry", () => {
     });
 
     it("parses GeoJSON polygon feature from fixture with ring closure", () => {
-        const geometry = parseNotamGeometry(geoJsonPolygonFeature);
+        const result = parseNotamGeometry(geoJsonPolygonFeature);
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            const ring = geometry.coordinates[0];
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            const ring = result.geometry.rings[0];
             expect(ring[0]).toEqual(ring[ring.length - 1]);
         }
     });
 
     it("parses GeoJSON multipolygon feature from fixture", () => {
-        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature);
+        const result = parseNotamGeometry(geoJsonMultiPolygonFeature);
 
-        expect(geometry?.kind).toBe("multiPolygon");
-        if (geometry?.kind === "multiPolygon") {
-            expect(geometry.coordinates).toHaveLength(2);
+        expect(result.geometry?.kind).toBe("multiPolygon");
+        if (result.geometry?.kind === "multiPolygon") {
+            expect(result.geometry.polygons).toHaveLength(2);
         }
     });
 
     it("prefers GeoJSON geometry when polygon fallback also exists", () => {
-        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature);
+        const result = parseNotamGeometry(geoJsonMultiPolygonFeature);
 
-        expect(geometry?.kind).toBe("multiPolygon");
+        expect(result.geometry?.kind).toBe("multiPolygon");
     });
 
     it("parses polygon with object coordinates and numeric strings", () => {
-        const geometry = parseNotamGeometry(geoJsonMultiPolygonFeature?.polygon);
+        const result = parseNotamGeometry(geoJsonMultiPolygonFeature?.polygon);
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates[0][0]).toEqual([24.74, 59.43]);
-            const ring = geometry.coordinates[0];
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            expect(result.geometry.rings[0][0]).toEqual([24.74, 59.43]);
+            const ring = result.geometry.rings[0];
             expect(ring[0]).toEqual(ring[ring.length - 1]);
         }
     });
 
     it("swaps lat/lon for array coordinates when needed", () => {
-        const geometry = parseNotamGeometry([
-            [59.43, 24.74],
-            [59.43, 24.76],
-            [59.44, 24.76],
-            [59.44, 24.74],
+        const result = parseNotamGeometry([
+            [59.43, 124.74],
+            [59.43, 124.76],
+            [59.44, 124.76],
+            [59.44, 124.74],
         ]);
 
-        expect(geometry?.kind).toBe("polygon");
-        if (geometry?.kind === "polygon") {
-            expect(geometry.coordinates[0][0]).toEqual([24.74, 59.43]);
+        expect(result.geometry?.kind).toBe("polygon");
+        if (result.geometry?.kind === "polygon") {
+            expect(result.geometry.rings[0][0]).toEqual([124.74, 59.43]);
         }
     });
 
@@ -530,8 +530,8 @@ describe("normalizeNotams", () => {
 
         expect(notams[1].geometry?.kind).toBe("polygon");
         if (notams[1].geometry?.kind === "polygon") {
-            expect(notams[1].geometry.coordinates).toHaveLength(1);
-            expect(notams[1].geometry.coordinates[0]).toHaveLength(5);
+            expect(notams[1].geometry.rings).toHaveLength(1);
+            expect(notams[1].geometry.rings[0]).toHaveLength(5);
         }
     });
 

@@ -1,0 +1,106 @@
+{
+  "items": [
+    {
+      "id": "CONTRACT-CIRCLE",
+      "text": "LEGACY CIRCLE",
+      "geometryHint": {
+        "type": "circle",
+        "center": { "lon": 24.7536, "lat": 59.4369 },
+        "radiusMeters": 1000
+      }
+    },
+    {
+      "id": "CONTRACT-POLY",
+      "text": "GEOJSON POLYGON FEATURE",
+      "geometry": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [24.74, 59.43],
+              [24.76, 59.43],
+              [24.76, 59.44],
+              [24.74, 59.44],
+              [24.74, 59.43]
+            ]
+          ]
+        },
+        "properties": { "source": "contract" }
+      }
+    },
+    {
+      "id": "CONTRACT-MULTI",
+      "text": "GEOJSON MULTIPOLYGON FEATURE",
+      "geometry": {
+        "type": "Feature",
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [24.6, 59.4],
+                [24.7, 59.4],
+                [24.7, 59.45],
+                [24.6, 59.45],
+                [24.6, 59.4]
+              ]
+            ],
+            [
+              [
+                [25.0, 59.6],
+                [25.1, 59.6],
+                [25.1, 59.65],
+                [25.0, 59.65],
+                [25.0, 59.6]
+              ]
+            ]
+          ]
+        },
+        "properties": { "source": "contract" }
+      }
+    },
+    {
+      "id": "CONTRACT-OBJECT-COORDS",
+      "text": "OBJECT COORDS",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            { "longitude": "24.74", "latitude": "59.43" },
+            { "longitude": "24.76", "latitude": "59.43" },
+            { "longitude": "24.76", "latitude": "59.44" },
+            { "longitude": "24.74", "latitude": "59.44" },
+            { "longitude": "24.74", "latitude": "59.43" }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "CONTRACT-SCHEMA-DRIFT",
+      "text": "UNSUPPORTED GEOMETRY SHAPE",
+      "geometry": {
+        "outline": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [24.74, 59.43],
+              [24.76, 59.43],
+              [24.76, 59.44],
+              [24.74, 59.44],
+              [24.74, 59.43]
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "CONTRACT-INVALID",
+      "text": "INVALID COORDS",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[200, 95]]
+      }
+    }
+  ]
+}
