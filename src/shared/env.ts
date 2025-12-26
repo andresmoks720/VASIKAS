@@ -24,7 +24,7 @@ type EnvValues = {
   };
 };
 
-function parseBooleanFlag(name: string, rawValue: string | boolean | undefined, defaultValue: boolean): boolean {
+export function parseBooleanFlag(name: string, rawValue: string | boolean | undefined, defaultValue: boolean): boolean {
   if (rawValue === undefined) {
     return defaultValue;
   }
@@ -41,7 +41,7 @@ function parseBooleanFlag(name: string, rawValue: string | boolean | undefined, 
   throw new Error(`${name} must be a boolean-like value (e.g. "1" or "true")`);
 }
 
-function parsePositiveInt(name: string, rawValue: string | number | undefined, defaultValue: number): number {
+export function parsePositiveInt(name: string, rawValue: string | number | undefined, defaultValue: number): number {
   const parsed = rawValue === undefined ? defaultValue : Number(rawValue);
 
   if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -51,7 +51,7 @@ function parsePositiveInt(name: string, rawValue: string | number | undefined, d
   return parsed;
 }
 
-function optionalString(name: string, rawValue: string | undefined): string | undefined {
+export function optionalString(name: string, rawValue: string | undefined): string | undefined {
   if (rawValue === undefined || rawValue === null) {
     return undefined;
   }
@@ -61,7 +61,13 @@ function optionalString(name: string, rawValue: string | undefined): string | un
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
-function parseNumberInRange(name: string, rawValue: string | number | undefined, defaultValue: number, min: number, max: number): number {
+export function parseNumberInRange(
+  name: string,
+  rawValue: string | number | undefined,
+  defaultValue: number,
+  min: number,
+  max: number,
+): number {
   const parsed = rawValue === undefined ? defaultValue : Number(rawValue);
 
   if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
@@ -71,7 +77,17 @@ function parseNumberInRange(name: string, rawValue: string | number | undefined,
   return parsed;
 }
 
-function resolveDataUrl({ name, mockUrl, useMocks, rawValue }: { name: string; mockUrl: string; useMocks: boolean; rawValue: string | undefined }): string {
+export function resolveDataUrl({
+  name,
+  mockUrl,
+  useMocks,
+  rawValue,
+}: {
+  name: string;
+  mockUrl: string;
+  useMocks: boolean;
+  rawValue: string | undefined;
+}): string {
   const value = optionalString(name, rawValue);
 
   if (useMocks) {
@@ -85,13 +101,13 @@ function resolveDataUrl({ name, mockUrl, useMocks, rawValue }: { name: string; m
   return value;
 }
 
-function buildAdsbPointUrl(baseUrl: string, centerLat: number, centerLon: number, radiusNm: number): string {
+export function buildAdsbPointUrl(baseUrl: string, centerLat: number, centerLon: number, radiusNm: number): string {
   const trimmedBase = baseUrl.replace(/\/+$/, "");
 
   return `${trimmedBase}/point/${centerLat}/${centerLon}/${radiusNm}`;
 }
 
-function parseAdsbMode(rawValue: string | undefined): "live" | "mock" {
+export function parseAdsbMode(rawValue: string | undefined): "live" | "mock" {
   const value = (rawValue ?? "live").trim().toLowerCase();
   return value === "mock" ? "mock" : "live";
 }

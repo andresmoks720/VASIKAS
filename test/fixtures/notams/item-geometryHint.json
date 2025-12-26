@@ -1,0 +1,9 @@
+{
+  "id": "A0001/25",
+  "text": "NOTAM WITH GEOMETRYHINT",
+  "geometryHint": {
+    "type": "circle",
+    "center": { "lon": 24.7536, "lat": 59.4369 },
+    "radiusMeters": 1200
+  }
+}

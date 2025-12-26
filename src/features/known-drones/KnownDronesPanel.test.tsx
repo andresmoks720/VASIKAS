@@ -6,13 +6,15 @@ import { KnownDronesPanel } from "./KnownDronesPanel";
 import { makeDrone } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
 
+const dronesStreamState = {
+  data: [] as ReturnType<typeof makeDrone>[],
+  status: "live" as const,
+  ageSeconds: 2,
+  error: null as Error | null,
+};
+
 vi.mock("@/services/streams/StreamsProvider", () => ({
-  useSharedDronesStream: () => ({
-    data: [makeDrone({ ingestTimeUtc: "2025-12-18T10:15:31Z" })],
-    status: "live",
-    ageSeconds: 2,
-    error: null,
-  }),
+  useSharedDronesStream: () => dronesStreamState,
 }));
 
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
@@ -20,7 +22,17 @@ vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
 }));
 
 describe("KnownDronesPanel", () => {
+  it("renders the empty state when no drones are available", () => {
+    dronesStreamState.data = [];
+
+    renderWithRouter(<KnownDronesPanel />, { route: "/drones" });
+
+    expect(screen.getByText("No drones reported yet.")).toBeInTheDocument();
+  });
+
   it("renders formatted altitude and speed for drones", () => {
+    dronesStreamState.data = [makeDrone({ ingestTimeUtc: "2025-12-18T10:15:31Z" })];
+
     renderWithRouter(<KnownDronesPanel />, { route: "/drones" });
 
     expect(screen.getByText(/Demo Drone/)).toBeInTheDocument();

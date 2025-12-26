@@ -409,6 +409,16 @@ At least:
 
 ---
 
+## Testing culture
+
+- Every non-trivial change **must** add or adjust tests.
+- Bugfixes **require** a regression test.
+- Map work **requires Playwright proof** (no pixel assertions).
+- `docs/TEST_CASES.md` must be updated in the same PR.
+- `docs/IMPLEMENTATION_PLAN.md` must be updated in the same PR.
+
+---
+
 ## Change policy
 
 ✅ Always:

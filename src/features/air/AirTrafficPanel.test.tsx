@@ -6,13 +6,15 @@ import { AirTrafficPanel } from "./AirTrafficPanel";
 import { makeAircraft } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
 
+const adsbStreamState = {
+  data: [] as ReturnType<typeof makeAircraft>[],
+  status: "live" as const,
+  ageSeconds: 1,
+  error: null as Error | null,
+};
+
 vi.mock("@/services/streams/StreamsProvider", () => ({
-  useSharedAdsbStream: () => ({
-    data: [makeAircraft()],
-    status: "live",
-    ageSeconds: 1,
-    error: null,
-  }),
+  useSharedAdsbStream: () => adsbStreamState,
 }));
 
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
@@ -20,7 +22,17 @@ vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
 }));
 
 describe("AirTrafficPanel", () => {
+  it("renders the empty state when there are no flights", () => {
+    adsbStreamState.data = [];
+
+    renderWithRouter(<AirTrafficPanel />, { route: "/air" });
+
+    expect(screen.getByText("No aircraft visible right now.")).toBeInTheDocument();
+  });
+
   it("renders formatted altitude and speed for aircraft", () => {
+    adsbStreamState.data = [makeAircraft()];
+
     renderWithRouter(<AirTrafficPanel />, { route: "/air" });
 
     expect(screen.getByText(/FIN123/)).toBeInTheDocument();

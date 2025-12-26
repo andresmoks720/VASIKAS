@@ -49,4 +49,55 @@ describe("computeAircraftAtTime", () => {
     expect(aircraft.position.lon).toBeCloseTo(24.805333, 6);
     expect(aircraft.position.lat).toBeCloseTo(59.418, 6);
   });
+
+  it("uses the single sample when only one point is present", () => {
+    const nowUtc = "2025-12-18T10:15:20Z";
+    const ingestTimeUtc = "2025-12-18T10:15:20Z";
+    const singleTrack: AdsbTrack = {
+      ...TRACK,
+      track: [
+        {
+          offsetSec: 0,
+          position: { lon: 24.9, lat: 59.5 },
+          trackDeg: 10,
+          groundSpeedKmh: 300,
+          altitude: { meters: null, ref: "MSL", source: "reported", comment: "ADS-B reported" },
+        },
+      ],
+    };
+
+    const aircraft = computeAircraftAtTime(singleTrack, nowUtc, ingestTimeUtc);
+
+    expect(aircraft.position.lon).toBeCloseTo(24.9, 6);
+    expect(aircraft.altitude.meters).toBeNull();
+  });
+
+  it("throws on empty track data", () => {
+    const nowUtc = "2025-12-18T10:15:20Z";
+    const ingestTimeUtc = "2025-12-18T10:15:20Z";
+
+    expect(() => computeAircraftAtTime({ ...TRACK, track: [] }, nowUtc, ingestTimeUtc)).toThrowError(
+      /requires at least one sample/i,
+    );
+  });
+
+  it.each([
+    { label: "zero duration", durationSec: 0 },
+    { label: "negative duration", durationSec: -5 },
+  ])("throws on $label", ({ durationSec }) => {
+    const nowUtc = "2025-12-18T10:15:20Z";
+    const ingestTimeUtc = "2025-12-18T10:15:20Z";
+
+    expect(() => computeAircraftAtTime({ ...TRACK, durationSec }, nowUtc, ingestTimeUtc)).toThrowError(
+      /duration/i,
+    );
+  });
+
+  it("throws on invalid timestamps", () => {
+    const ingestTimeUtc = "2025-12-18T10:15:20Z";
+
+    expect(() => computeAircraftAtTime({ ...TRACK, t0Utc: "invalid" }, "2025-12-18T10:15:20Z", ingestTimeUtc)).toThrowError(
+      /invalid/i,
+    );
+  });
 });

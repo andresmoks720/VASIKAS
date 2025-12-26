@@ -1,0 +1,19 @@
+{
+  "id": "A0007/25",
+  "text": "NOTAM MULTI FIELD FALLBACK",
+  "geometryHint": {
+    "type": "unknown"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [24.74, 59.43],
+        [24.76, 59.43],
+        [24.76, 59.44],
+        [24.74, 59.44],
+        [24.74, 59.43]
+      ]
+    ]
+  }
+}

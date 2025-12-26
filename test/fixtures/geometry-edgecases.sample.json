@@ -1,0 +1,136 @@
+{
+  "generatedAtUtc": "2025-12-18T10:00:00Z",
+  "items": [
+    {
+      "id": "EDGE-CIRCLE",
+      "text": "CIRCLE SAMPLE",
+      "geometryHint": {
+        "type": "circle",
+        "center": { "lon": 24.7536, "lat": 59.4369 },
+        "radiusMeters": 1200
+      }
+    },
+    {
+      "id": "EDGE-POLY",
+      "text": "POLYGON SAMPLE",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.74, 59.43],
+            [24.76, 59.43],
+            [24.76, 59.44],
+            [24.74, 59.44],
+            [24.74, 59.43]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "EDGE-HOLE",
+      "text": "POLYGON WITH HOLE",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.8, 59.45],
+            [24.9, 59.45],
+            [24.9, 59.5],
+            [24.8, 59.5],
+            [24.8, 59.45]
+          ],
+          [
+            [24.82, 59.46],
+            [24.88, 59.46],
+            [24.88, 59.49],
+            [24.82, 59.49]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "EDGE-MULTI",
+      "text": "MULTIPOLYGON SAMPLE",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [24.6, 59.4],
+              [24.7, 59.4],
+              [24.7, 59.45],
+              [24.6, 59.45],
+              [24.6, 59.4]
+            ]
+          ],
+          [
+            [
+              [25.0, 59.6],
+              [25.1, 59.6],
+              [25.1, 59.65],
+              [25.0, 59.65],
+              [25.0, 59.6]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "EDGE-NESTED",
+      "text": "FEATURE NESTING SAMPLE",
+      "geometry": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [24.5, 59.2],
+              [24.6, 59.2],
+              [24.6, 59.25],
+              [24.5, 59.25],
+              [24.5, 59.2]
+            ]
+          ]
+        },
+        "properties": { "source": "nested" }
+      }
+    },
+    {
+      "id": "EDGE-DATELINE",
+      "text": "ANTIMERIDIAN SAMPLE",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [179.5, 10.0],
+            [-179.5, 10.0],
+            [-179.5, 11.0],
+            [179.5, 11.0]
+          ]
+        ]
+      }
+    }
+    ,
+    {
+      "id": "EDGE-DATELINE-HOLE",
+      "text": "ANTIMERIDIAN WITH HOLE",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [179.6, 10.0],
+            [-179.6, 10.0],
+            [-179.6, 11.0],
+            [179.6, 11.0]
+          ],
+          [
+            [179.7, 10.2],
+            [179.8, 10.2],
+            [179.8, 10.8],
+            [179.7, 10.8]
+          ]
+        ]
+      }
+    }
+  ]
+}
