@@ -78,10 +78,10 @@ export function NotamsPanel() {
         <Typography variant="caption" color="text.secondary">
           {dataSourceLabel}
         </Typography>
-        <Button size="small" variant="outlined" onClick={handleToggle}>
-          notams-&gt;{useLiveNotams ? "mock" : "live"}
+        <Button size="small" variant="outlined" onClick={handleToggle} sx={{ textTransform: "none" }}>
+          {useLiveNotams ? "Switch to Mock" : "Switch to Live"}
         </Button>
-        <StatusPill status={status} />
+        <StatusPill status={status} label={status === "live" ? (useLiveNotams ? "Live" : "Mock") : undefined} />
         {status === "loading" ? <CircularProgress size={16} /> : null}
       </Stack>
 

@@ -1,0 +1,36 @@
+{
+    "geometry": {
+        "boundary": {
+            "type": "Feature",
+            "geometry": {
+                "outer_boundary": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [
+                                24.00,
+                                59.00
+                            ],
+                            [
+                                25.00,
+                                59.00
+                            ],
+                            [
+                                25.00,
+                                60.00
+                            ],
+                            [
+                                24.00,
+                                60.00
+                            ],
+                            [
+                                24.00,
+                                59.00
+                            ]
+                        ]
+                    ]
+                }
+            }
+        }
+    }
+}

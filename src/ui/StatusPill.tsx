@@ -11,7 +11,7 @@ const LABELS: Record<PollingStatus, string> = {
   error: "Error",
 };
 
-export function StatusPill({ status }: { status: PollingStatus }) {
+export function StatusPill({ status, label }: { status: PollingStatus; label?: string }) {
   const color: "default" | "error" | "success" | "warning" =
     status === "live"
       ? "success"
@@ -26,7 +26,7 @@ export function StatusPill({ status }: { status: PollingStatus }) {
       size="small"
       variant={status === "idle" ? "outlined" : "filled"}
       color={color}
-      label={LABELS[status]}
+      label={label ?? LABELS[status]}
       sx={{ textTransform: "uppercase", fontWeight: 600 }}
     />
   );

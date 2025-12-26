@@ -36,7 +36,10 @@ function isArray(value: unknown): value is unknown[] {
     return Array.isArray(value);
 }
 
-function getString(obj: Record<string, unknown>, key: string): string | undefined {
+function getString(obj: unknown, key: string): string | undefined {
+    if (!isObject(obj)) {
+        return undefined;
+    }
     const value = obj[key];
     return isString(value) ? value : undefined;
 }
@@ -502,10 +505,21 @@ function extractGeometryCandidates(item: Record<string, unknown>): unknown[] {
         item.geometryHint,
         item.geometry,
         item.geojson,
+        item.geoJson,
+        item.GeoJSON,
         item.polygon,
+        item.polygons,
         item.circle,
+        item.circles,
         item.shape,
         item.area,
+        item.outline,
+        item.boundary,
+        item.outer_boundary,
+        item.inner_boundary,
+        item.positions,
+        item.path,
+        item.coordinates,
     ];
 
     return candidates.filter((candidate) => candidate !== null && candidate !== undefined);
@@ -860,6 +874,14 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
         }
 
         if (isArray(candidate)) {
+            const polygons = normalizeMultiPolygon(candidate);
+            if (polygons && polygons.length > 0) {
+                if (polygons.length === 1) {
+                    return { geometry: { kind: "polygon", rings: polygons[0] } };
+                }
+                return { geometry: { kind: "multiPolygon", polygons } };
+            }
+
             const rings = normalizePolygonRings(candidate);
             if (!rings) {
                 return { geometry: null, reason: "INVALID_COORDS" };
@@ -941,8 +963,9 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         return null;
     }
 
-    const validFromUtc = getString(item, "validFromUtc") ?? getString(item.validity as any, "start");
-    const validToUtc = getString(item, "validToUtc") ?? getString(item.validity as any, "end");
+    const validity = isObject(item.validity) ? (item.validity as Record<string, unknown>) : undefined;
+    const validFromUtc = getString(item, "validFromUtc") ?? getString(validity, "start");
+    const validToUtc = getString(item, "validToUtc") ?? getString(validity, "end");
     const summary = formatNotamSummary(text, 60);
     const altitudes = parseAltitudesFromText(text);
 

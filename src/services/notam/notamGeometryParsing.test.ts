@@ -34,6 +34,7 @@ const fixtures = {
   latLonSwapped: loadFixture("latlon-swapped"),
   invalidRange: loadFixture("invalid-range"),
   schemaChanged: loadFixture("schema-changed"),
+  nestedGeometry: loadFixture("nested-geometry"),
   emptyArray: loadFixture("empty-array"),
   missingFields: loadFixture("missing-fields"),
   bowtie: loadFixture("bowtie"),
@@ -211,10 +212,14 @@ describe("parseNotamGeometryWithReason (edge cases)", () => {
       expectedReason: "INVALID_COORDS",
     },
     {
-      name: "schema changed format",
+      name: "schema changed format (now supported)",
       input: fixtures.schemaChanged,
-      expectedKind: null,
-      expectedReason: "UNSUPPORTED_FORMAT",
+      expectedKind: "polygon",
+    },
+    {
+      name: "multi-level nested geometry",
+      input: fixtures.nestedGeometry,
+      expectedKind: "polygon",
     },
     {
       name: "empty coordinates",
@@ -227,6 +232,50 @@ describe("parseNotamGeometryWithReason (edge cases)", () => {
       input: fixtures.missingFields,
       expectedKind: null,
       expectedReason: "INVALID_COORDS",
+    },
+    {
+      name: "handles camelCase geoJson field",
+      input: {
+        geoJson: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [24, 59],
+              [25, 59],
+              [25, 60],
+              [24, 60],
+              [24, 59],
+            ],
+          ],
+        },
+      },
+      expectedKind: "polygon",
+    },
+    {
+      name: "handles polygons field",
+      input: {
+        polygons: [
+          [
+            [
+              [24, 59],
+              [25, 59],
+              [25, 60],
+              [24, 60],
+              [24, 59],
+            ],
+          ],
+          [
+            [
+              [26, 59],
+              [27, 59],
+              [27, 60],
+              [26, 60],
+              [26, 59],
+            ],
+          ],
+        ],
+      },
+      expectedKind: "multiPolygon",
     },
   ];
 
@@ -473,7 +522,7 @@ describe("NOTAM geometry contract fixture", () => {
       { id: "CONTRACT-POLY", kind: "polygon" },
       { id: "CONTRACT-MULTI", kind: "multiPolygon" },
       { id: "CONTRACT-OBJECT-COORDS", kind: "polygon" },
-      { id: "CONTRACT-SCHEMA-DRIFT", reason: "UNSUPPORTED_FORMAT" },
+      { id: "CONTRACT-SCHEMA-DRIFT", kind: "polygon" },
       { id: "CONTRACT-INVALID", reason: "INVALID_COORDS" },
     ] as const;
 
