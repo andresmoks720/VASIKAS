@@ -43,10 +43,13 @@ export function createOfflineXyzLayer() {
     url: "/tiles/demo/{z}/{x}/{y}.png",
     minZoom: 7,
     maxZoom: 10,
-    tileLoadFunction: (tile) => {
+    tileLoadFunction: (tile, src) => {
       if (tile instanceof ImageTile) {
         const image = tile.getImage() as HTMLImageElement;
-        image.src = getPlaceholderTileDataUrl();
+        image.onerror = () => {
+          image.src = getPlaceholderTileDataUrl();
+        };
+        image.src = src;
       }
     },
   });

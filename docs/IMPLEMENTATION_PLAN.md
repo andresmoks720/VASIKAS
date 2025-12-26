@@ -35,6 +35,7 @@
   - Added deterministic MSW snapshot drone handler and stream coverage to avoid external mock dependencies.
   - Added polling/speed/UTC edge-case tests plus NotamsPanel empty/list rendering coverage.
   - Validated optional drone snapshot center env coordinates with range checks and NaN rejection.
+  - Offline XYZ demo tiles now fall back to placeholders only on load error.
 - In progress:
   - (None)
 - Done:
