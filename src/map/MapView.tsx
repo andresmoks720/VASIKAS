@@ -92,6 +92,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const [focusedEntity, setFocusedEntity] = React.useState<{ kind: EntityRef["kind"]; id: string } | null>(null);
   const [visibleTracks, setVisibleTracks] = React.useState<Set<string>>(new Set());
   const [mapReady, setMapReady] = React.useState(false);
+  const offlineFallbackApplied = useRef(false);
 
   const selectionManager = useMemo(() => {
     const resolveFeatures = (entity: EntityRef) => {
@@ -234,6 +235,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       adsbLayerRef.current = null;
       mapRef.current = null;
       setMapReady(false);
+      offlineFallbackApplied.current = false;
       sensorsController.dispose();
       dronesController.dispose();
       geofencesController.dispose();
@@ -246,6 +248,42 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     geofencesController,
     notamsController,
   ]);
+
+  useEffect(() => {
+    if (!mapReady || !mocksEnabled) {
+      return;
+    }
+
+    const map = mapRef.current;
+    if (!map) {
+      return;
+    }
+
+    const offlineSource = baseLayer.getSource();
+    if (!offlineSource) {
+      return;
+    }
+
+    const handleTileError = () => {
+      if (offlineFallbackApplied.current) {
+        return;
+      }
+
+      offlineFallbackApplied.current = true;
+      const fallbackLayer = createMaaAmetOrthoLayer(ENV.mapWmtsUrl()) ?? new TileLayer({ source: new OSM() });
+      const layers = map.getLayers();
+
+      layers.insertAt(0, fallbackLayer);
+      if (layers.getArray().includes(baseLayer)) {
+        layers.remove(baseLayer);
+      }
+    };
+
+    offlineSource.on("tileloaderror", handleTileError);
+    return () => {
+      offlineSource.un("tileloaderror", handleTileError);
+    };
+  }, [baseLayer, mapReady, mocksEnabled]);
 
   const handleHomeClick = () => {
     const map = mapRef.current;
