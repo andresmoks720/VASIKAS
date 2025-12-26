@@ -5,6 +5,7 @@ import {
   parseAdsbMode,
   parseBooleanFlag,
   parseNumberInRange,
+  parseOptionalNumberInRange,
   parsePositiveInt,
   resolveDataUrl,
 } from "./env";
@@ -56,6 +57,22 @@ describe("parseNumberInRange", () => {
     expect(() => parseNumberInRange("RANGE", -1, 3, 0, 10)).toThrowError(/RANGE/);
     expect(() => parseNumberInRange("RANGE", 11, 3, 0, 10)).toThrowError(/RANGE/);
     expect(() => parseNumberInRange("RANGE", "NaN", 3, 0, 10)).toThrowError(/RANGE/);
+  });
+});
+
+describe("parseOptionalNumberInRange", () => {
+  it("returns undefined when value is missing", () => {
+    expect(parseOptionalNumberInRange("OPTIONAL", undefined, -90, 90)).toBeUndefined();
+    expect(parseOptionalNumberInRange("OPTIONAL", "", -90, 90)).toBeUndefined();
+  });
+
+  it("parses numeric values within range", () => {
+    expect(parseOptionalNumberInRange("OPTIONAL", "12.5", -90, 90)).toBe(12.5);
+  });
+
+  it("rejects invalid or out-of-range values", () => {
+    expect(() => parseOptionalNumberInRange("OPTIONAL", "abc", -90, 90)).toThrowError(/OPTIONAL/);
+    expect(() => parseOptionalNumberInRange("OPTIONAL", "999", -90, 90)).toThrowError(/OPTIONAL/);
   });
 });
 

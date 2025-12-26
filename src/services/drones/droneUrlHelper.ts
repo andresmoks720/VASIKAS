@@ -13,6 +13,10 @@ export function buildSnapshotDronesUrl(baseUrl: string, config: DroneEnvConfig):
         return baseUrl;
     }
 
+    if (!Number.isFinite(config.centerLat) || !Number.isFinite(config.centerLon)) {
+        return baseUrl;
+    }
+
     const url = new URL(baseUrl, "http://localhost"); // Dummy base for parsing relative URLs
     const params = url.searchParams;
 
