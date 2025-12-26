@@ -21,6 +21,8 @@ vi.doMock("@/services/http/apiClient", async () => {
     return await vi.importActual("@/services/http/apiClient");
 });
 
+let snapshotCount = 1;
+
 vi.mock("@/shared/env", () => ({
     ENV: {
         useMocks: () => false, // Ensure we don't force bad mock logic (though client logic is explicit)
@@ -30,13 +32,17 @@ vi.mock("@/shared/env", () => ({
             centerLat: () => 59.0,
             centerLon: () => 25.0,
             radiusM: () => 1000,
-            n: () => 1,
+            n: () => snapshotCount,
             periodS: () => 60,
         },
     },
 }));
 
 describe("useDronesSnapshotStream with MSW", () => {
+    beforeEach(() => {
+        snapshotCount = 1;
+    });
+
     it("fetches drone from MSW", async () => {
         const { result } = renderHook(() => useDronesSnapshotStream());
 
@@ -56,5 +62,20 @@ describe("useDronesSnapshotStream with MSW", () => {
         // Handler adds 0.01 to the center (59.0, 25.0) -> 59.01, 25.01
         expect(drones[0].position.lat).toBeCloseTo(59.01);
         expect(drones[0].position.lon).toBeCloseTo(25.01);
+    });
+
+    it("returns multiple drones when n is provided", async () => {
+        snapshotCount = 2;
+        const { result } = renderHook(() => useDronesSnapshotStream());
+
+        await waitFor(() => {
+            expect(result.current.status).toBe("live");
+            expect(result.current.data).not.toBeNull();
+        });
+
+        const drones = result.current.data!;
+        expect(drones).toHaveLength(2);
+        expect(drones[0].id).toBe("msw-drone-1");
+        expect(drones[1].id).toBe("msw-drone-2");
     });
 });

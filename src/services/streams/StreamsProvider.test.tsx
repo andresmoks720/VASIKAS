@@ -138,7 +138,8 @@ describe("StreamsProvider", () => {
 
       function SnapshotConsumer() {
         const drones = useSharedDronesStream();
-        return <span>drones-id:{(drones.data as any)?.[0]?.id}</span>;
+        const firstId = Array.isArray(drones.data) ? drones.data[0]?.id : undefined;
+        return <span>drones-id:{firstId}</span>;
       }
 
       render(

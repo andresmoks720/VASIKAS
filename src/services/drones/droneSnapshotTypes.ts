@@ -1,3 +1,4 @@
+import { AltitudeSource } from "@/shared/types/domain";
 import { Drone } from "./droneTypes";
 
 export type SnapshotDroneDto = {
@@ -9,7 +10,7 @@ export type SnapshotDroneDto = {
     altitude: {
         meters: number | null;
         ref: "AGL" | "MSL";
-        source: string;
+        source: AltitudeSource;
         comment: string;
     };
     eventTimeUtc?: string;

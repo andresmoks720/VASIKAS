@@ -74,6 +74,29 @@ const SENSORS = [
 ] as const;
 
 let droneRequestCount = 0;
+const SNAPSHOT_TIME_UTC = "2025-12-18T10:15:30Z";
+const SNAPSHOT_EPOCH_SEC = Math.floor(Date.parse(SNAPSHOT_TIME_UTC) / 1000);
+
+const parseNumberParam = (value: string | null, fallback: number) => {
+  if (value === null) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const parseCenterParam = (value: string | null) => {
+  if (!value) {
+    return { lat: 0, lon: 0 };
+  }
+
+  const [latRaw, lonRaw] = value.split(",");
+  const lat = parseNumberParam(latRaw ?? null, 0);
+  const lon = parseNumberParam(lonRaw ?? null, 0);
+
+  return { lat, lon };
+};
 
 const nextDroneStep = () => {
   const position = DRONE_POSITIONS[droneRequestCount % DRONE_POSITIONS.length];
@@ -117,30 +140,44 @@ export const handlers = [
   http.get("/mock/sensors.json", () => HttpResponse.json(SENSORS)),
   http.get(/\/v1\/drones/, ({ request }) => {
     const url = new URL(request.url);
-    const center = url.searchParams.get("center") ?? "0,0";
-    const [lat, lon] = center.split(",").map(Number);
+    const center = parseCenterParam(url.searchParams.get("center"));
+    const radiusM = parseNumberParam(url.searchParams.get("radius_m"), 0);
+    const n = parseNumberParam(url.searchParams.get("n"), 1);
+    const periodS = parseNumberParam(url.searchParams.get("period_s"), 0);
+    const count = Math.max(1, Math.floor(n));
+    const offset = radiusM > 0 ? Math.min(radiusM, 1000) / 100000 : 0.01;
+    const drones = Array.from({ length: count }, (_, index) => {
+      const step = index % 2 === 0 ? 1 : -1;
+      return {
+        id: `msw-drone-${index + 1}`,
+        label: "MSW Drone",
+        position: {
+          lat: center.lat + offset * step,
+          lon: center.lon + offset * step,
+        },
+        headingDeg: 45,
+        speedMps: 10,
+        altitude: {
+          meters: 150,
+          ref: "AGL",
+          source: "reported",
+          comment: "MSW generated",
+        },
+        eventTimeUtc: SNAPSHOT_TIME_UTC,
+      };
+    });
 
     return HttpResponse.json({
-      server_time_utc: new Date().toISOString(),
-      t_sec_used: Math.floor(Date.now() / 1000),
-      center: { lat: lat || 0, lon: lon || 0 },
-      meta: { model: "msw-snapshot" },
-      drones: [
-        {
-          id: "msw-drone-1",
-          label: "MSW Drone",
-          position: { lat: (lat || 0) + 0.01, lon: (lon || 0) + 0.01 },
-          headingDeg: 45,
-          speedMps: 10,
-          altitude: {
-            meters: 150,
-            ref: "AGL",
-            source: "mock",
-            comment: "MSW generated"
-          },
-          eventTimeUtc: new Date().toISOString()
-        }
-      ]
+      server_time_utc: SNAPSHOT_TIME_UTC,
+      t_sec_used: SNAPSHOT_EPOCH_SEC,
+      center,
+      meta: {
+        model: "msw-snapshot",
+        radius_m: radiusM,
+        n,
+        period_s: periodS,
+      },
+      drones,
     });
   }),
   http.all("*", ({ request }) => {

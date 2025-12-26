@@ -31,6 +31,8 @@
   - Added unit coverage for env parsing, ADS-B/drone track mapping, and HistoryPanel rendering.
   - Added coverage for NOTAM polling/stream hooks, StreamsProvider context, and AirTrafficPanel empty/list states.
   - Added coverage for ADS-B/drone motion edge cases, API timeout boundaries, and KnownDronesPanel empty/list states.
+  - Added deterministic MSW snapshot drone handler and stream coverage to avoid external mock dependencies.
+  - Added polling/speed/UTC edge-case tests plus NotamsPanel empty/list rendering coverage.
 - In progress:
   - (None)
 - Done:

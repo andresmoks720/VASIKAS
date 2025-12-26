@@ -6,14 +6,17 @@
 | UNIT-URL-002 | formatEntity roundtrip + parseTool fallback | Yes | `src/layout/MapShell/urlState.test.ts` | Covers null/empty fallback behavior. |
 | UNIT-ALT-001 | formatAltitude comment rule | Yes | `src/shared/units/altitude.test.ts` | Ensures comment always shown. |
 | UNIT-ALT-002 | altitude shows meters + feet | Yes | `src/shared/units/altitude.test.ts` | Use when showFeet is enabled. |
+| UNIT-SPEED-001 | speed formatter edge cases | Yes | `src/shared/units/speed.test.ts` | Covers null/NaN + boundary values. |
 | UNIT-ADSB-001 | mapAircraftDto missing fields + units | Yes | `src/services/adsb/adsbClient.test.ts` | Null-safe + knots→km/h. |
 | UNIT-ADSB-MOTION-002 | ADS-B motion invalid durations + empty tracks | Yes | `src/services/adsb/adsbMotion.test.ts` | Invalid timestamps, duration, and empty track coverage. |
 | UI-SENS-001 | SensorsPanel empty/list render | Yes | `src/features/sensors/SensorsPanel.test.tsx` | Empty state + list split. |
 | UI-SENS-002 | SensorsPanel stale + row status | Yes | `src/features/sensors/SensorsPanel.test.tsx` | Status pill + age text. |
 | UNIT-UTC-001 | formatUtcTimestamp handling | Yes | `src/shared/time/utc.test.ts` | Unknown/invalid/normalized UTC + timezone requirement. |
+| UNIT-UTC-002 | formatUtcTimestamp boundary + whitespace | Yes | `src/shared/time/utc.test.ts` | Whitespace handling + out-of-range timestamps. |
 | UNIT-SENS-002 | mapSensorDto adds ingest/source | Yes | `src/services/sensors/sensorsTypes.test.ts` | DTO mapping coverage. |
 | UI-STATUS-001 | StatusPill label rendering | Yes | `src/ui/StatusPill.test.tsx` | Polling status label. |
 | UNIT-DRONE-MOTION-002 | Drone motion invalid timestamps + empty tracks | Yes | `src/services/drones/droneMotion.test.ts` | Invalid timestamp/empty track handling. |
+| UNIT-POLL-EDGE-001 | Polling status edge cases | Yes | `src/services/polling/usePolling.test.ts` | Idle/error + invalid interval handling. |
 | UNIT-HTTP-002 | ApiClient timeout boundaries | Yes | `src/services/http/apiClient.test.ts` | Timeout edge cases + abort handling. |
 | E2E-NAV-002 | tool switch updates URL | Yes | `e2e/smoke.spec.ts` | URL + sidebar heading. |
 | E2E-MAP-001 | map click selects flight and updates URL | Yes | `e2e/map-selection.spec.ts` | Map marker click updates entity query. |
@@ -29,9 +32,11 @@
 | UI-HISTORY-001 | HistoryPanel empty + list render | Yes | `src/features/history/HistoryPanel.test.tsx` | Empty state and populated props. |
 | UI-DRONES-002 | KnownDronesPanel empty + list render | Yes | `src/features/known-drones/KnownDronesPanel.test.tsx` | Empty state and list rendering. |
 | UI-AIR-002 | AirTrafficPanel empty + list render | Yes | `src/features/air/AirTrafficPanel.test.tsx` | Empty state and list rendering. |
+| UI-NOTAM-001 | NotamsPanel empty + list render | Yes | `src/features/notams/NotamsPanel.test.tsx` | Empty state + list render coverage. |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
+| UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 
 ## Test Plan (current ticket)
 
@@ -54,7 +59,12 @@
 | UNIT-HTTP-002 | ApiClient timeout boundaries. (Implemented) | Unit | `src/services/http/apiClient.test.ts` |
 | UI-DRONES-002 | KnownDronesPanel empty + populated render. (Implemented) | UI | `src/features/known-drones/KnownDronesPanel.test.tsx` |
 | UI-AIR-002 | AirTrafficPanel empty + populated render. (Implemented) | UI | `src/features/air/AirTrafficPanel.test.tsx` |
+| UI-NOTAM-001 | NotamsPanel empty + list render. (Implemented) | UI | `src/features/notams/NotamsPanel.test.tsx` |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |
+| UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler (no external mock server). (Implemented) | Unit | `src/services/drones/droneSnapshotClient.msw.test.ts` |
+| UNIT-POLL-EDGE-001 | Polling status idle/error + invalid interval. (Implemented) | Unit | `src/services/polling/usePolling.test.ts` |
+| UNIT-SPEED-001 | Speed formatter edge cases. (Implemented) | Unit | `src/shared/units/speed.test.ts` |
+| UNIT-UTC-002 | UTC timestamp whitespace + boundary checks. (Implemented) | Unit | `src/shared/time/utc.test.ts` |

@@ -14,6 +14,13 @@ describe("formatSpeed", () => {
   it("handles missing speed values", () => {
     expect(formatSpeed(null, "mps")).toBe("—");
   });
+
+  it("formats boundary and invalid speed values", () => {
+    expect(formatSpeed(0)).toBe("0 m/s");
+    expect(formatSpeed(-5)).toBe("-5 m/s");
+    expect(formatSpeed(1_000_000, "kmh")).toBe("1000000 km/h");
+    expect(formatSpeed(Number.NaN)).toBe("NaN m/s");
+  });
 });
 
 describe("specific speed helpers", () => {

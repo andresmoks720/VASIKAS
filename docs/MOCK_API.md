@@ -30,7 +30,7 @@ To configure the frontend to use this mock API for drone data, set the following
 VITE_DRONES_MODE=snapshot
 
 # Point to the local mock server
-VITE_DRONE_SNAPSHOT_URL=http://localhost:8787/v1/drones
+VITE_DRONE_URL=http://localhost:8787/v1/drones
 
 # Optional: Override simulation parameters (these are auto-appended to the URL)
 VITE_DRONES_CENTER_LAT=58.5953

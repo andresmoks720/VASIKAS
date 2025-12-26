@@ -53,7 +53,7 @@ describe("useDronesSnapshotStream", () => {
                     id: "d1",
                     position: { lat: 58.1, lon: 25.1 },
                     headingDeg: 120,
-                    altitude: { ref: "AGL", source: "mock", comment: "test" } // minimal
+                    altitude: { ref: "AGL", source: "reported", comment: "test" } // minimal
                 }
             ]
         };

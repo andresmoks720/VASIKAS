@@ -54,7 +54,7 @@ export function computeDronesSnapshot(params: {
         // Let's use the requested formula: "headingDeg = (deg(theta) + 90) % 360"
         // Wait, let's check the user requirement carefully: "Heading tangent (“always ahead”): headingDeg = (deg(theta) + 90) % 360"
         // Let's implement exactly as requested.
-        let thetaDeg = (theta * 180) / Math.PI;
+        const thetaDeg = (theta * 180) / Math.PI;
         let headingDeg = (thetaDeg + 90) % 360;
         if (headingDeg < 0) headingDeg += 360; // Normalize just in case
 
