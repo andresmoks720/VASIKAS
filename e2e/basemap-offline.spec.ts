@@ -21,4 +21,29 @@ test.describe("basemap offline mode", () => {
 
     expect(externalRequests).toEqual([]);
   });
+
+  test("falls back to the online basemap when offline tiles fail", async ({ page }) => {
+    const osmRequests: string[] = [];
+    const tilePng = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMBAKeGdUgAAAAASUVORK5CYII=",
+      "base64",
+    );
+
+    await page.route("**/tiles/demo/**", (route) => {
+      route.fulfill({ status: 404 });
+    });
+
+    await page.route("**://tile.openstreetmap.org/**", (route) => {
+      osmRequests.push(route.request().url());
+      route.fulfill({
+        status: 200,
+        contentType: "image/png",
+        body: tilePng,
+      });
+    });
+
+    await page.goto("/air");
+
+    await expect.poll(() => osmRequests.length).toBeGreaterThan(0);
+  });
 });

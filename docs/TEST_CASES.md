@@ -20,6 +20,7 @@
 | UNIT-HTTP-002 | ApiClient timeout boundaries | Yes | `src/services/http/apiClient.test.ts` | Timeout edge cases + abort handling. |
 | E2E-NAV-002 | tool switch updates URL | Yes | `e2e/smoke.spec.ts` | URL + sidebar heading. |
 | E2E-MAP-001 | map click selects flight and updates URL | Yes | `e2e/map-selection.spec.ts` | Map marker click updates entity query. |
+| E2E-MAP-002 | offline tiles failure falls back to online basemap | Yes | `e2e/basemap-offline.spec.ts` | Forces mock tile 404s to confirm OSM fallback. |
 | E2E-SMOKE-001 | load map + switch tools | Yes | `e2e/smoke.spec.ts` | Smoke path for map + routing. |
 | DOC-TEST-001 | testing culture requirements documented | Yes | `agents.md`, `docs/TESTING.md` | Codifies test expectations for future work. |
 | UNIT-NOTAM-OBS-001 | NOTAM geometry parse reasons + dev logging | Yes | `src/services/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` | Ensures schema mismatches are observable. |
@@ -49,6 +50,7 @@
 | UNIT-SENS-002 | Map sensor DTO adds ingest/source safely. (Implemented) | Unit | `src/services/sensors/sensorsTypes.test.ts` |
 | UI-STATUS-001 | StatusPill renders expected label for polling state. (Implemented) | UI | `src/ui/StatusPill.test.tsx` |
 | E2E-NAV-002 | Tool switching updates URL and sidebar heading. (Implemented) | E2E | `e2e/smoke.spec.ts` |
+| E2E-MAP-002 | Offline tiles failure triggers online basemap fallback. (Implemented) | E2E | `e2e/basemap-offline.spec.ts` |
 | DOC-TEST-001 | Codify testing culture requirements and PR checklist. (Implemented) | Docs | `agents.md`, `docs/TESTING.md`, `.github/pull_request_template.md` |
 | UNIT-NOTAM-OBS-001 | NOTAM geometry parse results + dev-only warnings. (Implemented) | Unit | `src/services/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` |
 | UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures + success-rate guardrail. (Implemented) | Unit | `src/services/notam/notamGeometryParsing.test.ts`, `test/fixtures/notams.geometry.contract.json` |
