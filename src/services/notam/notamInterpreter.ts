@@ -66,6 +66,12 @@ function parseRadiusMeters(value: Record<string, unknown>): number | null {
         return nm;
     }
 
+    // EANS qualifiers radius is in NM?
+    if (isNumber(value.radius)) {
+        // According to common Q-line usage, radius is usually NM.
+        return value.radius * NM_TO_METERS;
+    }
+
     return null;
 }
 
@@ -407,6 +413,37 @@ function parseGeometryCandidate(value: unknown): GeometryParseResult {
 
 function isValidLonLat(lon: number, lat: number): boolean {
     return Number.isFinite(lon) && Number.isFinite(lat) && Math.abs(lon) <= 180 && Math.abs(lat) <= 90;
+}
+
+/**
+ * Parse EANS coordinate string like "5925N02450E"
+ * 5925N -> 59deg 25min N
+ * 02450E -> 24deg 50min E
+ */
+function parseEansCoordinate(raw: string): [number, number] | null {
+    const clean = raw.replace(/\s+/g, "");
+    // Regex: 4 digits + N/S, then 5 digits + E/W
+    const match = clean.match(/^(\d{4})([NS])(\d{5})([EW])$/);
+    if (!match) return null;
+
+    const latStr = match[1];
+    const latDir = match[2];
+    const lonStr = match[3];
+    const lonDir = match[4];
+
+    const latDeg = parseInt(latStr.slice(0, 2), 10);
+    const latMin = parseInt(latStr.slice(2), 10);
+    let lat = latDeg + latMin / 60.0;
+    if (latDir === "S") lat = -lat;
+
+    const lonDeg = parseInt(lonStr.slice(0, 3), 10);
+    const lonMin = parseInt(lonStr.slice(3), 10);
+    let lon = lonDeg + lonMin / 60.0;
+    if (lonDir === "W") lon = -lon;
+
+    if (!isValidLonLat(lon, lat)) return null;
+
+    return [lon, lat];
 }
 
 export function parseAnyGeometry(item: unknown): GeometryParseResult {
@@ -849,7 +886,20 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         return null;
     }
 
-    const id = getString(item, "id");
+    // Try to construct standard ID from EANS parts
+    let id = getString(item, "id");
+    const notamId = item["notamId"] as Record<string, unknown> | undefined;
+    if (isObject(notamId)) {
+        const series = getString(notamId, "series");
+        const number = getNumber(notamId, "number");
+        const year = getNumber(notamId, "year");
+        if (series && number && year) {
+            const yy = String(year).slice(-2);
+            const num = String(number).padStart(4, "0");
+            id = `${series}${num}/${yy}`;
+        }
+    }
+
     const text = getString(item, "text");
 
     // id and text are required
@@ -857,12 +907,48 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         return null;
     }
 
-    const validFromUtc = getString(item, "validFromUtc");
-    const validToUtc = getString(item, "validToUtc");
+    const validFromUtc = getString(item, "validFromUtc") ?? getString(item.validity as any, "start");
+    const validToUtc = getString(item, "validToUtc") ?? getString(item.validity as any, "end");
     const summary = formatNotamSummary(text, 60);
     const altitudes = parseAltitudesFromText(text);
-    const geometryCandidate = extractGeometryCandidate(item);
-    const geometryResult = parseNotamGeometryWithReason(item);
+
+    // EANS qualifiers geometry fallback
+    let geometryCandidate = extractGeometryCandidate(item);
+    if (!geometryCandidate && isObject(item.qualifiers)) {
+        const q = item.qualifiers as Record<string, unknown>;
+        const coord = getString(q, "coordinate"); // e.g. "5925N02450E"
+        const rad = getNumber(q, "radius");
+        if (coord && rad !== undefined) {
+            geometryCandidate = {
+                // Synthesize a shape that parseNotamGeometry can understand or parse directly here.
+                // We'll parse it manually below to be cleaner.
+                eansCoord: coord,
+                radiusNm: rad,
+            };
+        }
+    }
+
+    let geometryResult = parseNotamGeometryWithReason(item);
+
+    // If standard parsing failed, try EANS qualifiers
+    if (!geometryResult.geometry && geometryCandidate && (geometryCandidate as any).eansCoord) {
+        const gc = geometryCandidate as any;
+
+        // Filter out massive areas (e.g. entire FIR > 900NM) which clutter the map
+        if (typeof gc.radiusNm === "number" && gc.radiusNm < 900) {
+            const center = parseEansCoordinate(gc.eansCoord);
+            if (center) {
+                geometryResult = {
+                    geometry: {
+                        kind: "circle",
+                        center,
+                        radiusMeters: gc.radiusNm * NM_TO_METERS,
+                    },
+                };
+            }
+        }
+    }
+
     const geometry = geometryResult.geometry;
     const presentFields = getGeometryFieldSnapshot(item);
 
@@ -883,9 +969,9 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         geometryParseDetails: geometry
             ? undefined
             : {
-                  ...geometryResult.details,
-                  presentFields,
-              },
+                ...geometryResult.details,
+                presentFields,
+            },
         eventTimeUtc,
         raw: item,
     };
@@ -953,6 +1039,10 @@ export function normalizeNotams(raw: NotamRaw, nowUtcIso: string): NormalizedNot
     // If raw itself is an array, use it directly
     else if (isArray(raw)) {
         items = raw;
+    }
+    // EANS live format
+    else if (isObject(raw.dynamicData) && isArray((raw.dynamicData as any).notams)) {
+        items = (raw.dynamicData as any).notams as unknown[];
     }
 
     if (!items) {

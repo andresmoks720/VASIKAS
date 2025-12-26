@@ -152,6 +152,22 @@ export function NotamsPanel() {
                             <Typography variant="body2" color="text.secondary">
                               {altitudeText}
                             </Typography>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              sx={{
+                                display: "-webkit-box",
+                                WebkitLineClamp: 4,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                whiteSpace: "pre-wrap",
+                                mt: 0.5,
+                                fontSize: "0.7rem",
+                                fontFamily: "monospace",
+                              }}
+                            >
+                              {notam.text}
+                            </Typography>
                           </Stack>
                         }
                       />
@@ -173,6 +189,6 @@ export function NotamsPanel() {
           {toggleNotice === "live" ? "Switched to LIVE NOTAM data" : "Switched to MOCK NOTAM data"}
         </Alert>
       </Snackbar>
-    </Stack>
+    </Stack >
   );
 }

@@ -172,7 +172,8 @@ const adsbRadiusNm = parseNumberInRange("VITE_ADSB_RADIUS_NM", import.meta.env.V
 const adsbUrl = adsbMode === "mock" ? "/mock/adsb.json" : buildAdsbPointUrl(adsbBaseUrl, adsbCenterLat, adsbCenterLon, adsbRadiusNm);
 
 const NOTAM_MOCK_URL = "/mock/notams.sample.json";
-const notamLiveUrl = optionalString("VITE_NOTAM_URL", import.meta.env.VITE_NOTAM_URL);
+const DEFAULT_NOTAM_LIVE_URL = "https://aim.eans.ee/web/notampib/area24.json";
+const notamLiveUrl = optionalString("VITE_NOTAM_URL", import.meta.env.VITE_NOTAM_URL) ?? DEFAULT_NOTAM_LIVE_URL;
 
 const envValues: EnvValues = {
   useMocks,
