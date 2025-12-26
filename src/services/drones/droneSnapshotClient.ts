@@ -7,19 +7,21 @@ import { buildSnapshotDronesUrl } from "./droneUrlHelper";
 import { mapSnapshotDroneDtoToDomain, SnapshotDronesResponseDto } from "./droneSnapshotTypes";
 
 function parseSnapshotResponse(raw: unknown): Drone[] {
-    if (typeof raw !== "object" || raw === null || !("drones" in raw) || !Array.isArray((raw as any).drones)) {
+    if (typeof raw !== "object" || raw === null) {
         throw new Error("Invalid snapshot response: must contain 'drones' array");
     }
 
-    const dto = raw as SnapshotDronesResponseDto;
+    const dto = raw as Partial<SnapshotDronesResponseDto>;
+    if (!Array.isArray(dto.drones)) {
+        throw new Error("Invalid snapshot response: must contain 'drones' array");
+    }
+
     const ingestTimeUtc = new Date().toISOString();
 
     return dto.drones.map((d) => mapSnapshotDroneDtoToDomain(d, ingestTimeUtc));
 }
 
 export function useDronesSnapshotStream() {
-    const useMocks = ENV.useMocks();
-
     // Base URL determination:
     // If mocks enabled (and we are here, presuming snapshot mode is active or user explicitly wants snapshot client),
     // we check if we should map to static file or live mock server.

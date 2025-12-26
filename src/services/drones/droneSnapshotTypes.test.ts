@@ -8,7 +8,7 @@ describe("mapSnapshotDroneDtoToDomain", () => {
         position: { lon: 25.0, lat: 58.0 },
         headingDeg: 90,
         speedMps: 10,
-        altitude: { meters: 100, ref: "AGL", source: "mock", comment: "" },
+        altitude: { meters: 100, ref: "AGL", source: "reported", comment: "" },
     };
 
     it("maps basic fields correctly", () => {

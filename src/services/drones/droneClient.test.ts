@@ -1,5 +1,5 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { renderHook } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { useDronesStream } from "./droneClient";
 
@@ -28,7 +28,7 @@ describe("useDronesStream", () => {
   it("handles legacy array response (static mocks)", () => {
     const legacyData = [{
       id: "d1",
-      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "reported", comment: "c" } }]
     }];
     mockPolling.mockReturnValue({ data: legacyData });
 
@@ -64,7 +64,7 @@ describe("useDronesStream", () => {
     // Test Legacy
     const legacyResult = passedMapper([{
       id: "legacy",
-      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "reported", comment: "c" } }]
     }]);
     expect(legacyResult).toHaveLength(1);
     expect(legacyResult[0].id).toBe("legacy");
@@ -73,7 +73,7 @@ describe("useDronesStream", () => {
     const envelopeResult = passedMapper({
       drones: [{
         id: "envelope",
-        track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+        track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "reported", comment: "c" } }]
       }]
     });
     expect(envelopeResult).toHaveLength(1);
