@@ -29,7 +29,7 @@ export function withTimeout(
   timeoutMs?: number,
 ): { signal: AbortSignal | undefined; clear: () => void } {
   if (!timeoutMs || timeoutMs <= 0) {
-    return { signal, clear: () => {} };
+    return { signal, clear: () => { } };
   }
 
   const controller = new AbortController();
@@ -69,6 +69,7 @@ export async function getJson<T>(
   );
 
   try {
+    console.log(`[apiClient] Fetching ${url}`);
     const response = await fetch(url, { signal: mergedSignal, cache: "no-store" });
 
     if (!response.ok) {

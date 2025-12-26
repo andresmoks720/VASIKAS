@@ -6,6 +6,15 @@ type EnvValues = {
   mapWmtsUrl?: string;
   notamUrl: string;
   droneUrl: string;
+  drones: {
+    mode: "track" | "snapshot";
+    snapshotUrl: string;
+    centerLat?: number;
+    centerLon?: number;
+    radiusM: number;
+    n: number;
+    periodS: number;
+  };
   sensorsUrl: string;
   adsbUrl: string;
   adsb: {
@@ -150,6 +159,15 @@ const envValues: EnvValues = {
     rawValue: import.meta.env.VITE_DRONE_URL,
     useMocks,
   }),
+  drones: {
+    mode: (import.meta.env.VITE_DRONES_MODE ?? "track") === "snapshot" ? "snapshot" : "track",
+    snapshotUrl: optionalString("VITE_DRONE_SNAPSHOT_URL", import.meta.env.VITE_DRONE_SNAPSHOT_URL) ?? "http://localhost:8787/v1/drones",
+    centerLat: optionalString("VITE_DRONES_CENTER_LAT", import.meta.env.VITE_DRONES_CENTER_LAT) ? Number(import.meta.env.VITE_DRONES_CENTER_LAT) : undefined,
+    centerLon: optionalString("VITE_DRONES_CENTER_LON", import.meta.env.VITE_DRONES_CENTER_LON) ? Number(import.meta.env.VITE_DRONES_CENTER_LON) : undefined,
+    radiusM: parsePositiveInt("VITE_DRONES_RADIUS_M", import.meta.env.VITE_DRONES_RADIUS_M, 2000),
+    n: parsePositiveInt("VITE_DRONES_N", import.meta.env.VITE_DRONES_N, 1),
+    periodS: parsePositiveInt("VITE_DRONES_PERIOD_S", import.meta.env.VITE_DRONES_PERIOD_S, 60),
+  },
   sensorsUrl: resolveDataUrl({
     name: "VITE_SENSORS_URL",
     mockUrl: "/mock/sensors.json",
@@ -171,6 +189,15 @@ export const ENV = {
   notamUrl: () => envValues.notamUrl,
   adsbUrl: () => envValues.adsbUrl,
   droneUrl: () => envValues.droneUrl,
+  drones: {
+    mode: () => envValues.drones.mode,
+    snapshotUrl: () => envValues.drones.snapshotUrl,
+    centerLat: () => envValues.drones.centerLat,
+    centerLon: () => envValues.drones.centerLon,
+    radiusM: () => envValues.drones.radiusM,
+    n: () => envValues.drones.n,
+    periodS: () => envValues.drones.periodS,
+  },
   sensorsUrl: () => envValues.sensorsUrl,
   adsb: {
     mode: () => envValues.adsb.mode,

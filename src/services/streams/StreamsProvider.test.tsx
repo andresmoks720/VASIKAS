@@ -97,10 +97,57 @@ describe("StreamsProvider", () => {
   });
 
   it("throws when shared hooks are used without the provider", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => { });
 
     expect(() => render(<Consumer />)).toThrowError("StreamsProvider is missing in the component tree");
 
     consoleError.mockRestore();
+  });
+
+  describe("Snapshot Mode", () => {
+    beforeEach(() => {
+      vi.resetModules();
+    });
+
+    it("uses snapshot stream when configured in env", async () => {
+      // Re-mock dependencies for this specific test
+      vi.doMock("@/shared/env", () => ({
+        ENV: {
+          drones: {
+            mode: () => "snapshot",
+          },
+        },
+      }));
+
+      const snapshotData = [{ id: "snap1", label: "Snapshot Drone" }];
+      vi.doMock("@/services/drones/droneSnapshotClient", () => ({
+        useDronesSnapshotStream: () => ({
+          data: snapshotData,
+          status: "live",
+        }),
+      }));
+
+      // Mock others to avoid errors
+      vi.doMock("@/services/adsb/adsbClient", () => ({ useAdsbStream: () => ({ status: "idle" }) }));
+      vi.doMock("@/services/drones/droneClient", () => ({ useDronesStream: () => ({ status: "idle" }) }));
+      vi.doMock("@/services/sensors/sensorsClient", () => ({ useSensorsStream: () => ({ status: "idle" }) }));
+      vi.doMock("@/services/notam/notamStream", () => ({ useNotamStream: () => ({ status: "idle" }) }));
+
+      // Import fresh module
+      const { StreamsProvider, useSharedDronesStream } = await import("./StreamsProvider");
+
+      function SnapshotConsumer() {
+        const drones = useSharedDronesStream();
+        return <span>drones-id:{(drones.data as any)?.[0]?.id}</span>;
+      }
+
+      render(
+        <StreamsProvider>
+          <SnapshotConsumer />
+        </StreamsProvider>
+      );
+
+      expect(screen.getByText("drones-id:snap1")).toBeInTheDocument();
+    });
   });
 });

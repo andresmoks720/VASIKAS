@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:mock-api": "npm run dev --prefix tools/mock-api",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:mock-api\"",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
@@ -36,6 +38,7 @@
     "@typescript-eslint/parser": "^7.17.0",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-v8": "^1.6.1",
+    "concurrently": "^9.2.1",
     "eslint": "^8.57.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.3",

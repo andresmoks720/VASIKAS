@@ -25,6 +25,7 @@
 | UNIT-ENV-001 | Env parsing helpers | Yes | `src/shared/env.test.ts` | Boolean/number parsing and URL resolution. |
 | UNIT-ADSB-TYPES-001 | ADS-B track DTO sorting | Yes | `src/services/adsb/adsbTypes.test.ts` | Sorting and validation coverage. |
 | UNIT-DRONE-TYPES-001 | Drone track DTO mapping | Yes | `src/services/drones/droneTypes.test.ts` | Sorting and altitude comment defaults. |
+| UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API | Yes | `src/services/drones/droneClient.test.ts` | Support for `{ drones: [] }` format. |
 | UI-HISTORY-001 | HistoryPanel empty + list render | Yes | `src/features/history/HistoryPanel.test.tsx` | Empty state and populated props. |
 | UI-DRONES-002 | KnownDronesPanel empty + list render | Yes | `src/features/known-drones/KnownDronesPanel.test.tsx` | Empty state and list rendering. |
 | UI-AIR-002 | AirTrafficPanel empty + list render | Yes | `src/features/air/AirTrafficPanel.test.tsx` | Empty state and list rendering. |
@@ -56,3 +57,4 @@
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
+| UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |

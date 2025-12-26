@@ -15,11 +15,15 @@ function parsePollInterval(rawInterval?: string | number): number {
 }
 
 function parseDroneResponse(raw: unknown): DroneTrack[] {
-  if (!Array.isArray(raw)) {
-    throw new Error("Drone response must be an array");
+  if (Array.isArray(raw)) {
+    return mapDroneTrackDtos(raw as DroneTrackDto[]);
   }
 
-  return mapDroneTrackDtos(raw as DroneTrackDto[]);
+  if (typeof raw === "object" && raw !== null && "drones" in raw && Array.isArray((raw as { drones: unknown }).drones)) {
+    return mapDroneTrackDtos((raw as { drones: DroneTrackDto[] }).drones);
+  }
+
+  throw new Error("Drone response must be an array or { drones: [] } envelope");
 }
 
 export function useDronesStream() {

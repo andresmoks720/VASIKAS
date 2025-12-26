@@ -128,6 +128,7 @@ export function usePolling<T>(
     let cancelled = false;
 
     const performFetch = async () => {
+      console.log(`[usePolling] performFetch for ${url}`);
       abortRef.current?.abort();
       const controller = new AbortController();
       abortRef.current = controller;

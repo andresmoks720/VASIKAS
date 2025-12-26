@@ -115,5 +115,37 @@ if (process.env.MSW_ENABLE_ADSB === "1") {
 export const handlers = [
   http.get("/mock/drones.json", () => HttpResponse.json(nextDroneStep())),
   http.get("/mock/sensors.json", () => HttpResponse.json(SENSORS)),
+  http.get(/\/v1\/drones/, ({ request }) => {
+    const url = new URL(request.url);
+    const center = url.searchParams.get("center") ?? "0,0";
+    const [lat, lon] = center.split(",").map(Number);
+
+    return HttpResponse.json({
+      server_time_utc: new Date().toISOString(),
+      t_sec_used: Math.floor(Date.now() / 1000),
+      center: { lat: lat || 0, lon: lon || 0 },
+      meta: { model: "msw-snapshot" },
+      drones: [
+        {
+          id: "msw-drone-1",
+          label: "MSW Drone",
+          position: { lat: (lat || 0) + 0.01, lon: (lon || 0) + 0.01 },
+          headingDeg: 45,
+          speedMps: 10,
+          altitude: {
+            meters: 150,
+            ref: "AGL",
+            source: "mock",
+            comment: "MSW generated"
+          },
+          eventTimeUtc: new Date().toISOString()
+        }
+      ]
+    });
+  }),
+  http.all("*", ({ request }) => {
+    console.log("[MSW] Unhandled request:", request.url);
+    return new HttpResponse(null, { status: 404 });
+  }),
   ...adsbHandlers,
 ];

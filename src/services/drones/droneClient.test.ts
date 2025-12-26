@@ -1,45 +1,82 @@
-import { describe, expect, it } from "vitest";
+import { renderHook, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import { DroneTrackDto, mapDroneTrackDto } from "./droneTypes";
+import { useDronesStream } from "./droneClient";
 
-const BASE_DTO: DroneTrackDto = {
-  id: "demo-drone",
-  label: "Demo",
-  track: [
-    {
-      timeUtc: "2025-12-18T10:00:00Z",
-      position: { lon: 24.75, lat: 59.43 },
-      headingDeg: 0,
-      speedMps: 5,
-      altitude: {
-        meters: 50,
-        ref: "AGL",
-        source: "reported",
-        comment: "test",
-      },
+// Mock polling hook to control data injection
+const mockPolling = vi.fn();
+vi.mock("@/services/polling/usePolling", () => ({
+  usePolling: (...args: unknown[]) => mockPolling(...args),
+}));
+
+// Mock env
+vi.mock("@/shared/env", () => ({
+  ENV: {
+    useMocks: () => true,
+    droneUrl: () => "/mock/drones.json",
+    poll: {
+      dronesMs: () => 1000,
     },
-    {
-      timeUtc: "2025-12-18T10:00:10Z",
-      position: { lon: 24.751, lat: 59.431 },
-      headingDeg: 30,
-      speedMps: 6,
-      altitude: {
-        meters: 55,
-        ref: "AGL",
-        source: "reported",
-        comment: "test",
-      },
-    },
-  ],
-};
+  },
+}));
 
-describe("mapDroneTrackDto", () => {
-  it("sorts track by time and preserves fields", () => {
-    const mapped = mapDroneTrackDto(BASE_DTO);
+describe("useDronesStream", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    expect(mapped.id).toBe(BASE_DTO.id);
-    expect(mapped.track[0].timeUtc).toBe("2025-12-18T10:00:00Z");
-    expect(mapped.track[1].timeUtc).toBe("2025-12-18T10:00:10Z");
-    expect(mapped.track[0].altitude.comment).toBeTruthy();
+  it("handles legacy array response (static mocks)", () => {
+    const legacyData = [{
+      id: "d1",
+      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+    }];
+    mockPolling.mockReturnValue({ data: legacyData });
+
+    const { result } = renderHook(() => useDronesStream());
+
+    expect(result.current.data).toHaveLength(1);
+    expect(result.current.data![0].id).toBe("d1");
+  });
+
+  it("handles new envelope response (Mock API)", () => {
+    // We need to verify that the mapper extracted 'drones' correctly.
+    // However, usePolling returns the *result* of the mapper. 
+    // So we need to test the logic that *calls* the mapper, or test the mapper directly if exported.
+    // Since parseDroneResponse is internal, we can test behavior via what usePolling receives.
+    // Wait, usePolling receives the raw fetch result? No, usually usePolling handles the fetch/map.
+    // Let's look at droneClient.ts again.
+    // "const polled = usePolling<DroneTrack[]>(..., mapper);"
+    // So mockPolling should simulate what usePolling *returns*, which is the mapped data.
+    // BUT the refactor is about changeing the *mapper*.
+
+    // To test the mapper, we should export it or test the unit that contains it.
+    // If I mock usePolling, I am mocking the *result* of the mapper, which bypasses the logic I want to test.
+    // I should test `parseDroneResponse` if possible, or avoid mocking usePolling's internals this way if I want to test the mapping logic.
+
+    // Actually, looking at `droneClient.ts`, the mapper is passed to `usePolling`.
+    // So if I spy on `usePolling`, I can capture the `mapper` function passed to it and call it with different inputs.
+
+    mockPolling.mockReturnValue({ data: [] }); // Default return
+    renderHook(() => useDronesStream());
+
+    const passedMapper = mockPolling.mock.calls[0][3];
+
+    // Test Legacy
+    const legacyResult = passedMapper([{
+      id: "legacy",
+      track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+    }]);
+    expect(legacyResult).toHaveLength(1);
+    expect(legacyResult[0].id).toBe("legacy");
+
+    // Test Envelope
+    const envelopeResult = passedMapper({
+      drones: [{
+        id: "envelope",
+        track: [{ timeUtc: "2024-01-01T00:00:00Z", position: { lat: 0, lon: 0 }, headingDeg: 0, speedMps: 0, altitude: { meters: 0, ref: "AGL", source: "mock", comment: "c" } }]
+      }]
+    });
+    expect(envelopeResult).toHaveLength(1);
+    expect(envelopeResult[0].id).toBe("envelope");
   });
 });

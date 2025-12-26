@@ -19,7 +19,14 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - User-created **geofences** and **sensors** are stored in **browser localStorage** for the prototype.
 - Schema is versioned; current key is `cuas.state.v1` (alternatively split keys `cuas.geofences.v1` / `cuas.sensors.v1`).
 - If localStorage is empty or holds corrupt JSON, the app falls back to mock defaults so the UI still loads.
+ 
+### Mock API Server (Optional)
 
+- **Purpose:** Deterministic, stateful simulation (e.g., moving drones).
+- **Run:** `npm run dev:mock-api` (standalone) or `npm run dev:all`.
+- **Docs:** [MOCK_API.md](./MOCK_API.md).
+- **Usage:** Set `VITE_DRONE_URL=http://localhost:8787/v1/drones?center=...` to use this instead of static files.
+ 
 ### Use live endpoints
 
 - Set `VITE_USE_MOCKS=0`
@@ -47,7 +54,11 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Env var:** `VITE_DRONE_URL`
 - **Refresh:** `VITE_POLL_DRONES_MS` (default **1000 ms**)
 - **Fallback:** `/mock/drones.json`
-- **Motion (mock):** `/mock/drones.json` stores a `track` array per drone with `timeUtc`, position, heading, speed, and altitude. The frontend interpolates linearly between samples and loops the track to show continuous motion.
+- **Fallback:** `/mock/drones.json`
+- **Motion (mock):**
+  - **Static File (`/mock/drones.json`):** Stores a `track` array. Frontend interpolates.
+  - **Mock API Server (`/v1/drones`):** Returns snapshots calculated on the fly using a circular motion model. See [MOCK_API.md](./MOCK_API.md).
+
 
 ### Sensors
 
