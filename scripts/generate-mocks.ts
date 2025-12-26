@@ -110,7 +110,8 @@ type NotamItem = {
   validToUtc: string;
   geometryHint:
     | { type: "circle"; center: Position; radiusMeters: number }
-    | { type: "polygon"; coordinates: [number, number][] };
+    | { type: "Polygon"; coordinates: [number, number][][] }
+    | { type: "MultiPolygon"; coordinates: [number, number][][][] };
 };
 
 type NotamFeed = {
@@ -206,13 +207,44 @@ function generateNotams(): NotamFeed {
         validFromUtc: "2025-12-18T08:00:00Z",
         validToUtc: "2025-12-18T16:00:00Z",
         geometryHint: {
-          type: "polygon",
+          type: "Polygon",
           coordinates: [
-            [24.74, 59.43],
-            [24.76, 59.43],
-            [24.76, 59.44],
-            [24.74, 59.44],
-            [24.74, 59.43]
+            [
+              [24.74, 59.43],
+              [24.76, 59.43],
+              [24.76, 59.44],
+              [24.74, 59.44],
+              [24.74, 59.43]
+            ]
+          ]
+        }
+      },
+      {
+        id: "C9012/25",
+        text: "MULTIPLE DRONE OPERATIONS ... SFC TO 1000FT AMSL ...",
+        validFromUtc: "2025-12-18T10:00:00Z",
+        validToUtc: "2025-12-18T18:00:00Z",
+        geometryHint: {
+          type: "MultiPolygon",
+          coordinates: [
+            [
+              [
+                [25.0, 60.0],
+                [25.1, 60.0],
+                [25.1, 60.1],
+                [25.0, 60.1],
+                [25.0, 60.0]
+              ]
+            ],
+            [
+              [
+                [25.2, 60.2],
+                [25.3, 60.2],
+                [25.3, 60.3],
+                [25.2, 60.3],
+                [25.2, 60.2]
+              ]
+            ]
           ]
         }
       }

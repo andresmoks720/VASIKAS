@@ -384,6 +384,44 @@ function parseGeometryCandidate(value: unknown): GeometryParseResult {
             return circle ? { geometry: circle } : { geometry: null, reason: "INVALID_COORDS" };
         }
 
+        // Check if this is a GeoJSON object (has a GeoJSON type field)
+        const isGeoJsonType = ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection", "Feature", "FeatureCollection"].includes(type);
+
+        // For GeoJSON objects, handle supported types first
+        if (isGeoJsonType) {
+            if (type === "Polygon") {
+                const polygon = parsePolygonCoordinates(value.coordinates);
+                return polygon
+                    ? { geometry: { kind: "polygon", rings: polygon } }
+                    : { geometry: null, reason: "INVALID_COORDS" };
+            }
+
+            if (type === "MultiPolygon") {
+                if (!isArray(value.coordinates) || value.coordinates.length === 0) {
+                    return { geometry: null, reason: "INVALID_COORDS" };
+                }
+
+                const polygons: [number, number][][][] = [];
+                for (const polygonCandidate of value.coordinates) {
+                    const polygon = parsePolygonCoordinates(polygonCandidate);
+                    if (polygon) {
+                        polygons.push(polygon);
+                    }
+                }
+
+                return polygons.length > 0
+                    ? { geometry: { kind: "multiPolygon", polygons } }
+                    : { geometry: null, reason: "INVALID_COORDS" };
+            }
+
+            // For GeoJSON types that are not supported, return error
+            if (type !== "Point") {  // Point is handled above
+                return { geometry: null, reason: "UNSUPPORTED_GEOJSON_TYPE", details: { type } };
+            }
+            // If it's Point, continue to fallback parsing below
+        }
+
+        // For objects without GeoJSON type field or with Point type, use fallback parsing
         const circle = parseCircleFrom(value);
         if (circle) {
             return { geometry: circle };
@@ -394,10 +432,6 @@ function parseGeometryCandidate(value: unknown): GeometryParseResult {
             return polygon
                 ? { geometry: { kind: "polygon", rings: polygon } }
                 : { geometry: null, reason: "INVALID_COORDS" };
-        }
-
-        if (type) {
-            return { geometry: null, reason: "UNSUPPORTED_GEOJSON_TYPE", details: { type } };
         }
     }
 
