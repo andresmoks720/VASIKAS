@@ -68,13 +68,15 @@ export function parseCoordinate(coordStr: string): { lat: number; lon: number } 
     let lonSeconds: number;
 
     if (lonDMS.length === 6) {
-      // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
+      // Format: DDD MM S (3 digits for degrees, 2 for minutes, 1 for seconds)
+      // This is an incomplete format - seconds only has 1 digit
       lonDegrees = parseInt(lonDMS.substring(0, 3), 10);  // First 3 digits are degrees
       lonMinutes = parseInt(lonDMS.substring(3, 5), 10);  // Next 2 digits are minutes
-      lonSeconds = parseInt(lonDMS.substring(5, 7), 10);  // Last 2 digits are seconds
+      // For 6-digit format, we only have 1 digit for seconds, so pad with 0
+      const secDigit = lonDMS.substring(5, 6);  // Get the single seconds digit
+      lonSeconds = parseInt(secDigit + '0', 10);  // Pad with 0 to make it XX
     } else if (lonDMS.length === 7) {
-      // Format: DDD MM SS with leading zero (0DDD MM SS - 3 digits for degrees with leading zero)
-      // For Estonian coordinates, longitude is always 22-28°E, so it's always 3 digits for degrees
+      // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
       lonDegrees = parseInt(lonDMS.substring(0, 3), 10);  // First 3 digits are degrees (e.g., "026")
       lonMinutes = parseInt(lonDMS.substring(3, 5), 10);  // Next 2 digits are minutes
       lonSeconds = parseInt(lonDMS.substring(5, 7), 10);  // Last 2 digits are seconds
@@ -119,17 +121,23 @@ export function parseCoordinate(coordStr: string): { lat: number; lon: number } 
     let lonDegrees: number;
 
     if (lonDMS.length === 6) {
+      // Format: DDD MM S (3 digits for degrees, 2 for minutes, 1 for seconds)
+      // This is an incomplete format - seconds only has 1 digit
       lonDegrees = parseInt(lonDMS.substring(0, 3), 10);
+      const lonMinutes = parseInt(lonDMS.substring(3, 5), 10);
+      // For 6-digit format, we only have 1 digit for seconds, so pad with 0
+      const secDigit = lonDMS.substring(5, 6); // Get the single seconds digit
+      const lonSeconds = parseInt(secDigit + '0', 10); // Pad with 0 to make it XX
+      lon = lonDegrees + lonMinutes / 60 + lonSeconds / 3600;
     } else if (lonDMS.length === 7) {
       // For Estonian coordinates, longitude is always 22-28°E, so it's always 3 digits for degrees
       lonDegrees = parseInt(lonDMS.substring(0, 3), 10);
+      const lonMinutes = parseInt(lonDMS.substring(3, 5), 10);
+      const lonSeconds = parseInt(lonDMS.substring(5, 7), 10);
+      lon = lonDegrees + lonMinutes / 60 + lonSeconds / 3600;
     } else {
       return null;
     }
-
-    const lonMinutes = parseInt(lonDMS.substring(3, 5), 10);
-    const lonSeconds = parseInt(lonDMS.substring(5, 7), 10);
-    let lon = lonDegrees + lonMinutes / 60 + lonSeconds / 3600;
 
     if (lonDir === 'W') {
       lon = -lon;

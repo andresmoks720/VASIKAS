@@ -35,6 +35,7 @@
 | UI-DRONES-002 | KnownDronesPanel empty + list render | Yes | `src/features/known-drones/KnownDronesPanel.test.tsx` | Empty state and list rendering. |
 | UI-AIR-002 | AirTrafficPanel empty + list render | Yes | `src/features/air/AirTrafficPanel.test.tsx` | Empty state and list rendering. |
 | UI-NOTAM-001 | NotamsPanel empty + list render | Yes | `src/features/notams/NotamsPanel.test.tsx` | Empty state + list render coverage, including live fallback label. |
+| UNIT-TIME-UPDATE-001 | formatUpdateAge label formatting | Yes | `src/shared/time/updateAge.test.ts` | Ensures seconds/minutes copy uses explicit wording. |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
 | UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence | Yes | `src/services/notam/notamMode.test.tsx` | Local storage hydration and updates. |
@@ -69,6 +70,7 @@
 | UI-DRONES-002 | KnownDronesPanel empty + populated render. (Implemented) | UI | `src/features/known-drones/KnownDronesPanel.test.tsx` |
 | UI-AIR-002 | AirTrafficPanel empty + populated render. (Implemented) | UI | `src/features/air/AirTrafficPanel.test.tsx` |
 | UI-NOTAM-001 | NotamsPanel empty + list render. (Implemented) | UI | `src/features/notams/NotamsPanel.test.tsx` |
+| UNIT-TIME-UPDATE-001 | Polling update-age label formatting. (Implemented) | Unit | `src/shared/time/updateAge.test.ts` |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
 | UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence. (Implemented) | Unit | `src/services/notam/notamMode.test.tsx` |

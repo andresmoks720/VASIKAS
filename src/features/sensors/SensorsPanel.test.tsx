@@ -84,7 +84,7 @@ describe("SensorsPanel", () => {
         renderWithRouter(<SensorsPanel />, { route: "/sensors" });
 
         expect(screen.getByText("Stale")).toBeInTheDocument();
-        expect(screen.getByText("Updated 2m ago")).toBeInTheDocument();
+        expect(screen.getByText("Updated: 2 minutes ago")).toBeInTheDocument();
         expect(screen.getByText("Offline Radar")).toBeInTheDocument();
         expect(screen.getByText("Error")).toBeInTheDocument();
     });

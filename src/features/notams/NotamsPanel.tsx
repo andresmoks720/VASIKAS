@@ -22,14 +22,7 @@ import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream"
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { StatusPill } from "@/ui/StatusPill";
-
-function formatAge(ageSeconds: number | null) {
-  if (ageSeconds === null) return "No updates yet";
-  if (ageSeconds < 5) return "Updated just now";
-  if (ageSeconds < 60) return `Updated ${ageSeconds}s ago`;
-  const minutes = Math.floor(ageSeconds / 60);
-  return `Updated ${minutes}m ago`;
-}
+import { formatUpdateAge } from "@/shared/time/updateAge";
 
 export function NotamsPanel() {
   const { data, status, ageSeconds, lastOkUtc, error, rawCount, displayedCount, dataSource, liveError } =
@@ -39,7 +32,7 @@ export function NotamsPanel() {
   const [toggleNotice, setToggleNotice] = useState<"live" | "mock" | null>(null);
 
   const notams = useMemo(() => data ?? [], [data]);
-  const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
+  const subtitle = useMemo(() => formatUpdateAge(ageSeconds), [ageSeconds]);
   const dataSourceLabel = useMemo(() => {
     if (dataSource === "fallback") {
       return "Mock (live fallback)";
