@@ -56,6 +56,15 @@ For polled data, show staleness based on `ingestTimeUtc`:
 
 (Exact thresholds can be tuned later; keep logic centralized.)
 
+### Update age labels
+
+When showing "last updated" timestamps in panels, always render the polling age
+using the shared formatter in `src/shared/time/updateAge.ts`. This label must:
+
+- Use the `ageSeconds` value from `usePolling` (do not derive from mocked timestamps).
+- Always show explicit seconds for recent updates (no "just now").
+- Use the standard copy: `Updated: X seconds ago` / `Updated: X minutes ago`.
+
 ---
 
 ## Coordinate rules
@@ -261,4 +270,3 @@ Do not re-implement conversion/formatting inside components.
 - Decide canonical coordinate display (lat/lon vs lon/lat) for UI fields.
 - Decide whether to show both UTC and local time in detail view.
 - Define severity levels for detections/alerts (prototype may show a simple tag).
-

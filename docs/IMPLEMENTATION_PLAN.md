@@ -38,6 +38,7 @@
   - Offline XYZ demo tiles now fall back to placeholders only on load error.
   - Offline basemap now falls back to WMTS/OSM when demo tiles fail to load.
   - NOTAM live/mock runtime toggle with localStorage persistence and live fetch fallback to mock.
+  - Centralized polling update-age formatting for panel subtitles using shared time helpers.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - In progress:
   - (None)

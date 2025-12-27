@@ -23,14 +23,7 @@ import { StatusPill } from "@/ui/StatusPill";
 import { useSharedSensorsStream } from "@/services/streams/StreamsProvider";
 import { sensorStore } from "@/services/sensors/sensorStore";
 import { Sensor } from "@/services/sensors/sensorsTypes";
-
-function formatAge(ageSeconds: number | null) {
-  if (ageSeconds === null) return "No updates yet";
-  if (ageSeconds < 5) return "Updated just now";
-  if (ageSeconds < 60) return `Updated ${ageSeconds}s ago`;
-  const minutes = Math.floor(ageSeconds / 60);
-  return `Updated ${minutes}m ago`;
-}
+import { formatUpdateAge } from "@/shared/time/updateAge";
 
 type AddSensorDialogProps = {
   open: boolean;
@@ -98,7 +91,7 @@ export function SensorsPanel() {
   const { data, status, ageSeconds, error } = useSharedSensorsStream();
   const { selectEntity } = useSidebarUrlState();
   const sensors = useMemo(() => data ?? [], [data]);
-  const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
+  const subtitle = useMemo(() => formatUpdateAge(ageSeconds), [ageSeconds]);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   const { baseSensors, userSensors } = useMemo(() => {

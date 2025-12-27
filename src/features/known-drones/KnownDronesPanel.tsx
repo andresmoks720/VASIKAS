@@ -15,33 +15,17 @@ import {
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatDroneSpeedMps } from "@/shared/units/speed";
+import { formatUpdateAge } from "@/shared/time/updateAge";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { StatusPill } from "@/ui/StatusPill";
 import { useSharedDronesStream } from "@/services/streams/StreamsProvider";
-
-function formatAge(ageSeconds: number | null) {
-  if (ageSeconds === null) {
-    return "No updates yet";
-  }
-
-  if (ageSeconds < 5) {
-    return "Updated just now";
-  }
-
-  if (ageSeconds < 60) {
-    return `Updated ${ageSeconds}s ago`;
-  }
-
-  const minutes = Math.floor(ageSeconds / 60);
-  return `Updated ${minutes}m ago`;
-}
 
 export function KnownDronesPanel() {
   const { data, status, ageSeconds, error } = useSharedDronesStream();
   const { selectEntity } = useSidebarUrlState();
   const drones = data ?? [];
 
-  const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
+  const subtitle = useMemo(() => formatUpdateAge(ageSeconds), [ageSeconds]);
 
   return (
     <Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>

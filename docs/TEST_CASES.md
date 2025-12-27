@@ -13,6 +13,7 @@
 | UI-SENS-002 | SensorsPanel stale + row status | Yes | `src/features/sensors/SensorsPanel.test.tsx` | Status pill + age text. |
 | UNIT-UTC-001 | formatUtcTimestamp handling | Yes | `src/shared/time/utc.test.ts` | Unknown/invalid/normalized UTC + timezone requirement. |
 | UNIT-UTC-002 | formatUtcTimestamp boundary + whitespace | Yes | `src/shared/time/utc.test.ts` | Whitespace handling + out-of-range timestamps. |
+| UNIT-TIME-UPDATE-001 | formatUpdateAge label formatting | Yes | `src/shared/time/updateAge.test.ts` | Ensures seconds/minutes copy uses explicit wording. |
 | UNIT-SENS-002 | mapSensorDto adds ingest/source | Yes | `src/services/sensors/sensorsTypes.test.ts` | DTO mapping coverage. |
 | UI-STATUS-001 | StatusPill label rendering | Yes | `src/ui/StatusPill.test.tsx` | Polling status label. |
 | UNIT-DRONE-MOTION-002 | Drone motion invalid timestamps + empty tracks | Yes | `src/services/drones/droneMotion.test.ts` | Invalid timestamp/empty track handling. |
@@ -79,4 +80,5 @@
 | UNIT-POLL-EDGE-001 | Polling status idle/error + invalid interval. (Implemented) | Unit | `src/services/polling/usePolling.test.ts` |
 | UNIT-SPEED-001 | Speed formatter edge cases. (Implemented) | Unit | `src/shared/units/speed.test.ts` |
 | UNIT-UTC-002 | UTC timestamp whitespace + boundary checks. (Implemented) | Unit | `src/shared/time/utc.test.ts` |
+| UNIT-TIME-UPDATE-001 | Polling update-age label formatting. (Implemented) | Unit | `src/shared/time/updateAge.test.ts` |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles fallback only on error. (Implemented) | Unit | `src/map/layers/offlineXyz.test.ts` |

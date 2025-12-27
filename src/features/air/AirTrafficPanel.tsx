@@ -19,14 +19,7 @@ import { StatusPill } from "@/ui/StatusPill";
 import { useSharedAdsbStream } from "@/services/streams/StreamsProvider";
 import { PollingStatus } from "@/services/polling/usePolling";
 import { ENV } from "@/shared/env";
-
-function formatAge(ageSeconds: number | null) {
-  if (ageSeconds === null) return "No updates yet";
-  if (ageSeconds < 5) return "Updated just now";
-  if (ageSeconds < 60) return `Updated ${ageSeconds}s ago`;
-  const minutes = Math.floor(ageSeconds / 60);
-  return `Updated ${minutes}m ago`;
-}
+import { formatUpdateAge } from "@/shared/time/updateAge";
 
 export function AirTrafficPanel() {
   const { data, status, ageSeconds, error } = useSharedAdsbStream();
@@ -51,13 +44,13 @@ export function AirTrafficPanel() {
       });
   }, [data, nowMs]);
 
-  const subtitle = useMemo(() => formatAge(ageSeconds), [ageSeconds]);
+  const subtitle = useMemo(() => formatUpdateAge(ageSeconds), [ageSeconds]);
 
   const statusLabel = (pollingStatus: PollingStatus, age: number | null) => {
     if (pollingStatus === "error") return "Error";
     if (pollingStatus === "stale") return "Stale";
     if (age === null) return "Unknown";
-    return formatAge(age);
+    return formatUpdateAge(age);
   };
 
   return (
