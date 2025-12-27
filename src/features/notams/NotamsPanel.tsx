@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Divider,
   List,
@@ -145,10 +146,38 @@ export function NotamsPanel() {
                         }
                         secondary={
                           <Stack spacing={0.5}>
-                            <Typography variant="body2" color="text.secondary">
-                              Valid: {formatUtcTimestamp(notam.validFromUtc ?? null)} →{" "}
-                              {formatUtcTimestamp(notam.validToUtc ?? null)}
-                            </Typography>
+                            <Stack direction="row" spacing={1} alignItems="center">
+                              <Typography variant="body2" color="text.secondary">
+                                Valid: {formatUtcTimestamp(notam.validFromUtc ?? null)} →{" "}
+                                {formatUtcTimestamp(notam.validToUtc ?? null)}
+                              </Typography>
+                              {/* Visualization status indicator */}
+                              {notam.geometryParseReason ? (
+                                <Chip
+                                  label={notam.geometryParseReason}
+                                  size="small"
+                                  color="error"
+                                  variant="outlined"
+                                  sx={{ height: '20px' }}
+                                />
+                              ) : notam.geometry ? (
+                                <Chip
+                                  label="VISUALIZED"
+                                  size="small"
+                                  color="success"
+                                  variant="outlined"
+                                  sx={{ height: '20px' }}
+                                />
+                              ) : (
+                                <Chip
+                                  label="NO GEOMETRY"
+                                  size="small"
+                                  color="warning"
+                                  variant="outlined"
+                                  sx={{ height: '20px' }}
+                                />
+                              )}
+                            </Stack>
                             <Typography variant="body2" color="text.secondary">
                               {altitudeText}
                             </Typography>

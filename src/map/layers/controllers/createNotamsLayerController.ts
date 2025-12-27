@@ -91,7 +91,7 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
 
     if (isDevLoggingEnabled()) {
       recordTelemetrySnapshot(batchStats);
-      if (missingGeometryCount > 0) {
+      if (batchStats.skipped > 0) {
         const failureRatio = batchStats.total > 0 ? batchStats.skipped / batchStats.total : 0;
         // eslint-disable-next-line no-console
         console.warn("[map] NOTAM geometry skipped", {

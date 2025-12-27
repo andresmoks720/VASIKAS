@@ -1,0 +1,24 @@
+{
+    "name": "eaip-import",
+    "version": "1.0.0",
+    "description": "Tool to import and parse Estonian eAIP ENR 5.1 airspace data",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "parse": "tsx src/index.ts",
+        "eaip:pull": "tsx src/index.ts"
+    },
+    "dependencies": {
+        "cheerio": "^1.0.0-rc.12",
+        "node-fetch": "^3.3.2",
+        "crypto-js": "^4.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "@types/crypto-js": "^4.2.2",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.0"
+    }
+}

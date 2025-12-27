@@ -1,0 +1,4004 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              271.18333333333334,
+              57.55305555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER1 PIIRIALA",
+        "upperLimit": "1000 ft AGLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Border Area. Flights are allowed only with the permission of the Police and Border Guard Board. To fly in the area, a permit shall be requested at the e-mail address ppa@politsei.ee. The limit does not extend if flight safety requires it.The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              215.0188888888889,
+              58.53666666666666
+            ],
+            [
+              216.00194444444443,
+              58.48833333333334
+            ],
+            [
+              220.23499999999999,
+              58.36694444444444
+            ],
+            [
+              220.21694444444444,
+              58.330555555555556
+            ],
+            [
+              215.835,
+              58.23444444444444
+            ],
+            [
+              214.90083333333334,
+              58.32083333333334
+            ],
+            [
+              215.0188888888889,
+              58.53666666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER3 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board. The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              232.16666666666666,
+              58.86666666666667
+            ],
+            [
+              232.5,
+              58.86666666666667
+            ],
+            [
+              233.38583333333332,
+              58.8075
+            ],
+            [
+              234.90222222222224,
+              58.821111111111115
+            ],
+            [
+              236.5338888888889,
+              58.76305555555555
+            ],
+            [
+              236.36722222222224,
+              58.72972222222222
+            ],
+            [
+              232.53472222222223,
+              58.64944444444444
+            ],
+            [
+              232.3336111111111,
+              58.74944444444444
+            ],
+            [
+              232.16666666666666,
+              58.86666666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER4 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board. The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              261.8333333333333,
+              59.27583333333333
+            ],
+            [
+              256.0686111111111,
+              59.277499999999996
+            ],
+            [
+              255.23555555555555,
+              59.27055555555555
+            ],
+            [
+              254.06916666666666,
+              59.35111111111111
+            ],
+            [
+              254.03527777777776,
+              59.35527777777778
+            ],
+            [
+              253.9011111111111,
+              59.40333333333333
+            ],
+            [
+              255.86777777777777,
+              59.78777777777778
+            ],
+            [
+              261.8333333333333,
+              59.73916666666667
+            ],
+            [
+              261.8333333333333,
+              59.27583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15D",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the acive area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              266.1675,
+              59.271388888888886
+            ],
+            [
+              261.8333333333333,
+              59.27583333333333
+            ],
+            [
+              261.8333333333333,
+              59.73916666666667
+            ],
+            [
+              264.20194444444445,
+              59.68333333333333
+            ],
+            [
+              265.53472222222223,
+              59.55444444444444
+            ],
+            [
+              271.8666666666667,
+              59.530833333333334
+            ],
+            [
+              271.75,
+              59.40333333333333
+            ],
+            [
+              266.1675,
+              59.271388888888886
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15E",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              254.5838888888889,
+              59.125
+            ],
+            [
+              254.03527777777776,
+              59.35527777777778
+            ],
+            [
+              254.06916666666666,
+              59.35111111111111
+            ],
+            [
+              255.23555555555555,
+              59.27055555555555
+            ],
+            [
+              256.0686111111111,
+              59.277499999999996
+            ],
+            [
+              261.8333333333333,
+              59.27583333333333
+            ],
+            [
+              261.8333333333333,
+              59.125
+            ],
+            [
+              254.5838888888889,
+              59.125
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15F",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              261.8333333333333,
+              59.27583333333333
+            ],
+            [
+              266.1675,
+              59.271388888888886
+            ],
+            [
+              264.25138888888887,
+              59.125
+            ],
+            [
+              261.8333333333333,
+              59.125
+            ],
+            [
+              261.8333333333333,
+              59.27583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15G",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              241.21833333333333,
+              58.64333333333333
+            ],
+            [
+              234.23388888888888,
+              59.43861111111111
+            ],
+            [
+              241.05222222222224,
+              59.54472222222222
+            ],
+            [
+              242.01833333333335,
+              59.5075
+            ],
+            [
+              244.0688888888889,
+              58.83722222222222
+            ],
+            [
+              243.9186111111111,
+              58.74777777777778
+            ],
+            [
+              241.21833333333333,
+              58.64333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER16E",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              241.21833333333333,
+              58.64333333333333
+            ],
+            [
+              215.53416666666666,
+              58.09916666666667
+            ],
+            [
+              212.5688888888889,
+              58.34916666666667
+            ],
+            [
+              215.4025,
+              59.01611111111111
+            ],
+            [
+              234.23388888888888,
+              59.43861111111111
+            ],
+            [
+              241.21833333333333,
+              58.64333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER16W",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              221.085,
+              58.02583333333333
+            ],
+            [
+              215.88527777777776,
+              58.03861111111111
+            ],
+            [
+              212.5688888888889,
+              58.34916666666667
+            ],
+            [
+              215.4025,
+              59.01611111111111
+            ],
+            [
+              223.4188888888889,
+              59.17611111111111
+            ],
+            [
+              232.5686111111111,
+              59.145833333333336
+            ],
+            [
+              234.38416666666666,
+              58.89333333333333
+            ],
+            [
+              224.05027777777778,
+              58.17916666666667
+            ],
+            [
+              221.085,
+              58.02583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER18",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              273.0836111111111,
+              59.34527777777778
+            ],
+            [
+              273.0175,
+              59.34583333333334
+            ],
+            [
+              272.9177777777778,
+              59.35055555555556
+            ],
+            [
+              273.0338888888889,
+              59.35583333333334
+            ],
+            [
+              273.18333333333334,
+              59.35611111111111
+            ],
+            [
+              273.20138888888886,
+              59.34777777777778
+            ],
+            [
+              273.0836111111111,
+              59.34527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER19",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              271.08444444444444,
+              59.33638888888889
+            ],
+            [
+              271.0522222222222,
+              59.339444444444446
+            ],
+            [
+              271.0516666666667,
+              59.34111111111111
+            ],
+            [
+              271.18555555555554,
+              59.3425
+            ],
+            [
+              271.2002777777778,
+              59.34027777777778
+            ],
+            [
+              271.1666666666667,
+              59.336666666666666
+            ],
+            [
+              271.08444444444444,
+              59.33638888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER20",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              255.86833333333334,
+              59.19777777777777
+            ],
+            [
+              255.68472222222223,
+              59.2075
+            ],
+            [
+              255.56777777777776,
+              59.223333333333336
+            ],
+            [
+              255.88333333333333,
+              59.243611111111115
+            ],
+            [
+              255.685,
+              59.25194444444445
+            ],
+            [
+              255.68472222222223,
+              59.254444444444445
+            ],
+            [
+              255.7188888888889,
+              59.255
+            ],
+            [
+              256.01694444444445,
+              59.25611111111111
+            ],
+            [
+              256.0522222222222,
+              59.251666666666665
+            ],
+            [
+              256.51694444444445,
+              59.24666666666667
+            ],
+            [
+              256.5344444444445,
+              59.24111111111111
+            ],
+            [
+              256.4002777777778,
+              59.22027777777778
+            ],
+            [
+              256.25138888888887,
+              59.20611111111111
+            ],
+            [
+              255.86833333333334,
+              59.19777777777777
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER21",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              240.85027777777776,
+              59.33861111111111
+            ],
+            [
+              240.75083333333333,
+              59.33888888888889
+            ],
+            [
+              240.73388888888888,
+              59.34
+            ],
+            [
+              240.71916666666667,
+              59.342222222222226
+            ],
+            [
+              240.73444444444442,
+              59.344722222222224
+            ],
+            [
+              240.85,
+              59.34527777777778
+            ],
+            [
+              240.9025,
+              59.344166666666666
+            ],
+            [
+              240.88555555555556,
+              59.34027777777778
+            ],
+            [
+              240.85027777777776,
+              59.33861111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER22",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              241.20055555555555,
+              59.11277777777778
+            ],
+            [
+              240.90083333333334,
+              59.12277777777778
+            ],
+            [
+              240.9,
+              59.13527777777778
+            ],
+            [
+              241.23583333333332,
+              59.13638888888889
+            ],
+            [
+              241.25055555555556,
+              59.11666666666667
+            ],
+            [
+              241.20055555555555,
+              59.11277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER23",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              270.18583333333333,
+              57.82
+            ],
+            [
+              270.0836111111111,
+              57.82527777777778
+            ],
+            [
+              270.0855555555555,
+              57.827222222222225
+            ],
+            [
+              270.2525,
+              57.82777777777778
+            ],
+            [
+              270.2525,
+              57.82611111111112
+            ],
+            [
+              270.18583333333333,
+              57.82
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER24",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              265.58444444444444,
+              58.375
+            ],
+            [
+              265.5513888888889,
+              58.375277777777775
+            ],
+            [
+              265.5341666666667,
+              58.3775
+            ],
+            [
+              265.5341666666667,
+              58.37888888888889
+            ],
+            [
+              265.585,
+              58.380833333333335
+            ],
+            [
+              265.685,
+              58.37972222222222
+            ],
+            [
+              265.58444444444444,
+              58.375
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER25",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              265.23583333333335,
+              57.75694444444444
+            ],
+            [
+              265.0519444444445,
+              57.75888888888889
+            ],
+            [
+              265.06666666666666,
+              57.766666666666666
+            ],
+            [
+              265.1675,
+              57.77111111111111
+            ],
+            [
+              265.25111111111113,
+              57.769999999999996
+            ],
+            [
+              265.23583333333335,
+              57.75694444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER26",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              245.0011111111111,
+              59.420833333333334
+            ],
+            [
+              244.9175,
+              59.422777777777775
+            ],
+            [
+              245.00222222222223,
+              59.42472222222222
+            ],
+            [
+              245.01777777777778,
+              59.42722222222222
+            ],
+            [
+              245.05055555555558,
+              59.42611111111111
+            ],
+            [
+              245.06666666666666,
+              59.424166666666665
+            ],
+            [
+              245.05083333333334,
+              59.422777777777775
+            ],
+            [
+              245.0011111111111,
+              59.420833333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER27",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              244.5511111111111,
+              59.450833333333335
+            ],
+            [
+              244.51777777777778,
+              59.450833333333335
+            ],
+            [
+              244.41777777777776,
+              59.45444444444445
+            ],
+            [
+              244.41805555555555,
+              59.4575
+            ],
+            [
+              244.5188888888889,
+              59.459722222222226
+            ],
+            [
+              244.58527777777778,
+              59.45611111111111
+            ],
+            [
+              244.56722222222223,
+              59.45194444444445
+            ],
+            [
+              244.5511111111111,
+              59.450833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER28",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              251.73472222222222,
+              59.411944444444444
+            ],
+            [
+              251.5686111111111,
+              59.41722222222222
+            ],
+            [
+              251.68583333333333,
+              59.42027777777778
+            ],
+            [
+              251.7525,
+              59.415277777777774
+            ],
+            [
+              251.73472222222222,
+              59.411944444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER29",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              243.35,
+              58.402499999999996
+            ],
+            [
+              243.2513888888889,
+              58.40361111111111
+            ],
+            [
+              243.3511111111111,
+              58.407222222222224
+            ],
+            [
+              243.38472222222222,
+              58.404444444444444
+            ],
+            [
+              243.3688888888889,
+              58.40277777777778
+            ],
+            [
+              243.35,
+              58.402499999999996
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER30",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              264.7186111111111,
+              58.385
+            ],
+            [
+              264.7005555555555,
+              58.38666666666666
+            ],
+            [
+              264.73361111111114,
+              58.39083333333333
+            ],
+            [
+              264.75,
+              58.39083333333333
+            ],
+            [
+              264.83444444444444,
+              58.388888888888886
+            ],
+            [
+              264.75111111111113,
+              58.386944444444445
+            ],
+            [
+              264.7186111111111,
+              58.385
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER31",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              244.38583333333332,
+              59.39722222222222
+            ],
+            [
+              244.36694444444444,
+              59.39722222222222
+            ],
+            [
+              244.3675,
+              59.400277777777774
+            ],
+            [
+              244.40083333333334,
+              59.4
+            ],
+            [
+              244.40083333333334,
+              59.399166666666666
+            ],
+            [
+              244.38583333333332,
+              59.39722222222222
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER32",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: info@välisluureamet.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.03472222222223,
+              58.16583333333333
+            ],
+            [
+              225.5513888888889,
+              58.16638888888889
+            ],
+            [
+              225.55083333333334,
+              58.14611111111111
+            ],
+            [
+              225.05027777777778,
+              58.145833333333336
+            ],
+            [
+              225.03472222222223,
+              58.16583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER33 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              230.0025,
+              59.0325
+            ],
+            [
+              231.0338888888889,
+              58.93277777777777
+            ],
+            [
+              230.85055555555556,
+              58.92777777777778
+            ],
+            [
+              226.55,
+              58.95916666666667
+            ],
+            [
+              226.05194444444444,
+              59.025555555555556
+            ],
+            [
+              230.0025,
+              59.0325
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER34 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              226.33583333333334,
+              58.849444444444444
+            ],
+            [
+              231.5025,
+              58.75388888888889
+            ],
+            [
+              231.21694444444444,
+              58.72361111111111
+            ],
+            [
+              226.58583333333334,
+              58.75555555555555
+            ],
+            [
+              226.0513888888889,
+              58.841944444444444
+            ],
+            [
+              226.33583333333334,
+              58.849444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER35 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              235,
+              59.348333333333336
+            ],
+            [
+              235.0836111111111,
+              59.34861111111111
+            ],
+            [
+              235.08472222222224,
+              59.34
+            ],
+            [
+              234.9188888888889,
+              59.34
+            ],
+            [
+              235,
+              59.348333333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER36 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              252.33583333333334,
+              59.63138888888889
+            ],
+            [
+              252.58333333333334,
+              59.63
+            ],
+            [
+              252.0188888888889,
+              59.596944444444446
+            ],
+            [
+              252.40083333333334,
+              59.595555555555556
+            ],
+            [
+              252.33583333333334,
+              59.63138888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER37 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              223.05166666666668,
+              58.66888888888889
+            ],
+            [
+              223.23499999999999,
+              58.66888888888889
+            ],
+            [
+              223.23527777777775,
+              58.65972222222222
+            ],
+            [
+              223.05166666666668,
+              58.65972222222222
+            ],
+            [
+              223.05166666666668,
+              58.66888888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER38 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              235.2511111111111,
+              58.2
+            ],
+            [
+              235.585,
+              58.20611111111111
+            ],
+            [
+              235.71916666666667,
+              58.20611111111111
+            ],
+            [
+              235.71916666666667,
+              58.186388888888885
+            ],
+            [
+              235.33555555555557,
+              58.17833333333333
+            ],
+            [
+              235.21833333333333,
+              58.18694444444444
+            ],
+            [
+              235.2511111111111,
+              58.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER39 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.35194444444443,
+              59.097500000000004
+            ],
+            [
+              225.66805555555555,
+              59.07555555555556
+            ],
+            [
+              225.35,
+              59.06888888888889
+            ],
+            [
+              225.06916666666666,
+              59.09111111111111
+            ],
+            [
+              225.35194444444443,
+              59.097500000000004
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER40 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              263.3347222222222,
+              59.70638888888889
+            ],
+            [
+              263.4,
+              59.705000000000005
+            ],
+            [
+              263.4022222222222,
+              59.64944444444444
+            ],
+            [
+              263.50083333333333,
+              59.64944444444444
+            ],
+            [
+              263.3347222222222,
+              59.70638888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER41 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              222.2,
+              58.80583333333333
+            ],
+            [
+              222.55166666666668,
+              58.80611111111111
+            ],
+            [
+              222.71777777777777,
+              58.77611111111111
+            ],
+            [
+              222.18527777777777,
+              58.77333333333333
+            ],
+            [
+              222.2,
+              58.80583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER42 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.50055555555556,
+              58.845
+            ],
+            [
+              225.56694444444443,
+              58.830000000000005
+            ],
+            [
+              225.05027777777778,
+              58.785555555555554
+            ],
+            [
+              224.73583333333332,
+              58.80305555555555
+            ],
+            [
+              224.91916666666665,
+              58.82333333333334
+            ],
+            [
+              225.50055555555556,
+              58.845
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER43 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225,
+              59.02194444444444
+            ],
+            [
+              226.0511111111111,
+              58.985
+            ],
+            [
+              226.53472222222223,
+              58.94444444444444
+            ],
+            [
+              230.75083333333333,
+              58.901944444444446
+            ],
+            [
+              230.20083333333332,
+              58.880833333333335
+            ],
+            [
+              225.0025,
+              59.00194444444445
+            ],
+            [
+              225,
+              59.02194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER44 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              223.3511111111111,
+              59.03194444444444
+            ],
+            [
+              223.0686111111111,
+              59.03805555555555
+            ],
+            [
+              223.8686111111111,
+              59.02916666666667
+            ],
+            [
+              223.385,
+              58.96194444444445
+            ],
+            [
+              222.88444444444443,
+              58.94888888888889
+            ],
+            [
+              222.35194444444443,
+              58.97666666666667
+            ],
+            [
+              223.3511111111111,
+              59.03194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER45 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              222.2186111111111,
+              58.57888888888889
+            ],
+            [
+              222.53416666666666,
+              58.52111111111111
+            ],
+            [
+              222.21722222222223,
+              58.48527777777778
+            ],
+            [
+              221.70166666666665,
+              58.48972222222222
+            ],
+            [
+              221.385,
+              58.5475
+            ],
+            [
+              222.2186111111111,
+              58.57888888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER46 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              221.21777777777777,
+              58.130833333333335
+            ],
+            [
+              221.23416666666665,
+              58.12277777777778
+            ],
+            [
+              221.01694444444445,
+              58.06027777777778
+            ],
+            [
+              220.85222222222222,
+              58.077222222222225
+            ],
+            [
+              221.21777777777777,
+              58.130833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER47 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.0686111111111,
+              58.34277777777778
+            ],
+            [
+              226.00194444444443,
+              58.32805555555556
+            ],
+            [
+              226.38333333333333,
+              58.29666666666667
+            ],
+            [
+              225.0675,
+              58.29083333333333
+            ],
+            [
+              225.0686111111111,
+              58.34277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER48 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              231.53555555555556,
+              58.47777777777778
+            ],
+            [
+              232.53472222222223,
+              58.44638888888888
+            ],
+            [
+              232.55055555555558,
+              58.41222222222222
+            ],
+            [
+              231.58555555555557,
+              58.409166666666664
+            ],
+            [
+              230.23416666666665,
+              58.34916666666667
+            ],
+            [
+              226.16722222222222,
+              58.348333333333336
+            ],
+            [
+              231.53555555555556,
+              58.47777777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER49 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              230.2025,
+              58.657777777777774
+            ],
+            [
+              231.06666666666666,
+              58.62
+            ],
+            [
+              230.71833333333333,
+              58.591944444444444
+            ],
+            [
+              232.40194444444444,
+              58.53361111111111
+            ],
+            [
+              232.86833333333334,
+              58.507777777777775
+            ],
+            [
+              232.53555555555556,
+              58.44833333333333
+            ],
+            [
+              226.20222222222222,
+              58.61333333333334
+            ],
+            [
+              230.2025,
+              58.657777777777774
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER50 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              243.3336111111111,
+              58.213055555555556
+            ],
+            [
+              243.5013888888889,
+              58.149166666666666
+            ],
+            [
+              243.50055555555556,
+              58.071111111111115
+            ],
+            [
+              243.06833333333333,
+              58.07888888888889
+            ],
+            [
+              243.0688888888889,
+              58.21055555555556
+            ],
+            [
+              243.3336111111111,
+              58.213055555555556
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER51 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              242.3338888888889,
+              58.380833333333335
+            ],
+            [
+              242.35083333333333,
+              58.4
+            ],
+            [
+              242.5688888888889,
+              58.402499999999996
+            ],
+            [
+              242.5675,
+              58.396388888888886
+            ],
+            [
+              242.3686111111111,
+              58.388888888888886
+            ],
+            [
+              242.3338888888889,
+              58.380833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER52 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              231.90222222222224,
+              58.97083333333334
+            ],
+            [
+              232.3686111111111,
+              58.97972222222222
+            ],
+            [
+              232.5,
+              58.95527777777778
+            ],
+            [
+              232.20194444444442,
+              58.93333333333333
+            ],
+            [
+              231.70055555555555,
+              58.94277777777778
+            ],
+            [
+              231.36833333333334,
+              58.98222222222223
+            ],
+            [
+              231.90222222222224,
+              58.97083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER53 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              233.23583333333332,
+              59.08916666666667
+            ],
+            [
+              234.85055555555556,
+              58.97361111111111
+            ],
+            [
+              233.41805555555555,
+              58.939166666666665
+            ],
+            [
+              233.3686111111111,
+              59.081388888888895
+            ],
+            [
+              233.23583333333332,
+              59.08916666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER54 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              233.3675,
+              58.61416666666667
+            ],
+            [
+              233.835,
+              58.61416666666667
+            ],
+            [
+              235.05194444444444,
+              58.51027777777778
+            ],
+            [
+              235.1675,
+              58.478611111111114
+            ],
+            [
+              234.4188888888889,
+              58.49277777777778
+            ],
+            [
+              233.20138888888889,
+              58.56083333333333
+            ],
+            [
+              233.3675,
+              58.61416666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER55 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              255.16694444444443,
+              59.59527777777778
+            ],
+            [
+              255.0836111111111,
+              59.56888888888889
+            ],
+            [
+              255.38527777777776,
+              59.56305555555555
+            ],
+            [
+              255.01916666666668,
+              59.569722222222225
+            ],
+            [
+              255.16694444444443,
+              59.59527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER56 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              271.735,
+              58.47277777777778
+            ],
+            [
+              273.0341666666667,
+              58.36361111111111
+            ],
+            [
+              272.8355555555555,
+              58.33833333333334
+            ],
+            [
+              271.0175,
+              58.308055555555555
+            ],
+            [
+              271.01666666666665,
+              58.44138888888889
+            ],
+            [
+              271.735,
+              58.47277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER57 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              264.5344444444445,
+              58.57083333333334
+            ],
+            [
+              264.18333333333334,
+              58.56361111111111
+            ],
+            [
+              264.4022222222222,
+              58.54138888888889
+            ],
+            [
+              264.00111111111113,
+              58.55611111111111
+            ],
+            [
+              264.5344444444445,
+              58.57083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER58 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              261.0352777777778,
+              58.87083333333334
+            ],
+            [
+              261.40138888888885,
+              58.871944444444445
+            ],
+            [
+              261.50138888888887,
+              58.85333333333333
+            ],
+            [
+              261.4005555555555,
+              58.847500000000004
+            ],
+            [
+              261.1677777777778,
+              58.84722222222222
+            ],
+            [
+              261.0352777777778,
+              58.87083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER59 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              273.56888888888886,
+              58.17444444444444
+            ],
+            [
+              273.2344444444445,
+              58.12916666666667
+            ],
+            [
+              273.23361111111114,
+              58.10666666666667
+            ],
+            [
+              273.5025,
+              58.10583333333334
+            ],
+            [
+              273.35055555555556,
+              58.13111111111111
+            ],
+            [
+              273.25138888888887,
+              58.16694444444444
+            ],
+            [
+              273.56888888888886,
+              58.17444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER60 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              255.40055555555557,
+              58.60416666666667
+            ],
+            [
+              261.58416666666665,
+              58.57222222222222
+            ],
+            [
+              262.1675,
+              58.47027777777778
+            ],
+            [
+              262.53333333333336,
+              58.385
+            ],
+            [
+              261.25166666666667,
+              58.39111111111111
+            ],
+            [
+              255.40055555555557,
+              58.60416666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER61 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              266.0183333333333,
+              58.25277777777778
+            ],
+            [
+              265.68444444444447,
+              58.27194444444444
+            ],
+            [
+              265.8502777777778,
+              58.27972222222222
+            ],
+            [
+              266.18416666666667,
+              58.25944444444445
+            ],
+            [
+              266.0183333333333,
+              58.25277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED2 UNIKÜLA",
+        "upperLimit": "1900 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tartu AFIS unit and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              265.0341666666667,
+              57.78194444444444
+            ],
+            [
+              264.5833333333333,
+              57.83555555555556
+            ],
+            [
+              265.2341666666667,
+              57.83722222222222
+            ],
+            [
+              265.4008333333333,
+              57.78777777777778
+            ],
+            [
+              265.0341666666667,
+              57.78194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED4 NURSIPALU 2",
+        "upperLimit": "9200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              233.16805555555555,
+              58.910555555555554
+            ],
+            [
+              233.18333333333334,
+              58.8825
+            ],
+            [
+              233.5836111111111,
+              58.8825
+            ],
+            [
+              233.01666666666668,
+              58.910555555555554
+            ],
+            [
+              233.16805555555555,
+              58.910555555555554
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED5 KILTSI",
+        "upperLimit": "2100 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              245.41805555555555,
+              59.197222222222216
+            ],
+            [
+              245.535,
+              59.18722222222222
+            ],
+            [
+              245.35027777777776,
+              59.20055555555556
+            ],
+            [
+              245.33444444444444,
+              59.21
+            ],
+            [
+              245.41805555555555,
+              59.197222222222216
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED6 PAHKLA",
+        "upperLimit": "2300 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              240.68555555555557,
+              59.062777777777775
+            ],
+            [
+              240.91916666666665,
+              59.084722222222226
+            ],
+            [
+              241.08527777777778,
+              59.07833333333333
+            ],
+            [
+              240.75194444444443,
+              59.058055555555555
+            ],
+            [
+              240.68555555555557,
+              59.062777777777775
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED7 PIIRSALU",
+        "upperLimit": "2200  ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              262.03583333333336,
+              59.520833333333336
+            ],
+            [
+              262.23333333333335,
+              59.56777777777778
+            ],
+            [
+              262.2,
+              59.544444444444444
+            ],
+            [
+              262.03583333333336,
+              59.520833333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED8 RUTJA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              255.00222222222223,
+              58.32777777777778
+            ],
+            [
+              255.23333333333332,
+              58.328611111111115
+            ],
+            [
+              255.23416666666665,
+              58.36
+            ],
+            [
+              255.0511111111111,
+              58.35944444444445
+            ],
+            [
+              255.00222222222223,
+              58.32777777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED9 VÄLUSTE",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              261.33416666666665,
+              58.53333333333333
+            ],
+            [
+              261.235,
+              58.507222222222225
+            ],
+            [
+              261.6666666666667,
+              58.50666666666667
+            ],
+            [
+              262.00138888888887,
+              58.532222222222224
+            ],
+            [
+              261.33416666666665,
+              58.53333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED10 UTSALI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tartu AFIS unit and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              260.71694444444444,
+              57.83694444444445
+            ],
+            [
+              260.5677777777778,
+              57.836666666666666
+            ],
+            [
+              260.56666666666666,
+              57.846944444444446
+            ],
+            [
+              260.7183333333333,
+              57.86555555555556
+            ],
+            [
+              260.8858333333333,
+              57.86194444444445
+            ],
+            [
+              260.71694444444444,
+              57.83694444444445
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED11 METSNIKU",
+        "upperLimit": "2300 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              255.3525,
+              59.24333333333333
+            ],
+            [
+              255.33555555555557,
+              59.25361111111111
+            ],
+            [
+              256.0502777777778,
+              59.257222222222225
+            ],
+            [
+              256.0177777777778,
+              59.24861111111111
+            ],
+            [
+              255.3525,
+              59.24333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED13 TAPA 1",
+        "upperLimit": "2400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              254.5175,
+              59.458333333333336
+            ],
+            [
+              255.58333333333334,
+              59.44361111111111
+            ],
+            [
+              255.8686111111111,
+              59.271388888888886
+            ],
+            [
+              255.03555555555556,
+              59.29694444444444
+            ],
+            [
+              254.5175,
+              59.458333333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED14 TAPA 2",
+        "upperLimit": "14700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP and ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              241.20138888888889,
+              59.29666666666667
+            ],
+            [
+              241.51777777777778,
+              59.321111111111115
+            ],
+            [
+              241.53527777777776,
+              59.330555555555556
+            ],
+            [
+              241.50222222222223,
+              59.324444444444445
+            ],
+            [
+              241.75083333333333,
+              59.29361111111111
+            ],
+            [
+              241.50083333333333,
+              59.28638888888889
+            ],
+            [
+              241.20138888888889,
+              59.29666666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED16 KLOOGA 1",
+        "upperLimit": "2100 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring and military air operations. Activity notified by NOTAM. Information about activity is available from Tallinn APP and Ämari TWR.For military air operations unmanned aerial vehicles are used with an authorised altitude from SFC to 1100 ft AMSL.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              273.5516666666667,
+              59.29111111111111
+            ],
+            [
+              274.0341666666667,
+              59.343611111111116
+            ],
+            [
+              275.0675,
+              59.2925
+            ],
+            [
+              275.05083333333334,
+              59.23694444444445
+            ],
+            [
+              273.5516666666667,
+              59.29111111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED17 SIRGALA 2",
+        "upperLimit": "15400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              266.1666666666667,
+              57.80638888888888
+            ],
+            [
+              265.6666666666667,
+              57.805277777777775
+            ],
+            [
+              265.5858333333333,
+              57.81638888888889
+            ],
+            [
+              266.0855555555555,
+              57.814166666666665
+            ],
+            [
+              266.1666666666667,
+              57.80638888888888
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED18 TSIATSUNGÕLMAA",
+        "upperLimit": "2400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              244.03444444444443,
+              59.31166666666666
+            ],
+            [
+              244.58416666666668,
+              59.36361111111111
+            ],
+            [
+              245.0011111111111,
+              59.34722222222222
+            ],
+            [
+              245.00055555555556,
+              59.31111111111111
+            ],
+            [
+              244.03444444444443,
+              59.31166666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED20 MÄNNIKU",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn TWR and APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              242.18555555555557,
+              59.61
+            ],
+            [
+              242.18555555555557,
+              59.65
+            ],
+            [
+              243.05,
+              59.65
+            ],
+            [
+              243.05,
+              59.559999999999995
+            ],
+            [
+              242.18555555555557,
+              59.61
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED23 NAISSAAR",
+        "upperLimit": "4000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              265.38444444444445,
+              59.01694444444444
+            ],
+            [
+              265.03583333333336,
+              59.0375
+            ],
+            [
+              265.2005555555555,
+              59.030277777777776
+            ],
+            [
+              265.51666666666665,
+              59.01166666666666
+            ],
+            [
+              265.38444444444445,
+              59.01694444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED25 MURU",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              273.01916666666665,
+              59.355555555555554
+            ],
+            [
+              273.5344444444445,
+              59.35777777777778
+            ],
+            [
+              273.5344444444445,
+              59.34722222222222
+            ],
+            [
+              273.03333333333336,
+              59.34805555555556
+            ],
+            [
+              273.01916666666665,
+              59.355555555555554
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED26 VIRU",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              221.3338888888889,
+              58.405833333333334
+            ],
+            [
+              221.75194444444443,
+              58.41833333333333
+            ],
+            [
+              221.86805555555557,
+              58.40833333333333
+            ],
+            [
+              221.3688888888889,
+              58.39833333333333
+            ],
+            [
+              221.3338888888889,
+              58.405833333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED27 KARUJÄRVE",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Kuressaare AFIS and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              231.18472222222223,
+              58.63861111111111
+            ],
+            [
+              231.33333333333334,
+              58.63388888888889
+            ],
+            [
+              230.91694444444443,
+              58.60861111111111
+            ],
+            [
+              230.8513888888889,
+              58.61222222222222
+            ],
+            [
+              231.18472222222223,
+              58.63861111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED31 KOGUVA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              244.88333333333333,
+              58.32083333333334
+            ],
+            [
+              245.00222222222223,
+              58.32555555555556
+            ],
+            [
+              245.50166666666667,
+              58.29277777777778
+            ],
+            [
+              244.8513888888889,
+              58.30638888888888
+            ],
+            [
+              244.88333333333333,
+              58.32083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED32 KIKEPERA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              250.16916666666665,
+              58.17666666666666
+            ],
+            [
+              250.2336111111111,
+              58.168055555555554
+            ],
+            [
+              246.5011111111111,
+              58.15555555555555
+            ],
+            [
+              246.38333333333333,
+              58.16444444444444
+            ],
+            [
+              250.16916666666665,
+              58.17666666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED33 LAURI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              253.41916666666665,
+              57.99611111111111
+            ],
+            [
+              253.6688888888889,
+              57.99777777777778
+            ],
+            [
+              253.7188888888889,
+              57.975
+            ],
+            [
+              253.535,
+              57.973333333333336
+            ],
+            [
+              253.41916666666665,
+              57.99611111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED34 LILLI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              252.41722222222222,
+              58.88527777777778
+            ],
+            [
+              244.08555555555557,
+              58.72916666666667
+            ],
+            [
+              243.35083333333333,
+              58.96222222222222
+            ],
+            [
+              252.41722222222222,
+              58.88527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED35G",
+        "upperLimit": "FL 60GND",
+        "lowerLimit": "SFC",
+        "remarks": "ACT: 01 APR-15 NOVGliding activityInformation about activity is available from the operator/user of the area:Tallinn Aeroclube-mail: denistsev@airclub.eeTel: +372 5625 0388, +372 5695 5234",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              253.4,
+              58.990833333333335
+            ],
+            [
+              253.33555555555557,
+              58.98527777777778
+            ],
+            [
+              253.2011111111111,
+              58.95416666666667
+            ],
+            [
+              253.35083333333333,
+              58.95861111111111
+            ],
+            [
+              253.4,
+              58.990833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED36 EIVERE",
+        "upperLimit": "3200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              242.7511111111111,
+              59.37361111111111
+            ],
+            [
+              242.88472222222222,
+              59.37138888888889
+            ],
+            [
+              242.85166666666666,
+              59.367222222222225
+            ],
+            [
+              242.73416666666665,
+              59.370555555555555
+            ],
+            [
+              242.7511111111111,
+              59.37361111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED37 HUMALA",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              245.18333333333334,
+              59.44444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED38",
+        "upperLimit": "300 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Paramotoring activityInformation about activity is available from Tallinn TWR 135.905.Operator/user of the area:AsimuutTel: +372 502 5022",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              245.05,
+              59.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED40",
+        "upperLimit": "300 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Paramotoring activityInformation about activity is available from Tallinn TWR 135.905 or Tallinn APP 127.905.Operator/user of the area:AsimuutTel: +372 502 5022",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              246.18527777777777,
+              59.256388888888885
+            ],
+            [
+              250.00083333333333,
+              59.19444444444444
+            ],
+            [
+              245.00083333333333,
+              59.18194444444444
+            ],
+            [
+              245.21777777777777,
+              59.263888888888886
+            ],
+            [
+              246.18527777777777,
+              59.256388888888885
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED41",
+        "upperLimit": "3000 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Acrobatic and training flights.Flights will take place in VMC only.EED41 must be activated at Tallinn TWR 135.905 or Tallinn APP 127.905 at least 5 minutes before entering the area.Availability is subject to IFR traffic situation in Tallinn TMA.Obtain info from:Tallinn TWR 135.905 orTallinn APP 127.905",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              274.25166666666667,
+              59.238055555555555
+            ],
+            [
+              274.7005555555555,
+              59.239444444444445
+            ],
+            [
+              275.0172222222222,
+              59.23361111111111
+            ],
+            [
+              275.18333333333334,
+              59.214444444444446
+            ],
+            [
+              275.50194444444446,
+              59.218333333333334
+            ],
+            [
+              275.5519444444445,
+              59.219722222222224
+            ],
+            [
+              275.53472222222223,
+              59.20527777777778
+            ],
+            [
+              275.0858333333333,
+              59.20527777777778
+            ],
+            [
+              275.01694444444445,
+              59.224722222222226
+            ],
+            [
+              274.25166666666667,
+              59.22888888888889
+            ],
+            [
+              274.25166666666667,
+              59.238055555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED42",
+        "upperLimit": "1800 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "ACT: MON-FRI 0700-1400 (0600-1300)Blasting.Additional information about the activity can be obtained at tel. +372 336 5131 and +372 5343 3832.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              224.38472222222222,
+              58.940555555555555
+            ],
+            [
+              224.71666666666667,
+              58.95
+            ],
+            [
+              224.90194444444444,
+              58.920833333333334
+            ],
+            [
+              224.55027777777778,
+              58.91416666666667
+            ],
+            [
+              224.38472222222222,
+              58.940555555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED43 KAPASTO",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    }
+  ],
+  "metadata": {
+    "effectiveDate": "2025-10-30",
+    "sourceUrl": "https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html",
+    "sha256": "bd123bed6012576e6b776199f14033c710a89ee6d04639ba48c643221eb4fe2c",
+    "generatedAt": "2025-12-27T00:42:04.341Z",
+    "issues": [
+      "Could not extract designator from row 0: NIL...",
+      "INVALID_GEOMETRY: Feature EER1 PIIRIALA has less than 2 points",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 0 longitude 215.0188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 1 longitude 216.00194444444443 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 2 longitude 220.23499999999999 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 3 longitude 220.21694444444444 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 4 longitude 215.835 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 5 longitude 214.90083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER3 FAUNA point 6 longitude 215.0188888888889 out of range",
+      "EXTENT_SANITY: Feature EER3 FAUNA extent [214.90083333333334,58.23444444444444,220.23499999999999,58.53666666666666] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 0 longitude 232.16666666666666 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 1 longitude 232.5 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 2 longitude 233.38583333333332 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 3 longitude 234.90222222222224 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 4 longitude 236.5338888888889 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 5 longitude 236.36722222222224 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 6 longitude 232.53472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 7 longitude 232.3336111111111 out of range",
+      "INVALID_COORDINATE: Feature EER4 FAUNA point 8 longitude 232.16666666666666 out of range",
+      "EXTENT_SANITY: Feature EER4 FAUNA extent [232.16666666666666,58.64944444444444,236.5338888888889,58.86666666666667] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER15D point 0 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 1 longitude 256.0686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 2 longitude 255.23555555555555 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 3 longitude 254.06916666666666 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 4 longitude 254.03527777777776 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 5 longitude 253.9011111111111 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 6 longitude 255.86777777777777 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 7 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15D point 8 longitude 261.8333333333333 out of range",
+      "EXTENT_SANITY: Feature EER15D extent [253.9011111111111,59.27055555555555,261.8333333333333,59.78777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER15E point 0 longitude 266.1675 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 1 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 2 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 3 longitude 264.20194444444445 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 4 longitude 265.53472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 5 longitude 271.8666666666667 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 6 longitude 271.75 out of range",
+      "INVALID_COORDINATE: Feature EER15E point 7 longitude 266.1675 out of range",
+      "EXTENT_SANITY: Feature EER15E extent [261.8333333333333,59.271388888888886,271.8666666666667,59.73916666666667] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER15F point 0 longitude 254.5838888888889 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 1 longitude 254.03527777777776 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 2 longitude 254.06916666666666 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 3 longitude 255.23555555555555 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 4 longitude 256.0686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 5 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 6 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15F point 7 longitude 254.5838888888889 out of range",
+      "EXTENT_SANITY: Feature EER15F extent [254.03527777777776,59.125,261.8333333333333,59.35527777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER15G point 0 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15G point 1 longitude 266.1675 out of range",
+      "INVALID_COORDINATE: Feature EER15G point 2 longitude 264.25138888888887 out of range",
+      "INVALID_COORDINATE: Feature EER15G point 3 longitude 261.8333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER15G point 4 longitude 261.8333333333333 out of range",
+      "EXTENT_SANITY: Feature EER15G extent [261.8333333333333,59.125,266.1675,59.27583333333333] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER16E point 0 longitude 241.21833333333333 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 1 longitude 234.23388888888888 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 2 longitude 241.05222222222224 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 3 longitude 242.01833333333335 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 4 longitude 244.0688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 5 longitude 243.9186111111111 out of range",
+      "INVALID_COORDINATE: Feature EER16E point 6 longitude 241.21833333333333 out of range",
+      "EXTENT_SANITY: Feature EER16E extent [234.23388888888888,58.64333333333333,244.0688888888889,59.54472222222222] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER16W point 0 longitude 241.21833333333333 out of range",
+      "INVALID_COORDINATE: Feature EER16W point 1 longitude 215.53416666666666 out of range",
+      "INVALID_COORDINATE: Feature EER16W point 2 longitude 212.5688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER16W point 3 longitude 215.4025 out of range",
+      "INVALID_COORDINATE: Feature EER16W point 4 longitude 234.23388888888888 out of range",
+      "INVALID_COORDINATE: Feature EER16W point 5 longitude 241.21833333333333 out of range",
+      "EXTENT_SANITY: Feature EER16W extent [212.5688888888889,58.09916666666667,241.21833333333333,59.43861111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER18 point 0 longitude 221.085 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 1 longitude 215.88527777777776 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 2 longitude 212.5688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 3 longitude 215.4025 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 4 longitude 223.4188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 5 longitude 232.5686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 6 longitude 234.38416666666666 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 7 longitude 224.05027777777778 out of range",
+      "INVALID_COORDINATE: Feature EER18 point 8 longitude 221.085 out of range",
+      "EXTENT_SANITY: Feature EER18 extent [212.5688888888889,58.02583333333333,234.38416666666666,59.17611111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER19 point 0 longitude 273.0836111111111 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 1 longitude 273.0175 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 2 longitude 272.9177777777778 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 3 longitude 273.0338888888889 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 4 longitude 273.18333333333334 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 5 longitude 273.20138888888886 out of range",
+      "INVALID_COORDINATE: Feature EER19 point 6 longitude 273.0836111111111 out of range",
+      "EXTENT_SANITY: Feature EER19 extent [272.9177777777778,59.34527777777778,273.20138888888886,59.35611111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER20 point 0 longitude 271.08444444444444 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 1 longitude 271.0522222222222 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 2 longitude 271.0516666666667 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 3 longitude 271.18555555555554 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 4 longitude 271.2002777777778 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 5 longitude 271.1666666666667 out of range",
+      "INVALID_COORDINATE: Feature EER20 point 6 longitude 271.08444444444444 out of range",
+      "EXTENT_SANITY: Feature EER20 extent [271.0516666666667,59.33638888888889,271.2002777777778,59.3425] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER21 point 0 longitude 255.86833333333334 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 1 longitude 255.68472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 2 longitude 255.56777777777776 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 3 longitude 255.88333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 4 longitude 255.685 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 5 longitude 255.68472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 6 longitude 255.7188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 7 longitude 256.01694444444445 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 8 longitude 256.0522222222222 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 9 longitude 256.51694444444445 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 10 longitude 256.5344444444445 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 11 longitude 256.4002777777778 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 12 longitude 256.25138888888887 out of range",
+      "INVALID_COORDINATE: Feature EER21 point 13 longitude 255.86833333333334 out of range",
+      "EXTENT_SANITY: Feature EER21 extent [255.56777777777776,59.19777777777777,256.5344444444445,59.25611111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER22 point 0 longitude 240.85027777777776 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 1 longitude 240.75083333333333 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 2 longitude 240.73388888888888 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 3 longitude 240.71916666666667 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 4 longitude 240.73444444444442 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 5 longitude 240.85 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 6 longitude 240.9025 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 7 longitude 240.88555555555556 out of range",
+      "INVALID_COORDINATE: Feature EER22 point 8 longitude 240.85027777777776 out of range",
+      "EXTENT_SANITY: Feature EER22 extent [240.71916666666667,59.33861111111111,240.9025,59.34527777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER23 point 0 longitude 241.20055555555555 out of range",
+      "INVALID_COORDINATE: Feature EER23 point 1 longitude 240.90083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER23 point 2 longitude 240.9 out of range",
+      "INVALID_COORDINATE: Feature EER23 point 3 longitude 241.23583333333332 out of range",
+      "INVALID_COORDINATE: Feature EER23 point 4 longitude 241.25055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER23 point 5 longitude 241.20055555555555 out of range",
+      "EXTENT_SANITY: Feature EER23 extent [240.9,59.11277777777778,241.25055555555556,59.13638888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER24 point 0 longitude 270.18583333333333 out of range",
+      "INVALID_COORDINATE: Feature EER24 point 1 longitude 270.0836111111111 out of range",
+      "INVALID_COORDINATE: Feature EER24 point 2 longitude 270.0855555555555 out of range",
+      "INVALID_COORDINATE: Feature EER24 point 3 longitude 270.2525 out of range",
+      "INVALID_COORDINATE: Feature EER24 point 4 longitude 270.2525 out of range",
+      "INVALID_COORDINATE: Feature EER24 point 5 longitude 270.18583333333333 out of range",
+      "EXTENT_SANITY: Feature EER24 extent [270.0836111111111,57.82,270.2525,57.82777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER25 point 0 longitude 265.58444444444444 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 1 longitude 265.5513888888889 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 2 longitude 265.5341666666667 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 3 longitude 265.5341666666667 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 4 longitude 265.585 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 5 longitude 265.685 out of range",
+      "INVALID_COORDINATE: Feature EER25 point 6 longitude 265.58444444444444 out of range",
+      "EXTENT_SANITY: Feature EER25 extent [265.5341666666667,58.375,265.685,58.380833333333335] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER26 point 0 longitude 265.23583333333335 out of range",
+      "INVALID_COORDINATE: Feature EER26 point 1 longitude 265.0519444444445 out of range",
+      "INVALID_COORDINATE: Feature EER26 point 2 longitude 265.06666666666666 out of range",
+      "INVALID_COORDINATE: Feature EER26 point 3 longitude 265.1675 out of range",
+      "INVALID_COORDINATE: Feature EER26 point 4 longitude 265.25111111111113 out of range",
+      "INVALID_COORDINATE: Feature EER26 point 5 longitude 265.23583333333335 out of range",
+      "EXTENT_SANITY: Feature EER26 extent [265.0519444444445,57.75694444444444,265.25111111111113,57.77111111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER27 point 0 longitude 245.0011111111111 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 1 longitude 244.9175 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 2 longitude 245.00222222222223 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 3 longitude 245.01777777777778 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 4 longitude 245.05055555555558 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 5 longitude 245.06666666666666 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 6 longitude 245.05083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER27 point 7 longitude 245.0011111111111 out of range",
+      "EXTENT_SANITY: Feature EER27 extent [244.9175,59.420833333333334,245.06666666666666,59.42722222222222] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER28 point 0 longitude 244.5511111111111 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 1 longitude 244.51777777777778 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 2 longitude 244.41777777777776 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 3 longitude 244.41805555555555 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 4 longitude 244.5188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 5 longitude 244.58527777777778 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 6 longitude 244.56722222222223 out of range",
+      "INVALID_COORDINATE: Feature EER28 point 7 longitude 244.5511111111111 out of range",
+      "EXTENT_SANITY: Feature EER28 extent [244.41777777777776,59.450833333333335,244.58527777777778,59.459722222222226] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER29 point 0 longitude 251.73472222222222 out of range",
+      "INVALID_COORDINATE: Feature EER29 point 1 longitude 251.5686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER29 point 2 longitude 251.68583333333333 out of range",
+      "INVALID_COORDINATE: Feature EER29 point 3 longitude 251.7525 out of range",
+      "INVALID_COORDINATE: Feature EER29 point 4 longitude 251.73472222222222 out of range",
+      "EXTENT_SANITY: Feature EER29 extent [251.5686111111111,59.411944444444444,251.7525,59.42027777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER30 point 0 longitude 243.35 out of range",
+      "INVALID_COORDINATE: Feature EER30 point 1 longitude 243.2513888888889 out of range",
+      "INVALID_COORDINATE: Feature EER30 point 2 longitude 243.3511111111111 out of range",
+      "INVALID_COORDINATE: Feature EER30 point 3 longitude 243.38472222222222 out of range",
+      "INVALID_COORDINATE: Feature EER30 point 4 longitude 243.3688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER30 point 5 longitude 243.35 out of range",
+      "EXTENT_SANITY: Feature EER30 extent [243.2513888888889,58.402499999999996,243.38472222222222,58.407222222222224] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER31 point 0 longitude 264.7186111111111 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 1 longitude 264.7005555555555 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 2 longitude 264.73361111111114 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 3 longitude 264.75 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 4 longitude 264.83444444444444 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 5 longitude 264.75111111111113 out of range",
+      "INVALID_COORDINATE: Feature EER31 point 6 longitude 264.7186111111111 out of range",
+      "EXTENT_SANITY: Feature EER31 extent [264.7005555555555,58.385,264.83444444444444,58.39083333333333] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER32 point 0 longitude 244.38583333333332 out of range",
+      "INVALID_COORDINATE: Feature EER32 point 1 longitude 244.36694444444444 out of range",
+      "INVALID_COORDINATE: Feature EER32 point 2 longitude 244.3675 out of range",
+      "INVALID_COORDINATE: Feature EER32 point 3 longitude 244.40083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER32 point 4 longitude 244.40083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER32 point 5 longitude 244.38583333333332 out of range",
+      "EXTENT_SANITY: Feature EER32 extent [244.36694444444444,59.39722222222222,244.40083333333334,59.400277777777774] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER33 FAUNA point 0 longitude 225.03472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER33 FAUNA point 1 longitude 225.5513888888889 out of range",
+      "INVALID_COORDINATE: Feature EER33 FAUNA point 2 longitude 225.55083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER33 FAUNA point 3 longitude 225.05027777777778 out of range",
+      "INVALID_COORDINATE: Feature EER33 FAUNA point 4 longitude 225.03472222222223 out of range",
+      "EXTENT_SANITY: Feature EER33 FAUNA extent [225.03472222222223,58.145833333333336,225.5513888888889,58.16638888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 0 longitude 230.0025 out of range",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 1 longitude 231.0338888888889 out of range",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 2 longitude 230.85055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 3 longitude 226.55 out of range",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 4 longitude 226.05194444444444 out of range",
+      "INVALID_COORDINATE: Feature EER34 FAUNA point 5 longitude 230.0025 out of range",
+      "EXTENT_SANITY: Feature EER34 FAUNA extent [226.05194444444444,58.92777777777778,231.0338888888889,59.0325] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 0 longitude 226.33583333333334 out of range",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 1 longitude 231.5025 out of range",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 2 longitude 231.21694444444444 out of range",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 3 longitude 226.58583333333334 out of range",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 4 longitude 226.0513888888889 out of range",
+      "INVALID_COORDINATE: Feature EER35 FAUNA point 5 longitude 226.33583333333334 out of range",
+      "EXTENT_SANITY: Feature EER35 FAUNA extent [226.0513888888889,58.72361111111111,231.5025,58.849444444444444] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER36 FAUNA point 0 longitude 235 out of range",
+      "INVALID_COORDINATE: Feature EER36 FAUNA point 1 longitude 235.0836111111111 out of range",
+      "INVALID_COORDINATE: Feature EER36 FAUNA point 2 longitude 235.08472222222224 out of range",
+      "INVALID_COORDINATE: Feature EER36 FAUNA point 3 longitude 234.9188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER36 FAUNA point 4 longitude 235 out of range",
+      "EXTENT_SANITY: Feature EER36 FAUNA extent [234.9188888888889,59.34,235.08472222222224,59.34861111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER37 FAUNA point 0 longitude 252.33583333333334 out of range",
+      "INVALID_COORDINATE: Feature EER37 FAUNA point 1 longitude 252.58333333333334 out of range",
+      "INVALID_COORDINATE: Feature EER37 FAUNA point 2 longitude 252.0188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER37 FAUNA point 3 longitude 252.40083333333334 out of range",
+      "INVALID_COORDINATE: Feature EER37 FAUNA point 4 longitude 252.33583333333334 out of range",
+      "EXTENT_SANITY: Feature EER37 FAUNA extent [252.0188888888889,59.595555555555556,252.58333333333334,59.63138888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER38 FAUNA point 0 longitude 223.05166666666668 out of range",
+      "INVALID_COORDINATE: Feature EER38 FAUNA point 1 longitude 223.23499999999999 out of range",
+      "INVALID_COORDINATE: Feature EER38 FAUNA point 2 longitude 223.23527777777775 out of range",
+      "INVALID_COORDINATE: Feature EER38 FAUNA point 3 longitude 223.05166666666668 out of range",
+      "INVALID_COORDINATE: Feature EER38 FAUNA point 4 longitude 223.05166666666668 out of range",
+      "EXTENT_SANITY: Feature EER38 FAUNA extent [223.05166666666668,58.65972222222222,223.23527777777775,58.66888888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 0 longitude 235.2511111111111 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 1 longitude 235.585 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 2 longitude 235.71916666666667 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 3 longitude 235.71916666666667 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 4 longitude 235.33555555555557 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 5 longitude 235.21833333333333 out of range",
+      "INVALID_COORDINATE: Feature EER39 FAUNA point 6 longitude 235.2511111111111 out of range",
+      "EXTENT_SANITY: Feature EER39 FAUNA extent [235.21833333333333,58.17833333333333,235.71916666666667,58.20611111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER40 FAUNA point 0 longitude 225.35194444444443 out of range",
+      "INVALID_COORDINATE: Feature EER40 FAUNA point 1 longitude 225.66805555555555 out of range",
+      "INVALID_COORDINATE: Feature EER40 FAUNA point 2 longitude 225.35 out of range",
+      "INVALID_COORDINATE: Feature EER40 FAUNA point 3 longitude 225.06916666666666 out of range",
+      "INVALID_COORDINATE: Feature EER40 FAUNA point 4 longitude 225.35194444444443 out of range",
+      "EXTENT_SANITY: Feature EER40 FAUNA extent [225.06916666666666,59.06888888888889,225.66805555555555,59.097500000000004] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER41 FAUNA point 0 longitude 263.3347222222222 out of range",
+      "INVALID_COORDINATE: Feature EER41 FAUNA point 1 longitude 263.4 out of range",
+      "INVALID_COORDINATE: Feature EER41 FAUNA point 2 longitude 263.4022222222222 out of range",
+      "INVALID_COORDINATE: Feature EER41 FAUNA point 3 longitude 263.50083333333333 out of range",
+      "INVALID_COORDINATE: Feature EER41 FAUNA point 4 longitude 263.3347222222222 out of range",
+      "EXTENT_SANITY: Feature EER41 FAUNA extent [263.3347222222222,59.64944444444444,263.50083333333333,59.70638888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER42 FAUNA point 0 longitude 222.2 out of range",
+      "INVALID_COORDINATE: Feature EER42 FAUNA point 1 longitude 222.55166666666668 out of range",
+      "INVALID_COORDINATE: Feature EER42 FAUNA point 2 longitude 222.71777777777777 out of range",
+      "INVALID_COORDINATE: Feature EER42 FAUNA point 3 longitude 222.18527777777777 out of range",
+      "INVALID_COORDINATE: Feature EER42 FAUNA point 4 longitude 222.2 out of range",
+      "EXTENT_SANITY: Feature EER42 FAUNA extent [222.18527777777777,58.77333333333333,222.71777777777777,58.80611111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 0 longitude 225.50055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 1 longitude 225.56694444444443 out of range",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 2 longitude 225.05027777777778 out of range",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 3 longitude 224.73583333333332 out of range",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 4 longitude 224.91916666666665 out of range",
+      "INVALID_COORDINATE: Feature EER43 FAUNA point 5 longitude 225.50055555555556 out of range",
+      "EXTENT_SANITY: Feature EER43 FAUNA extent [224.73583333333332,58.785555555555554,225.56694444444443,58.845] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 0 longitude 225 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 1 longitude 226.0511111111111 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 2 longitude 226.53472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 3 longitude 230.75083333333333 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 4 longitude 230.20083333333332 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 5 longitude 225.0025 out of range",
+      "INVALID_COORDINATE: Feature EER44 FAUNA point 6 longitude 225 out of range",
+      "EXTENT_SANITY: Feature EER44 FAUNA extent [225,58.880833333333335,230.75083333333333,59.02194444444444] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 0 longitude 223.3511111111111 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 1 longitude 223.0686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 2 longitude 223.8686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 3 longitude 223.385 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 4 longitude 222.88444444444443 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 5 longitude 222.35194444444443 out of range",
+      "INVALID_COORDINATE: Feature EER45 FAUNA point 6 longitude 223.3511111111111 out of range",
+      "EXTENT_SANITY: Feature EER45 FAUNA extent [222.35194444444443,58.94888888888889,223.8686111111111,59.03805555555555] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 0 longitude 222.2186111111111 out of range",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 1 longitude 222.53416666666666 out of range",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 2 longitude 222.21722222222223 out of range",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 3 longitude 221.70166666666665 out of range",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 4 longitude 221.385 out of range",
+      "INVALID_COORDINATE: Feature EER46 FAUNA point 5 longitude 222.2186111111111 out of range",
+      "EXTENT_SANITY: Feature EER46 FAUNA extent [221.385,58.48527777777778,222.53416666666666,58.57888888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER47 FAUNA point 0 longitude 221.21777777777777 out of range",
+      "INVALID_COORDINATE: Feature EER47 FAUNA point 1 longitude 221.23416666666665 out of range",
+      "INVALID_COORDINATE: Feature EER47 FAUNA point 2 longitude 221.01694444444445 out of range",
+      "INVALID_COORDINATE: Feature EER47 FAUNA point 3 longitude 220.85222222222222 out of range",
+      "INVALID_COORDINATE: Feature EER47 FAUNA point 4 longitude 221.21777777777777 out of range",
+      "EXTENT_SANITY: Feature EER47 FAUNA extent [220.85222222222222,58.06027777777778,221.23416666666665,58.130833333333335] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER48 FAUNA point 0 longitude 225.0686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER48 FAUNA point 1 longitude 226.00194444444443 out of range",
+      "INVALID_COORDINATE: Feature EER48 FAUNA point 2 longitude 226.38333333333333 out of range",
+      "INVALID_COORDINATE: Feature EER48 FAUNA point 3 longitude 225.0675 out of range",
+      "INVALID_COORDINATE: Feature EER48 FAUNA point 4 longitude 225.0686111111111 out of range",
+      "EXTENT_SANITY: Feature EER48 FAUNA extent [225.0675,58.29083333333333,226.38333333333333,58.34277777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 0 longitude 231.53555555555556 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 1 longitude 232.53472222222223 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 2 longitude 232.55055555555558 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 3 longitude 231.58555555555557 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 4 longitude 230.23416666666665 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 5 longitude 226.16722222222222 out of range",
+      "INVALID_COORDINATE: Feature EER49 FAUNA point 6 longitude 231.53555555555556 out of range",
+      "EXTENT_SANITY: Feature EER49 FAUNA extent [226.16722222222222,58.348333333333336,232.55055555555558,58.47777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 0 longitude 230.2025 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 1 longitude 231.06666666666666 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 2 longitude 230.71833333333333 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 3 longitude 232.40194444444444 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 4 longitude 232.86833333333334 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 5 longitude 232.53555555555556 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 6 longitude 226.20222222222222 out of range",
+      "INVALID_COORDINATE: Feature EER50 FAUNA point 7 longitude 230.2025 out of range",
+      "EXTENT_SANITY: Feature EER50 FAUNA extent [226.20222222222222,58.44833333333333,232.86833333333334,58.657777777777774] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 0 longitude 243.3336111111111 out of range",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 1 longitude 243.5013888888889 out of range",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 2 longitude 243.50055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 3 longitude 243.06833333333333 out of range",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 4 longitude 243.0688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER51 FAUNA point 5 longitude 243.3336111111111 out of range",
+      "EXTENT_SANITY: Feature EER51 FAUNA extent [243.06833333333333,58.071111111111115,243.5013888888889,58.213055555555556] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 0 longitude 242.3338888888889 out of range",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 1 longitude 242.35083333333333 out of range",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 2 longitude 242.5688888888889 out of range",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 3 longitude 242.5675 out of range",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 4 longitude 242.3686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER52 FAUNA point 5 longitude 242.3338888888889 out of range",
+      "EXTENT_SANITY: Feature EER52 FAUNA extent [242.3338888888889,58.380833333333335,242.5688888888889,58.402499999999996] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 0 longitude 231.90222222222224 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 1 longitude 232.3686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 2 longitude 232.5 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 3 longitude 232.20194444444442 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 4 longitude 231.70055555555555 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 5 longitude 231.36833333333334 out of range",
+      "INVALID_COORDINATE: Feature EER53 FAUNA point 6 longitude 231.90222222222224 out of range",
+      "EXTENT_SANITY: Feature EER53 FAUNA extent [231.36833333333334,58.93333333333333,232.5,58.98222222222223] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER54 FAUNA point 0 longitude 233.23583333333332 out of range",
+      "INVALID_COORDINATE: Feature EER54 FAUNA point 1 longitude 234.85055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER54 FAUNA point 2 longitude 233.41805555555555 out of range",
+      "INVALID_COORDINATE: Feature EER54 FAUNA point 3 longitude 233.3686111111111 out of range",
+      "INVALID_COORDINATE: Feature EER54 FAUNA point 4 longitude 233.23583333333332 out of range",
+      "EXTENT_SANITY: Feature EER54 FAUNA extent [233.23583333333332,58.939166666666665,234.85055555555556,59.08916666666667] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 0 longitude 233.3675 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 1 longitude 233.835 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 2 longitude 235.05194444444444 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 3 longitude 235.1675 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 4 longitude 234.4188888888889 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 5 longitude 233.20138888888889 out of range",
+      "INVALID_COORDINATE: Feature EER55 FAUNA point 6 longitude 233.3675 out of range",
+      "EXTENT_SANITY: Feature EER55 FAUNA extent [233.20138888888889,58.478611111111114,235.1675,58.61416666666667] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER56 FAUNA point 0 longitude 255.16694444444443 out of range",
+      "INVALID_COORDINATE: Feature EER56 FAUNA point 1 longitude 255.0836111111111 out of range",
+      "INVALID_COORDINATE: Feature EER56 FAUNA point 2 longitude 255.38527777777776 out of range",
+      "INVALID_COORDINATE: Feature EER56 FAUNA point 3 longitude 255.01916666666668 out of range",
+      "INVALID_COORDINATE: Feature EER56 FAUNA point 4 longitude 255.16694444444443 out of range",
+      "EXTENT_SANITY: Feature EER56 FAUNA extent [255.01916666666668,59.56305555555555,255.38527777777776,59.59527777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 0 longitude 271.735 out of range",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 1 longitude 273.0341666666667 out of range",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 2 longitude 272.8355555555555 out of range",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 3 longitude 271.0175 out of range",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 4 longitude 271.01666666666665 out of range",
+      "INVALID_COORDINATE: Feature EER57 FAUNA point 5 longitude 271.735 out of range",
+      "EXTENT_SANITY: Feature EER57 FAUNA extent [271.01666666666665,58.308055555555555,273.0341666666667,58.47277777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER58 FAUNA point 0 longitude 264.5344444444445 out of range",
+      "INVALID_COORDINATE: Feature EER58 FAUNA point 1 longitude 264.18333333333334 out of range",
+      "INVALID_COORDINATE: Feature EER58 FAUNA point 2 longitude 264.4022222222222 out of range",
+      "INVALID_COORDINATE: Feature EER58 FAUNA point 3 longitude 264.00111111111113 out of range",
+      "INVALID_COORDINATE: Feature EER58 FAUNA point 4 longitude 264.5344444444445 out of range",
+      "EXTENT_SANITY: Feature EER58 FAUNA extent [264.00111111111113,58.54138888888889,264.5344444444445,58.57083333333334] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 0 longitude 261.0352777777778 out of range",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 1 longitude 261.40138888888885 out of range",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 2 longitude 261.50138888888887 out of range",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 3 longitude 261.4005555555555 out of range",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 4 longitude 261.1677777777778 out of range",
+      "INVALID_COORDINATE: Feature EER59 FAUNA point 5 longitude 261.0352777777778 out of range",
+      "EXTENT_SANITY: Feature EER59 FAUNA extent [261.0352777777778,58.84722222222222,261.50138888888887,58.871944444444445] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 0 longitude 273.56888888888886 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 1 longitude 273.2344444444445 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 2 longitude 273.23361111111114 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 3 longitude 273.5025 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 4 longitude 273.35055555555556 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 5 longitude 273.25138888888887 out of range",
+      "INVALID_COORDINATE: Feature EER60 FAUNA point 6 longitude 273.56888888888886 out of range",
+      "EXTENT_SANITY: Feature EER60 FAUNA extent [273.23361111111114,58.10583333333334,273.56888888888886,58.17444444444444] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 0 longitude 255.40055555555557 out of range",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 1 longitude 261.58416666666665 out of range",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 2 longitude 262.1675 out of range",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 3 longitude 262.53333333333336 out of range",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 4 longitude 261.25166666666667 out of range",
+      "INVALID_COORDINATE: Feature EER61 FAUNA point 5 longitude 255.40055555555557 out of range",
+      "EXTENT_SANITY: Feature EER61 FAUNA extent [255.40055555555557,58.385,262.53333333333336,58.60416666666667] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED2 UNIKÜLA point 0 longitude 266.0183333333333 out of range",
+      "INVALID_COORDINATE: Feature EED2 UNIKÜLA point 1 longitude 265.68444444444447 out of range",
+      "INVALID_COORDINATE: Feature EED2 UNIKÜLA point 2 longitude 265.8502777777778 out of range",
+      "INVALID_COORDINATE: Feature EED2 UNIKÜLA point 3 longitude 266.18416666666667 out of range",
+      "INVALID_COORDINATE: Feature EED2 UNIKÜLA point 4 longitude 266.0183333333333 out of range",
+      "EXTENT_SANITY: Feature EED2 UNIKÜLA extent [265.68444444444447,58.25277777777778,266.18416666666667,58.27972222222222] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED4 NURSIPALU 2 point 0 longitude 265.0341666666667 out of range",
+      "INVALID_COORDINATE: Feature EED4 NURSIPALU 2 point 1 longitude 264.5833333333333 out of range",
+      "INVALID_COORDINATE: Feature EED4 NURSIPALU 2 point 2 longitude 265.2341666666667 out of range",
+      "INVALID_COORDINATE: Feature EED4 NURSIPALU 2 point 3 longitude 265.4008333333333 out of range",
+      "INVALID_COORDINATE: Feature EED4 NURSIPALU 2 point 4 longitude 265.0341666666667 out of range",
+      "EXTENT_SANITY: Feature EED4 NURSIPALU 2 extent [264.5833333333333,57.78194444444444,265.4008333333333,57.83722222222222] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED5 KILTSI point 0 longitude 233.16805555555555 out of range",
+      "INVALID_COORDINATE: Feature EED5 KILTSI point 1 longitude 233.18333333333334 out of range",
+      "INVALID_COORDINATE: Feature EED5 KILTSI point 2 longitude 233.5836111111111 out of range",
+      "INVALID_COORDINATE: Feature EED5 KILTSI point 3 longitude 233.01666666666668 out of range",
+      "INVALID_COORDINATE: Feature EED5 KILTSI point 4 longitude 233.16805555555555 out of range",
+      "EXTENT_SANITY: Feature EED5 KILTSI extent [233.01666666666668,58.8825,233.5836111111111,58.910555555555554] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED6 PAHKLA point 0 longitude 245.41805555555555 out of range",
+      "INVALID_COORDINATE: Feature EED6 PAHKLA point 1 longitude 245.535 out of range",
+      "INVALID_COORDINATE: Feature EED6 PAHKLA point 2 longitude 245.35027777777776 out of range",
+      "INVALID_COORDINATE: Feature EED6 PAHKLA point 3 longitude 245.33444444444444 out of range",
+      "INVALID_COORDINATE: Feature EED6 PAHKLA point 4 longitude 245.41805555555555 out of range",
+      "EXTENT_SANITY: Feature EED6 PAHKLA extent [245.33444444444444,59.18722222222222,245.535,59.21] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED7 PIIRSALU point 0 longitude 240.68555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED7 PIIRSALU point 1 longitude 240.91916666666665 out of range",
+      "INVALID_COORDINATE: Feature EED7 PIIRSALU point 2 longitude 241.08527777777778 out of range",
+      "INVALID_COORDINATE: Feature EED7 PIIRSALU point 3 longitude 240.75194444444443 out of range",
+      "INVALID_COORDINATE: Feature EED7 PIIRSALU point 4 longitude 240.68555555555557 out of range",
+      "EXTENT_SANITY: Feature EED7 PIIRSALU extent [240.68555555555557,59.058055555555555,241.08527777777778,59.084722222222226] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED8 RUTJA point 0 longitude 262.03583333333336 out of range",
+      "INVALID_COORDINATE: Feature EED8 RUTJA point 1 longitude 262.23333333333335 out of range",
+      "INVALID_COORDINATE: Feature EED8 RUTJA point 2 longitude 262.2 out of range",
+      "INVALID_COORDINATE: Feature EED8 RUTJA point 3 longitude 262.03583333333336 out of range",
+      "EXTENT_SANITY: Feature EED8 RUTJA extent [262.03583333333336,59.520833333333336,262.23333333333335,59.56777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED9 VÄLUSTE point 0 longitude 255.00222222222223 out of range",
+      "INVALID_COORDINATE: Feature EED9 VÄLUSTE point 1 longitude 255.23333333333332 out of range",
+      "INVALID_COORDINATE: Feature EED9 VÄLUSTE point 2 longitude 255.23416666666665 out of range",
+      "INVALID_COORDINATE: Feature EED9 VÄLUSTE point 3 longitude 255.0511111111111 out of range",
+      "INVALID_COORDINATE: Feature EED9 VÄLUSTE point 4 longitude 255.00222222222223 out of range",
+      "EXTENT_SANITY: Feature EED9 VÄLUSTE extent [255.00222222222223,58.32777777777778,255.23416666666665,58.36] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED10 UTSALI point 0 longitude 261.33416666666665 out of range",
+      "INVALID_COORDINATE: Feature EED10 UTSALI point 1 longitude 261.235 out of range",
+      "INVALID_COORDINATE: Feature EED10 UTSALI point 2 longitude 261.6666666666667 out of range",
+      "INVALID_COORDINATE: Feature EED10 UTSALI point 3 longitude 262.00138888888887 out of range",
+      "INVALID_COORDINATE: Feature EED10 UTSALI point 4 longitude 261.33416666666665 out of range",
+      "EXTENT_SANITY: Feature EED10 UTSALI extent [261.235,58.50666666666667,262.00138888888887,58.53333333333333] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 0 longitude 260.71694444444444 out of range",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 1 longitude 260.5677777777778 out of range",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 2 longitude 260.56666666666666 out of range",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 3 longitude 260.7183333333333 out of range",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 4 longitude 260.8858333333333 out of range",
+      "INVALID_COORDINATE: Feature EED11 METSNIKU point 5 longitude 260.71694444444444 out of range",
+      "EXTENT_SANITY: Feature EED11 METSNIKU extent [260.56666666666666,57.836666666666666,260.8858333333333,57.86555555555556] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED13 TAPA 1 point 0 longitude 255.3525 out of range",
+      "INVALID_COORDINATE: Feature EED13 TAPA 1 point 1 longitude 255.33555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED13 TAPA 1 point 2 longitude 256.0502777777778 out of range",
+      "INVALID_COORDINATE: Feature EED13 TAPA 1 point 3 longitude 256.0177777777778 out of range",
+      "INVALID_COORDINATE: Feature EED13 TAPA 1 point 4 longitude 255.3525 out of range",
+      "EXTENT_SANITY: Feature EED13 TAPA 1 extent [255.33555555555557,59.24333333333333,256.0502777777778,59.257222222222225] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED14 TAPA 2 point 0 longitude 254.5175 out of range",
+      "INVALID_COORDINATE: Feature EED14 TAPA 2 point 1 longitude 255.58333333333334 out of range",
+      "INVALID_COORDINATE: Feature EED14 TAPA 2 point 2 longitude 255.8686111111111 out of range",
+      "INVALID_COORDINATE: Feature EED14 TAPA 2 point 3 longitude 255.03555555555556 out of range",
+      "INVALID_COORDINATE: Feature EED14 TAPA 2 point 4 longitude 254.5175 out of range",
+      "EXTENT_SANITY: Feature EED14 TAPA 2 extent [254.5175,59.271388888888886,255.8686111111111,59.458333333333336] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 0 longitude 241.20138888888889 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 1 longitude 241.51777777777778 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 2 longitude 241.53527777777776 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 3 longitude 241.50222222222223 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 4 longitude 241.75083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 5 longitude 241.50083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED16 KLOOGA 1 point 6 longitude 241.20138888888889 out of range",
+      "EXTENT_SANITY: Feature EED16 KLOOGA 1 extent [241.20138888888889,59.28638888888889,241.75083333333333,59.330555555555556] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED17 SIRGALA 2 point 0 longitude 273.5516666666667 out of range",
+      "INVALID_COORDINATE: Feature EED17 SIRGALA 2 point 1 longitude 274.0341666666667 out of range",
+      "INVALID_COORDINATE: Feature EED17 SIRGALA 2 point 2 longitude 275.0675 out of range",
+      "INVALID_COORDINATE: Feature EED17 SIRGALA 2 point 3 longitude 275.05083333333334 out of range",
+      "INVALID_COORDINATE: Feature EED17 SIRGALA 2 point 4 longitude 273.5516666666667 out of range",
+      "EXTENT_SANITY: Feature EED17 SIRGALA 2 extent [273.5516666666667,59.23694444444445,275.0675,59.343611111111116] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED18 TSIATSUNGÕLMAA point 0 longitude 266.1666666666667 out of range",
+      "INVALID_COORDINATE: Feature EED18 TSIATSUNGÕLMAA point 1 longitude 265.6666666666667 out of range",
+      "INVALID_COORDINATE: Feature EED18 TSIATSUNGÕLMAA point 2 longitude 265.5858333333333 out of range",
+      "INVALID_COORDINATE: Feature EED18 TSIATSUNGÕLMAA point 3 longitude 266.0855555555555 out of range",
+      "INVALID_COORDINATE: Feature EED18 TSIATSUNGÕLMAA point 4 longitude 266.1666666666667 out of range",
+      "EXTENT_SANITY: Feature EED18 TSIATSUNGÕLMAA extent [265.5858333333333,57.805277777777775,266.1666666666667,57.81638888888889] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED20 MÄNNIKU point 0 longitude 244.03444444444443 out of range",
+      "INVALID_COORDINATE: Feature EED20 MÄNNIKU point 1 longitude 244.58416666666668 out of range",
+      "INVALID_COORDINATE: Feature EED20 MÄNNIKU point 2 longitude 245.0011111111111 out of range",
+      "INVALID_COORDINATE: Feature EED20 MÄNNIKU point 3 longitude 245.00055555555556 out of range",
+      "INVALID_COORDINATE: Feature EED20 MÄNNIKU point 4 longitude 244.03444444444443 out of range",
+      "EXTENT_SANITY: Feature EED20 MÄNNIKU extent [244.03444444444443,59.31111111111111,245.0011111111111,59.36361111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED23 NAISSAAR point 0 longitude 242.18555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED23 NAISSAAR point 1 longitude 242.18555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED23 NAISSAAR point 2 longitude 243.05 out of range",
+      "INVALID_COORDINATE: Feature EED23 NAISSAAR point 3 longitude 243.05 out of range",
+      "INVALID_COORDINATE: Feature EED23 NAISSAAR point 4 longitude 242.18555555555557 out of range",
+      "EXTENT_SANITY: Feature EED23 NAISSAAR extent [242.18555555555557,59.559999999999995,243.05,59.65] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED25 MURU point 0 longitude 265.38444444444445 out of range",
+      "INVALID_COORDINATE: Feature EED25 MURU point 1 longitude 265.03583333333336 out of range",
+      "INVALID_COORDINATE: Feature EED25 MURU point 2 longitude 265.2005555555555 out of range",
+      "INVALID_COORDINATE: Feature EED25 MURU point 3 longitude 265.51666666666665 out of range",
+      "INVALID_COORDINATE: Feature EED25 MURU point 4 longitude 265.38444444444445 out of range",
+      "EXTENT_SANITY: Feature EED25 MURU extent [265.03583333333336,59.01166666666666,265.51666666666665,59.0375] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED26 VIRU point 0 longitude 273.01916666666665 out of range",
+      "INVALID_COORDINATE: Feature EED26 VIRU point 1 longitude 273.5344444444445 out of range",
+      "INVALID_COORDINATE: Feature EED26 VIRU point 2 longitude 273.5344444444445 out of range",
+      "INVALID_COORDINATE: Feature EED26 VIRU point 3 longitude 273.03333333333336 out of range",
+      "INVALID_COORDINATE: Feature EED26 VIRU point 4 longitude 273.01916666666665 out of range",
+      "EXTENT_SANITY: Feature EED26 VIRU extent [273.01916666666665,59.34722222222222,273.5344444444445,59.35777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED27 KARUJÄRVE point 0 longitude 221.3338888888889 out of range",
+      "INVALID_COORDINATE: Feature EED27 KARUJÄRVE point 1 longitude 221.75194444444443 out of range",
+      "INVALID_COORDINATE: Feature EED27 KARUJÄRVE point 2 longitude 221.86805555555557 out of range",
+      "INVALID_COORDINATE: Feature EED27 KARUJÄRVE point 3 longitude 221.3688888888889 out of range",
+      "INVALID_COORDINATE: Feature EED27 KARUJÄRVE point 4 longitude 221.3338888888889 out of range",
+      "EXTENT_SANITY: Feature EED27 KARUJÄRVE extent [221.3338888888889,58.39833333333333,221.86805555555557,58.41833333333333] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED31 KOGUVA point 0 longitude 231.18472222222223 out of range",
+      "INVALID_COORDINATE: Feature EED31 KOGUVA point 1 longitude 231.33333333333334 out of range",
+      "INVALID_COORDINATE: Feature EED31 KOGUVA point 2 longitude 230.91694444444443 out of range",
+      "INVALID_COORDINATE: Feature EED31 KOGUVA point 3 longitude 230.8513888888889 out of range",
+      "INVALID_COORDINATE: Feature EED31 KOGUVA point 4 longitude 231.18472222222223 out of range",
+      "EXTENT_SANITY: Feature EED31 KOGUVA extent [230.8513888888889,58.60861111111111,231.33333333333334,58.63861111111111] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED32 KIKEPERA point 0 longitude 244.88333333333333 out of range",
+      "INVALID_COORDINATE: Feature EED32 KIKEPERA point 1 longitude 245.00222222222223 out of range",
+      "INVALID_COORDINATE: Feature EED32 KIKEPERA point 2 longitude 245.50166666666667 out of range",
+      "INVALID_COORDINATE: Feature EED32 KIKEPERA point 3 longitude 244.8513888888889 out of range",
+      "INVALID_COORDINATE: Feature EED32 KIKEPERA point 4 longitude 244.88333333333333 out of range",
+      "EXTENT_SANITY: Feature EED32 KIKEPERA extent [244.8513888888889,58.29277777777778,245.50166666666667,58.32555555555556] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED33 LAURI point 0 longitude 250.16916666666665 out of range",
+      "INVALID_COORDINATE: Feature EED33 LAURI point 1 longitude 250.2336111111111 out of range",
+      "INVALID_COORDINATE: Feature EED33 LAURI point 2 longitude 246.5011111111111 out of range",
+      "INVALID_COORDINATE: Feature EED33 LAURI point 3 longitude 246.38333333333333 out of range",
+      "INVALID_COORDINATE: Feature EED33 LAURI point 4 longitude 250.16916666666665 out of range",
+      "EXTENT_SANITY: Feature EED33 LAURI extent [246.38333333333333,58.15555555555555,250.2336111111111,58.17666666666666] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED34 LILLI point 0 longitude 253.41916666666665 out of range",
+      "INVALID_COORDINATE: Feature EED34 LILLI point 1 longitude 253.6688888888889 out of range",
+      "INVALID_COORDINATE: Feature EED34 LILLI point 2 longitude 253.7188888888889 out of range",
+      "INVALID_COORDINATE: Feature EED34 LILLI point 3 longitude 253.535 out of range",
+      "INVALID_COORDINATE: Feature EED34 LILLI point 4 longitude 253.41916666666665 out of range",
+      "EXTENT_SANITY: Feature EED34 LILLI extent [253.41916666666665,57.973333333333336,253.7188888888889,57.99777777777778] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED35G point 0 longitude 252.41722222222222 out of range",
+      "INVALID_COORDINATE: Feature EED35G point 1 longitude 244.08555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED35G point 2 longitude 243.35083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED35G point 3 longitude 252.41722222222222 out of range",
+      "EXTENT_SANITY: Feature EED35G extent [243.35083333333333,58.72916666666667,252.41722222222222,58.96222222222222] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED36 EIVERE point 0 longitude 253.4 out of range",
+      "INVALID_COORDINATE: Feature EED36 EIVERE point 1 longitude 253.33555555555557 out of range",
+      "INVALID_COORDINATE: Feature EED36 EIVERE point 2 longitude 253.2011111111111 out of range",
+      "INVALID_COORDINATE: Feature EED36 EIVERE point 3 longitude 253.35083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED36 EIVERE point 4 longitude 253.4 out of range",
+      "EXTENT_SANITY: Feature EED36 EIVERE extent [253.2011111111111,58.95416666666667,253.4,58.990833333333335] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED37 HUMALA point 0 longitude 242.7511111111111 out of range",
+      "INVALID_COORDINATE: Feature EED37 HUMALA point 1 longitude 242.88472222222222 out of range",
+      "INVALID_COORDINATE: Feature EED37 HUMALA point 2 longitude 242.85166666666666 out of range",
+      "INVALID_COORDINATE: Feature EED37 HUMALA point 3 longitude 242.73416666666665 out of range",
+      "INVALID_COORDINATE: Feature EED37 HUMALA point 4 longitude 242.7511111111111 out of range",
+      "EXTENT_SANITY: Feature EED37 HUMALA extent [242.73416666666665,59.367222222222225,242.88472222222222,59.37361111111111] is outside plausible Estonian region",
+      "INVALID_GEOMETRY: Feature EED38 has less than 2 points",
+      "INVALID_GEOMETRY: Feature EED40 has less than 2 points",
+      "INVALID_COORDINATE: Feature EED41 point 0 longitude 246.18527777777777 out of range",
+      "INVALID_COORDINATE: Feature EED41 point 1 longitude 250.00083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED41 point 2 longitude 245.00083333333333 out of range",
+      "INVALID_COORDINATE: Feature EED41 point 3 longitude 245.21777777777777 out of range",
+      "INVALID_COORDINATE: Feature EED41 point 4 longitude 246.18527777777777 out of range",
+      "EXTENT_SANITY: Feature EED41 extent [245.00083333333333,59.18194444444444,250.00083333333333,59.263888888888886] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED42 point 0 longitude 274.25166666666667 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 1 longitude 274.7005555555555 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 2 longitude 275.0172222222222 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 3 longitude 275.18333333333334 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 4 longitude 275.50194444444446 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 5 longitude 275.5519444444445 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 6 longitude 275.53472222222223 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 7 longitude 275.0858333333333 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 8 longitude 275.01694444444445 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 9 longitude 274.25166666666667 out of range",
+      "INVALID_COORDINATE: Feature EED42 point 10 longitude 274.25166666666667 out of range",
+      "EXTENT_SANITY: Feature EED42 extent [274.25166666666667,59.20527777777778,275.5519444444445,59.239444444444445] is outside plausible Estonian region",
+      "INVALID_COORDINATE: Feature EED43 KAPASTO point 0 longitude 224.38472222222222 out of range",
+      "INVALID_COORDINATE: Feature EED43 KAPASTO point 1 longitude 224.71666666666667 out of range",
+      "INVALID_COORDINATE: Feature EED43 KAPASTO point 2 longitude 224.90194444444444 out of range",
+      "INVALID_COORDINATE: Feature EED43 KAPASTO point 3 longitude 224.55027777777778 out of range",
+      "INVALID_COORDINATE: Feature EED43 KAPASTO point 4 longitude 224.38472222222222 out of range",
+      "EXTENT_SANITY: Feature EED43 KAPASTO extent [224.38472222222222,58.91416666666667,224.90194444444444,58.95] is outside plausible Estonian region"
+    ],
+    "featureCount": 84
+  }
+}

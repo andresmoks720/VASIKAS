@@ -780,6 +780,29 @@ export function parseNotamGeometry(candidate: unknown): GeometryParseResult {
 
 export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseResult {
     try {
+        // If candidate is a string that looks like a coordinate chain, try to parse it
+        if (isString(candidate)) {
+            const coordChain = parseEaipCoordinateChain(candidate);
+            if (coordChain && coordChain.length >= 3) { // Need at least 3 points for a polygon
+                // Close the ring by adding the first point to the end if not already closed
+                const firstPoint = coordChain[0];
+                const lastPoint = coordChain[coordChain.length - 1];
+
+                // Check if ring is closed (first and last points are the same)
+                const tolerance = 0.000001;
+                const isClosed = Math.abs(firstPoint[0] - lastPoint[0]) < tolerance &&
+                                Math.abs(firstPoint[1] - lastPoint[1]) < tolerance;
+
+                const ring = isClosed ? coordChain : [...coordChain, firstPoint];
+
+                return {
+                    geometry: {
+                        kind: "polygon",
+                        rings: [ring]
+                    }
+                };
+            }
+        }
         if (!candidate) {
             return { geometry: null, reason: "NO_CANDIDATE" };
         }
@@ -927,6 +950,116 @@ function applyDatelineSplit(geometry: NotamGeometry): NotamGeometry {
     }
     return geometry;
 }
+
+/**
+ * Parse coordinate chain from eAIP format like "591633N 0261500E - 591639N 0255647E - 591614N 0254748E"
+ * Returns an array of [lon, lat] coordinates or null if parsing fails
+ */
+export function parseEaipCoordinateChain(text: string): [number, number][] | null {
+  // Split by " - " to get individual coordinate pairs
+  const coordPairs = text.split(' - ');
+
+  const coordinates: [number, number][] = [];
+
+  for (const pair of coordPairs) {
+    const trimmed = pair.trim();
+
+    // Match pattern like "591633N 0261500E" (DDMMSSN DDDMMSSEx)
+    const match = trimmed.match(/(\d{6})([NS])\s+(\d{6,7})([EW])/);
+    if (!match) {
+      // Try to match just a single coordinate (without space between lat and lon)
+      const singleMatch = trimmed.match(/(\d{6})([NS])(\d{6,7})([EW])/);
+      if (!singleMatch) {
+        return null; // Invalid format
+      }
+
+      // Parse the single coordinate format (e.g., "591633N0261500E")
+      const [, latDMS, latDir, lonDMS, lonDir] = singleMatch;
+
+      // Parse latitude: DD MM SS
+      const latDeg = parseInt(latDMS.substring(0, 2), 10);
+      const latMin = parseInt(latDMS.substring(2, 4), 10);
+      const latSec = parseInt(latDMS.substring(4, 6), 10);
+      let lat = latDeg + latMin / 60 + latSec / 3600;
+      if (latDir === 'S') {
+        lat = -lat;
+      }
+
+      // Parse longitude: DDD MM SS (or DDDD MM SS)
+      let lonDeg: number;
+      let lonMin: number;
+      let lonSec: number;
+
+      if (lonDMS.length === 6) {
+        // Format: DDD MM SS (3 digits for degrees)
+        lonDeg = parseInt(lonDMS.substring(0, 3), 10);
+        lonMin = parseInt(lonDMS.substring(3, 5), 10);
+        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+      } else if (lonDMS.length === 7) {
+        // For Estonian coordinates, format is still DDD MM SS with leading zero (0DDD MM SS)
+        // So 7 digits means 3 digits for degrees with leading zero, 2 for minutes, 2 for seconds
+        lonDeg = parseInt(lonDMS.substring(0, 3), 10);
+        lonMin = parseInt(lonDMS.substring(3, 5), 10);
+        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+      } else {
+        return null; // Invalid longitude format
+      }
+
+      let lon = lonDeg + lonMin / 60 + lonSec / 3600;
+      if (lonDir === 'W') {
+        lon = -lon;
+      }
+
+      coordinates.push([lon, lat]);
+    } else {
+      // Parse the coordinate pair format (e.g., "591633N 0261500E")
+      const [, latDMS, latDir, lonDMS, lonDir] = match;
+
+      // Parse latitude: DD MM SS
+      const latDeg = parseInt(latDMS.substring(0, 2), 10);
+      const latMin = parseInt(latDMS.substring(2, 4), 10);
+      const latSec = parseInt(latDMS.substring(4, 6), 10);
+      let lat = latDeg + latMin / 60 + latSec / 3600;
+      if (latDir === 'S') {
+        lat = -lat;
+      }
+
+      // Parse longitude: DDD MM SS (or DDDD MM SS)
+      let lonDeg: number;
+      let lonMin: number;
+      let lonSec: number;
+
+      if (lonDMS.length === 6) {
+        // Format: DDD MM SS (3 digits for degrees)
+        lonDeg = parseInt(lonDMS.substring(0, 3), 10);
+        lonMin = parseInt(lonDMS.substring(3, 5), 10);
+        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+      } else if (lonDMS.length === 7) {
+        // For Estonian coordinates, format is still DDD MM SS with leading zero (0DDD MM SS)
+        // So 7 digits means 3 digits for degrees with leading zero, 2 for minutes, 2 for seconds
+        lonDeg = parseInt(lonDMS.substring(0, 3), 10);
+        lonMin = parseInt(lonDMS.substring(3, 5), 10);
+        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+      } else {
+        return null; // Invalid longitude format
+      }
+
+      let lon = lonDeg + lonMin / 60 + lonSec / 3600;
+      if (lonDir === 'W') {
+        lon = -lon;
+      }
+
+      coordinates.push([lon, lat]);
+    }
+  }
+
+  return coordinates;
+}
+
+/**
+ * Parse coordinate chain from eAIP format like "591633N 0261500E - 591639N 0255647E - 591614N 0254748E"
+ * Returns an array of [lon, lat] coordinates or null if parsing fails
+ */
 
 function getGeometryFieldSnapshot(raw: Record<string, unknown>): Record<string, boolean> {
     const fields = ["geometryHint", "geometry", "geojson", "geoJson", "shape", "area", "polygon", "circle"] as const;
