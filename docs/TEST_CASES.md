@@ -38,8 +38,8 @@
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
 | UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence | Yes | `src/services/notam/notamMode.test.tsx` | Local storage hydration and updates. |
-| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting | Yes | `src/services/notam/notamInterpreter.test.ts` | Counts mock/live payload items for discrepancy checks. |
-| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `src/services/notam/notamInterpreter.test.ts` | Covers km/nm string and numeric radius inputs. |
+| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting | Yes | `src/services/notam/notamNormalizer.test.ts` | Counts mock/live payload items for discrepancy checks. |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `src/services/notam/altitude/altitudeParser.test.ts` | Covers km/nm string and numeric radius inputs. |
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
@@ -71,8 +71,8 @@
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
 | UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence. (Implemented) | Unit | `src/services/notam/notamMode.test.tsx` |
-| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting. (Implemented) | Unit | `src/services/notam/notamInterpreter.test.ts` |
-| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization. (Implemented) | Unit | `src/services/notam/notamInterpreter.test.ts` |
+| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting. (Implemented) | Unit | `src/services/notam/notamNormalizer.test.ts` |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization. (Implemented) | Unit | `src/services/notam/altitude/altitudeParser.test.ts` |
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler (no external mock server). (Implemented) | Unit | `src/services/drones/droneSnapshotClient.msw.test.ts` |

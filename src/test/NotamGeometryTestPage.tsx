@@ -5,7 +5,7 @@ import View from "ol/View";
 
 import { createNotamsLayerController } from "@/map/layers/controllers/createNotamsLayerController";
 import { to3857 } from "@/map/transforms";
-import { normalizeNotams } from "@/services/notam/notamInterpreter";
+import { normalizeNotams } from "@/services/notam/notamNormalizer";
 import edgeCaseNotams from "@/test/fixtures/notamGeometryEdgeCases.json";
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [25.1122, 58.5648];

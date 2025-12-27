@@ -30,7 +30,7 @@ vi.mock("@/shared/env", async () => {
   };
 });
 
-vi.mock("./notamInterpreter", () => ({
+vi.mock("./notamNormalizer", () => ({
   normalizeNotams: (...args: unknown[]) => normalizeNotamsMock(...args),
   countNotamItems: (...args: unknown[]) => countNotamItemsMock(...args),
 }));

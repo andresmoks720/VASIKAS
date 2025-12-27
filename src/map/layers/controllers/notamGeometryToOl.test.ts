@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { parseGeometryHint, parseNotamGeometryWithReason } from "@/services/notam/notamInterpreter";
+import { parseGeometryHint, parseNotamGeometryWithReason } from "@/services/notam/geometry/geometryParsers";
 import type { NotamGeometry } from "@/services/notam/notamTypes";
 import { notamGeometryToOl } from "./createNotamsLayerController";
 

@@ -38,6 +38,11 @@
   - Offline XYZ demo tiles now fall back to placeholders only on load error.
   - Offline basemap now falls back to WMTS/OSM when demo tiles fail to load.
   - NOTAM live/mock runtime toggle with localStorage persistence and live fetch fallback to mock.
+  - **Refactored NOTAM interpreter into focused modules**: Created `src/services/notam/geometry/coordParsers.ts`, `src/services/notam/geometry/geometryParsers.ts`, `src/services/notam/altitude/altitudeParser.ts`, and `src/services/notam/notamNormalizer.ts` for better maintainability and testability.
+  - **Unified geometry parsing**: Shared coordinate parsing logic between offline tools and runtime to prevent drift.
+  - **HTML → airspace → NOTAM enhancement path**: Implemented real functionality to process HTML eAIP data and enhance NOTAM geometry with accurate airspace polygons.
+  - **Enhanced map rendering**: Map rendering now uses enhanced geometry when available, falling back to original geometry.
+  - **Data model alignment**: Data models between tooling and runtime are now aligned with consistent coordinate parsing logic.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - In progress:
   - (None)

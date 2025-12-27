@@ -17,7 +17,7 @@ import {
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
 import { useNotamMode } from "@/services/notam/notamMode";
-import { useSharedNotamStream } from "@/services/streams/StreamsProvider";
+import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { StatusPill } from "@/ui/StatusPill";
@@ -32,7 +32,7 @@ function formatAge(ageSeconds: number | null) {
 
 export function NotamsPanel() {
   const { data, status, ageSeconds, lastOkUtc, error, rawCount, displayedCount, dataSource, liveError } =
-    useSharedNotamStream();
+    useEnhancedNotamStream();
   const { selectEntity } = useSidebarUrlState();
   const { useLiveNotams, toggleUseLiveNotams } = useNotamMode();
   const [toggleNotice, setToggleNotice] = useState<"live" | "mock" | null>(null);
@@ -157,6 +157,18 @@ export function NotamsPanel() {
                                   label={notam.geometryParseReason}
                                   size="small"
                                   color="error"
+                                  variant="outlined"
+                                  sx={{ height: '20px' }}
+                                />
+                              ) : 'geometrySource' in notam ? (
+                                // Enhanced NOTAM with geometry source
+                                <Chip
+                                  label={notam.geometrySource.toUpperCase()}
+                                  size="small"
+                                  color={
+                                    notam.geometrySource === 'eAIP' ? 'success' :
+                                    notam.geometrySource === 'parsed' ? 'info' : 'warning'
+                                  }
                                   variant="outlined"
                                   sx={{ height: '20px' }}
                                 />

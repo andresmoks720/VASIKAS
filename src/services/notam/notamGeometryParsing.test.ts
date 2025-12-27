@@ -5,9 +5,11 @@ import { describe, expect, it } from "vitest";
 import {
   normalizeNotamItem,
   normalizeNotams,
+} from "./notamNormalizer";
+import {
   parseGeometryHint,
   parseNotamGeometryWithReason,
-} from "./notamInterpreter";
+} from "./geometry/geometryParsers";
 
 const FIXTURE_DIR = resolve(process.cwd(), "test/fixtures/notams");
 const SAMPLE_FIXTURE_PATH = resolve(process.cwd(), "test/fixtures/geometry-edgecases.sample.json");

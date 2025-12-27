@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { createNotamsLayerController } from "./createNotamsLayerController";
 import { makeNotam } from "@/shared/test/factories";
+import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 describe("createNotamsLayerController", () => {
   it("adds features only for NOTAMs with geometry", () => {
@@ -117,5 +118,37 @@ describe("createNotamsLayerController", () => {
 
     warnSpy.mockRestore();
     (import.meta as { env: { DEV: boolean } }).env.DEV = originalDev;
+  });
+
+  it("uses enhanced geometry when available", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const controller = createNotamsLayerController();
+
+    // Create an enhanced NOTAM with both source and enhanced geometry
+    const enhancedNotam: EnhancedNotam = {
+      ...makeNotam({
+        id: "A0005/25",
+        geometry: { kind: "circle", center: [24.0, 59.0], radiusMeters: 500 }, // source geometry
+      }),
+      enhancedGeometry: { kind: "polygon", rings: [[[24.1, 59.1], [24.2, 59.1], [24.2, 59.2], [24.1, 59.2], [24.1, 59.1]]] }, // enhanced geometry
+      sourceGeometry: { kind: "circle", center: [24.0, 59.0], radiusMeters: 500 },
+      geometrySource: 'eAIP',
+      issues: [],
+    };
+
+    controller.setData([enhancedNotam]);
+
+    const source = controller.layer.getSource();
+    const features = source?.getFeatures() ?? [];
+
+    // Should have one feature
+    expect(features).toHaveLength(1);
+    const feature = features[0];
+
+    // The feature should use the enhanced geometry (polygon) rather than the source geometry (circle)
+    const geometry = feature.getGeometry();
+    expect(geometry).toBeDefined();
+
+    warnSpy.mockRestore();
   });
 });

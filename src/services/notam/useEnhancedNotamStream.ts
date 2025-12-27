@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNotamStream } from "./notamStream";
-import { AirspaceIntegrationService, EnhancedNotam } from "../airspace/AirspaceIntegrationService";
+import { EnhancedNotam } from "../airspace/airspaceTypes";
+import { AirspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
 import { NormalizedNotam } from "./notamTypes";
 
 /**

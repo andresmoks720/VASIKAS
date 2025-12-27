@@ -5,7 +5,7 @@ import { ENV, resolveDataUrl } from "@/shared/env";
 import { getJson } from "@/services/http/apiClient";
 
 import { NormalizedNotam } from "./notamTypes";
-import { countNotamItems, normalizeNotams } from "./notamInterpreter";
+import { countNotamItems, normalizeNotams } from "./notamNormalizer";
 import { useNotamMode } from "./notamMode";
 
 type ApiRequestOptions = Parameters<typeof getJson>[1];

@@ -3,6 +3,7 @@ import { Circle as CircleGeom, MultiPolygon, Polygon } from "ol/geom";
 import { fromCircle } from "ol/geom/Polygon";
 
 import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
+import { EnhancedNotam } from "@/services/notam/HtmlAirspaceNotamEnhancementService";
 import { to3857 } from "@/map/transforms";
 import { createNotamLayer } from "@/map/layers/notams";
 
@@ -57,10 +58,10 @@ export function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolyg
   return null;
 }
 
-export function createNotamsLayerController(): LayerController<NormalizedNotam[]> {
+export function createNotamsLayerController(): LayerController<NormalizedNotam[] | EnhancedNotam[]> {
   const layer = createNotamLayer();
 
-  const setData = (notams: NormalizedNotam[]) => {
+  const setData = (notams: NormalizedNotam[] | EnhancedNotam[]) => {
     const source = layer.getSource();
     if (!source) return;
 
@@ -68,12 +69,14 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
     let missingGeometryCount = 0;
     const batchStats = { total: notams.length, rendered: 0, skipped: 0, byReason: {} as Record<string, number> };
     notams.forEach((notam) => {
-      const geom = notamGeometryToOl(notam.geometry);
+      // Use enhanced geometry if available, otherwise use original geometry
+      const geometryToUse = ('enhancedGeometry' in notam) ? notam.enhancedGeometry : notam.geometry;
+      const geom = notamGeometryToOl(geometryToUse);
       if (!geom) {
         missingGeometryCount += 1;
         batchStats.skipped += 1;
-        const reason = notam.geometryParseReason ?? "UNKNOWN";
-        batchStats.byReason[reason] = (batchStats.byReason[reason] ?? 0) + 1;
+        const reason = ('geometryParseReason' in notam) ? notam.geometryParseReason : "UNKNOWN";
+        batchStats.byReason[reason ?? "UNKNOWN"] = (batchStats.byReason[reason ?? "UNKNOWN"] ?? 0) + 1;
         return;
       }
       batchStats.rendered += 1;
@@ -83,6 +86,9 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
         validFromUtc: notam.validFromUtc,
         validToUtc: notam.validToUtc,
         entityKind: "notam",
+        // Add additional properties for enhanced notams
+        geometrySource: ('geometrySource' in notam) ? notam.geometrySource : 'original',
+        enhanced: ('enhancedGeometry' in notam) ? true : false,
       });
       feature.setGeometry(geom);
       feature.setId(notam.id);

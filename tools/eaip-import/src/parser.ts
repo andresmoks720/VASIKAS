@@ -265,7 +265,7 @@ export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<P
     }
 
     // Convert to [lon, lat] format for GeoJSON (OpenLayers expects lon-first for EPSG:4326)
-    const geoJsonCoordinates = coordinates.map(coord => [coord.lon, coord.lat]);
+    const geoJsonCoordinates = coordinates.map(coord => [coord.lon, coord.lat]) as [number, number][][];
 
     // Extract upper and lower limits from the second column
     const upperLimitCell = $row.find('td').eq(1);

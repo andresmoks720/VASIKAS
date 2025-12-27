@@ -3,13 +3,20 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+    parseNotamGeometry,
+    parseEaipCoordinateChain,
+} from "./notamInterpreter";
+import {
+    parseAltitudesFromText,
+} from "./altitude/altitudeParser";
+import {
+    parseGeometryHint,
+    parseNotamGeometryWithReason,
+} from "./geometry/geometryParsers";
+import {
     countNotamItems,
     normalizeNotams,
-    parseAltitudesFromText,
-    parseGeometryHint,
-    parseNotamGeometry,
-    parseNotamGeometryWithReason,
-} from "./notamInterpreter";
+} from "./notamNormalizer";
 
 const NOW_UTC = "2025-12-18T12:00:00Z";
 const FIXTURE_PATH = resolve(process.cwd(), "test/fixtures/area24.sample.json");

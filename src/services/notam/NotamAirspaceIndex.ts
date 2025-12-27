@@ -1,30 +1,5 @@
 import { NormalizedNotam, NotamGeometry } from "./notamTypes";
-
-// Define the AirspaceFeature type since it's not imported from the right place
-interface AirspaceCoordinate {
-  lat: number;
-  lon: number;
-}
-
-interface AirspaceGeometry {
-  type: string;
-  coordinates: number[][][]; // [lon, lat] pairs for polygon rings
-}
-
-interface AirspaceProperties {
-  designator: string;
-  name?: string;
-  upperLimit: string;
-  lowerLimit: string;
-  remarks?: string;
-  sourceUrl: string;
-}
-
-export interface AirspaceFeature {
-  type: string;
-  geometry: AirspaceGeometry;
-  properties: AirspaceProperties;
-}
+import { AirspaceFeature, EnhancedNotam } from "../airspace/airspaceTypes";
 
 /**
  * Combines eAIP airspace data with NOTAM data to provide enhanced visualization
@@ -102,7 +77,7 @@ export class NotamAirspaceIndex {
   /**
    * Convert AirspaceGeometry to NotamGeometry format
    */
-  private convertAirspaceToNotamGeometry(airspaceGeometry: AirspaceGeometry): NotamGeometry | null {
+  private convertAirspaceToNotamGeometry(airspaceGeometry: import("../airspace/airspaceTypes").AirspaceGeometry): NotamGeometry | null {
     if (airspaceGeometry.type === 'Polygon') {
       return {
         kind: 'polygon',
@@ -153,18 +128,4 @@ export class NotamAirspaceIndex {
     const normalized = this.normalizeDesignator(designator);
     return this.airspaceMap.has(normalized);
   }
-}
-
-/**
- * Enhanced NOTAM with additional geometry information
- */
-export interface EnhancedNotam extends NormalizedNotam {
-  /** Enhanced geometry from eAIP data when available */
-  enhancedGeometry: NotamGeometry | null;
-  /** Original geometry from NOTAM parsing */
-  sourceGeometry: NotamGeometry | null;
-  /** Source of the primary geometry ('eAIP', 'parsed', or 'none') */
-  geometrySource: 'eAIP' | 'parsed' | 'none';
-  /** Issues with geometry parsing or enhancement */
-  issues: string[];
 }

@@ -3,9 +3,10 @@ import { Box, Chip, Collapse, IconButton, Stack, Table, TableBody, TableCell, Ta
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { NormalizedNotam } from '@/services/notam/notamTypes';
+import { EnhancedNotam } from '@/services/airspace/airspaceTypes';
 
 interface UnvisualizableNotamsProps {
-  notams: NormalizedNotam[];
+  notams: (NormalizedNotam | EnhancedNotam)[];
 }
 
 export const UnvisualizableNotams: React.FC<UnvisualizableNotamsProps> = ({ notams }) => {
@@ -58,6 +59,17 @@ export const UnvisualizableNotams: React.FC<UnvisualizableNotamsProps> = ({ nota
                           label={notam.geometryParseReason}
                           size="small"
                           color="error"
+                          variant="outlined"
+                        />
+                      ) : 'geometrySource' in notam ? (
+                        // Enhanced NOTAM with geometry source
+                        <Chip
+                          label={notam.geometrySource.toUpperCase()}
+                          size="small"
+                          color={
+                            notam.geometrySource === 'eAIP' ? 'success' :
+                            notam.geometrySource === 'parsed' ? 'info' : 'warning'
+                          }
                           variant="outlined"
                         />
                       ) : (
