@@ -11,6 +11,11 @@ export interface AirspaceGeometry {
   coordinates: number[][][]; // [lon, lat] pairs for polygon rings
 }
 
+export interface ParserInfo {
+  version: string;
+  source: 'html' | 'geojson';
+}
+
 export interface AirspaceProperties {
   designator: string;
   name?: string;
@@ -18,6 +23,7 @@ export interface AirspaceProperties {
   lowerLimit: string;
   remarks?: string;
   sourceUrl: string;
+  parserInfo?: ParserInfo;
 }
 
 export interface AirspaceFeature {

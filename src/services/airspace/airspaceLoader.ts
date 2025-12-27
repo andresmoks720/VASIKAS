@@ -1,5 +1,8 @@
 import type { AirspaceFeature } from "./airspaceTypes";
 
+// Version constant for the GeoJSON loader
+export const GEOJSON_LOADER_VERSION = "1.0.0";
+
 /**
  * Service to load airspace data from public or data-served GeoJSON
  */
@@ -34,7 +37,10 @@ export class AirspaceLoader {
 
       return {
         features,
-        metadata: geojsonData.metadata || undefined
+        metadata: {
+          ...geojsonData.metadata,
+          loaderVersion: GEOJSON_LOADER_VERSION
+        }
       };
     } catch (error) {
       console.error(`Failed to load airspace data from ${url}:`, error);
@@ -48,7 +54,17 @@ export class AirspaceLoader {
    */
   async loadAirspaceByDate(effectiveDate: string): Promise<{ features: AirspaceFeature[], metadata?: any }> {
     const url = `/data/airspace/ee/${effectiveDate}/enr5_1.geojson`;
-    return this.loadAirspaceData(url);
+    const result = await this.loadAirspaceData(url);
+
+    // Add loader version to metadata
+    return {
+      features: result.features,
+      metadata: {
+        ...result.metadata,
+        loaderVersion: GEOJSON_LOADER_VERSION,
+        effectiveDate
+      }
+    };
   }
 
   /**

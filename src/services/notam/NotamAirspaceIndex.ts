@@ -57,7 +57,12 @@ export class NotamAirspaceIndex {
             ...notam,
             enhancedGeometry: this.convertAirspaceToNotamGeometry(airspace.geometry),
             sourceGeometry: notam.geometry, // Keep original geometry as fallback
-            geometrySource: 'eAIP',
+            geometrySource: 'html', // Using HTML-derived airspace data
+            geometrySourceDetails: {
+              sourceUrl: airspace.properties.sourceUrl,
+              effectiveDate: airspace.properties.effectiveDate, // if available
+              issues: []
+            },
             issues: []
           };
         }
@@ -68,7 +73,10 @@ export class NotamAirspaceIndex {
         ...notam,
         enhancedGeometry: null,
         sourceGeometry: notam.geometry,
-        geometrySource: notam.geometry ? 'parsed' : 'none',
+        geometrySource: notam.geometry ? 'notamText' : 'none', // Using geometry from NOTAM text parsing
+        geometrySourceDetails: notam.geometry ? {
+          issues: ['NO_AIRSPACE_MATCH'] // Indicate that no airspace match was found
+        } : undefined,
         issues: notam.geometry ? [] : ['NO_GEOMETRY']
       };
     });

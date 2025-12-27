@@ -237,6 +237,9 @@ export const ENV = {
     mockUrl: () => envValues.notam.mockUrl,
     liveUrl: () => envValues.notam.liveUrl,
   },
+  airspace: {
+    eaipEnr51Url: () => optionalString("VITE_EAIP_ENR51_URL", import.meta.env.VITE_EAIP_ENR51_URL) || "",
+  },
   adsbUrl: () => envValues.adsbUrl,
   droneUrl: () => envValues.droneUrl,
   drones: {

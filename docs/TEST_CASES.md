@@ -43,6 +43,7 @@
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
+| UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
 
 ## Test Plan (current ticket)
 

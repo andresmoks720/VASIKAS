@@ -12,6 +12,7 @@ import {
   ListItemText,
   Snackbar,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 
@@ -162,16 +163,42 @@ export function NotamsPanel() {
                                 />
                               ) : 'geometrySource' in notam ? (
                                 // Enhanced NOTAM with geometry source
-                                <Chip
-                                  label={notam.geometrySource.toUpperCase()}
-                                  size="small"
-                                  color={
-                                    notam.geometrySource === 'eAIP' ? 'success' :
-                                    notam.geometrySource === 'parsed' ? 'info' : 'warning'
+                                <Tooltip
+                                  title={
+                                    <Box>
+                                      <Typography variant="caption">Geometry Source: {notam.geometrySource.toUpperCase()}</Typography>
+                                      {notam.geometrySourceDetails?.sourceUrl && (
+                                        <Typography variant="caption" display="block">
+                                          Source: {notam.geometrySourceDetails.sourceUrl}
+                                        </Typography>
+                                      )}
+                                      {notam.geometrySourceDetails?.effectiveDate && (
+                                        <Typography variant="caption" display="block">
+                                          Effective: {notam.geometrySourceDetails.effectiveDate}
+                                        </Typography>
+                                      )}
+                                      {notam.geometrySourceDetails?.issues && notam.geometrySourceDetails.issues.length > 0 && (
+                                        <Typography variant="caption" display="block">
+                                          Issues: {notam.geometrySourceDetails.issues.join(', ')}
+                                        </Typography>
+                                      )}
+                                    </Box>
                                   }
-                                  variant="outlined"
-                                  sx={{ height: '20px' }}
-                                />
+                                >
+                                  <span> {/* Wrapper span for Tooltip to work with Chip */}
+                                    <Chip
+                                      label={notam.geometrySource.toUpperCase()}
+                                      size="small"
+                                      color={
+                                        notam.geometrySource === 'html' ? 'success' :
+                                        notam.geometrySource === 'geojson' ? 'info' :
+                                        notam.geometrySource === 'notamText' ? 'secondary' : 'warning'
+                                      }
+                                      variant="outlined"
+                                      sx={{ height: '20px' }}
+                                    />
+                                  </span>
+                                </Tooltip>
                               ) : notam.geometry ? (
                                 <Chip
                                   label="VISUALIZED"

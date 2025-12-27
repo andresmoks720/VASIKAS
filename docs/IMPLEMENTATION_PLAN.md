@@ -44,6 +44,7 @@
   - **Enhanced map rendering**: Map rendering now uses enhanced geometry when available, falling back to original geometry.
   - **Data model alignment**: Data models between tooling and runtime are now aligned with consistent coordinate parsing logic.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
+- Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:
   - (None)
 - Done:

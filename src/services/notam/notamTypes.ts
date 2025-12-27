@@ -30,6 +30,13 @@ export type GeometryParseResult =
 /**
  * Normalized NOTAM for UI and map layers, independent of upstream schema.
  */
+export interface GeometrySourceDetails {
+  sourceUrl?: string;
+  parserVersion?: string;
+  effectiveDate?: string;
+  issues?: string[];
+}
+
 export type NormalizedNotam = {
     /** NOTAM identifier (e.g., "A1234/25") */
     id: string;
@@ -49,6 +56,10 @@ export type NormalizedNotam = {
     geometryParseReason?: GeometryParseReason;
     /** Optional parse failure details for debugging */
     geometryParseDetails?: Record<string, unknown>;
+    /** Source of the geometry: HTML, GeoJSON, NOTAM text, or none */
+    geometrySource: "html" | "geojson" | "notamText" | "none";
+    /** Additional details about the geometry source */
+    geometrySourceDetails?: GeometrySourceDetails;
     /** When the NOTAM was generated/published (ISO 8601 UTC) */
     eventTimeUtc: string;
     /** Original upstream payload preserved for debugging */
