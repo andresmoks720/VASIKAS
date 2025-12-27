@@ -11,7 +11,7 @@ interface AirspaceFeature {
   type: string;
   geometry: {
     type: string;
-    coordinates: number[][]; // [lon, lat] pairs
+    coordinates: number[][][]; // [rings][ring][coordinates] where each coordinate is [lon, lat]
   };
   properties: {
     designator: string;

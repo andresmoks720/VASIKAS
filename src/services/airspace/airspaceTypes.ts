@@ -40,8 +40,6 @@ export interface EnhancedNotam extends NormalizedNotam {
   enhancedGeometry: NotamGeometry | null;
   /** Original geometry from NOTAM parsing */
   sourceGeometry: NotamGeometry | null;
-  /** Source of the primary geometry ('eAIP', 'parsed', or 'none') */
-  geometrySource: 'eAIP' | 'parsed' | 'none';
   /** Issues with geometry parsing or enhancement */
   issues: string[];
 }

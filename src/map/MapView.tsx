@@ -22,9 +22,9 @@ import { ENV } from "@/shared/env";
 import {
   useSharedAdsbStream,
   useSharedDronesStream,
-  useSharedNotamStream,
   useSharedSensorsStream,
 } from "@/services/streams/StreamsProvider";
+import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
 import { mapApi } from "./mapApi";
 import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
 import { createDronesLayerController } from "@/map/layers/controllers/createDronesLayerController";
@@ -82,9 +82,9 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
-  const { data: notams } = useSharedNotamStream();
+  const { data: notams } = useEnhancedNotamStream();
   const mocksEnabled = ENV.useMocks();
-  const notamsWithGeometry = useMemo(() => (notams ?? []).filter((notam) => notam.geometry), [notams]);
+  const notamsWithGeometry = useMemo(() => (notams ?? []).filter((notam) => notam.geometry || notam.enhancedGeometry), [notams]);
 
   const onSelectEntityRef = useRef(onSelectEntity);
   onSelectEntityRef.current = onSelectEntity;

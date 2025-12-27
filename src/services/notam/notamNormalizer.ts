@@ -145,6 +145,12 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
                 ...geometryResult.details,
                 presentFields,
             },
+        geometrySource: geometry ? 'notamText' : 'none',
+        geometrySourceDetails: geometry ? {
+            source: 'notamText',
+            parserVersion: '1.0.0',
+            issues: geometryResult.reason ? [geometryResult.reason] : []
+        } : undefined,
         eventTimeUtc,
         raw: item,
     };

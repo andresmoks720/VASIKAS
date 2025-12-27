@@ -27,9 +27,14 @@ export function useEnhancedNotamStream() {
       try {
         setIsLoading(true);
 
+        let effectiveDate: string | null = null;
+
         // Try to load airspace data from HTML first (primary method)
         try {
           await airspaceService.loadAirspaceFromHtml();
+          // If HTML loading succeeded, we need to determine the effective date
+          // For now, use current date - in a real implementation this would come from the HTML
+          effectiveDate = new Date().toISOString().split('T')[0];
         } catch (htmlError) {
           console.warn("Failed to load airspace data from HTML, falling back to GeoJSON:", htmlError);
 
@@ -38,7 +43,7 @@ export function useEnhancedNotamStream() {
             // Get the effective date from the environment or derive it from the current date
             // For now, we'll use a placeholder date - in a real implementation,
             // this would come from the eAIP history page
-            const effectiveDate = "2025-10-30"; // Placeholder - should be dynamic
+            effectiveDate = "2025-10-30"; // Placeholder - should be dynamic
 
             // Load airspace data if not already loaded for this date
             if (!airspaceService.isLoadedForDate(effectiveDate)) {
@@ -86,10 +91,8 @@ export function useEnhancedNotamStream() {
           // For fallback to original NOTAM text parsing
           return {
             ...notam,
-            geometrySource: notam.geometry ? 'notamText' : 'none',
-            geometrySourceDetails: notam.geometry ? {
-              issues: ['PARSED_FROM_NOTAM_TEXT']
-            } : undefined
+            geometrySource: notam.geometrySource, // Use the original geometry source
+            geometrySourceDetails: notam.geometrySourceDetails // Use the original source details
           };
         });
         setEnhancedData(enhancedWithMetadata);

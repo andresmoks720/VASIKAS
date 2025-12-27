@@ -216,7 +216,7 @@ export function parseCoordinateChain(coordText: string): [number, number][] | nu
       let lonSec: number;
 
       if (lonDMS.length === 6) {
-        // Format: DDD MM SS (3 digits for degrees)
+        // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
         lonSec = parseInt(lonDMS.substring(5, 7), 10);
@@ -255,7 +255,7 @@ export function parseCoordinateChain(coordText: string): [number, number][] | nu
       let lonSec: number;
 
       if (lonDMS.length === 6) {
-        // Format: DDD MM SS (3 digits for degrees)
+        // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
         lonSec = parseInt(lonDMS.substring(5, 7), 10);
