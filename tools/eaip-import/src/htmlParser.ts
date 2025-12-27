@@ -207,13 +207,15 @@ export function parseCoordinateChain(coordText: string): [number, number][] | nu
       let lonSec: number;
 
       if (lonDMS.length === 6) {
-        // Format: DDD MM SS (3 digits for degrees)
+        // Format: DDD MM S (3 digits for degrees, 2 for minutes, 1 for seconds)
+        // This is an incomplete format - seconds only has 1 digit
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
-        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+        // For 6-digit format, we only have 1 digit for seconds, so pad with 0
+        const secDigit = lonDMS.substring(5, 6); // Get the single seconds digit
+        lonSec = parseInt(secDigit + '0', 10); // Pad with 0 to make it XX
       } else if (lonDMS.length === 7) {
-        // For Estonian coordinates, format is still DDD MM SS with leading zero (0DDD MM SS)
-        // So 7 digits means 3 digits for degrees with leading zero, 2 for minutes, 2 for seconds
+        // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
         lonSec = parseInt(lonDMS.substring(5, 7), 10);
@@ -246,13 +248,15 @@ export function parseCoordinateChain(coordText: string): [number, number][] | nu
       let lonSec: number;
 
       if (lonDMS.length === 6) {
-        // Format: DDD MM SS (3 digits for degrees)
+        // Format: DDD MM S (3 digits for degrees, 2 for minutes, 1 for seconds)
+        // This is an incomplete format - seconds only has 1 digit
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
-        lonSec = parseInt(lonDMS.substring(5, 7), 10);
+        // For 6-digit format, we only have 1 digit for seconds, so pad with 0
+        const secDigit = lonDMS.substring(5, 6); // Get the single seconds digit
+        lonSec = parseInt(secDigit + '0', 10); // Pad with 0 to make it XX
       } else if (lonDMS.length === 7) {
-        // For Estonian coordinates, format is still DDD MM SS with leading zero (0DDD MM SS)
-        // So 7 digits means 3 digits for degrees with leading zero, 2 for minutes, 2 for seconds
+        // Format: DDD MM SS (3 digits for degrees, 2 for minutes, 2 for seconds)
         lonDeg = parseInt(lonDMS.substring(0, 3), 10);
         lonMin = parseInt(lonDMS.substring(3, 5), 10);
         lonSec = parseInt(lonDMS.substring(5, 7), 10);
