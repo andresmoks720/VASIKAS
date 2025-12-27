@@ -104,7 +104,7 @@ export function useEnhancedNotamStream() {
           ...notam,
           enhancedGeometry: notam.geometry,
           sourceGeometry: notam.geometry,
-          geometrySource: notam.geometry ? 'parsed' : 'none',
+          geometrySource: notam.geometrySource,
           issues: notam.geometry ? [] : ['NO_GEOMETRY']
         })));
       } finally {

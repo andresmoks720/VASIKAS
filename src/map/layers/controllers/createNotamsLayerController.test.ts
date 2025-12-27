@@ -5,7 +5,7 @@ import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 describe("createNotamsLayerController", () => {
   it("adds features only for NOTAMs with geometry", () => {
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
     const controller = createNotamsLayerController();
     const notamWithGeometry = makeNotam({
       id: "A0001/25",
@@ -30,7 +30,7 @@ describe("createNotamsLayerController", () => {
   it("logs aggregated missing geometry only in dev mode", () => {
     const originalDev = import.meta.env.DEV;
     (import.meta as { env: { DEV: boolean } }).env.DEV = true;
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
 
     const controller = createNotamsLayerController();
     const notamWithoutGeometry = makeNotam({
@@ -63,7 +63,7 @@ describe("createNotamsLayerController", () => {
     const originalNodeEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = "production";
     (import.meta as { env: { DEV: boolean } }).env.DEV = false;
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
 
     const controller = createNotamsLayerController();
     const notamWithoutGeometry = makeNotam({
@@ -84,7 +84,7 @@ describe("createNotamsLayerController", () => {
   it("emits an aggregated warning when missing geometry exceeds threshold", () => {
     const originalDev = import.meta.env.DEV;
     (import.meta as { env: { DEV: boolean } }).env.DEV = true;
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
 
     const controller = createNotamsLayerController();
     const notams = [
@@ -121,7 +121,7 @@ describe("createNotamsLayerController", () => {
   });
 
   it("uses enhanced geometry when available", () => {
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => { });
     const controller = createNotamsLayerController();
 
     // Create an enhanced NOTAM with both source and enhanced geometry
@@ -132,7 +132,7 @@ describe("createNotamsLayerController", () => {
       }),
       enhancedGeometry: { kind: "polygon", rings: [[[24.1, 59.1], [24.2, 59.1], [24.2, 59.2], [24.1, 59.2], [24.1, 59.1]]] }, // enhanced geometry
       sourceGeometry: { kind: "circle", center: [24.0, 59.0], radiusMeters: 500 },
-      geometrySource: 'eAIP',
+      geometrySource: 'html',
       issues: [],
     };
 

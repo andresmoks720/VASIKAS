@@ -95,6 +95,7 @@ export function makeNotam(overrides: Partial<NormalizedNotam> = {}): NormalizedN
       }),
     ],
     geometry: { kind: "circle", center: [24.75, 59.44], radiusMeters: 5000 },
+    geometrySource: overrides.geometrySource || "notamText",
     eventTimeUtc: DEFAULT_TIME_UTC,
     raw: { id: "A1234/25" },
     ...overrides,

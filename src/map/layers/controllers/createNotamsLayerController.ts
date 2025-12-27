@@ -87,7 +87,7 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
         validToUtc: notam.validToUtc,
         entityKind: "notam",
         // Add additional properties for enhanced notams
-        geometrySource: ('geometrySource' in notam) ? notam.geometrySource : 'original',
+        geometrySource: notam.geometrySource,
         enhanced: ('enhancedGeometry' in notam) ? true : false,
       });
       feature.setGeometry(geom);
