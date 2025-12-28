@@ -31,10 +31,11 @@ export type GeometryParseResult =
  * Normalized NOTAM for UI and map layers, independent of upstream schema.
  */
 export interface GeometrySourceDetails {
-  sourceUrl?: string;
-  parserVersion?: string;
-  effectiveDate?: string;
-  issues?: string[];
+    source: "html" | "geojson" | "notamText" | "none";
+    sourceUrl?: string;
+    parserVersion?: string;
+    effectiveDate?: string;
+    issues?: string[];
 }
 
 export type NormalizedNotam = {

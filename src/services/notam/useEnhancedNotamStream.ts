@@ -12,6 +12,7 @@ export function useEnhancedNotamStream() {
   const [enhancedData, setEnhancedData] = useState<EnhancedNotam[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [effectiveDate, setEffectiveDate] = useState<string | null>(null);
 
   // Initialize the airspace integration service
   const airspaceService = useMemo(() => new AirspaceIntegrationService(), []);
@@ -21,33 +22,28 @@ export function useEnhancedNotamStream() {
       if (!notams || notams.length === 0) {
         setEnhancedData([]);
         setIsLoading(false);
+        setEffectiveDate(null);
         return;
       }
 
       try {
         setIsLoading(true);
-
-        let effectiveDate: string | null = null;
+        setError(null); // Clear previous errors
 
         // Try to load airspace data from HTML first (primary method)
         try {
           await airspaceService.loadAirspaceFromHtml();
-          // If HTML loading succeeded, we need to determine the effective date
-          // For now, use current date - in a real implementation this would come from the HTML
-          effectiveDate = new Date().toISOString().split('T')[0];
         } catch (htmlError) {
           console.warn("Failed to load airspace data from HTML, falling back to GeoJSON:", htmlError);
 
           // Fallback to GeoJSON loading
           try {
-            // Get the effective date from the environment or derive it from the current date
-            // For now, we'll use a placeholder date - in a real implementation,
-            // this would come from the eAIP history page
-            effectiveDate = "2025-10-30"; // Placeholder - should be dynamic
+            // Use current date as fallback for GeoJSON if not specified
+            const fallbackDate = new Date().toISOString().split('T')[0];
 
-            // Load airspace data if not already loaded for this date
-            if (!airspaceService.isLoadedForDate(effectiveDate)) {
-              await airspaceService.loadAirspaceData(effectiveDate);
+            // Load airspace data if not already loaded
+            if (!airspaceService.isLoadedForDate(fallbackDate)) {
+              await airspaceService.loadAirspaceData(fallbackDate);
             }
           } catch (geojsonError) {
             console.error("Failed to load airspace data from both HTML and GeoJSON sources:", geojsonError);
@@ -57,55 +53,49 @@ export function useEnhancedNotamStream() {
 
         // Enhance the NOTAMs with eAIP geometry
         const enhanced = airspaceService.enhanceNotams(notams);
+        const sourceUrl = airspaceService.getLoadedSourceUrl();
+        const sourceType = airspaceService.getLoadedSourceType();
+        const effective = airspaceService.getEffectiveDate();
+        setEffectiveDate(effective);
 
-        // Attach source metadata to enhanced NOTAMs
-        const enhancedWithMetadata = enhanced.map(notam => {
-          // If geometry came from HTML source, attach the HTML source details
-          if (notam.geometrySource === 'html' && notam.enhancedGeometry) {
+        // Further enrich with URL if needed
+        const enriched = enhanced.map(notam => {
+          if (notam.enhancedGeometry && notam.geometrySourceDetails) {
+            let finalUrl = notam.geometrySourceDetails.sourceUrl;
+            if (!finalUrl && sourceType === 'html') {
+              // Only construct URL if we have a real effective date from HTML
+              const dateParam = effective || new Date().toISOString().split('T')[0];
+              finalUrl = `https://eaip.eans.ee/current/html/eAIP/ENR-5.1-en-GB.html?date=${dateParam}`;
+            } else if (!finalUrl) {
+              finalUrl = sourceUrl || undefined;
+            }
+
             return {
               ...notam,
-              geometrySource: 'html',
               geometrySourceDetails: {
                 ...notam.geometrySourceDetails,
-                sourceUrl: effectiveDate ? `https://eaip.eans.ee/current/html/eAIP/ENR-5.1-en-GB.html?date=${effectiveDate}` : undefined,
-                parserVersion: '1.0',
-                effectiveDate: effectiveDate,
+                sourceUrl: finalUrl
               }
             };
           }
-
-          // If geometry came from GeoJSON source
-          if (notam.geometrySource === 'geojson' && notam.enhancedGeometry) {
-            return {
-              ...notam,
-              geometrySource: 'geojson',
-              geometrySourceDetails: {
-                ...notam.geometrySourceDetails,
-                sourceUrl: effectiveDate ? `/data/airspace/ee/${effectiveDate}/enr5_1.geojson` : undefined,
-                parserVersion: '1.0',
-                effectiveDate: effectiveDate,
-              }
-            };
-          }
-
-          // For fallback to original NOTAM text parsing
-          return {
-            ...notam,
-            geometrySource: notam.geometrySource, // Use the original geometry source
-            geometrySourceDetails: notam.geometrySourceDetails // Use the original source details
-          };
+          return notam;
         });
-        setEnhancedData(enhancedWithMetadata);
+
+        setEnhancedData(enriched);
       } catch (err) {
-        console.error("Failed to enhance NOTAMs with airspace data:", err);
-        setError(err instanceof Error ? err : new Error(String(err)));
-        // Still return original NOTAMs if enhancement fails
+        const error = err instanceof Error ? err : new Error(String(err));
+        console.error("Failed to enhance NOTAMs with airspace data:", error);
+        setError(error);
+
+        // Still return original NOTAMs if enhancement fails, but mark why
+        const failureReason = error.message.includes('fetch') ? 'FETCH_FAILED' : 'ENHANCEMENT_FAILED';
+
         setEnhancedData(notams.map(notam => ({
           ...notam,
-          enhancedGeometry: notam.geometry,
+          enhancedGeometry: null,
           sourceGeometry: notam.geometry,
           geometrySource: notam.geometrySource,
-          issues: notam.geometry ? [] : ['NO_GEOMETRY']
+          issues: [failureReason, ...(notam.geometry ? [] : ['NO_GEOMETRY'])]
         })));
       } finally {
         setIsLoading(false);
@@ -119,6 +109,7 @@ export function useEnhancedNotamStream() {
     data: enhancedData,
     isLoading,
     error,
+    effectiveDate,
     ...notamStream
   };
 }

@@ -18,15 +18,15 @@ vi.mock("./notamStream", () => ({
 
 // Mock the AirspaceIntegrationService class
 vi.mock("../airspace/AirspaceIntegrationService", () => {
-    return {
-        AirspaceIntegrationService: vi.fn().mockImplementation(() => ({
-            leadAirspaceFromHtml: mockLoadAirspaceFromHtml,
-            loadAirspaceFromHtml: mockLoadAirspaceFromHtml,
-            loadAirspaceData: mockLoadAirspaceData,
-            isLoadedForDate: mockIsLoadedForDate,
-            enhanceNotams: mockEnhanceNotams,
-        })),
-    };
+  return {
+    AirspaceIntegrationService: vi.fn().mockImplementation(() => ({
+      leadAirspaceFromHtml: mockLoadAirspaceFromHtml,
+      loadAirspaceFromHtml: mockLoadAirspaceFromHtml,
+      loadAirspaceData: mockLoadAirspaceData,
+      isLoadedForDate: mockIsLoadedForDate,
+      enhanceNotams: mockEnhanceNotams,
+    })),
+  };
 });
 
 function TestHarness({ callback }: { callback: (result: any) => void }) {
@@ -48,15 +48,15 @@ describe("useEnhancedNotamStream", () => {
       raw: {},
     },
     {
-        id: "B1234/25",
-        summary: "Test Notam No Geom",
-        text: "Test Notam Text No Geom",
-        altitudes: [],
-        geometry: null,
-        geometrySource: "none",
-        eventTimeUtc: "2025-01-01T00:00:00Z",
-        raw: {},
-      },
+      id: "B1234/25",
+      summary: "Test Notam No Geom",
+      text: "Test Notam Text No Geom",
+      altitudes: [],
+      geometry: null,
+      geometrySource: "none",
+      eventTimeUtc: "2025-01-01T00:00:00Z",
+      raw: {},
+    },
   ];
 
   beforeEach(() => {
@@ -77,19 +77,19 @@ describe("useEnhancedNotamStream", () => {
     // Simulate an error during enhancement
     mockLoadAirspaceFromHtml.mockRejectedValue(new Error("HTML load failed"));
     mockLoadAirspaceData.mockRejectedValue(new Error("GeoJSON load failed"));
-    
+
     // Using real timers for the async effect
-    
+
     let lastResult: any;
     render(<TestHarness callback={(res) => { lastResult = res; }} />);
 
     await waitFor(() => {
-        expect(lastResult.isLoading).toBe(false);
+      expect(lastResult.isLoading).toBe(false);
     });
 
     // Check that we got data back
     expect(lastResult.data).toHaveLength(2);
-    
+
     // Check key properties
     const notamWithGeom = lastResult.data[0];
     const notamNoGeom = lastResult.data[1];
@@ -97,7 +97,7 @@ describe("useEnhancedNotamStream", () => {
     // This is the critical check: geometrySource should NOT be 'parsed'
     expect(notamWithGeom.geometrySource).not.toBe('parsed');
     expect(notamWithGeom.geometrySource).toBe('notamText');
-    
+
     expect(notamNoGeom.geometrySource).toBe('none');
   });
 });

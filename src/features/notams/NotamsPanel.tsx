@@ -159,10 +159,12 @@ export function NotamsPanel() {
                                 <Tooltip
                                   title={
                                     <Box>
-                                      <Typography variant="caption">Geometry Source: {notam.geometrySource.toUpperCase()}</Typography>
+                                      <Typography variant="caption" display="block">
+                                        Geometry Source: {notam.geometrySourceDetails?.source?.toUpperCase() || notam.geometrySource.toUpperCase()}
+                                      </Typography>
                                       {notam.geometrySourceDetails?.sourceUrl && (
                                         <Typography variant="caption" display="block">
-                                          Source: {notam.geometrySourceDetails.sourceUrl}
+                                          URL: {notam.geometrySourceDetails.sourceUrl}
                                         </Typography>
                                       )}
                                       {notam.geometrySourceDetails?.effectiveDate && (
@@ -170,22 +172,27 @@ export function NotamsPanel() {
                                           Effective: {notam.geometrySourceDetails.effectiveDate}
                                         </Typography>
                                       )}
-                                      {notam.geometrySourceDetails?.issues && notam.geometrySourceDetails.issues.length > 0 && (
+                                      {notam.geometrySourceDetails?.parserVersion && (
                                         <Typography variant="caption" display="block">
+                                          Parser: v{notam.geometrySourceDetails.parserVersion}
+                                        </Typography>
+                                      )}
+                                      {notam.geometrySourceDetails?.issues && notam.geometrySourceDetails.issues.length > 0 && (
+                                        <Typography variant="caption" display="block" color="error.light">
                                           Issues: {notam.geometrySourceDetails.issues.join(', ')}
                                         </Typography>
                                       )}
                                     </Box>
                                   }
                                 >
-                                  <span> {/* Wrapper span for Tooltip to work with Chip */}
+                                  <span>
                                     <Chip
-                                      label={notam.geometrySource.toUpperCase()}
+                                      label={(notam.geometrySourceDetails?.source || notam.geometrySource).toUpperCase()}
                                       size="small"
                                       color={
                                         notam.geometrySource === 'html' ? 'success' :
-                                        notam.geometrySource === 'geojson' ? 'info' :
-                                        notam.geometrySource === 'notamText' ? 'secondary' : 'warning'
+                                          notam.geometrySource === 'geojson' ? 'info' :
+                                            notam.geometrySource === 'notamText' ? 'secondary' : 'warning'
                                       }
                                       variant="outlined"
                                       sx={{ height: '20px' }}

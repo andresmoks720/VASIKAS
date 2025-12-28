@@ -3,7 +3,7 @@ import { Circle as CircleGeom, MultiPolygon, Polygon } from "ol/geom";
 import { fromCircle } from "ol/geom/Polygon";
 
 import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
-import { EnhancedNotam } from "@/services/notam/HtmlAirspaceNotamEnhancementService";
+import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 import { to3857 } from "@/map/transforms";
 import { createNotamLayer } from "@/map/layers/notams";
 
@@ -70,7 +70,9 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
     const batchStats = { total: notams.length, rendered: 0, skipped: 0, byReason: {} as Record<string, number> };
     notams.forEach((notam) => {
       // Use enhanced geometry if available, otherwise use original geometry
-      const geometryToUse = ('enhancedGeometry' in notam) ? notam.enhancedGeometry : notam.geometry;
+      const geometryToUse = ('enhancedGeometry' in notam)
+        ? (notam.enhancedGeometry ?? notam.sourceGeometry)
+        : notam.geometry;
       const geom = notamGeometryToOl(geometryToUse);
       if (!geom) {
         missingGeometryCount += 1;

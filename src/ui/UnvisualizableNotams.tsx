@@ -64,11 +64,12 @@ export const UnvisualizableNotams: React.FC<UnvisualizableNotamsProps> = ({ nota
                       ) : 'geometrySource' in notam ? (
                         // Enhanced NOTAM with geometry source
                         <Chip
-                          label={notam.geometrySource.toUpperCase()}
+                          label={(notam.geometrySourceDetails?.source || notam.geometrySource).toUpperCase()}
                           size="small"
                           color={
-                            notam.geometrySource === 'eAIP' ? 'success' :
-                            notam.geometrySource === 'parsed' ? 'info' : 'warning'
+                            notam.geometrySource === 'html' ? 'success' :
+                              notam.geometrySource === 'geojson' ? 'info' :
+                                notam.geometrySource === 'notamText' ? 'secondary' : 'warning'
                           }
                           variant="outlined"
                         />
