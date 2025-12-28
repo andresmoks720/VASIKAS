@@ -1,42 +1,36 @@
-import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useEnhancedNotamStream } from "./useEnhancedNotamStream";
-import { NormalizedNotam } from "./notamTypes";
+import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
+import * as notamStream from "./notamStream";
 
 // Mock dependencies
-const useNotamStreamMock = vi.fn();
-const mockEnhanceNotams = vi.fn();
-const mockLoadAirspaceFromHtml = vi.fn();
-const mockLoadAirspaceData = vi.fn();
-const mockIsLoadedForDate = vi.fn();
-
 vi.mock("./notamStream", () => ({
-  useNotamStream: () => useNotamStreamMock(),
+  useNotamStream: vi.fn(),
 }));
 
-// Mock the AirspaceIntegrationService class
+// Mock the AirspaceIntegrationService class and singleton
 vi.mock("../airspace/AirspaceIntegrationService", () => {
+  const mockService = {
+    loadAirspaceFromHtml: vi.fn(),
+    loadAirspaceData: vi.fn(),
+    isLoadedForDate: vi.fn(),
+    isLoadedFromHtml: vi.fn().mockReturnValue(false),
+    enhanceNotams: vi.fn(),
+    getLoadedSourceUrl: vi.fn().mockReturnValue(null),
+    getLoadedSourceType: vi.fn().mockReturnValue(null),
+    getEffectiveDate: vi.fn().mockReturnValue(null),
+  };
+
   return {
-    AirspaceIntegrationService: vi.fn().mockImplementation(() => ({
-      leadAirspaceFromHtml: mockLoadAirspaceFromHtml,
-      loadAirspaceFromHtml: mockLoadAirspaceFromHtml,
-      loadAirspaceData: mockLoadAirspaceData,
-      isLoadedForDate: mockIsLoadedForDate,
-      enhanceNotams: mockEnhanceNotams,
-    })),
+    AirspaceIntegrationService: vi.fn().mockImplementation(() => mockService),
+    airspaceIntegrationService: mockService,
   };
 });
 
-function TestHarness({ callback }: { callback: (result: any) => void }) {
-  const result = useEnhancedNotamStream();
-  callback(result);
-  return null;
-}
-
 describe("useEnhancedNotamStream", () => {
-  const mockNotams: NormalizedNotam[] = [
+  const mockNotams = [
     {
       id: "A1234/25",
       summary: "Test Notam",
@@ -60,13 +54,8 @@ describe("useEnhancedNotamStream", () => {
   ];
 
   beforeEach(() => {
-    useNotamStreamMock.mockReset();
-    mockEnhanceNotams.mockReset();
-    mockLoadAirspaceFromHtml.mockReset();
-    mockLoadAirspaceData.mockReset();
-    mockIsLoadedForDate.mockReset();
-
-    useNotamStreamMock.mockReturnValue({
+    vi.clearAllMocks();
+    (notamStream.useNotamStream as any).mockReturnValue({
       data: mockNotams,
       isLoading: false,
       error: null,
@@ -75,24 +64,32 @@ describe("useEnhancedNotamStream", () => {
 
   it("should handle error in enhancement by falling back to original geometry source without invalid values", async () => {
     // Simulate an error during enhancement
-    mockLoadAirspaceFromHtml.mockRejectedValue(new Error("HTML load failed"));
-    mockLoadAirspaceData.mockRejectedValue(new Error("GeoJSON load failed"));
+    (airspaceIntegrationService.loadAirspaceFromHtml as any).mockRejectedValue(new Error("HTML load failed"));
+    (airspaceIntegrationService.loadAirspaceData as any).mockRejectedValue(new Error("GeoJSON load failed"));
 
-    // Using real timers for the async effect
+    // We need enhanceNotams to return something so it doesn't stay null
+    (airspaceIntegrationService.enhanceNotams as any).mockImplementation((notams: any[]) => notams.map(n => ({
+      ...n,
+      enhancedGeometry: null,
+      sourceGeometry: n.geometry,
+      geometrySource: n.geometrySource,
+      geometrySourceDetails: n.geometrySourceDetails,
+    })));
 
-    let lastResult: any;
-    render(<TestHarness callback={(res) => { lastResult = res; }} />);
+    const { result } = renderHook(() => useEnhancedNotamStream());
 
     await waitFor(() => {
-      expect(lastResult.isLoading).toBe(false);
-    });
+      expect(result.current.isLoading).toBe(false);
+    }, { timeout: 3000 });
 
     // Check that we got data back
-    expect(lastResult.data).toHaveLength(2);
+    expect(result.current.data).not.toBeNull();
+    expect(result.current.data).toHaveLength(2);
 
     // Check key properties
-    const notamWithGeom = lastResult.data[0];
-    const notamNoGeom = lastResult.data[1];
+    const data = result.current.data!;
+    const notamWithGeom = data[0];
+    const notamNoGeom = data[1];
 
     // This is the critical check: geometrySource should NOT be 'parsed'
     expect(notamWithGeom.geometrySource).not.toBe('parsed');

@@ -7,7 +7,7 @@ export const HTML_PARSER_VERSION = "2.0.0";
 /**
  * Native DOM-based element wrapper for htmlParserCore
  */
-class DomParserElement implements ParserElement {
+export class DomParserElement implements ParserElement {
   constructor(private element: Element | Document) { }
 
   querySelector(selector: string): ParserElement | null {
@@ -34,9 +34,12 @@ class DomParserElement implements ParserElement {
 }
 
 /**
- * Parse eAIP ENR 5.1 HTML content into AirspaceFeatures using native DOMParser
+ * Parse eAIP ENR 5.1 HTML content into AirspaceFeatures using native DOMParser or provided engine
  */
-export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<{
+export async function parseEaipEnr51(html: string, sourceUrl: string, options?: {
+  engine?: (html: string) => ParserElement;
+  doc?: Document;
+}): Promise<{
   features: AirspaceFeature[];
   issues: string[];
   effectiveDate?: string;
@@ -44,9 +47,19 @@ export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<{
   generatedAt: string;
   parserVersion?: string;
 }> {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const root = new DomParserElement(doc);
+  let root: ParserElement;
+
+  if (options?.engine) {
+    root = options.engine(html);
+  } else if (options?.doc) {
+    root = new DomParserElement(options.doc);
+  } else if (typeof DOMParser !== 'undefined') {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    root = new DomParserElement(doc);
+  } else {
+    throw new Error('No HTML parser available. In non-browser environments, please provide an engine.');
+  }
 
   const { features, issues, effectiveDate } = parseEaipEnr51Core(root, sourceUrl);
 

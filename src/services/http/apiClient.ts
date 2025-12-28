@@ -108,3 +108,53 @@ export async function getJson<T>(
     clear();
   }
 }
+
+export async function getText(
+  url: string,
+  options: { signal?: AbortSignal; timeoutMs?: number } = {},
+): Promise<string> {
+  const { signal: mergedSignal, clear } = withTimeout(
+    options.signal,
+    options.timeoutMs,
+  );
+
+  try {
+    console.log(`[apiClient] Fetching ${url}`);
+    const response = await fetch(url, { signal: mergedSignal, cache: "no-store" });
+
+    if (!response.ok) {
+      throw new ApiError({
+        kind: "http",
+        status: response.status,
+        url,
+        message: `Request failed with status ${response.status} ${response.statusText}`,
+      });
+    }
+
+    try {
+      return await response.text();
+    } catch (error) {
+      throw new ApiError({
+        kind: "parse",
+        url,
+        message: "Failed to read text response",
+      });
+    }
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw error;
+    }
+
+    throw new ApiError({
+      kind: "network",
+      url,
+      message: "Network request failed",
+    });
+  } finally {
+    clear();
+  }
+}

@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest",
+    "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "gen:mocks": "tsx scripts/generate-mocks.ts",
@@ -20,6 +21,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "cheerio": "^1.1.2",
     "ol": "^10.7.0",

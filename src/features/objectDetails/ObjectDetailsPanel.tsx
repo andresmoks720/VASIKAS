@@ -17,9 +17,10 @@ import {
   useSharedAdsbStream,
   useSharedDronesStream,
   useSharedSensorsStream,
+  useSharedNotamStream,
 } from "@/services/streams/StreamsProvider";
-import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
-import { NormalizedNotam, EnhancedNotam } from "@/services/notam/notamTypes";
+import { NormalizedNotam } from "@/services/notam/notamTypes";
+import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 const formatPosition = (lon?: number, lat?: number) => {
   if (lon == null || lat == null) {
@@ -42,7 +43,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
   const { data: drones } = useSharedDronesStream();
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft } = useSharedAdsbStream();
-  const { data: notams } = useEnhancedNotamStream();
+  const { data: notams } = useSharedNotamStream();
 
   const selection: Selection = useMemo(() => {
     switch (entity.kind) {

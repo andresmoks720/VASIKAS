@@ -106,6 +106,14 @@ function deriveEventTimeUtc(nowEpochSec: number, dto: AircraftDto): string {
 
   const eventEpochSec = ageSec == null ? nowEpochSec : nowEpochSec - ageSec;
 
+  // Sanity check: if the year is way off, something is wrong with the inputs.
+  // We clamp to a reasonable range (e.g. 1970 - 2100) to avoid "Invalid time" UI errors.
+  // 4102444800 is 2100-01-01
+  if (eventEpochSec < 0 || eventEpochSec > 4102444800) {
+    // Fallback to nowEpochSec if calculation goes wild
+    return new Date(nowEpochSec * 1000).toISOString();
+  }
+
   return new Date(eventEpochSec * 1000).toISOString();
 }
 
@@ -162,7 +170,16 @@ export function parseLiveAdsbResponse(raw: unknown, ingestTimeUtc: string): Airc
   }
 
   const response = raw as AdsbPointResponseDto;
-  const nowEpochSec = isFiniteNumber(response.now) ? response.now : Math.floor(Date.now() / 1000);
+
+
+  let nowEpochSec = isFiniteNumber(response.now) ? response.now : Math.floor(Date.now() / 1000);
+
+  // Correction: If 'now' is in milliseconds (e.g. > 30000000000 which is year ~2920 in seconds),
+  // treat it as milliseconds and convert to seconds.
+  // 10000000000 is year 2286 in seconds. Anything larger is likely ms.
+  if (nowEpochSec > 10000000000) {
+    nowEpochSec = Math.floor(nowEpochSec / 1000);
+  }
   const aircraftList = Array.isArray(response.aircraft) ? response.aircraft : (Array.isArray(response.ac) ? response.ac : []);
 
   return aircraftList

@@ -6,10 +6,12 @@ export interface AirspaceCoordinate {
   lon: number;
 }
 
-export interface AirspaceGeometry {
-  type: string;
-  coordinates: number[][][]; // [lon, lat] pairs for polygon rings
-}
+export type AirspaceGeometry =
+  | { type: "Polygon"; coordinates: [number, number][][] }
+  | { type: "MultiPolygon"; coordinates: [number, number][][][] }
+  | { type: "Point"; coordinates: [number, number] }
+  | { type: "MultiPoint"; coordinates: [number, number][] }
+  | { type: "LineString"; coordinates: [number, number][] };
 
 export interface ParserInfo {
   version: string;
@@ -22,7 +24,8 @@ export interface AirspaceProperties {
   upperLimit: string;
   lowerLimit: string;
   remarks?: string;
-  sourceUrl: string;
+  sourceUrl?: string;
+  effectiveDate?: string;
   parserInfo?: ParserInfo;
 }
 
@@ -40,6 +43,8 @@ export interface EnhancedNotam extends NormalizedNotam {
   enhancedGeometry: NotamGeometry | null;
   /** Original geometry from NOTAM parsing */
   sourceGeometry: NotamGeometry | null;
+  /** Original geometry source before enhancement */
+  sourceGeometrySource?: "html" | "geojson" | "notamText" | "none";
   /** Issues with geometry parsing or enhancement */
   issues: string[];
 }

@@ -11,7 +11,7 @@ export class AirspaceLoader {
    * Load airspace data from a GeoJSON endpoint
    * @param url The URL to the GeoJSON file (e.g., /data/airspace/ee/${date}/enr5_1.geojson)
    */
-  async loadAirspaceData(url: string): Promise<{ features: AirspaceFeature[], metadata?: any }> {
+  async loadAirspaceData(url: string): Promise<{ features: AirspaceFeature[], metadata?: any, sourceUrl?: string }> {
     try {
       const response = await fetch(url);
 
@@ -27,7 +27,7 @@ export class AirspaceLoader {
 
       // Validate that features match the AirspaceFeature type
       const features = geojsonData.features as AirspaceFeature[];
-      
+
       // Basic validation
       for (const feature of features) {
         if (!feature.properties || !feature.properties.designator) {
@@ -37,6 +37,7 @@ export class AirspaceLoader {
 
       return {
         features,
+        sourceUrl: url,
         metadata: {
           ...geojsonData.metadata,
           loaderVersion: GEOJSON_LOADER_VERSION
@@ -52,13 +53,14 @@ export class AirspaceLoader {
    * Load airspace data by effective date
    * @param effectiveDate The date string in YYYY-MM-DD format
    */
-  async loadAirspaceByDate(effectiveDate: string): Promise<{ features: AirspaceFeature[], metadata?: any }> {
+  async loadAirspaceByDate(effectiveDate: string): Promise<{ features: AirspaceFeature[], metadata?: any, sourceUrl?: string }> {
     const url = `/data/airspace/ee/${effectiveDate}/enr5_1.geojson`;
     const result = await this.loadAirspaceData(url);
 
     // Add loader version to metadata
     return {
       features: result.features,
+      sourceUrl: result.sourceUrl,
       metadata: {
         ...result.metadata,
         loaderVersion: GEOJSON_LOADER_VERSION,

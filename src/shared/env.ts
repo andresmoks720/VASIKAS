@@ -162,9 +162,10 @@ const DEFAULT_ADSB_CENTER_LON = 25.1122;
 const DEFAULT_ADSB_RADIUS_NM = 110;
 
 const useMocks = parseBooleanFlag("VITE_USE_MOCKS", import.meta.env.VITE_USE_MOCKS, true);
-const adsbMode = import.meta.env.VITE_ADSB_MODE
+const adsbModeRaw = import.meta.env.VITE_ADSB_MODE
   ? parseAdsbMode(import.meta.env.VITE_ADSB_MODE)
   : "live";
+const adsbMode = useMocks ? "mock" : adsbModeRaw;
 const adsbBaseUrl = optionalString("VITE_ADSB_BASE_URL", import.meta.env.VITE_ADSB_BASE_URL) ?? DEFAULT_ADSB_BASE_URL;
 const adsbCenterLat = parseNumberInRange("VITE_ADSB_CENTER_LAT", import.meta.env.VITE_ADSB_CENTER_LAT, DEFAULT_ADSB_CENTER_LAT, -90, 90);
 const adsbCenterLon = parseNumberInRange("VITE_ADSB_CENTER_LON", import.meta.env.VITE_ADSB_CENTER_LON, DEFAULT_ADSB_CENTER_LON, -180, 180);

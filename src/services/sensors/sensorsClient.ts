@@ -62,10 +62,9 @@ export function useSensorsStream() {
 
   const merged = useMemo(() => {
     const userSensorsDtos = sensorStore.getAll();
-    const ingestTimeUtc = new Date().toISOString();
     const userSensors: Sensor[] = userSensorsDtos.map((dto) => ({
-      ...dto,
-      ingestTimeUtc, // Update ingest time on render to keep them "fresh"
+      ...dto as any,
+      ingestTimeUtc: (dto as any).updatedAtUtc || (dto as any).createdAtUtc || new Date().toISOString(),
       source: "user",
     }));
     return [...(baseSensors ?? []), ...userSensors];

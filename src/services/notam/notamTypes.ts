@@ -21,7 +21,8 @@ export type GeometryParseReason =
     | "UNSUPPORTED_GEOJSON_TYPE"
     | "INVALID_COORDS"
     | "EMPTY"
-    | "EXCEPTION";
+    | "EXCEPTION"
+    | "SYNTHETIC_GEOMETRY";
 
 export type GeometryParseResult =
     | { geometry: NotamGeometry; reason?: undefined; details?: undefined }

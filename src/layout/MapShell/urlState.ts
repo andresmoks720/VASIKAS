@@ -1,9 +1,9 @@
 export const TOOLS = [
-  "airplanes",
+  "air",
   "sensors",
   "geofences",
   "notams",
-  "drones",
+  "known-drones",
   "history",
 ] as const;
 

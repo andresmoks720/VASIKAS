@@ -25,7 +25,7 @@ describe("KnownDronesPanel", () => {
   it("renders the empty state when no drones are available", () => {
     dronesStreamState.data = [];
 
-    renderWithRouter(<KnownDronesPanel />, { route: "/drones" });
+    renderWithRouter(<KnownDronesPanel />, { route: "/known-drones" });
 
     expect(screen.getByText("No drones reported yet.")).toBeInTheDocument();
   });
@@ -33,7 +33,7 @@ describe("KnownDronesPanel", () => {
   it("renders formatted altitude and speed for drones", () => {
     dronesStreamState.data = [makeDrone({ ingestTimeUtc: "2025-12-18T10:15:31Z" })];
 
-    renderWithRouter(<KnownDronesPanel />, { route: "/drones" });
+    renderWithRouter(<KnownDronesPanel />, { route: "/known-drones" });
 
     expect(screen.getByText(/Demo Drone/)).toBeInTheDocument();
     expect(screen.getByText("Altitude: 120 m — AGL (detected) — mock altitude")).toBeInTheDocument();

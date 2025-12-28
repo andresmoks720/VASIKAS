@@ -60,11 +60,11 @@ describe('eAIP Parser', () => {
 
   it('should parse basic designators and coordinates', async () => {
     const result = await parseEaipEnr51(sampleEaipHtml, testUrl);
-    
+
     expect(result.effectiveDate).toBe('2025-10-30');
     expect(result.sourceUrl).toBe(testUrl);
     expect(result.features.length).toBeGreaterThan(0);
-    
+
     // Check that we have features with designators
     const eer15dFeature = result.features.find(f => f.properties.designator === 'EER15D');
     expect(eer15dFeature).toBeDefined();
@@ -74,7 +74,7 @@ describe('eAIP Parser', () => {
 
   it('should validate geometry and detect issues', async () => {
     const result = await parseEaipEnr51(sampleEaipHtml, testUrl);
-    
+
     // Should have issues for unsupported geometry
     expect(result.issues.some(issue => issue.includes('AIP_PARSE_UNSUPPORTED'))).toBe(true);
   });
@@ -82,7 +82,7 @@ describe('eAIP Parser', () => {
   it('should generate valid GeoJSON', async () => {
     const result = await parseEaipEnr51(sampleEaipHtml, testUrl);
     const geoJson = generateGeoJson(result);
-    
+
     const parsed = JSON.parse(geoJson);
     expect(parsed.type).toBe('FeatureCollection');
     expect(Array.isArray(parsed.features)).toBe(true);
@@ -92,14 +92,14 @@ describe('eAIP Parser', () => {
 
   it('should handle coordinate conversion correctly', async () => {
     const result = await parseEaipEnr51(sampleEaipHtml, testUrl);
-    
+
     // Find a feature with coordinates
-    const featureWithCoords = result.features.find(f => 
-      f.geometry.coordinates && 
-      f.geometry.coordinates[0] && 
+    const featureWithCoords = result.features.find(f =>
+      f.geometry.coordinates &&
+      f.geometry.coordinates[0] &&
       f.geometry.coordinates[0].length > 0
     );
-    
+
     if (featureWithCoords) {
       const coords = featureWithCoords.geometry.coordinates[0];
       // Coordinates should be in [lon, lat] format
@@ -147,29 +147,29 @@ describe('eAIP Parser', () => {
     </body>
     </html>
     `;
-    
+
     const result = await parseEaipEnr51(invalidHtml, testUrl);
-    
+
     // Should have issues for invalid geometry (too few points)
-    expect(result.issues.some(issue => 
-      issue.includes('INVALID_GEOMETRY') || 
+    expect(result.issues.some(issue =>
+      issue.includes('INVALID_GEOMETRY') ||
       issue.includes('has less than 2 points')
     )).toBe(true);
   });
 
   it('should maintain ring closure', async () => {
     const result = await parseEaipEnr51(sampleEaipHtml, testUrl);
-    
+
     for (const feature of result.features) {
       const coords = feature.geometry.coordinates[0];
       if (coords.length >= 4) { // Need at least 4 points for a closed polygon
         const firstPoint = coords[0];
         const lastPoint = coords[coords.length - 1];
-        
+
         // Check if ring is closed (first and last points are the same)
         const tolerance = 0.000001;
-        const isClosed = Math.abs(firstPoint[0] - lastPoint[0]) < tolerance && 
-                        Math.abs(firstPoint[1] - lastPoint[1]) < tolerance;
+        const isClosed = Math.abs(firstPoint[0] - lastPoint[0]) < tolerance &&
+          Math.abs(firstPoint[1] - lastPoint[1]) < tolerance;
         expect(isClosed).toBe(true);
       }
     }
@@ -178,17 +178,19 @@ describe('eAIP Parser', () => {
   it('should generate deterministic outputs', async () => {
     const result1 = await parseEaipEnr51(sampleEaipHtml, testUrl);
     const result2 = await parseEaipEnr51(sampleEaipHtml, testUrl);
-    
+
     // Same input should produce same effective date and other metadata
     expect(result1.effectiveDate).toBe(result2.effectiveDate);
     expect(result1.sourceUrl).toBe(result2.sourceUrl);
-    
+
     // SHA256 should be the same for same HTML
     expect(result1.sha256).toBe(result2.sha256);
   });
 });
 
 describe('Coordinate Parsing', () => {
+  const testUrl = 'https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html';
+
   it('should correctly parse DDMMSS format', () => {
     // This test verifies the coordinate parsing function
     // Since the function is internal, we test through the full parser
@@ -220,15 +222,15 @@ describe('Coordinate Parsing', () => {
     </body>
     </html>
     `;
-    
+
     return parseEaipEnr51(testHtml, testUrl).then(result => {
       const testFeature = result.features.find(f => f.properties.designator === 'TEST01');
       expect(testFeature).toBeDefined();
-      
+
       if (testFeature) {
         const coords = testFeature.geometry.coordinates[0];
         expect(coords.length).toBeGreaterThanOrEqual(2);
-        
+
         // The first coordinate should be approximately 26.25, 59.275 (from 0261500E, 591633N)
         // Note: The actual values depend on the correctness of the coordinate parsing
         const [firstLon, firstLat] = coords[0];

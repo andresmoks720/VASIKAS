@@ -14,12 +14,12 @@ export async function parseEaipHtml(html: string, sourceUrl: string): Promise<{
   };
 }> {
   // Dynamically import the parser from the tools module to avoid bundling it in the runtime unnecessarily
-  const { parseEaipEnr51 } = await import("../../tools/eaip-import/src/parser");
-  
+  const { parseEaipEnr51 } = await import("../../../tools/eaip-import/src/parser");
+
   try {
     // Parse the HTML content using the shared parser
     const parseResult = await parseEaipEnr51(html, sourceUrl);
-    
+
     return {
       features: parseResult.features as AirspaceFeature[],
       issues: parseResult.issues || [],

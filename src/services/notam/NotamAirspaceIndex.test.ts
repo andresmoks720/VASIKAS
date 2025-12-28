@@ -124,4 +124,113 @@ describe('NotamAirspaceIndex', () => {
         }
         expect(enhanced[0].geometrySourceDetails?.issues).toContain('MULTI_PART_AIRSPACE (2 parts)');
     });
+    it('should extract broadened designators like TSA, TRA, CBA with spaces', () => {
+        const index = new NotamAirspaceIndex();
+        const mockFeatures: AirspaceFeature[] = [
+            {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]
+                },
+                properties: {
+                    designator: 'TSA4A',
+                    upperLimit: 'FL100',
+                    lowerLimit: 'SFC'
+                }
+            },
+            {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [[[5, 5], [6, 5], [6, 6], [5, 6], [5, 5]]]
+                },
+                properties: {
+                    designator: 'TRA12',
+                    upperLimit: 'FL200',
+                    lowerLimit: 'GND'
+                }
+            }
+        ];
+
+        index.loadAirspaceData(mockFeatures, 'html', '2025-12-28');
+
+        const mockNotams: NormalizedNotam[] = [
+            {
+                id: 'A6666/25',
+                summary: 'TSA 4A ACTIVE',
+                text: 'TSA 4A ACTIVE',
+                altitudes: [],
+                geometry: null,
+                geometrySource: 'none',
+                eventTimeUtc: '2025-12-28T00:00:00Z',
+                raw: {}
+            },
+            {
+                id: 'A7777/25',
+                summary: 'TRA12 RESERVED',
+                text: 'TRA12 RESERVED',
+                altitudes: [],
+                geometry: null,
+                geometrySource: 'none',
+                eventTimeUtc: '2025-12-28T00:00:00Z',
+                raw: {}
+            }
+        ];
+
+        const enhanced = index.enhanceNotamsWithAirspace(mockNotams);
+
+        expect(enhanced[0].enhancedGeometry).not.toBeNull();
+        expect(enhanced[0].geometrySourceDetails?.source).toBe('html');
+        expect(enhanced[1].enhancedGeometry).not.toBeNull();
+    });
+
+    it('should extract TMA and CTR designators and handle alternative phrasings', () => {
+        const index = new NotamAirspaceIndex();
+        const mockFeatures: AirspaceFeature[] = [
+            {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] },
+                properties: { designator: 'TMA1', upperLimit: 'FL100', lowerLimit: '2500FT' }
+            },
+            {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [[[5, 5], [6, 5], [6, 6], [5, 6], [5, 5]]] },
+                properties: { designator: 'CTRTARTU', upperLimit: 'FL050', lowerLimit: 'GND' }
+            }
+        ];
+
+        index.loadAirspaceData(mockFeatures, 'html', '2025-12-28');
+
+        const mockNotams: NormalizedNotam[] = [
+            { id: '1', text: 'AREA TMA 1 ACTIVE', summary: '', altitudes: [], geometry: null, geometrySource: 'none', eventTimeUtc: '', raw: {} },
+            { id: '2', text: 'IN CTR TARTU', summary: '', altitudes: [], geometry: null, geometrySource: 'none', eventTimeUtc: '', raw: {} }
+        ];
+
+        const enhanced = index.enhanceNotamsWithAirspace(mockNotams);
+        expect(enhanced[0].enhancedGeometry).not.toBeNull();
+        expect(enhanced[1].enhancedGeometry).not.toBeNull();
+    });
+
+    it('should normalize designators with hyphens and underscores', () => {
+        const index = new NotamAirspaceIndex();
+        const mockFeatures: AirspaceFeature[] = [
+            {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] },
+                properties: { designator: 'EER15', upperLimit: 'FL100', lowerLimit: 'SFC' }
+            }
+        ];
+
+        index.loadAirspaceData(mockFeatures, 'html', '2025-12-28');
+
+        const mockNotams: NormalizedNotam[] = [
+            { id: '1', text: 'EE-R15 ACTIVE', summary: '', altitudes: [], geometry: null, geometrySource: 'none', eventTimeUtc: '', raw: {} },
+            { id: '2', text: 'EE_R15 ACTIVE', summary: '', altitudes: [], geometry: null, geometrySource: 'none', eventTimeUtc: '', raw: {} }
+        ];
+
+        const enhanced = index.enhanceNotamsWithAirspace(mockNotams);
+        expect(enhanced[0].enhancedGeometry).not.toBeNull();
+        expect(enhanced[1].enhancedGeometry).not.toBeNull();
+    });
 });

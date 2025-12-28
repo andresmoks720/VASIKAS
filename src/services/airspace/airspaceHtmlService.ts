@@ -10,20 +10,20 @@ export class AirspaceHtmlService {
   async fetchEaipHtml(): Promise<{ html: string; sourceUrl: string; fetchedAtUtc: string }> {
     // Get the URL from environment variables
     const url = import.meta.env.VITE_EAIP_ENR51_URL as string;
-    
+
     if (!url) {
       throw new Error("VITE_EAIP_ENR51_URL environment variable is not set");
     }
 
     try {
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch eAIP HTML: ${response.status} ${response.statusText}`);
       }
-      
+
       const html = await response.text();
-      
+
       return {
         html,
         sourceUrl: url,
@@ -49,12 +49,12 @@ export class AirspaceHtmlService {
     };
   }> {
     // Import the HTML parser from the tools module (this will be the shared parser logic)
-    const { parseEaipEnr51 } = await import("../../tools/eaip-import/src/parser");
-    
+    const { parseEaipEnr51 } = await import("../../../tools/eaip-import/src/parser");
+
     try {
       // Parse the HTML content using the shared parser
       const parseResult = await parseEaipEnr51(html, sourceUrl);
-      
+
       return {
         features: parseResult.features as AirspaceFeature[],
         issues: parseResult.issues || [],
@@ -86,7 +86,7 @@ export class AirspaceHtmlService {
   }> {
     const fetchResult = await this.fetchEaipHtml();
     const parseResult = await this.parseEaipHtml(fetchResult.html, fetchResult.sourceUrl);
-    
+
     return {
       features: parseResult.features,
       issues: parseResult.issues,

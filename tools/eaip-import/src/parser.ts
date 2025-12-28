@@ -70,7 +70,18 @@ export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<P
  * Validate geometry for a feature (preserved from original tooling)
  */
 function validateGeometry(feature: AirspaceFeature, issues: string[]): AirspaceFeature {
-  const coords = feature.geometry.coordinates[0]; // Assuming single polygon ring
+  const geometry = feature.geometry;
+  // Only validate Polygons for now (original logic assumption)
+  if (geometry.type !== 'Polygon' && geometry.type !== 'MultiPolygon') {
+    // If it's a single point or line string where we expect area, it's likely an error in this context
+    issues.push(`INVALID_GEOMETRY: Feature ${feature.properties.designator} has invalid geometry type: ${geometry.type}`);
+    return feature;
+  }
+
+  // Skip MultiPolygon validation for simplicity now, or iterate
+  if (geometry.type === 'MultiPolygon') return feature;
+
+  const coords = geometry.coordinates[0]; // Single outer ring
   if (!coords) return feature;
 
   // Check ring closure

@@ -18,7 +18,7 @@ import {
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
 import { useNotamMode } from "@/services/notam/notamMode";
-import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
+import { useSharedNotamStream } from "@/services/streams/StreamsProvider";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { StatusPill } from "@/ui/StatusPill";
@@ -26,7 +26,7 @@ import { formatUpdateAge } from "@/shared/time/updateAge";
 
 export function NotamsPanel() {
   const { data, status, ageSeconds, lastOkUtc, error, rawCount, displayedCount, dataSource, liveError } =
-    useEnhancedNotamStream();
+    useSharedNotamStream();
   const { selectEntity } = useSidebarUrlState();
   const { useLiveNotams, toggleUseLiveNotams } = useNotamMode();
   const [toggleNotice, setToggleNotice] = useState<"live" | "mock" | null>(null);
@@ -154,13 +154,13 @@ export function NotamsPanel() {
                                   variant="outlined"
                                   sx={{ height: '20px' }}
                                 />
-                              ) : 'geometrySource' in notam ? (
-                                // Enhanced NOTAM with geometry source
+                              ) : ('enhancedGeometry' in notam && (notam.enhancedGeometry || notam.sourceGeometry)) ? (
+                                // Enhanced NOTAM (from useEnhancedNotamStream)
                                 <Tooltip
                                   title={
                                     <Box>
                                       <Typography variant="caption" display="block">
-                                        Geometry Source: {notam.geometrySourceDetails?.source?.toUpperCase() || notam.geometrySource.toUpperCase()}
+                                        Geometry Source: {(notam.enhancedGeometry ? notam.geometrySource : (notam.sourceGeometrySource || notam.geometrySource)).toUpperCase()}
                                       </Typography>
                                       {notam.geometrySourceDetails?.sourceUrl && (
                                         <Typography variant="caption" display="block">
@@ -177,9 +177,14 @@ export function NotamsPanel() {
                                           Parser: v{notam.geometrySourceDetails.parserVersion}
                                         </Typography>
                                       )}
-                                      {notam.geometrySourceDetails?.issues && notam.geometrySourceDetails.issues.length > 0 && (
+                                      {(notam.geometrySourceDetails?.issues || []).length > 0 && (
                                         <Typography variant="caption" display="block" color="error.light">
-                                          Issues: {notam.geometrySourceDetails.issues.join(', ')}
+                                          Issues: {notam.geometrySourceDetails?.issues?.join(', ')}
+                                        </Typography>
+                                      )}
+                                      {(notam.issues || []).length > 0 && (
+                                        <Typography variant="caption" display="block" color="warning.light">
+                                          Enhancement: {notam.issues.join(', ')}
                                         </Typography>
                                       )}
                                     </Box>
@@ -187,12 +192,11 @@ export function NotamsPanel() {
                                 >
                                   <span>
                                     <Chip
-                                      label={(notam.geometrySourceDetails?.source || notam.geometrySource).toUpperCase()}
+                                      label={(notam.enhancedGeometry ? (notam.geometrySourceDetails?.source || notam.geometrySource) : (notam.sourceGeometrySource || notam.geometrySource)).toUpperCase()}
                                       size="small"
                                       color={
-                                        notam.geometrySource === 'html' ? 'success' :
-                                          notam.geometrySource === 'geojson' ? 'info' :
-                                            notam.geometrySource === 'notamText' ? 'secondary' : 'warning'
+                                        notam.enhancedGeometry ? (notam.geometrySource === 'html' ? 'success' : 'info') :
+                                          (notam.geometrySource === 'notamText' ? 'secondary' : 'warning')
                                       }
                                       variant="outlined"
                                       sx={{ height: '20px' }}
@@ -200,13 +204,15 @@ export function NotamsPanel() {
                                   </span>
                                 </Tooltip>
                               ) : notam.geometry ? (
-                                <Chip
-                                  label="VISUALIZED"
-                                  size="small"
-                                  color="success"
-                                  variant="outlined"
-                                  sx={{ height: '20px' }}
-                                />
+                                <Tooltip title={`Source: ${notam.geometrySource?.toUpperCase() || 'NOTAMTEXT'}`}>
+                                  <Chip
+                                    label="VISUALIZED"
+                                    size="small"
+                                    color="success"
+                                    variant="outlined"
+                                    sx={{ height: '20px' }}
+                                  />
+                                </Tooltip>
                               ) : (
                                 <Chip
                                   label="NO GEOMETRY"

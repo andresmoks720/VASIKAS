@@ -31,7 +31,7 @@ export function KnownDronesPanel() {
     <Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Drones
+          Known Drones
         </Typography>
         <StatusPill status={status} />
         {status === "loading" ? <CircularProgress size={16} /> : null}

@@ -19,6 +19,28 @@ const notamGeometryTelemetry = {
   byReason: {} as Record<string, number>,
 };
 
+function resetTelemetry() {
+  notamGeometryTelemetry.total = 0;
+  notamGeometryTelemetry.rendered = 0;
+  notamGeometryTelemetry.skipped = 0;
+  notamGeometryTelemetry.byReason = {};
+}
+
+function isValidCoord(coord: any): coord is [number, number] {
+  return (
+    Array.isArray(coord) &&
+    coord.length === 2 &&
+    typeof coord[0] === "number" &&
+    !isNaN(coord[0]) &&
+    typeof coord[1] === "number" &&
+    !isNaN(coord[1]) &&
+    coord[0] >= -180 &&
+    coord[0] <= 180 &&
+    coord[1] >= -90 &&
+    coord[1] <= 90
+  );
+}
+
 function recordTelemetrySnapshot(batchStats: {
   total: number;
   rendered: number;
@@ -38,21 +60,33 @@ export function notamGeometryToOl(geometry: NotamGeometry): Polygon | MultiPolyg
   if (!geometry) return null;
 
   if (geometry.kind === "circle") {
+    if (!isValidCoord(geometry.center)) return null;
     const center3857 = to3857(geometry.center);
     const circle = new CircleGeom(center3857, geometry.radiusMeters);
     return fromCircle(circle, 64);
   }
 
   if (geometry.kind === "polygon") {
-    const rings = geometry.rings.map((ring) => ring.map((coord) => to3857(coord)));
+    const rings = geometry.rings.map((ring) =>
+      ring
+        .filter((coord) => isValidCoord(coord))
+        .map((coord) => to3857(coord))
+    );
+    if (rings.length === 0 || rings[0].length < 3) return null;
     return new Polygon(rings);
   }
 
   if (geometry.kind === "multiPolygon") {
     const polygons = geometry.polygons.map((polygon) =>
-      polygon.map((ring) => ring.map((coord) => to3857(coord))),
+      polygon.map((ring) =>
+        ring
+          .filter((coord) => isValidCoord(coord))
+          .map((coord) => to3857(coord))
+      )
     );
-    return new MultiPolygon(polygons);
+    const filteredPolygons = polygons.filter(p => p.length > 0 && p[0].length >= 3);
+    if (filteredPolygons.length === 0) return null;
+    return new MultiPolygon(filteredPolygons);
   }
 
   return null;
@@ -66,13 +100,19 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
     if (!source) return;
 
     source.clear();
+    resetTelemetry();
     let missingGeometryCount = 0;
     const batchStats = { total: notams.length, rendered: 0, skipped: 0, byReason: {} as Record<string, number> };
     notams.forEach((notam) => {
       // Use enhanced geometry if available, otherwise use original geometry
-      const geometryToUse = ('enhancedGeometry' in notam)
-        ? (notam.enhancedGeometry ?? notam.sourceGeometry)
-        : notam.geometry;
+      const hasEnhanced = 'enhancedGeometry' in notam && notam.enhancedGeometry !== null;
+      let geometryToUse = notam.geometry;
+
+      if ('enhancedGeometry' in notam) {
+        const enhanced = notam as EnhancedNotam;
+        geometryToUse = enhanced.enhancedGeometry ?? enhanced.sourceGeometry;
+      }
+
       const geom = notamGeometryToOl(geometryToUse);
       if (!geom) {
         missingGeometryCount += 1;
@@ -81,7 +121,17 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
         batchStats.byReason[reason ?? "UNKNOWN"] = (batchStats.byReason[reason ?? "UNKNOWN"] ?? 0) + 1;
         return;
       }
+
       batchStats.rendered += 1;
+
+      // Determine the effective source for the geometry being drawn
+      let effectiveSource = notam.geometrySource;
+      if ('enhancedGeometry' in notam) {
+        effectiveSource = hasEnhanced ? notam.geometrySource : (notam as EnhancedNotam).sourceGeometrySource || 'notamText';
+        // Note: NotamAirspaceIndex.ts sets geometrySource to the enhanced source (html/geojson) 
+        // when matching airspace is found. If no match, it keeps original.
+      }
+
       const feature = new Feature({
         notamId: notam.id,
         summary: notam.summary,
@@ -89,8 +139,9 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
         validToUtc: notam.validToUtc,
         entityKind: "notam",
         // Add additional properties for enhanced notams
-        geometrySource: notam.geometrySource,
-        enhanced: ('enhancedGeometry' in notam) ? true : false,
+        geometrySource: effectiveSource,
+        geometrySourceDetails: notam.geometrySourceDetails,
+        enhanced: hasEnhanced,
       });
       feature.setGeometry(geom);
       feature.setId(notam.id);

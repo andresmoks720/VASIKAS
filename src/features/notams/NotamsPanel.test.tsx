@@ -28,7 +28,7 @@ describe("NotamsPanel", () => {
 
   it("renders empty state when no NOTAMs are available", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [],
+      data: [] as any[],
       status: "live",
       lastOkUtc: null,
       lastErrorUtc: null,
@@ -39,6 +39,8 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "mock",
       liveError: null,
+      isLoading: false,
+      effectiveDate: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -55,7 +57,7 @@ describe("NotamsPanel", () => {
     });
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithoutGeometry],
+      data: [notamWithoutGeometry] as any[],
       status: "live",
       lastOkUtc: "",
       lastErrorUtc: null,
@@ -66,6 +68,8 @@ describe("NotamsPanel", () => {
       displayedCount: 1,
       dataSource: "live",
       liveError: null,
+      isLoading: false,
+      effectiveDate: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -87,7 +91,7 @@ describe("NotamsPanel", () => {
     });
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithAltitude, notamWithoutAltitude],
+      data: [notamWithAltitude, notamWithoutAltitude] as any[],
       status: "live",
       lastOkUtc: "2025-01-01T00:00:00Z",
       lastErrorUtc: null,
@@ -98,6 +102,8 @@ describe("NotamsPanel", () => {
       displayedCount: 2,
       dataSource: "live",
       liveError: null,
+      isLoading: false,
+      effectiveDate: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -122,11 +128,13 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "mock",
       liveError: null,
+      isLoading: false,
+      effectiveDate: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
-    fireEvent.click(screen.getByRole("button", { name: "notams->live" }));
+    fireEvent.click(screen.getByRole("button", { name: /Switch to Live/i }));
 
     expect(toggleUseLiveNotams).toHaveBeenCalledTimes(1);
   });
@@ -144,6 +152,8 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "fallback",
       liveError: new Error("Timeout"),
+      isLoading: false,
+      effectiveDate: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });

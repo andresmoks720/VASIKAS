@@ -43,7 +43,7 @@ function SidebarPanel({
   historyArea: string | null;
 }) {
   switch (tool) {
-    case "airplanes":
+    case "air":
       return <AirTrafficPanel />;
     case "sensors":
       return <SensorsPanel />;
@@ -51,7 +51,7 @@ function SidebarPanel({
       return <GeofencesPanel />;
     case "notams":
       return <NotamsPanel />;
-    case "drones":
+    case "known-drones":
       return <KnownDronesPanel />;
     case "history":
       return <HistoryPanel historyArea={historyArea} historyDate={historyDate} />;

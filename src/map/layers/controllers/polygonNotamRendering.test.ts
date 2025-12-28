@@ -31,14 +31,14 @@ describe("polygon NOTAM rendering", () => {
 
     const normalized = normalizeNotams(mockNotamData, "2025-12-18T10:00:00Z");
     expect(normalized).toHaveLength(1);
-    
+
     const notam = normalized[0];
     expect(notam.geometry?.kind).toBe("polygon");
-    
+
     const olGeometry = notamGeometryToOl(notam.geometry);
     expect(olGeometry).not.toBeNull();
     expect(olGeometry?.getType()).toBe("Polygon");
-    
+
     const coords = olGeometry?.getCoordinates() ?? [];
     expect(coords.length).toBeGreaterThan(0);
     expect(coords[0].length).toBeGreaterThan(0); // Should have at least one ring
@@ -82,14 +82,14 @@ describe("polygon NOTAM rendering", () => {
 
     const normalized = normalizeNotams(mockNotamData, "2025-12-18T10:00:00Z");
     expect(normalized).toHaveLength(1);
-    
+
     const notam = normalized[0];
     expect(notam.geometry?.kind).toBe("multiPolygon");
-    
+
     const olGeometry = notamGeometryToOl(notam.geometry);
     expect(olGeometry).not.toBeNull();
     expect(olGeometry?.getType()).toBe("MultiPolygon");
-    
+
     const coords = olGeometry?.getCoordinates() ?? [];
     expect(coords.length).toBe(2); // Should have 2 polygons
   });
@@ -132,18 +132,18 @@ describe("polygon NOTAM rendering", () => {
 
     const normalized = normalizeNotams(mockNotamData, "2025-12-18T10:00:00Z");
     expect(normalized).toHaveLength(2);
-    
+
     // Check circle NOTAM
     const circleNotam = normalized.find(n => n.id === "A1234/25");
     expect(circleNotam?.geometry?.kind).toBe("circle");
-    const circleOlGeometry = notamGeometryToOl(circleNotam?.geometry);
+    const circleOlGeometry = notamGeometryToOl(circleNotam?.geometry ?? null);
     expect(circleOlGeometry).not.toBeNull();
     expect(circleOlGeometry?.getType()).toBe("Polygon"); // Circles are converted to polygons
-    
+
     // Check polygon NOTAM
     const polygonNotam = normalized.find(n => n.id === "B5678/25");
     expect(polygonNotam?.geometry?.kind).toBe("polygon");
-    const polygonOlGeometry = notamGeometryToOl(polygonNotam?.geometry);
+    const polygonOlGeometry = notamGeometryToOl(polygonNotam?.geometry ?? null);
     expect(polygonOlGeometry).not.toBeNull();
     expect(polygonOlGeometry?.getType()).toBe("Polygon");
   });

@@ -8,7 +8,7 @@ import { routes } from "@/app/routes";
 describe("MapShell routing", () => {
   it("renders the air panel by default and switches tools via toolbar", async () => {
     const router = createMemoryRouter(routes, {
-      initialEntries: ["/airplanes"],
+      initialEntries: ["/air"],
     });
 
     render(<RouterProvider router={router} />);
@@ -21,9 +21,9 @@ describe("MapShell routing", () => {
 
     expect(await screen.findByRole("heading", { name: /sensors/i })).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: /drones/i }));
+    await user.click(screen.getByRole("button", { name: /known drones/i }));
 
-    expect(await screen.findByRole("heading", { name: /drones/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /known drones/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /history/i }));
 

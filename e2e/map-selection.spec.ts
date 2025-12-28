@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("map selection", () => {
   test("clicking a flight marker updates the URL entity", async ({ page }) => {
-    await page.goto("/airplanes");
+    await page.goto("/air");
 
     await expect(page.getByRole("heading", { name: /airplanes/i })).toBeVisible();
     await expect(page.getByText("FIN123")).toBeVisible();

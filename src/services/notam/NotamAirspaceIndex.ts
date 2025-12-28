@@ -1,5 +1,5 @@
 import { NormalizedNotam, NotamGeometry } from "./notamTypes";
-import { AirspaceFeature, EnhancedNotam } from "../airspace/airspaceTypes";
+import { AirspaceFeature, AirspaceGeometry, EnhancedNotam } from "../airspace/airspaceTypes";
 
 /**
  * Combines eAIP airspace data with NOTAM data to provide enhanced visualization
@@ -36,7 +36,7 @@ export class NotamAirspaceIndex {
    * Normalize designator for comparison (e.g., "EER15D" vs "EER 15D")
    */
   private normalizeDesignator(designator: string): string {
-    return designator.toUpperCase().replace(/\s+/g, '');
+    return designator.toUpperCase().replace(/[\s\-_]+/g, '');
   }
 
   /**
@@ -58,27 +58,38 @@ export class NotamAirspaceIndex {
       if (designator) {
         const airspaces = this.getAirspaceByDesignator(designator);
         if (airspaces.length > 0) {
+          const conversionIssues: string[] = [];
           const geometries = airspaces
-            .map(a => this.convertAirspaceToNotamGeometry(a.geometry))
+            .map(a => {
+              const result = this.convertAirspaceToNotamGeometry(a.geometry);
+              if (result.issues) conversionIssues.push(...result.issues);
+              return result.geometry;
+            })
             .filter((g): g is NotamGeometry => g !== null);
 
           if (geometries.length > 0) {
-            // If multiple geometries, merge into a MultiPolygon (or just pick the first if it's already one)
+            // If multiple geometries, merge into a MultiPolygon
             const combinedGeometry = this.mergeGeometries(geometries);
             const firstAirspace = airspaces[0]!;
+
+            // Merge details: keep original issues if any, but mark enhancement success
+            const enhancedIssues = [
+              ...(airspaces.length > 1 ? [`MULTI_PART_AIRSPACE (${airspaces.length} parts)`] : [])
+            ];
 
             return {
               ...notam,
               enhancedGeometry: combinedGeometry,
               sourceGeometry: notam.geometry, // Keep original geometry as fallback
+              sourceGeometrySource: notam.geometrySource, // Track original source
               geometrySource: this.currentSourceType,
               geometrySourceDetails: {
-                ...notam.geometrySourceDetails, // Preserve original source details
+                ...notam.geometrySourceDetails, // Preserve original source details (v1 parser info etc)
                 source: this.currentSourceType,
                 sourceUrl: firstAirspace.properties.sourceUrl,
                 effectiveDate: this.currentEffectiveDate || firstAirspace.properties.effectiveDate,
                 parserVersion: firstAirspace.properties.parserInfo?.version,
-                issues: airspaces.length > 1 ? [`MULTI_PART_AIRSPACE (${airspaces.length} parts)`] : []
+                issues: [...(notam.geometrySourceDetails?.issues || []), ...enhancedIssues, ...conversionIssues]
               },
               issues: []
             };
@@ -88,8 +99,12 @@ export class NotamAirspaceIndex {
               ...notam,
               enhancedGeometry: null,
               sourceGeometry: notam.geometry,
-              geometrySource: notam.geometrySource,
-              geometrySourceDetails: notam.geometrySourceDetails,
+              geometrySource: notam.geometrySource, // Use original source
+              geometrySourceDetails: {
+                ...notam.geometrySourceDetails,
+                source: notam.geometrySourceDetails?.source ?? 'none',
+                issues: [...(notam.geometrySourceDetails?.issues || []), 'ENHANCEMENT_GEOMETRY_INVALID']
+              },
               issues: ['ENHANCEMENT_GEOMETRY_INVALID', ...(notam.geometry ? [] : ['NO_GEOMETRY'])]
             };
           }
@@ -138,37 +153,67 @@ export class NotamAirspaceIndex {
   /**
    * Convert AirspaceGeometry to NotamGeometry format
    */
-  private convertAirspaceToNotamGeometry(airspaceGeometry: import("../airspace/airspaceTypes").AirspaceGeometry): NotamGeometry | null {
+  private convertAirspaceToNotamGeometry(airspaceGeometry: AirspaceGeometry): { geometry: NotamGeometry | null, issues?: string[] } {
     if (airspaceGeometry.type === 'Polygon') {
       return {
-        kind: 'polygon',
-        rings: airspaceGeometry.coordinates
+        geometry: {
+          kind: 'polygon',
+          rings: airspaceGeometry.coordinates
+        }
       };
     } else if (airspaceGeometry.type === 'MultiPolygon') {
       return {
-        kind: 'multiPolygon',
-        polygons: airspaceGeometry.coordinates as [number, number][][][]
+        geometry: {
+          kind: 'multiPolygon',
+          polygons: airspaceGeometry.coordinates
+        }
       };
     }
-    return null;
+    return {
+      geometry: null,
+      issues: [`UNSUPPORTED_AIRSPACE_GEOMETRY_TYPE: ${(airspaceGeometry as any).type}`]
+    };
   }
 
   /**
-   * Extract designator from NOTAM text (e.g., "EER15D", "EED2", etc.)
+   * Extract designator from NOTAM text (e.g., "EER15D", "TSA 4A", "EED2", etc.)
    */
   private extractDesignator(text: string): string | null {
-    // Look for patterns like EER15D, EED2, EEPxx, etc.
-    const designatorRegex = /\b((?:EER|EED|EEP|EET)\d+[A-Z]?)\b/gi;
+    // Look for patterns like EER15D, EED2, EEPxx, TSAxx, TRAxx, TMA 1, CTR TARTU, etc.
+    // Handles optional spaces between prefix and ID
+    // Broadened to include TMA, CTR, CTA, FIR, UIR, ADIZ
+    const designatorRegex = /\b((?:EER|EED|EEP|EET|TSA|TRA|CBA|EEN|EEY|EEA|EEL|EEM|EEO|EES|EEV|TMA|CTR|CTA|FIR|UIR|ADIZ|EE[-_]?[RDP])\s*[A-Z0-9/-]+(?:\s+[A-Z0-9-]+)?)\b/gi;
     const matches = text.match(designatorRegex);
 
     if (matches) {
-      // Return the first match that looks like a valid airspace designator
+      // First try: exact matches (normalized)
       for (const match of matches) {
         const normalized = this.normalizeDesignator(match.trim());
-        // Validate that it's a known type (EER, EED, EEP, etc.)
-        if (/^(EER|EED|EEP|EET)/i.test(normalized)) {
+        if (this.hasDesignator(normalized)) {
           return normalized;
         }
+      }
+
+      // Second try: handle multi-word matches (e.g. "TMA 1 ACTIVE" should try "TMA 1")
+      for (const match of matches) {
+        const parts = match.trim().split(/\s+/);
+        if (parts.length > 1) {
+          for (let i = parts.length - 1; i >= 1; i--) {
+            const candidate = this.normalizeDesignator(parts.slice(0, i).join(' '));
+            if (this.hasDesignator(candidate)) {
+              return candidate;
+            }
+          }
+        }
+      }
+
+      // Fallback: original logic for the first match if no index match found
+      const firstNormalized = this.normalizeDesignator(matches[0].trim());
+      // Re-normalize to prefix only for the check if it's a multi-word match
+      const firstPart = matches[0].trim().split(/\s+/)[0];
+      const checkNormalized = this.normalizeDesignator(firstPart);
+      if (/^(EER|EED|EEP|EET|TSA|TRA|CBA|EEN|EEY|EEA|EEL|EEM|EEO|EES|EEV|TMA|CTR|CTA|FIR|UIR|ADIZ|EE[-_]?[RDP])/i.test(checkNormalized)) {
+        return this.normalizeDesignator(matches[0].trim());
       }
     }
 

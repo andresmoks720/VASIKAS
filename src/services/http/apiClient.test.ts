@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { getJson, withTimeout } from "./apiClient";
+import { getJson, getText, withTimeout } from "./apiClient";
 
 describe("apiClient.getJson", () => {
   const originalFetch = globalThis.fetch;
@@ -61,11 +61,41 @@ describe("apiClient.getJson", () => {
   });
 
   it("wraps non-Error rejections as network ApiError", async () => {
-    globalThis.fetch = vi.fn().mockRejectedValue("offline");
-
     await expect(getJson("/network")).rejects.toMatchObject({
       kind: "network",
       url: "/network",
+    });
+  });
+});
+
+describe("apiClient.getText", () => {
+  const originalFetch = globalThis.fetch;
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+  });
+
+  it("returns text content for successful responses", async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      statusText: "OK",
+      text: async () => "Hello World",
+    });
+
+    await expect(getText("/text")).resolves.toBe("Hello World");
+  });
+
+  it("throws ApiError for HTTP errors", async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      statusText: "Not Found",
+    });
+
+    await expect(getText("/notfound")).rejects.toMatchObject({
+      kind: "http",
+      status: 404,
     });
   });
 });

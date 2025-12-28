@@ -4,8 +4,10 @@ import { MapShell } from "@/layout/MapShell/MapShell";
 import { NotamGeometryTestPage } from "@/test/NotamGeometryTestPage";
 
 export const routes = [
-  { path: "/", element: <Navigate to="/airplanes" replace /> },
-  { path: "/test/notam-geometry", element: <NotamGeometryTestPage /> },
+  { path: "/", element: <Navigate to="/air" replace /> },
+  ...(import.meta.env.DEV || import.meta.env.MODE === "test"
+    ? [{ path: "/test/notam-geometry", element: <NotamGeometryTestPage /> }]
+    : []),
   {
     path: "/:tool",
     element: <MapShell />,

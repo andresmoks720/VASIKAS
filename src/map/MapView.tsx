@@ -23,8 +23,8 @@ import {
   useSharedAdsbStream,
   useSharedDronesStream,
   useSharedSensorsStream,
+  useSharedNotamStream,
 } from "@/services/streams/StreamsProvider";
-import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
 import { mapApi } from "./mapApi";
 import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
 import { createDronesLayerController } from "@/map/layers/controllers/createDronesLayerController";
@@ -82,7 +82,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const { data: sensors } = useSharedSensorsStream();
   const { data: aircraft, tracks: adsbTracks } = useSharedAdsbStream();
   const { data: drones } = useSharedDronesStream();
-  const { data: notams } = useEnhancedNotamStream();
+  const { data: notams } = useSharedNotamStream();
   const mocksEnabled = ENV.useMocks();
   const notamsWithGeometry = useMemo(() => (notams ?? []).filter((notam) => notam.geometry || notam.enhancedGeometry), [notams]);
 
@@ -404,13 +404,13 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
         const layer =
           kind === "drone"
             ? dronesController.layer
-          : kind === "sensor"
-            ? sensorsController.layer
-          : kind === "aircraft" || kind === "flight"
-            ? adsbLayerRef.current
-            : kind === "notam"
-              ? notamsController.layer
-              : null;
+            : kind === "sensor"
+              ? sensorsController.layer
+              : kind === "aircraft" || kind === "flight"
+                ? adsbLayerRef.current
+                : kind === "notam"
+                  ? notamsController.layer
+                  : null;
 
         const lookupId = kind === "aircraft" || kind === "flight" ? `flight:${id}` : id;
         const feature = layer?.getSource()?.getFeatureById(lookupId);
@@ -651,7 +651,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
 
   // Sync layer visibility with tool
   useEffect(() => {
-    if (tool === "airplanes") {
+    if (tool === "air") {
       adsbLayerRef.current?.setVisible(true);
     }
   }, [tool]);

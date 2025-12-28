@@ -4,14 +4,14 @@ import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { useDronesStream } from "@/services/drones/droneClient";
 import { useDronesSnapshotStream } from "@/services/drones/droneSnapshotClient";
 import { useSensorsStream } from "@/services/sensors/sensorsClient";
-import { useNotamStream } from "@/services/notam/notamStream";
+import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
 import { ENV } from "@/shared/env";
 
 type StreamContextValue = {
   adsb: ReturnType<typeof useAdsbStream>;
   drones: ReturnType<typeof useDronesStream>;
   sensors: ReturnType<typeof useSensorsStream>;
-  notams: ReturnType<typeof useNotamStream>;
+  notams: ReturnType<typeof useEnhancedNotamStream>;
 };
 
 const StreamsContext = createContext<StreamContextValue | null>(null);
@@ -30,7 +30,7 @@ export function StreamsProvider({ children }: PropsWithChildren) {
   const adsb = useAdsbStream();
   const drones = useSelectedDronesStream();
   const sensors = useSensorsStream();
-  const notams = useNotamStream();
+  const notams = useEnhancedNotamStream();
 
   return (
     <StreamsContext.Provider value={{ adsb, drones, sensors, notams }}>

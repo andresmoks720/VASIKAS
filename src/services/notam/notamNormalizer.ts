@@ -101,6 +101,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         }
     }
 
+    let isSynthetic = false;
     let geometryResult = parseNotamGeometryWithReason(item);
 
     // If standard parsing failed, try EANS qualifiers
@@ -111,6 +112,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         if (typeof gc.radiusNm === "number" && gc.radiusNm < 900) {
             const center = parseEansCoordinate(gc.eansCoord);
             if (center) {
+                isSynthetic = true;
                 geometryResult = {
                     geometry: {
                         kind: "circle",
@@ -128,6 +130,11 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
     if (!geometry && typeof process !== "undefined" && process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.debug("[notam] missing geometry", { id, geometryCandidate });
+    }
+
+    const issues = geometryResult.reason ? [geometryResult.reason] : [];
+    if (isSynthetic) {
+        issues.push("SYNTHETIC_GEOMETRY");
     }
 
     return {
@@ -149,7 +156,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         geometrySourceDetails: geometry ? {
             source: 'notamText',
             parserVersion: '1.0.0',
-            issues: geometryResult.reason ? [geometryResult.reason] : []
+            issues: issues,
         } : undefined,
         eventTimeUtc,
         raw: item,

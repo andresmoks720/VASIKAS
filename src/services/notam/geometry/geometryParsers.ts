@@ -278,7 +278,7 @@ function parseGeometryCandidate(value: unknown): GeometryParseResult {
         }
 
         // Check if this is a GeoJSON object (has a GeoJSON type field)
-        const isGeoJsonType = ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection", "Feature", "FeatureCollection"].includes(type);
+        const isGeoJsonType = type && ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection", "Feature", "FeatureCollection"].includes(type);
 
         if (isGeoJsonType) {
             // For GeoJSON objects, handle supported types
@@ -503,7 +503,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 // Check if ring is closed (first and last points are the same)
                 const tolerance = 0.000001;
                 const isClosed = Math.abs(firstPoint[0] - lastPoint[0]) < tolerance &&
-                                Math.abs(firstPoint[1] - lastPoint[1]) < tolerance;
+                    Math.abs(firstPoint[1] - lastPoint[1]) < tolerance;
 
                 const ring = isClosed ? coordChain : [...coordChain, firstPoint];
 
