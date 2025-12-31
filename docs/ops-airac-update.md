@@ -32,7 +32,7 @@ Day +1: Data scraped and processed by our system
 
 ### Manual Update
 - **Trigger**: When automated process fails or manual intervention needed
-- **Process**: Run `pnpm eaip:pull` command
+- **Process**: Run `npm run eaip:pull` command
 - **Verification**: Manual review of new data before deployment
 
 ## Monitoring
@@ -62,7 +62,7 @@ Day +1: Data scraped and processed by our system
 
 ### Manual Rollback
 - **Process**: Restore from backup data files
-- **Command**: `pnpm eaip:restore <date>`
+- **Command**: Manual restoration from backup data files in tools/eaip-import/data/airspace/ee/backup/
 - **Verification**: Confirm restored data is valid
 
 ## Operational Procedures

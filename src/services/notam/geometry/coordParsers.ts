@@ -141,6 +141,189 @@ export function parseDmsLatLonPair(text: string): [number, number] | null {
 }
 
 /**
+ * Enhanced coordinate parser that supports multiple formats commonly found in NOTAMs
+ * Supports:
+ * - DMS format: "591633N 0261500E" (current format)
+ * - Decimal degrees: "N59.1234 E024.5678" or "59.1234N 024.5678E"
+ * - Degrees Decimal Minutes: "N5945.123 E02430.456"
+ * - Space-separated DMS: "N 59 12 34 E 024 56 78"
+ * - Various separators and formats
+ */
+export function parseEnhancedCoordinate(text: string): [number, number] | null {
+  if (!text || typeof text !== 'string') {
+    return null;
+  }
+
+  // Clean up the text
+  const cleanText = text.trim().replace(/\s+/g, ' ');
+
+  // Try different parsing strategies in order of likelihood
+  return (
+    parseDecimalDegrees(cleanText) ||
+    parseDmsWithSpaces(cleanText) ||
+    parseDegreesDecimalMinutes(cleanText) ||
+    parseDmsLatLonPair(cleanText) || // Original format
+    parseEansCoordinate(cleanText) || // Original format
+    null
+  );
+}
+
+/**
+ * Parse decimal degrees format like "N59.1234 E024.5678" or "59.1234N 024.5678E"
+ */
+function parseDecimalDegrees(text: string): [number, number] | null {
+  // Pattern for decimal degrees: N59.1234 E024.5678 or 59.1234N 024.5678E
+  const decimalPattern = /([NS])?(\d{2,3}\.\d+)\s*([EW])?\s*([NS])?(\d{2,3}\.\d+)([EW])?/i;
+  const match = text.match(decimalPattern);
+
+  if (match) {
+    // The pattern can match in different ways, so we need to determine which groups are lat/lon
+    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDir] = match;
+
+    let latDir: string | undefined;
+    let lonDir: string | undefined;
+    let latStrFinal: string;
+    let lonStrFinal: string;
+
+    // Determine which is latitude and which is longitude based on the format
+    if (dir1 && !dir3OrLat2) {
+      // Format: N59.1234 E024.5678
+      latDir = dir1;
+      latStrFinal = latStr;
+      lonDir = dir2OrLonDir;
+      lonStrFinal = lonStr;
+    } else if (dir3OrLat2 && !dir1) {
+      // Format: 59.1234N 024.5678E
+      latStrFinal = latStr;
+      latDir = dir3OrLat2;
+      lonStrFinal = lonStr;
+      lonDir = lonDir;
+    } else {
+      // Try to determine based on value ranges
+      const latVal = parseFloat(latStr);
+      const lonVal = parseFloat(lonStr);
+
+      if (latVal <= 90 && lonVal <= 180) {
+        latStrFinal = latStr;
+        lonStrFinal = lonStr;
+        // Try to extract directions from other parts
+        const directionMatch = text.match(/([NS])|([EW])/gi);
+        if (directionMatch && directionMatch.length >= 2) {
+          latDir = directionMatch[0];
+          lonDir = directionMatch[1];
+        }
+      } else {
+        return null;
+      }
+    }
+
+    const lat = parseFloat(latStrFinal);
+    const lon = parseFloat(lonStrFinal);
+
+    if (isNaN(lat) || isNaN(lon)) {
+      return null;
+    }
+
+    // Apply direction signs
+    let finalLat = lat;
+    let finalLon = lon;
+
+    if (latDir) {
+      if (latDir.toUpperCase() === 'S') {
+        finalLat = -lat;
+      }
+    }
+
+    if (lonDir) {
+      if (lonDir.toUpperCase() === 'W') {
+        finalLon = -lon;
+      }
+    }
+
+    // Validate ranges
+    if (Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180) {
+      return null;
+    }
+
+    return [finalLon, finalLat];
+  }
+
+  return null;
+}
+
+/**
+ * Parse DMS with spaces format like "N 59 12 34 E 024 56 78"
+ */
+function parseDmsWithSpaces(text: string): [number, number] | null {
+  // Pattern for DMS with spaces: N 59 12 34 E 024 56 78
+  const pattern = /([NS])\s+(\d{1,3})\s+(\d{1,2})\s+(\d{1,2})\s+([EW])\s+(\d{1,3})\s+(\d{1,2})\s+(\d{1,2})/i;
+  const match = text.match(pattern);
+
+  if (match) {
+    const [, latDir, latDeg, latMin, latSec, lonDir, lonDeg, lonMin, lonSec] = match;
+
+    const lat = parseInt(latDeg) + parseInt(latMin) / 60 + parseInt(latSec) / 3600;
+    const lon = parseInt(lonDeg) + parseInt(lonMin) / 60 + parseInt(lonSec) / 3600;
+
+    let finalLat = lat;
+    let finalLon = lon;
+
+    if (latDir.toUpperCase() === 'S') {
+      finalLat = -lat;
+    }
+
+    if (lonDir.toUpperCase() === 'W') {
+      finalLon = -lon;
+    }
+
+    if (Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180) {
+      return null;
+    }
+
+    return [finalLon, finalLat];
+  }
+
+  return null;
+}
+
+/**
+ * Parse Degrees Decimal Minutes format like "N5945.123 E02430.456"
+ * This format has degrees as first digits and decimal minutes following
+ */
+function parseDegreesDecimalMinutes(text: string): [number, number] | null {
+  // Pattern for degrees decimal minutes: N5945.123 E02430.456
+  // Where 59 is degrees, 45.123 is decimal minutes
+  const pattern = /([NS])(\d{2,3})(\d{2}\.\d+)\s*([EW])(\d{2,3})(\d{2}\.\d+)/i;
+  const match = text.match(pattern);
+
+  if (match) {
+    const [, latDir, latDeg, latMin, lonDir, lonDeg, lonMin] = match;
+
+    const lat = parseInt(latDeg) + parseFloat(latMin) / 60;
+    const lon = parseInt(lonDeg) + parseFloat(lonMin) / 60;
+
+    let finalLat = lat;
+    let finalLon = lon;
+
+    if (latDir.toUpperCase() === 'S') {
+      finalLat = -lat;
+    }
+
+    if (lonDir.toUpperCase() === 'W') {
+      finalLon = -lon;
+    }
+
+    if (Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180) {
+      return null;
+    }
+
+    return [finalLon, finalLat];
+  }
+
+  return null;
+}
+
+/**
  * Parse coordinate chain from eAIP format like "591633N 0261500E - 591639N 0255647E - ..."
  * Returns an array of [lon, lat] coordinates or null if parsing fails
  *
@@ -170,6 +353,13 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
             continue; // Skip descriptive text segments
         }
 
+        // Try enhanced coordinate parsing first
+        const enhancedCoord = parseEnhancedCoordinate(trimmed);
+        if (enhancedCoord) {
+            coordinates.push(enhancedCoord);
+            continue;
+        }
+
         // Match pattern like "591633N 0261500E" (DDMMSSN DDDMMSSEx)
         const match = trimmed.match(/(\d{6})([NS])\s+(\d{6,7})([EW])/);
         if (!match) {
@@ -183,7 +373,8 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                     continue;
                 } else {
                     // This is not recognized descriptive text, so it's an invalid coordinate format
-                    return null; // Invalid coordinate format
+                    // But we continue rather than returning null, as other segments might be valid
+                    continue; // Skip this invalid segment but continue with others
                 }
             }
 
@@ -216,7 +407,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                 lonMin = parseInt(lonDMS.substring(3, 5), 10);
                 lonSec = parseInt(lonDMS.substring(5, 7), 10);
             } else {
-                return null; // Invalid longitude format
+                continue; // Invalid longitude format, skip this segment
             }
 
             let lon = lonDeg + lonMin / 60 + lonSec / 3600;
@@ -255,7 +446,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                 lonMin = parseInt(lonDMS.substring(3, 5), 10);
                 lonSec = parseInt(lonDMS.substring(5, 7), 10);
             } else {
-                return null; // Invalid longitude format
+                continue; // Invalid longitude format, skip this segment
             }
 
             let lon = lonDeg + lonMin / 60 + lonSec / 3600;
@@ -274,6 +465,47 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
     }
 
     return coordinates;
+}
+
+/**
+ * Enhanced coordinate chain parser that supports multiple formats
+ */
+export function parseEnhancedCoordinateChain(text: string): [number, number][] | null {
+  if (!text || typeof text !== 'string') {
+    return null;
+  }
+
+  // Split by common separators: " - ", comma, semicolon, or " to "
+  const separators = [' - ', ',', ';', ' to ', ' and ', ' then '];
+  let coordSegments: string[] = [text];
+
+  // Try each separator to split the text
+  for (const sep of separators) {
+    if (text.includes(sep)) {
+      coordSegments = text.split(sep);
+      break;
+    }
+  }
+
+  const coordinates: [number, number][] = [];
+
+  for (const segment of coordSegments) {
+    const trimmed = segment.trim();
+
+    // Skip if it's descriptive text
+    if (containsDescriptiveText(trimmed)) {
+      continue;
+    }
+
+    const coord = parseEnhancedCoordinate(trimmed);
+    if (coord) {
+      coordinates.push(coord);
+    }
+    // If we can't parse a segment, it might be descriptive text, so we continue
+    // rather than failing the entire chain
+  }
+
+  return coordinates.length > 0 ? coordinates : null;
 }
 
 /**

@@ -16,7 +16,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "gen:mocks": "tsx scripts/generate-mocks.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "eaip:pull": "npm run eaip:pull --prefix tools/eaip-import"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

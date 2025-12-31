@@ -1,4 +1,5 @@
 import { getText } from "../http/apiClient";
+import { discoverLatestEaipUrl } from "./eaipDiscovery";
 
 /**
  * Cache for eAIP HTML content to avoid redundant network requests
@@ -16,13 +17,23 @@ const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 /**
  * Client to fetch eAIP HTML content for airspace data
  */
-export async function fetchEaipHtml(options: { signal?: AbortSignal; timeoutMs?: number } = {}): Promise<{ html: string; sourceUrl: string; fetchedAtUtc: string }> {
-  // Get the URL from environment variables
-  const { ENV } = await import("@/shared/env");
-  const url = ENV.airspace.eaipEnr51Url();
+export async function fetchEaipHtml(options: { signal?: AbortSignal; timeoutMs?: number; autoDiscover?: boolean } = {}): Promise<{ html: string; sourceUrl: string; fetchedAtUtc: string }> {
+  let url: string;
 
-  if (!url) {
-    throw new Error("VITE_EAIP_ENR51_URL environment variable is not set");
+  // Check if auto-discovery is requested
+  if (options.autoDiscover) {
+    url = await discoverLatestEaipUrl();
+    console.log(`Auto-discovered EAIP URL: ${url}`);
+  } else {
+    // Get the URL from environment variables
+    const { ENV } = await import("@/shared/env");
+    url = ENV.airspace.eaipEnr51Url();
+
+    if (!url) {
+      console.warn("VITE_EAIP_ENR51_URL environment variable is not set, attempting auto-discovery...");
+      url = await discoverLatestEaipUrl();
+      console.log(`Auto-discovered EAIP URL: ${url}`);
+    }
   }
 
   // Check cache first

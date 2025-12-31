@@ -25,7 +25,7 @@ export class AirspaceIntegrationService {
   /**
    * Load airspace data from eAIP HTML content (primary method)
    */
-  async loadAirspaceFromHtml(): Promise<void> {
+  async loadAirspaceFromHtml(autoDiscover: boolean = false): Promise<void> {
     if (this.loadHtmlPromise) {
       return this.loadHtmlPromise;
     }
@@ -36,7 +36,7 @@ export class AirspaceIntegrationService {
         const { ENV } = await import("@/shared/env");
         const targetUrl = ENV.airspace.eaipEnr51Url();
 
-        if (targetUrl) {
+        if (targetUrl && !autoDiscover) {
           // Find if we have any cached data for this URL that is fresh
           for (const [key, cached] of this.loadCache.entries()) {
             if (key.startsWith(targetUrl)) {
@@ -54,7 +54,7 @@ export class AirspaceIntegrationService {
         }
 
         // Fetch the HTML content if no fresh cache found
-        const fetchResult = await fetchEaipHtml();
+        const fetchResult = await fetchEaipHtml({ autoDiscover });
 
         // Check if we have a cached version for this source URL + content hash
         const contentHash = this.computeSimpleHash(fetchResult.html);

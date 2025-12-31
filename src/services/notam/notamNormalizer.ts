@@ -7,8 +7,9 @@ import {
     NotamRaw,
 } from "./notamTypes";
 import { parseAltitudesFromText } from "./altitude/altitudeParser";
-import { parseNotamGeometryWithReason } from "./geometry/geometryParsers";
-import { parseEansCoordinate } from "./geometry/coordParsers";
+import { parseNotamGeometryWithReason, validateAndCorrectGeometry } from "./geometry/geometryParsers";
+import { parseEansCoordinate, parseEnhancedCoordinate } from "./geometry/coordParsers";
+import { parseGeometryFromNotamText } from "./geometry/textGeometryParser";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
@@ -113,14 +114,35 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
             const center = parseEansCoordinate(gc.eansCoord);
             if (center) {
                 isSynthetic = true;
+                const rawGeometry = {
+                    kind: "circle",
+                    center,
+                    radiusMeters: gc.radiusNm * NM_TO_METERS,
+                };
+
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(rawGeometry);
                 geometryResult = {
-                    geometry: {
-                        kind: "circle",
-                        center,
-                        radiusMeters: gc.radiusNm * NM_TO_METERS,
-                    },
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
+        }
+    }
+
+    // If still no geometry and we have text, try parsing geometry directly from NOTAM text
+    if (!geometryResult.geometry && text) {
+        const textGeometryResult = parseGeometryFromNotamText(text);
+        if (textGeometryResult.geometry) {
+            // Validate and correct the geometry
+            const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
+            geometryResult = {
+                geometry: validated.geometry,
+                reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+            };
+            isSynthetic = true; // Mark as synthetic since it was derived from text
         }
     }
 

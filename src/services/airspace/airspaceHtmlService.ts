@@ -1,18 +1,29 @@
 import type { AirspaceFeature } from "./airspaceTypes";
+import { discoverLatestEaipUrl } from "./eaipDiscovery";
 
 /**
  * Runtime service to fetch and parse eAIP HTML data for airspace geometry
  */
 export class AirspaceHtmlService {
   /**
-   * Fetches eAIP HTML content from the configured URL
+   * Fetches eAIP HTML content from the configured URL or auto-discovered URL
    */
-  async fetchEaipHtml(): Promise<{ html: string; sourceUrl: string; fetchedAtUtc: string }> {
-    // Get the URL from environment variables
-    const url = import.meta.env.VITE_EAIP_ENR51_URL as string;
+  async fetchEaipHtml(autoDiscover: boolean = false): Promise<{ html: string; sourceUrl: string; fetchedAtUtc: string }> {
+    let url: string;
 
-    if (!url) {
-      throw new Error("VITE_EAIP_ENR51_URL environment variable is not set");
+    if (autoDiscover) {
+      // Auto-discover the latest EAIP URL
+      url = await discoverLatestEaipUrl();
+      console.log(`Auto-discovered EAIP URL: ${url}`);
+    } else {
+      // Get the URL from environment variables
+      url = import.meta.env.VITE_EAIP_ENR51_URL as string;
+
+      if (!url) {
+        console.warn("VITE_EAIP_ENR51_URL environment variable is not set, attempting auto-discovery...");
+        url = await discoverLatestEaipUrl();
+        console.log(`Auto-discovered EAIP URL: ${url}`);
+      }
     }
 
     try {
@@ -74,7 +85,7 @@ export class AirspaceHtmlService {
   /**
    * Fetches and parses eAIP HTML in one operation
    */
-  async fetchAndParseEaipHtml(): Promise<{
+  async fetchAndParseEaipHtml(autoDiscover: boolean = false): Promise<{
     features: AirspaceFeature[];
     issues: string[];
     metadata: {
@@ -84,7 +95,7 @@ export class AirspaceHtmlService {
       featureCount: number;
     };
   }> {
-    const fetchResult = await this.fetchEaipHtml();
+    const fetchResult = await this.fetchEaipHtml(autoDiscover);
     const parseResult = await this.parseEaipHtml(fetchResult.html, fetchResult.sourceUrl);
 
     return {

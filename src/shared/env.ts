@@ -157,9 +157,9 @@ export function parseAdsbMode(rawValue: string | undefined): "live" | "mock" {
 }
 
 const DEFAULT_ADSB_BASE_URL = "https://api.airplanes.live/v2";
-const DEFAULT_ADSB_CENTER_LAT = 58.5648;
-const DEFAULT_ADSB_CENTER_LON = 25.1122;
-const DEFAULT_ADSB_RADIUS_NM = 110;
+const DEFAULT_ADSB_CENTER_LAT = 58.5953;
+const DEFAULT_ADSB_CENTER_LON = 25.0136;
+const DEFAULT_ADSB_RADIUS_NM = 250;
 
 const useMocks = parseBooleanFlag("VITE_USE_MOCKS", import.meta.env.VITE_USE_MOCKS, true);
 const adsbModeRaw = import.meta.env.VITE_ADSB_MODE

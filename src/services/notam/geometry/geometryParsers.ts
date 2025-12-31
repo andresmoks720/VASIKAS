@@ -5,7 +5,9 @@ import {
     NotamGeometry,
     NotamRaw,
 } from "../notamTypes";
-import { parseCoordinateChain, parseEansCoordinate, normalizeCoordinate } from "./coordParsers";
+import { parseCoordinateChain, parseEansCoordinate, normalizeCoordinate, parseEnhancedCoordinate, parseEnhancedCoordinateChain } from "./coordParsers";
+import { parseGeometryFromNotamText } from "./textGeometryParser";
+import { validatePolygonGeometry, type PolygonValidationResult } from "./polygonValidation";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
@@ -494,7 +496,14 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
     try {
         // If candidate is a string that looks like a coordinate chain, try to parse it
         if (isString(candidate)) {
-            const coordChain = parseCoordinateChain(candidate);
+            // Try enhanced coordinate chain parsing first
+            let coordChain = parseEnhancedCoordinateChain(candidate);
+
+            // If enhanced parsing didn't work, try the original parsing
+            if (!coordChain || coordChain.length < 3) {
+                coordChain = parseCoordinateChain(candidate);
+            }
+
             if (coordChain && coordChain.length >= 3) { // Need at least 3 points for a polygon
                 // Close the ring by adding the first point to the end if not already closed
                 const firstPoint = coordChain[0];
@@ -507,11 +516,17 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
 
                 const ring = isClosed ? coordChain : [...coordChain, firstPoint];
 
+                const geometry = {
+                    kind: "polygon",
+                    rings: [ring]
+                };
+
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(geometry);
                 return {
-                    geometry: {
-                        kind: "polygon",
-                        rings: [ring]
-                    }
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
         }
@@ -522,7 +537,14 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
         if (!isArray(candidate)) {
             const strictGeometry = parseGeometryHint(candidate);
             if (strictGeometry.geometry) {
-                return { geometry: applyDatelineSplit(strictGeometry.geometry) };
+                const geometry = applyDatelineSplit(strictGeometry.geometry);
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(geometry);
+                return {
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                };
             }
         }
 
@@ -544,7 +566,13 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
 
             const circle = normalizeCircleFrom(candidate);
             if (circle) {
-                return { geometry: circle };
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(circle);
+                return {
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                };
             }
 
             const type = getString(candidate, "type");
@@ -574,10 +602,20 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                     return { geometry: null, reason: "INVALID_COORDS" };
                 }
                 const splitPolygons = splitPolygonIfDatelineCrossing(rings);
+                let geometry;
                 if (splitPolygons) {
-                    return { geometry: { kind: "multiPolygon", polygons: splitPolygons } };
+                    geometry = { kind: "multiPolygon", polygons: splitPolygons };
+                } else {
+                    geometry = { kind: "polygon", rings };
                 }
-                return { geometry: { kind: "polygon", rings } };
+
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(geometry);
+                return {
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                };
             }
 
             if (type === "MultiPolygon") {
@@ -594,7 +632,16 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                         splitPolygons.push(polygon);
                     }
                 }
-                return { geometry: { kind: "multiPolygon", polygons: splitPolygons } };
+
+                const geometry = { kind: "multiPolygon", polygons: splitPolygons };
+
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(geometry);
+                return {
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                };
             }
 
             if (type) {
@@ -611,10 +658,20 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
         if (isArray(candidate)) {
             const polygons = normalizeMultiPolygon(candidate);
             if (polygons && polygons.length > 0) {
+                let geometry;
                 if (polygons.length === 1) {
-                    return { geometry: { kind: "polygon", rings: polygons[0] } };
+                    geometry = { kind: "polygon", rings: polygons[0] };
+                } else {
+                    geometry = { kind: "multiPolygon", polygons };
                 }
-                return { geometry: { kind: "multiPolygon", polygons } };
+
+                // Validate and correct the geometry
+                const validated = validateAndCorrectGeometry(geometry);
+                return {
+                    geometry: validated.geometry,
+                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                };
             }
 
             const rings = normalizePolygonRings(candidate);
@@ -622,10 +679,51 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 return { geometry: null, reason: "INVALID_COORDS" };
             }
             const splitPolygons = splitPolygonIfDatelineCrossing(rings);
+            let geometry;
             if (splitPolygons) {
-                return { geometry: { kind: "multiPolygon", polygons: splitPolygons } };
+                geometry = { kind: "multiPolygon", polygons: splitPolygons };
+            } else {
+                geometry = { kind: "polygon", rings };
             }
-            return { geometry: { kind: "polygon", rings } };
+
+            // Validate and correct the geometry
+            const validated = validateAndCorrectGeometry(geometry);
+            return {
+                geometry: validated.geometry,
+                reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+            };
+        }
+
+        // If we have a NOTAM object with text, try to parse geometry from the text content
+        if (isObject(candidate)) {
+            const notamText = getString(candidate, "text");
+            if (notamText) {
+                const textGeometryResult = parseGeometryFromNotamText(notamText);
+                if (textGeometryResult.geometry) {
+                    // Validate and correct the geometry
+                    const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
+                    return {
+                        geometry: validated.geometry,
+                        reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                        details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                    };
+                }
+            }
+
+            const notamSummary = getString(candidate, "summary");
+            if (notamSummary && !notamText) { // Only try summary if text wasn't available
+                const textGeometryResult = parseGeometryFromNotamText(notamSummary);
+                if (textGeometryResult.geometry) {
+                    // Validate and correct the geometry
+                    const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
+                    return {
+                        geometry: validated.geometry,
+                        reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                        details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                    };
+                }
+            }
         }
 
         return { geometry: null, reason: "UNSUPPORTED_FORMAT", details: { type: typeof candidate } };
@@ -754,4 +852,28 @@ function extractGeometryCandidates(item: Record<string, unknown>): unknown[] {
     ];
 
     return candidates.filter((candidate) => candidate !== null && candidate !== undefined);
+}
+
+/**
+ * Validates and potentially corrects geometry after parsing
+ * Ensures polygons are properly formed with closed rings and correct winding order
+ */
+export function validateAndCorrectGeometry(geometry: NotamGeometry | null): { geometry: NotamGeometry | null; issues: string[] } {
+  if (!geometry) {
+    return { geometry: null, issues: [] };
+  }
+
+  const validation = validatePolygonGeometry(geometry);
+
+  if (validation.isValid) {
+    return { geometry, issues: [] };
+  }
+
+  // If there are corrections available, use them
+  if (validation.corrected) {
+    return { geometry: validation.corrected, issues: validation.issues };
+  }
+
+  // If no correction is possible, return the original geometry with issues
+  return { geometry, issues: validation.issues };
 }

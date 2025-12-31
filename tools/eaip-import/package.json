@@ -8,7 +8,8 @@
         "build": "tsc",
         "start": "node dist/index.js",
         "parse": "tsx src/index.ts",
-        "eaip:pull": "tsx src/index.ts"
+        "eaip:pull": "tsx src/index.ts",
+        "eaip:restore": "tsx src/restore.ts"
     },
     "dependencies": {
         "cheerio": "^1.0.0-rc.12",
