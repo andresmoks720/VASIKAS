@@ -7,6 +7,24 @@ export const GEOJSON_LOADER_VERSION = "1.0.0";
  * Service to load airspace data from public or data-served GeoJSON
  */
 export class AirspaceLoader {
+  static readonly LATEST_MANIFEST_URL = "/data/airspace/ee/latest.json";
+
+  private resolvePublicUrl(path: string): string {
+    if (/^[a-z][a-z0-9+.-]*:/i.test(path) || path.startsWith("//")) {
+      return path;
+    }
+
+    const baseUrl = import.meta.env.BASE_URL ?? "/";
+    const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+    return `${normalizedBase}${normalizedPath}`;
+  }
+
+  private isValidEffectiveDate(value: unknown): value is string {
+    return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  }
+
   /**
    * Load airspace data from a GeoJSON endpoint
    * @param url The URL to the GeoJSON file (e.g., /data/airspace/ee/${date}/enr5_1.geojson)
@@ -54,7 +72,7 @@ export class AirspaceLoader {
    * @param effectiveDate The date string in YYYY-MM-DD format
    */
   async loadAirspaceByDate(effectiveDate: string): Promise<{ features: AirspaceFeature[], metadata?: any, sourceUrl?: string }> {
-    const url = `/data/airspace/ee/${effectiveDate}/enr5_1.geojson`;
+    const url = this.resolvePublicUrl(`/data/airspace/ee/${effectiveDate}/enr5_1.geojson`);
     const result = await this.loadAirspaceData(url);
 
     // Add loader version to metadata
@@ -70,9 +88,42 @@ export class AirspaceLoader {
   }
 
   /**
+   * Load airspace data using the latest manifest pointer.
+   */
+  async loadLatestAirspace(manifestUrl: string = AirspaceLoader.LATEST_MANIFEST_URL): Promise<{
+    features: AirspaceFeature[];
+    metadata?: any;
+    sourceUrl?: string;
+  }> {
+    const resolvedManifestUrl = this.resolvePublicUrl(manifestUrl);
+    const response = await fetch(resolvedManifestUrl);
+
+    if (!response.ok) {
+      throw new Error(`Failed to load latest airspace manifest: ${response.status} ${response.statusText}`);
+    }
+
+    const manifest = await response.json();
+    if (!this.isValidEffectiveDate(manifest?.effectiveDate)) {
+      throw new Error("Invalid latest airspace manifest: missing effectiveDate");
+    }
+
+    const result = await this.loadAirspaceByDate(manifest.effectiveDate);
+
+    return {
+      features: result.features,
+      sourceUrl: result.sourceUrl,
+      metadata: {
+        ...result.metadata,
+        latestManifest: manifest,
+        latestManifestUrl: resolvedManifestUrl,
+      },
+    };
+  }
+
+  /**
    * Get the URL for airspace data by effective date
    */
   getAirspaceUrl(effectiveDate: string): string {
-    return `/data/airspace/ee/${effectiveDate}/enr5_1.geojson`;
+    return this.resolvePublicUrl(`/data/airspace/ee/${effectiveDate}/enr5_1.geojson`);
   }
 }

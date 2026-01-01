@@ -45,6 +45,8 @@
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
 | UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
+| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `src/services/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
+| UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback | Yes | `src/services/airspace/airspaceLoader.test.ts` | Ensures latest.json effective date drives GeoJSON load. |
 
 ## Test Plan (current ticket)
 
@@ -83,3 +85,5 @@
 | UNIT-SPEED-001 | Speed formatter edge cases. (Implemented) | Unit | `src/shared/units/speed.test.ts` |
 | UNIT-UTC-002 | UTC timestamp whitespace + boundary checks. (Implemented) | Unit | `src/shared/time/utc.test.ts` |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles fallback only on error. (Implemented) | Unit | `src/map/layers/offlineXyz.test.ts` |
+| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads. (Implemented) | Unit | `src/services/notam/useEnhancedNotamStream.test.tsx` |
+| UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback. (Implemented) | Unit | `src/services/airspace/airspaceLoader.test.ts` |

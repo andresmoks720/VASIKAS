@@ -1,4 +1,4 @@
-import { NormalizedNotam, NotamGeometry } from "../notam/notamTypes";
+import { NormalizedNotam } from "../notam/notamTypes";
 import { AirspaceFeature, EnhancedNotam } from "./airspaceTypes";
 import { AirspaceLoader } from "./airspaceLoader";
 import { NotamAirspaceIndex } from "../notam/NotamAirspaceIndex";
@@ -151,6 +151,25 @@ export class AirspaceIntegrationService {
       this.loadedSourceUrl = sourceUrl || `geojson://${effectiveDate}`;
     } catch (error) {
       console.error(`Failed to load airspace data for ${effectiveDate}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Load airspace data from the latest manifest pointer.
+   */
+  async loadLatestAirspaceData(): Promise<void> {
+    try {
+      const { features, sourceUrl, metadata } = await this.airspaceLoader.loadLatestAirspace();
+      const effectiveDate = metadata?.latestManifest?.effectiveDate ?? null;
+
+      this.airspaceIndex.loadAirspaceData(features, 'geojson', effectiveDate);
+
+      this.loadedDate = effectiveDate;
+      this.loadedSourceType = 'geojson';
+      this.loadedSourceUrl = sourceUrl || (effectiveDate ? `geojson://${effectiveDate}` : null);
+    } catch (error) {
+      console.error("Failed to load latest airspace data:", error);
       throw error;
     }
   }

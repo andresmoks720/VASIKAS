@@ -56,26 +56,35 @@ export function useEnhancedNotamStream() {
         let htmlFetchFailed = false;
         let geojsonFetchFailed = false;
 
-        // Try to load airspace data from HTML first
-        try {
-          const today = new Date().toISOString().split('T')[0];
-          if (!airspaceService.isLoadedFromHtml() && !airspaceService.isLoadedForDate(today)) {
-            await airspaceService.loadAirspaceFromHtml();
-          }
-        } catch (htmlError) {
-          console.warn("Failed to load airspace data from HTML:", htmlError);
-          htmlFetchFailed = true;
+        const loadedSourceType = airspaceService.getLoadedSourceType();
 
-          // Fallback to GeoJSON loading
+        if (!loadedSourceType) {
+          // Try to load airspace data from HTML first
           try {
-            const fallbackDate = new Date().toISOString().split('T')[0];
-            if (!airspaceService.isLoadedForDate(fallbackDate)) {
-              await airspaceService.loadAirspaceData(fallbackDate);
+            const today = new Date().toISOString().split('T')[0];
+            if (!airspaceService.isLoadedFromHtml() && !airspaceService.isLoadedForDate(today)) {
+              await airspaceService.loadAirspaceFromHtml();
             }
-          } catch (geojsonError) {
-            console.error("Failed to load airspace data from GeoJSON:", geojsonError);
-            geojsonFetchFailed = true;
-            throw geojsonError;
+          } catch (htmlError) {
+            console.warn("Failed to load airspace data from HTML:", htmlError);
+            htmlFetchFailed = true;
+
+            // Fallback to GeoJSON loading
+            try {
+              await airspaceService.loadLatestAirspaceData();
+            } catch (geojsonError) {
+              console.warn("Failed to load latest airspace data from GeoJSON:", geojsonError);
+              const fallbackDate = new Date().toISOString().split('T')[0];
+              try {
+                if (!airspaceService.isLoadedForDate(fallbackDate)) {
+                  await airspaceService.loadAirspaceData(fallbackDate);
+                }
+              } catch (fallbackError) {
+                console.error("Failed to load airspace data from GeoJSON:", fallbackError);
+                geojsonFetchFailed = true;
+                throw fallbackError;
+              }
+            }
           }
         }
 
