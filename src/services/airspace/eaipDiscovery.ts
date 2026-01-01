@@ -2,7 +2,6 @@
  * Utility to automatically discover the latest EAIP URL by following redirects and parsing effective dates
  */
 
-import * as cheerio from 'cheerio';
 
 /**
  * Discover the latest EAIP ENR 5.1 URL by following redirects from the main EAIP page
@@ -38,36 +37,36 @@ export async function getCurrentEffectiveDate(): Promise<string> {
   try {
     const response = await fetch('https://eaip.eans.ee/history-en-GB.html');
     const html = await response.text();
-    const $ = cheerio.load(html);
-
-    // Look for the effective date after "Currently Effective Issue"
-    // The page contains a table with the date like "25 DEC 2025"
-
-    // Find the table cell that contains the effective date
-    let effectiveDate = '';
-    $('td.date a').each((i, elem) => {
-      const text = $(elem).text().trim();
-      // Look for dates in format "DD MMM YYYY" like "25 DEC 2025"
-      const dateMatch = text.match(/^(\d{1,2}) ([A-Z]{3}) (\d{4})$/);
-      if (dateMatch) {
-        const [, day, monthStr, year] = dateMatch;
-
-        // Convert month abbreviation to number
-        const months: { [key: string]: string } = {
-          'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
-          'JUL': '07', 'AUG': '08', 'SEP': '09', 'OCT': '10', 'NOV': '11', 'DEC': '12'
-        };
-
-        const month = months[monthStr] || '01'; // Default to January if not found
-        const dayPadded = day.padStart(2, '0');
-
-        effectiveDate = `${year}-${month}-${dayPadded}`;
-        return false; // Break the loop
+    let effectiveDate = "";
+    if (typeof DOMParser === "undefined") {
+      const fallbackDate = extractEffectiveDateFromText(html);
+      if (fallbackDate) {
+        return fallbackDate;
       }
-    });
+    } else {
+      const document = new DOMParser().parseFromString(html, "text/html");
+
+      // Look for the effective date after "Currently Effective Issue"
+      // The page contains a table with the date like "25 DEC 2025"
+
+      // Find the table cell that contains the effective date
+      const dateLinks = Array.from(document.querySelectorAll("td.date a"));
+      for (const link of dateLinks) {
+        const text = link.textContent?.trim() ?? "";
+        effectiveDate = parseEffectiveDate(text);
+        if (effectiveDate) {
+          break;
+        }
+      }
+    }
 
     if (effectiveDate) {
       return effectiveDate;
+    }
+
+    const fallbackDate = extractEffectiveDateFromText(html);
+    if (fallbackDate) {
+      return fallbackDate;
     }
 
     // If we can't find the effective date from the history page, try the main page redirect
@@ -92,4 +91,45 @@ export async function getCurrentEffectiveDate(): Promise<string> {
     console.error('Error getting effective date:', error);
     throw error;
   }
+}
+
+const MONTHS: Record<string, string> = {
+  JAN: "01",
+  FEB: "02",
+  MAR: "03",
+  APR: "04",
+  MAY: "05",
+  JUN: "06",
+  JUL: "07",
+  AUG: "08",
+  SEP: "09",
+  OCT: "10",
+  NOV: "11",
+  DEC: "12",
+};
+
+function parseEffectiveDate(text: string): string {
+  const dateMatch = text.match(/^(\d{1,2}) ([A-Z]{3}) (\d{4})$/);
+  if (!dateMatch) {
+    return "";
+  }
+
+  const [, day, monthStr, year] = dateMatch;
+  const month = MONTHS[monthStr] || "01";
+  const dayPadded = day.padStart(2, "0");
+
+  return `${year}-${month}-${dayPadded}`;
+}
+
+function extractEffectiveDateFromText(html: string): string {
+  const dateRegex = /(\d{1,2}) ([A-Z]{3}) (\d{4})/g;
+  for (const match of html.matchAll(dateRegex)) {
+    const dateText = match[0];
+    const parsed = parseEffectiveDate(dateText);
+    if (parsed) {
+      return parsed;
+    }
+  }
+
+  return "";
 }

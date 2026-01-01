@@ -47,6 +47,7 @@
 | UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
 | UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `src/services/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
 | UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback | Yes | `src/services/airspace/airspaceLoader.test.ts` | Ensures latest.json effective date drives GeoJSON load. |
+| UNIT-EAIP-DISCOVERY-001 | EAIP discovery parses effective date + redirect fallback | Yes | `src/services/airspace/eaipDiscovery.test.ts` | Covers history page parsing and redirect fallback. |
 | UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions | Yes | `src/services/notam/geometry/enhancedCoordParsers.test.ts` | Regression coverage for decimal degrees with suffix directions. |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing | Yes | `test/eaip-parser.test.ts` | Ensures tooling parser reports coordinate parse errors and DMS parsing. |
 
@@ -89,5 +90,6 @@
 | UNIT-MAP-TILE-001 | Offline XYZ tiles fallback only on error. (Implemented) | Unit | `src/map/layers/offlineXyz.test.ts` |
 | UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads. (Implemented) | Unit | `src/services/notam/useEnhancedNotamStream.test.tsx` |
 | UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback. (Implemented) | Unit | `src/services/airspace/airspaceLoader.test.ts` |
+| UNIT-EAIP-DISCOVERY-001 | EAIP discovery parses effective date + redirect fallback. (Implemented) | Unit | `src/services/airspace/eaipDiscovery.test.ts` |
 | UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions. (Implemented) | Unit | `src/services/notam/geometry/enhancedCoordParsers.test.ts` |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing. (Implemented) | Unit | `test/eaip-parser.test.ts` |
