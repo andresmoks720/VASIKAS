@@ -16,7 +16,10 @@ export type NotamGeometry =
     | null;
 
 export type GeometryParseReason =
+    | "GEOMETRY_VALIDATION_ISSUES"
     | "NO_CANDIDATE"
+    | "NO_GEOMETRY_IN_TEXT"
+    | "NO_TEXT"
     | "UNSUPPORTED_FORMAT"
     | "UNSUPPORTED_GEOJSON_TYPE"
     | "INVALID_COORDS"
@@ -25,7 +28,7 @@ export type GeometryParseReason =
     | "SYNTHETIC_GEOMETRY";
 
 export type GeometryParseResult =
-    | { geometry: NotamGeometry; reason?: undefined; details?: undefined }
+    | { geometry: NotamGeometry; reason?: GeometryParseReason; details?: Record<string, unknown> }
     | { geometry: null; reason: GeometryParseReason; details?: Record<string, unknown> };
 
 /**

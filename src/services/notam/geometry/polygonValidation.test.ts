@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest';
+import type { NotamGeometry } from '../notamTypes';
 import { validatePolygonGeometry } from './polygonValidation';
 
 describe('polygonValidation', () => {
   describe('validatePolygonGeometry', () => {
     it('should validate a properly formed polygon', () => {
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'polygon' as const,
         rings: [
           [
@@ -22,7 +23,7 @@ describe('polygonValidation', () => {
     });
 
     it('should detect unclosed rings', () => {
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'polygon' as const,
         rings: [
           [
@@ -40,7 +41,7 @@ describe('polygonValidation', () => {
     });
 
     it('should detect polygons with insufficient points', () => {
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'polygon' as const,
         rings: [
           [
@@ -57,7 +58,7 @@ describe('polygonValidation', () => {
     });
 
     it('should validate circles as valid', () => {
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'circle' as const,
         center: [24.74, 59.43] as [number, number],
         radiusMeters: 1000
@@ -69,7 +70,7 @@ describe('polygonValidation', () => {
     });
 
     it('should validate multi-polygons', () => {
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'multiPolygon' as const,
         polygons: [
           [
@@ -92,7 +93,7 @@ describe('polygonValidation', () => {
   describe('winding order validation', () => {
     it('should detect incorrect winding order for outer rings', () => {
       // A clockwise ring (which would be incorrect for an outer ring)
-      const geometry = {
+      const geometry: NotamGeometry = {
         kind: 'polygon' as const,
         rings: [
           [

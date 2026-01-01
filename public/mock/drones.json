@@ -2,18 +2,37 @@
   {
     "id": "drone-001",
     "label": "DJI Mavic (demo)",
-    "position": {
-      "lon": 24.7536,
-      "lat": 59.4369
-    },
-    "headingDeg": 90,
-    "speedMps": 12.4,
-    "altitude": {
-      "meters": 86,
-      "ref": "AGL",
-      "source": "reported",
-      "comment": "AeroScope mock"
-    },
-    "eventTimeUtc": "2025-12-18T10:15:30Z"
+    "track": [
+      {
+        "timeUtc": "2025-12-18T10:15:30Z",
+        "position": {
+          "lon": 24.7536,
+          "lat": 59.4369
+        },
+        "headingDeg": 90,
+        "speedMps": 12.4,
+        "altitude": {
+          "meters": 86,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      },
+      {
+        "timeUtc": "2025-12-18T10:16:00Z",
+        "position": {
+          "lon": 24.7571,
+          "lat": 59.4382
+        },
+        "headingDeg": 96,
+        "speedMps": 12.1,
+        "altitude": {
+          "meters": 88,
+          "ref": "AGL",
+          "source": "reported",
+          "comment": "AeroScope mock"
+        }
+      }
+    ]
   }
 ]

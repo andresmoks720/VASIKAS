@@ -73,7 +73,10 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         }
     }
 
-    const text = getString(item, "text");
+    const text =
+        getString(item, "text") ??
+        getString(item, "notamText") ??
+        getString(item, "notamtext");
 
     // id and text are required
     if (!id || !text) {
@@ -114,7 +117,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
             const center = parseEansCoordinate(gc.eansCoord);
             if (center) {
                 isSynthetic = true;
-                const rawGeometry = {
+                const rawGeometry: NotamGeometry = {
                     kind: "circle",
                     center,
                     radiusMeters: gc.radiusNm * NM_TO_METERS,
@@ -124,7 +127,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
                 const validated = validateAndCorrectGeometry(rawGeometry);
                 geometryResult = {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: validated.issues.length > 0 ? ("GEOMETRY_VALIDATION_ISSUES" as const) : undefined,
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -139,7 +142,7 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
             const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
             geometryResult = {
                 geometry: validated.geometry,
-                reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                reason: validated.issues.length > 0 ? ("GEOMETRY_VALIDATION_ISSUES" as const) : undefined,
                 details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
             };
             isSynthetic = true; // Mark as synthetic since it was derived from text
@@ -148,6 +151,12 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
 
     const geometry = geometryResult.geometry;
     const presentFields = getGeometryFieldSnapshot(item);
+    const hasGeometryFields = Object.values(presentFields).some(Boolean);
+    const geometrySource = geometry
+        ? hasGeometryFields
+            ? "geojson"
+            : "notamText"
+        : "none";
 
     if (!geometry && typeof process !== "undefined" && process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
@@ -174,9 +183,9 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
                 ...geometryResult.details,
                 presentFields,
             },
-        geometrySource: geometry ? 'notamText' : 'none',
+        geometrySource,
         geometrySourceDetails: geometry ? {
-            source: 'notamText',
+            source: geometrySource,
             parserVersion: '1.0.0',
             issues: issues,
         } : undefined,
