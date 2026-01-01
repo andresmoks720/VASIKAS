@@ -1,0 +1,3430 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.18611111111111,
+              57.55305555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER1 PIIRIALA",
+        "upperLimit": "1000 ft AGLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Border Area. Flights are allowed only with the permission of the Police and Border Guard Board. To fly in the area, a permit shall be requested at the e-mail address ppa@politsei.ee. The limit does not extend if flight safety requires it.The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              21.771666666666665,
+              58.53666666666666
+            ],
+            [
+              21.935277777777777,
+              58.48833333333334
+            ],
+            [
+              22.029444444444444,
+              58.36694444444444
+            ],
+            [
+              22.025277777777777,
+              58.330555555555556
+            ],
+            [
+              21.918333333333333,
+              58.23444444444444
+            ],
+            [
+              21.761944444444445,
+              58.32083333333334
+            ],
+            [
+              21.771666666666665,
+              58.53666666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER3 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board. The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.35,
+              58.86666666666667
+            ],
+            [
+              23.383333333333333,
+              58.86666666666667
+            ],
+            [
+              23.54416666666667,
+              58.8075
+            ],
+            [
+              23.763333333333332,
+              58.821111111111115
+            ],
+            [
+              23.989444444444445,
+              58.76305555555555
+            ],
+            [
+              23.972777777777775,
+              58.72972222222222
+            ],
+            [
+              23.390277777777776,
+              58.64944444444444
+            ],
+            [
+              23.30027777777778,
+              58.74944444444444
+            ],
+            [
+              23.35,
+              58.86666666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER4 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board. The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.25,
+              59.27583333333333
+            ],
+            [
+              25.94638888888889,
+              59.277499999999996
+            ],
+            [
+              25.796666666666667,
+              59.27055555555555
+            ],
+            [
+              25.68027777777778,
+              59.35111111111111
+            ],
+            [
+              25.6075,
+              59.35527777777778
+            ],
+            [
+              25.595555555555553,
+              59.40333333333333
+            ],
+            [
+              25.923333333333336,
+              59.78777777777778
+            ],
+            [
+              26.25,
+              59.73916666666667
+            ],
+            [
+              26.25,
+              59.27583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15D",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the acive area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.950833333333332,
+              59.271388888888886
+            ],
+            [
+              26.25,
+              59.27583333333333
+            ],
+            [
+              26.25,
+              59.73916666666667
+            ],
+            [
+              26.624166666666667,
+              59.68333333333333
+            ],
+            [
+              26.82361111111111,
+              59.55444444444444
+            ],
+            [
+              27.255555555555556,
+              59.530833333333334
+            ],
+            [
+              27.247222222222224,
+              59.40333333333333
+            ],
+            [
+              26.950833333333332,
+              59.271388888888886
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15E",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.66444444444444,
+              59.125
+            ],
+            [
+              25.6075,
+              59.35527777777778
+            ],
+            [
+              25.68027777777778,
+              59.35111111111111
+            ],
+            [
+              25.796666666666667,
+              59.27055555555555
+            ],
+            [
+              25.94638888888889,
+              59.277499999999996
+            ],
+            [
+              26.25,
+              59.27583333333333
+            ],
+            [
+              26.25,
+              59.125
+            ],
+            [
+              25.66444444444444,
+              59.125
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15F",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.25,
+              59.27583333333333
+            ],
+            [
+              26.950833333333332,
+              59.271388888888886
+            ],
+            [
+              26.631944444444446,
+              59.125
+            ],
+            [
+              26.25,
+              59.125
+            ],
+            [
+              26.25,
+              59.27583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER15G",
+        "upperLimit": "FL95SFC",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.12666666666667,
+              58.64333333333333
+            ],
+            [
+              23.628333333333334,
+              59.43861111111111
+            ],
+            [
+              24.110555555555557,
+              59.54472222222222
+            ],
+            [
+              24.27111111111111,
+              59.5075
+            ],
+            [
+              24.68,
+              58.83722222222222
+            ],
+            [
+              24.599166666666665,
+              58.74777777777778
+            ],
+            [
+              24.12666666666667,
+              58.64333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER16E",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.12666666666667,
+              58.64333333333333
+            ],
+            [
+              21.823055555555555,
+              58.09916666666667
+            ],
+            [
+              21.396666666666665,
+              58.34916666666667
+            ],
+            [
+              21.81361111111111,
+              59.01611111111111
+            ],
+            [
+              23.628333333333334,
+              59.43861111111111
+            ],
+            [
+              24.12666666666667,
+              58.64333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER16W",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.115555555555556,
+              58.02583333333333
+            ],
+            [
+              21.926944444444445,
+              58.03861111111111
+            ],
+            [
+              21.396666666666665,
+              58.34916666666667
+            ],
+            [
+              21.81361111111111,
+              59.01611111111111
+            ],
+            [
+              22.482777777777777,
+              59.17611111111111
+            ],
+            [
+              23.329722222222223,
+              59.145833333333336
+            ],
+            [
+              23.709166666666665,
+              58.89333333333333
+            ],
+            [
+              22.608611111111113,
+              58.17916666666667
+            ],
+            [
+              22.115555555555556,
+              58.02583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER18",
+        "upperLimit": "FL955000 ft AMSL",
+        "lowerLimit": "SFC",
+        "remarks": "Military air operations.Activity notified by NOTAM one day before (D-1) operations. Flight information about activity is available from Tallinn APP and Tallinn ACC.Flight by non-participating aircraft within/to/from the active area shall be pre-coordinated by pilot on the contacts given in NOTAM.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.4475,
+              59.34527777777778
+            ],
+            [
+              27.436944444444446,
+              59.34583333333334
+            ],
+            [
+              27.43166666666667,
+              59.35055555555556
+            ],
+            [
+              27.439444444444444,
+              59.35583333333334
+            ],
+            [
+              27.452777777777776,
+              59.35611111111111
+            ],
+            [
+              27.456944444444442,
+              59.34777777777778
+            ],
+            [
+              27.4475,
+              59.34527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER19",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.115000000000002,
+              59.33638888888889
+            ],
+            [
+              27.110555555555557,
+              59.339444444444446
+            ],
+            [
+              27.110000000000003,
+              59.34111111111111
+            ],
+            [
+              27.121666666666666,
+              59.3425
+            ],
+            [
+              27.1225,
+              59.34027777777778
+            ],
+            [
+              27.116666666666667,
+              59.336666666666666
+            ],
+            [
+              27.115000000000002,
+              59.33638888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER20",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.92388888888889,
+              59.19777777777777
+            ],
+            [
+              25.904166666666665,
+              59.2075
+            ],
+            [
+              25.895555555555553,
+              59.223333333333336
+            ],
+            [
+              25.925,
+              59.243611111111115
+            ],
+            [
+              25.904444444444444,
+              59.25194444444445
+            ],
+            [
+              25.904166666666665,
+              59.254444444444445
+            ],
+            [
+              25.910555555555554,
+              59.255
+            ],
+            [
+              25.93638888888889,
+              59.25611111111111
+            ],
+            [
+              25.94388888888889,
+              59.251666666666665
+            ],
+            [
+              25.98638888888889,
+              59.24666666666667
+            ],
+            [
+              25.990000000000002,
+              59.24111111111111
+            ],
+            [
+              25.978055555555553,
+              59.22027777777778
+            ],
+            [
+              25.96527777777778,
+              59.20611111111111
+            ],
+            [
+              25.92388888888889,
+              59.19777777777777
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER21",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.086388888888887,
+              59.33861111111111
+            ],
+            [
+              24.08138888888889,
+              59.33888888888889
+            ],
+            [
+              24.078333333333333,
+              59.34
+            ],
+            [
+              24.0775,
+              59.342222222222226
+            ],
+            [
+              24.078888888888887,
+              59.344722222222224
+            ],
+            [
+              24.08611111111111,
+              59.34527777777778
+            ],
+            [
+              24.096944444444443,
+              59.344166666666666
+            ],
+            [
+              24.093888888888888,
+              59.34027777777778
+            ],
+            [
+              24.086388888888887,
+              59.33861111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER22",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.122777777777777,
+              59.11277777777778
+            ],
+            [
+              24.095277777777778,
+              59.12277777777778
+            ],
+            [
+              24.094444444444445,
+              59.13527777777778
+            ],
+            [
+              24.130277777777778,
+              59.13638888888889
+            ],
+            [
+              24.13111111111111,
+              59.11666666666667
+            ],
+            [
+              24.122777777777777,
+              59.11277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER23",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.021944444444443,
+              57.82
+            ],
+            [
+              27.014166666666668,
+              57.82527777777778
+            ],
+            [
+              27.016111111111112,
+              57.827222222222225
+            ],
+            [
+              27.033055555555556,
+              57.82777777777778
+            ],
+            [
+              27.033055555555556,
+              57.82611111111112
+            ],
+            [
+              27.021944444444443,
+              57.82
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER24",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.898333333333333,
+              58.375
+            ],
+            [
+              26.893055555555556,
+              58.375277777777775
+            ],
+            [
+              26.889722222222222,
+              58.3775
+            ],
+            [
+              26.889722222222222,
+              58.37888888888889
+            ],
+            [
+              26.898888888888887,
+              58.380833333333335
+            ],
+            [
+              26.904444444444444,
+              58.37972222222222
+            ],
+            [
+              26.898333333333333,
+              58.375
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER25",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.796944444444446,
+              57.75694444444444
+            ],
+            [
+              26.776944444444442,
+              57.75888888888889
+            ],
+            [
+              26.77777777777778,
+              57.766666666666666
+            ],
+            [
+              26.784166666666668,
+              57.77111111111111
+            ],
+            [
+              26.798333333333336,
+              57.769999999999996
+            ],
+            [
+              26.796944444444446,
+              57.75694444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER26",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.767777777777777,
+              59.420833333333334
+            ],
+            [
+              24.764722222222222,
+              59.422777777777775
+            ],
+            [
+              24.76888888888889,
+              59.42472222222222
+            ],
+            [
+              24.770555555555553,
+              59.42722222222222
+            ],
+            [
+              24.775555555555556,
+              59.42611111111111
+            ],
+            [
+              24.77777777777778,
+              59.424166666666665
+            ],
+            [
+              24.77583333333333,
+              59.422777777777775
+            ],
+            [
+              24.767777777777777,
+              59.420833333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER27",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.72611111111111,
+              59.450833333333335
+            ],
+            [
+              24.720555555555553,
+              59.450833333333335
+            ],
+            [
+              24.715,
+              59.45444444444445
+            ],
+            [
+              24.71527777777778,
+              59.4575
+            ],
+            [
+              24.721666666666664,
+              59.459722222222226
+            ],
+            [
+              24.732499999999998,
+              59.45611111111111
+            ],
+            [
+              24.72833333333333,
+              59.45194444444445
+            ],
+            [
+              24.72611111111111,
+              59.450833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER28",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.245833333333334,
+              59.411944444444444
+            ],
+            [
+              25.22972222222222,
+              59.41722222222222
+            ],
+            [
+              25.238611111111112,
+              59.42027777777778
+            ],
+            [
+              25.249722222222225,
+              59.415277777777774
+            ],
+            [
+              25.245833333333334,
+              59.411944444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER29",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.46944444444444,
+              58.402499999999996
+            ],
+            [
+              24.46527777777778,
+              58.40361111111111
+            ],
+            [
+              24.470555555555553,
+              58.407222222222224
+            ],
+            [
+              24.476388888888888,
+              58.404444444444444
+            ],
+            [
+              24.474444444444444,
+              58.40277777777778
+            ],
+            [
+              24.46944444444444,
+              58.402499999999996
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER30",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.74361111111111,
+              58.385
+            ],
+            [
+              26.739444444444445,
+              58.38666666666666
+            ],
+            [
+              26.744722222222222,
+              58.39083333333333
+            ],
+            [
+              26.747222222222224,
+              58.39083333333333
+            ],
+            [
+              26.75111111111111,
+              58.388888888888886
+            ],
+            [
+              26.748333333333335,
+              58.386944444444445
+            ],
+            [
+              26.74361111111111,
+              58.385
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER31",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Activity notified by NOTAM one day before (D-1) operations.Permission to fly in the area shall be requested from the e-mail address: lennuluba@mil.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.710833333333333,
+              59.39722222222222
+            ],
+            [
+              24.70583333333333,
+              59.39722222222222
+            ],
+            [
+              24.70638888888889,
+              59.400277777777774
+            ],
+            [
+              24.711944444444445,
+              59.4
+            ],
+            [
+              24.711944444444445,
+              59.399166666666666
+            ],
+            [
+              24.710833333333333,
+              59.39722222222222
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER32",
+        "upperLimit": "660 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "An object of the Ministry of Defense's jurisdiction.Permission to fly in the area shall be requested from the e-mail address: info@välisluureamet.ee.In order to fly in the area to perform its statutory duties The Defence Forces, Police and Border Guard Board, Internal Security Service, Tax and Customs Board, Rescue Board and Environmental Board do not need to apply for a permit.Flight restrictions do not apply to the take-off and landing of aircraft from an aerodrome or heliport with or without certified operating conditions.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.77361111111111,
+              58.16583333333333
+            ],
+            [
+              22.82638888888889,
+              58.16638888888889
+            ],
+            [
+              22.825833333333332,
+              58.14611111111111
+            ],
+            [
+              22.775277777777777,
+              58.145833333333336
+            ],
+            [
+              22.77361111111111,
+              58.16583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER33 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.0025,
+              59.0325
+            ],
+            [
+              23.10611111111111,
+              58.93277777777777
+            ],
+            [
+              23.086666666666666,
+              58.92777777777778
+            ],
+            [
+              22.991666666666667,
+              58.95916666666667
+            ],
+            [
+              22.94361111111111,
+              59.025555555555556
+            ],
+            [
+              23.0025,
+              59.0325
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER34 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.969166666666666,
+              58.849444444444444
+            ],
+            [
+              23.219166666666666,
+              58.75388888888889
+            ],
+            [
+              23.12527777777778,
+              58.72361111111111
+            ],
+            [
+              22.999722222222225,
+              58.75555555555555
+            ],
+            [
+              22.943055555555556,
+              58.841944444444444
+            ],
+            [
+              22.969166666666666,
+              58.849444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER35 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.766666666666666,
+              59.348333333333336
+            ],
+            [
+              23.780833333333334,
+              59.34861111111111
+            ],
+            [
+              23.781944444444445,
+              59.34
+            ],
+            [
+              23.766111111111112,
+              59.34
+            ],
+            [
+              23.766666666666666,
+              59.348333333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER36 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.302500000000002,
+              59.63138888888889
+            ],
+            [
+              25.330555555555556,
+              59.63
+            ],
+            [
+              25.33833333333333,
+              59.596944444444446
+            ],
+            [
+              25.311944444444446,
+              59.595555555555556
+            ],
+            [
+              25.302500000000002,
+              59.63138888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER37 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.443333333333335,
+              58.66888888888889
+            ],
+            [
+              22.462777777777777,
+              58.66888888888889
+            ],
+            [
+              22.463055555555556,
+              58.65972222222222
+            ],
+            [
+              22.443333333333335,
+              58.65972222222222
+            ],
+            [
+              22.443333333333335,
+              58.66888888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER38 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.865000000000002,
+              58.2
+            ],
+            [
+              23.898888888888887,
+              58.20611111111111
+            ],
+            [
+              23.910833333333333,
+              58.20611111111111
+            ],
+            [
+              23.910833333333333,
+              58.186388888888885
+            ],
+            [
+              23.86888888888889,
+              58.17833333333333
+            ],
+            [
+              23.860000000000003,
+              58.18694444444444
+            ],
+            [
+              23.865000000000002,
+              58.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER39 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 FEB - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.87138888888889,
+              59.097500000000004
+            ],
+            [
+              22.90138888888889,
+              59.07555555555556
+            ],
+            [
+              22.869444444444444,
+              59.06888888888889
+            ],
+            [
+              22.846944444444443,
+              59.09111111111111
+            ],
+            [
+              22.87138888888889,
+              59.097500000000004
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER40 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.468055555555555,
+              59.70638888888889
+            ],
+            [
+              26.544444444444448,
+              59.705000000000005
+            ],
+            [
+              26.546666666666667,
+              59.64944444444444
+            ],
+            [
+              26.484166666666667,
+              59.64944444444444
+            ],
+            [
+              26.468055555555555,
+              59.70638888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER41 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.355555555555558,
+              58.80583333333333
+            ],
+            [
+              22.393333333333334,
+              58.80611111111111
+            ],
+            [
+              22.409444444444443,
+              58.77611111111111
+            ],
+            [
+              22.354722222222225,
+              58.77333333333333
+            ],
+            [
+              22.355555555555558,
+              58.80583333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER42 FAUNA",
+        "upperLimit": "1500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.883888888888887,
+              58.845
+            ],
+            [
+              22.89472222222222,
+              58.830000000000005
+            ],
+            [
+              22.775277777777777,
+              58.785555555555554
+            ],
+            [
+              22.746944444444445,
+              58.80305555555555
+            ],
+            [
+              22.76638888888889,
+              58.82333333333334
+            ],
+            [
+              22.883888888888887,
+              58.845
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER43 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.833333333333332,
+              59.02194444444444
+            ],
+            [
+              22.942777777777778,
+              58.985
+            ],
+            [
+              22.990277777777777,
+              58.94444444444444
+            ],
+            [
+              23.08138888888889,
+              58.901944444444446
+            ],
+            [
+              23.023055555555555,
+              58.880833333333335
+            ],
+            [
+              22.835833333333333,
+              59.00194444444445
+            ],
+            [
+              22.833333333333332,
+              59.02194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER44 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.470555555555553,
+              59.03194444444444
+            ],
+            [
+              22.513055555555557,
+              59.03805555555555
+            ],
+            [
+              22.590833333333332,
+              59.02916666666667
+            ],
+            [
+              22.476666666666667,
+              58.96194444444445
+            ],
+            [
+              22.426111111111112,
+              58.94888888888889
+            ],
+            [
+              22.37138888888889,
+              58.97666666666667
+            ],
+            [
+              22.470555555555553,
+              59.03194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER45 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.29361111111111,
+              58.57888888888889
+            ],
+            [
+              22.323055555555555,
+              58.52111111111111
+            ],
+            [
+              22.292222222222225,
+              58.48527777777778
+            ],
+            [
+              22.240555555555556,
+              58.48972222222222
+            ],
+            [
+              22.21,
+              58.5475
+            ],
+            [
+              22.29361111111111,
+              58.57888888888889
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER46 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.12611111111111,
+              58.130833333333335
+            ],
+            [
+              22.19527777777778,
+              58.12277777777778
+            ],
+            [
+              22.169722222222223,
+              58.06027777777778
+            ],
+            [
+              22.08833333333333,
+              58.077222222222225
+            ],
+            [
+              22.12611111111111,
+              58.130833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER47 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.The limit does not extend if flight safety requires it.The Environmental Board, Defence Forces, Police and Border Guard Board, Internal Security Service, prison and Rescue Board do not need to apply for a permit to fly in the area. The aforementioned authorities must notify the Police and Border Guard Board of their intention to fly, if possible, at least 60 minutes before the flight takes place.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.84638888888889,
+              58.34277777777778
+            ],
+            [
+              22.935277777777777,
+              58.32805555555556
+            ],
+            [
+              22.974999999999998,
+              58.29666666666667
+            ],
+            [
+              22.845277777777778,
+              58.29083333333333
+            ],
+            [
+              22.84638888888889,
+              58.34277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER48 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.157777777777778,
+              58.47777777777778
+            ],
+            [
+              23.32361111111111,
+              58.44638888888888
+            ],
+            [
+              23.325555555555557,
+              58.41222222222222
+            ],
+            [
+              23.16611111111111,
+              58.409166666666664
+            ],
+            [
+              23.02861111111111,
+              58.34916666666667
+            ],
+            [
+              22.950555555555553,
+              58.348333333333336
+            ],
+            [
+              23.157777777777778,
+              58.47777777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER49 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.02472222222222,
+              58.657777777777774
+            ],
+            [
+              23.111111111111114,
+              58.62
+            ],
+            [
+              23.076666666666668,
+              58.591944444444444
+            ],
+            [
+              23.379722222222224,
+              58.53361111111111
+            ],
+            [
+              23.42388888888889,
+              58.507777777777775
+            ],
+            [
+              23.324444444444445,
+              58.44833333333333
+            ],
+            [
+              22.95777777777778,
+              58.61333333333334
+            ],
+            [
+              23.02472222222222,
+              58.657777777777774
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER50 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.466944444444444,
+              58.213055555555556
+            ],
+            [
+              24.484722222222224,
+              58.149166666666666
+            ],
+            [
+              24.483888888888888,
+              58.071111111111115
+            ],
+            [
+              24.44611111111111,
+              58.07888888888889
+            ],
+            [
+              24.446666666666665,
+              58.21055555555556
+            ],
+            [
+              24.466944444444444,
+              58.213055555555556
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER51 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.300555555555555,
+              58.380833333333335
+            ],
+            [
+              24.303611111111113,
+              58.4
+            ],
+            [
+              24.33,
+              58.402499999999996
+            ],
+            [
+              24.39527777777778,
+              58.396388888888886
+            ],
+            [
+              24.374166666666667,
+              58.388888888888886
+            ],
+            [
+              24.300555555555555,
+              58.380833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER52 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.263333333333332,
+              58.97083333333334
+            ],
+            [
+              23.3075,
+              58.97972222222222
+            ],
+            [
+              23.316666666666666,
+              58.95527777777778
+            ],
+            [
+              23.290833333333335,
+              58.93333333333333
+            ],
+            [
+              23.239444444444445,
+              58.94277777777778
+            ],
+            [
+              23.20722222222222,
+              58.98222222222223
+            ],
+            [
+              23.263333333333332,
+              58.97083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER53 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.530277777777776,
+              59.08916666666667
+            ],
+            [
+              23.753333333333334,
+              58.97361111111111
+            ],
+            [
+              23.548611111111114,
+              58.939166666666665
+            ],
+            [
+              23.474166666666665,
+              59.081388888888895
+            ],
+            [
+              23.530277777777776,
+              59.08916666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER54 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.473055555555554,
+              58.61416666666667
+            ],
+            [
+              23.584999999999997,
+              58.61416666666667
+            ],
+            [
+              23.84361111111111,
+              58.51027777777778
+            ],
+            [
+              23.784166666666668,
+              58.478611111111114
+            ],
+            [
+              23.649444444444445,
+              58.49277777777778
+            ],
+            [
+              23.456944444444442,
+              58.56083333333333
+            ],
+            [
+              23.473055555555554,
+              58.61416666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER55 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.783611111111114,
+              59.59527777777778
+            ],
+            [
+              25.8475,
+              59.56888888888889
+            ],
+            [
+              25.810277777777777,
+              59.56305555555555
+            ],
+            [
+              25.771944444444443,
+              59.569722222222225
+            ],
+            [
+              25.783611111111114,
+              59.59527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER56 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.246111111111112,
+              58.47277777777778
+            ],
+            [
+              27.439722222222223,
+              58.36361111111111
+            ],
+            [
+              27.41888888888889,
+              58.33833333333334
+            ],
+            [
+              27.17027777777778,
+              58.308055555555555
+            ],
+            [
+              27.102777777777778,
+              58.44138888888889
+            ],
+            [
+              27.246111111111112,
+              58.47277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER57 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.656666666666666,
+              58.57083333333334
+            ],
+            [
+              26.68611111111111,
+              58.56361111111111
+            ],
+            [
+              26.71333333333333,
+              58.54138888888889
+            ],
+            [
+              26.66777777777778,
+              58.55611111111111
+            ],
+            [
+              26.656666666666666,
+              58.57083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER58 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.174166666666668,
+              58.87083333333334
+            ],
+            [
+              26.2125,
+              58.871944444444445
+            ],
+            [
+              26.218055555555555,
+              58.85333333333333
+            ],
+            [
+              26.211666666666666,
+              58.847500000000004
+            ],
+            [
+              26.184444444444445,
+              58.84722222222222
+            ],
+            [
+              26.174166666666668,
+              58.87083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER59 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.496666666666666,
+              58.17444444444444
+            ],
+            [
+              27.528888888888886,
+              58.12916666666667
+            ],
+            [
+              27.528055555555554,
+              58.10666666666667
+            ],
+            [
+              27.485833333333336,
+              58.10583333333334
+            ],
+            [
+              27.47,
+              58.13111111111111
+            ],
+            [
+              27.46527777777778,
+              58.16694444444444
+            ],
+            [
+              27.496666666666666,
+              58.17444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER60 FAUNA",
+        "upperLimit": "1000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "In the period 01 APR - 30 NOV, flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.878333333333334,
+              58.60416666666667
+            ],
+            [
+              26.231388888888887,
+              58.57222222222222
+            ],
+            [
+              26.350833333333334,
+              58.47027777777778
+            ],
+            [
+              26.38888888888889,
+              58.385
+            ],
+            [
+              26.198888888888888,
+              58.39111111111111
+            ],
+            [
+              25.878333333333334,
+              58.60416666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EER61 FAUNA",
+        "upperLimit": "3500 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Flights are allowed only with the permission of the Environmental Board.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.93777777777778,
+              58.25277777777778
+            ],
+            [
+              26.903888888888886,
+              58.27194444444444
+            ],
+            [
+              26.919722222222223,
+              58.27972222222222
+            ],
+            [
+              26.953611111111112,
+              58.25944444444445
+            ],
+            [
+              26.93777777777778,
+              58.25277777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED2 UNIKÜLA",
+        "upperLimit": "1900 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tartu AFIS unit and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.773055555555555,
+              57.78194444444444
+            ],
+            [
+              26.730555555555554,
+              57.83555555555556
+            ],
+            [
+              26.861944444444447,
+              57.83722222222222
+            ],
+            [
+              26.878611111111113,
+              57.78777777777778
+            ],
+            [
+              26.773055555555555,
+              57.78194444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED4 NURSIPALU 2",
+        "upperLimit": "9200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.518055555555556,
+              58.910555555555554
+            ],
+            [
+              23.519444444444442,
+              58.8825
+            ],
+            [
+              23.497500000000002,
+              58.8825
+            ],
+            [
+              23.502777777777776,
+              58.910555555555554
+            ],
+            [
+              23.518055555555556,
+              58.910555555555554
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED5 KILTSI",
+        "upperLimit": "2100 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.81527777777778,
+              59.197222222222216
+            ],
+            [
+              24.823888888888888,
+              59.18722222222222
+            ],
+            [
+              24.869722222222222,
+              59.20055555555556
+            ],
+            [
+              24.86777777777778,
+              59.21
+            ],
+            [
+              24.81527777777778,
+              59.197222222222216
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED6 PAHKLA",
+        "upperLimit": "2300 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.071666666666665,
+              59.062777777777775
+            ],
+            [
+              24.099722222222223,
+              59.084722222222226
+            ],
+            [
+              24.115833333333335,
+              59.07833333333333
+            ],
+            [
+              24.0825,
+              59.058055555555555
+            ],
+            [
+              24.071666666666665,
+              59.062777777777775
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED7 PIIRSALU",
+        "upperLimit": "2200  ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.27472222222222,
+              59.520833333333336
+            ],
+            [
+              26.294444444444448,
+              59.56777777777778
+            ],
+            [
+              26.355555555555558,
+              59.544444444444444
+            ],
+            [
+              26.27472222222222,
+              59.520833333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED8 RUTJA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.835555555555555,
+              58.32777777777778
+            ],
+            [
+              25.861111111111114,
+              58.328611111111115
+            ],
+            [
+              25.861944444444447,
+              58.36
+            ],
+            [
+              25.842777777777776,
+              58.35944444444445
+            ],
+            [
+              25.835555555555555,
+              58.32777777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED9 VÄLUSTE",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.200833333333332,
+              58.53333333333333
+            ],
+            [
+              26.19611111111111,
+              58.507222222222225
+            ],
+            [
+              26.233333333333334,
+              58.50666666666667
+            ],
+            [
+              26.268055555555556,
+              58.532222222222224
+            ],
+            [
+              26.200833333333332,
+              58.53333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED10 UTSALI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tartu AFIS unit and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.075277777777778,
+              57.83694444444445
+            ],
+            [
+              26.06222222222222,
+              57.836666666666666
+            ],
+            [
+              26.061111111111114,
+              57.846944444444446
+            ],
+            [
+              26.076666666666668,
+              57.86555555555556
+            ],
+            [
+              26.094166666666666,
+              57.86194444444445
+            ],
+            [
+              26.075277777777778,
+              57.83694444444445
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED11 METSNIKU",
+        "upperLimit": "2300 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.871944444444445,
+              59.24333333333333
+            ],
+            [
+              25.86888888888889,
+              59.25361111111111
+            ],
+            [
+              25.941944444444445,
+              59.257222222222225
+            ],
+            [
+              25.93722222222222,
+              59.24861111111111
+            ],
+            [
+              25.871944444444445,
+              59.24333333333333
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED13 TAPA 1",
+        "upperLimit": "2400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.720277777777778,
+              59.458333333333336
+            ],
+            [
+              25.897222222222222,
+              59.44361111111111
+            ],
+            [
+              25.924166666666668,
+              59.271388888888886
+            ],
+            [
+              25.774444444444445,
+              59.29694444444444
+            ],
+            [
+              25.720277777777778,
+              59.458333333333336
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED14 TAPA 2",
+        "upperLimit": "14700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP and ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.190277777777776,
+              59.29666666666667
+            ],
+            [
+              24.153888888888886,
+              59.321111111111115
+            ],
+            [
+              24.1575,
+              59.330555555555556
+            ],
+            [
+              24.218888888888888,
+              59.324444444444445
+            ],
+            [
+              24.248055555555556,
+              59.29361111111111
+            ],
+            [
+              24.217499999999998,
+              59.28638888888889
+            ],
+            [
+              24.190277777777776,
+              59.29666666666667
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED16 KLOOGA 1",
+        "upperLimit": "2100 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring and military air operations. Activity notified by NOTAM. Information about activity is available from Tallinn APP and Ämari TWR.For military air operations unmanned aerial vehicles are used with an authorised altitude from SFC to 1100 ft AMSL.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.560000000000002,
+              59.29111111111111
+            ],
+            [
+              27.60638888888889,
+              59.343611111111116
+            ],
+            [
+              27.845277777777778,
+              59.2925
+            ],
+            [
+              27.77583333333333,
+              59.23694444444445
+            ],
+            [
+              27.560000000000002,
+              59.29111111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED17 SIRGALA 2",
+        "upperLimit": "15400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.95,
+              57.80638888888888
+            ],
+            [
+              26.9,
+              57.805277777777775
+            ],
+            [
+              26.899722222222223,
+              57.81638888888889
+            ],
+            [
+              26.949444444444445,
+              57.814166666666665
+            ],
+            [
+              26.95,
+              57.80638888888888
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED18 TSIATSUNGÕLMAA",
+        "upperLimit": "2400 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.673333333333336,
+              59.31166666666666
+            ],
+            [
+              24.731388888888887,
+              59.36361111111111
+            ],
+            [
+              24.767777777777777,
+              59.34722222222222
+            ],
+            [
+              24.76722222222222,
+              59.31111111111111
+            ],
+            [
+              24.673333333333336,
+              59.31166666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED20 MÄNNIKU",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn TWR and APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.288333333333334,
+              59.61
+            ],
+            [
+              24.288333333333334,
+              59.65
+            ],
+            [
+              24.441666666666666,
+              59.65
+            ],
+            [
+              24.441666666666666,
+              59.559999999999995
+            ],
+            [
+              24.288333333333334,
+              59.61
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED23 NAISSAAR",
+        "upperLimit": "4000 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26.809444444444445,
+              59.01694444444444
+            ],
+            [
+              26.841388888888886,
+              59.0375
+            ],
+            [
+              26.85611111111111,
+              59.030277777777776
+            ],
+            [
+              26.819444444444443,
+              59.01166666666666
+            ],
+            [
+              26.809444444444445,
+              59.01694444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED25 MURU",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.43861111111111,
+              59.355555555555554
+            ],
+            [
+              27.490000000000002,
+              59.35777777777778
+            ],
+            [
+              27.490000000000002,
+              59.34722222222222
+            ],
+            [
+              27.43888888888889,
+              59.34805555555556
+            ],
+            [
+              27.43861111111111,
+              59.355555555555554
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED26 VIRU",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.200555555555553,
+              58.405833333333334
+            ],
+            [
+              22.249166666666667,
+              58.41833333333333
+            ],
+            [
+              22.256944444444443,
+              58.40833333333333
+            ],
+            [
+              22.20777777777778,
+              58.39833333333333
+            ],
+            [
+              22.200555555555553,
+              58.405833333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED27 KARUJÄRVE",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Kuressaare AFIS and Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.120833333333334,
+              58.63861111111111
+            ],
+            [
+              23.133333333333333,
+              58.63388888888889
+            ],
+            [
+              23.0975,
+              58.60861111111111
+            ],
+            [
+              23.0875,
+              58.61222222222222
+            ],
+            [
+              23.120833333333334,
+              58.63861111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED31 KOGUVA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.758333333333333,
+              58.32083333333334
+            ],
+            [
+              24.835555555555555,
+              58.32555555555556
+            ],
+            [
+              24.81833333333333,
+              58.29277777777778
+            ],
+            [
+              24.754166666666666,
+              58.30638888888888
+            ],
+            [
+              24.758333333333333,
+              58.32083333333334
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED32 KIKEPERA",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.019166666666667,
+              58.17666666666666
+            ],
+            [
+              25.028055555555554,
+              58.168055555555554
+            ],
+            [
+              24.984444444444446,
+              58.15555555555555
+            ],
+            [
+              24.974999999999998,
+              58.16444444444444
+            ],
+            [
+              25.019166666666667,
+              58.17666666666666
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED33 LAURI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.549722222222226,
+              57.99611111111111
+            ],
+            [
+              25.56888888888889,
+              57.99777777777778
+            ],
+            [
+              25.577222222222222,
+              57.975
+            ],
+            [
+              25.557222222222222,
+              57.973333333333336
+            ],
+            [
+              25.549722222222226,
+              57.99611111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED34 LILLI",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.314444444444444,
+              58.88527777777778
+            ],
+            [
+              24.616111111111113,
+              58.72916666666667
+            ],
+            [
+              24.536944444444448,
+              58.96222222222222
+            ],
+            [
+              25.314444444444444,
+              58.88527777777778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED35G",
+        "upperLimit": "FL 60GND",
+        "lowerLimit": "SFC",
+        "remarks": "ACT: 01 APR-15 NOVGliding activityInformation about activity is available from the operator/user of the area:Tallinn Aeroclube-mail: denistsev@airclub.eeTel: +372 5625 0388, +372 5695 5234",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.477777777777778,
+              58.990833333333335
+            ],
+            [
+              25.535555555555558,
+              58.98527777777778
+            ],
+            [
+              25.523333333333333,
+              58.95416666666667
+            ],
+            [
+              25.470277777777778,
+              58.95861111111111
+            ],
+            [
+              25.477777777777778,
+              58.990833333333335
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED36 EIVERE",
+        "upperLimit": "3200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.415,
+              59.37361111111111
+            ],
+            [
+              24.42638888888889,
+              59.37138888888889
+            ],
+            [
+              24.421111111111113,
+              59.367222222222225
+            ],
+            [
+              24.411944444444444,
+              59.370555555555555
+            ],
+            [
+              24.415,
+              59.37361111111111
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED37 HUMALA",
+        "upperLimit": "1700 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn APP.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.78611111111111,
+              59.44444444444444
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED38",
+        "upperLimit": "300 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Paramotoring activityInformation about activity is available from Tallinn TWR 135.905.Operator/user of the area:AsimuutTel: +372 502 5022",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.775,
+              59.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED40",
+        "upperLimit": "300 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Paramotoring activityInformation about activity is available from Tallinn TWR 135.905 or Tallinn APP 127.905.Operator/user of the area:AsimuutTel: +372 502 5022",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.954722222222223,
+              59.256388888888885
+            ],
+            [
+              25.000833333333333,
+              59.19444444444444
+            ],
+            [
+              24.7675,
+              59.18194444444444
+            ],
+            [
+              24.79277777777778,
+              59.263888888888886
+            ],
+            [
+              24.954722222222223,
+              59.256388888888885
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED41",
+        "upperLimit": "3000 ft AMSLGND",
+        "lowerLimit": "SFC",
+        "remarks": "Acrobatic and training flights.Flights will take place in VMC only.EED41 must be activated at Tallinn TWR 135.905 or Tallinn APP 127.905 at least 5 minutes before entering the area.Availability is subject to IFR traffic situation in Tallinn TMA.Obtain info from:Tallinn TWR 135.905 orTallinn APP 127.905",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27.698888888888888,
+              59.238055555555555
+            ],
+            [
+              27.739444444444445,
+              59.239444444444445
+            ],
+            [
+              27.77,
+              59.23361111111111
+            ],
+            [
+              27.78611111111111,
+              59.214444444444446
+            ],
+            [
+              27.81861111111111,
+              59.218333333333334
+            ],
+            [
+              27.89361111111111,
+              59.219722222222224
+            ],
+            [
+              27.890277777777776,
+              59.20527777777778
+            ],
+            [
+              27.783055555555556,
+              59.20527777777778
+            ],
+            [
+              27.76972222222222,
+              59.224722222222226
+            ],
+            [
+              27.698888888888888,
+              59.22888888888889
+            ],
+            [
+              27.698888888888888,
+              59.238055555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED42",
+        "upperLimit": "1800 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "ACT: MON-FRI 0700-1400 (0600-1300)Blasting.Additional information about the activity can be obtained at tel. +372 336 5131 and +372 5343 3832.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.709722222222222,
+              58.940555555555555
+            ],
+            [
+              22.741666666666667,
+              58.95
+            ],
+            [
+              22.763055555555557,
+              58.920833333333334
+            ],
+            [
+              22.725277777777777,
+              58.91416666666667
+            ],
+            [
+              22.709722222222222,
+              58.940555555555555
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "designator": "EED43 KAPASTO",
+        "upperLimit": "2200 ft AMSLSFC",
+        "lowerLimit": "SFC",
+        "remarks": "Gunfiring. Activity notified by NOTAM. Information about activity is available from Tallinn ACC.",
+        "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html"
+      }
+    }
+  ],
+  "metadata": {
+    "effectiveDate": "2025-12-25",
+    "sourceUrl": "https://eaip.eans.ee/2025-12-25/html/eAIP/EE-ENR-5.1-en-GB.html",
+    "sha256": "82860a52f0a82698c8d195cec3e3cbb33926e1827866def6bb37446a3932f32d",
+    "generatedAt": "2025-12-27T01:44:50.883Z",
+    "issues": [
+      "Could not extract designator from row 0: NIL...",
+      "INVALID_GEOMETRY: Feature EER1 PIIRIALA has less than 2 points",
+      "INVALID_GEOMETRY: Feature EED38 has less than 2 points",
+      "INVALID_GEOMETRY: Feature EED40 has less than 2 points"
+    ],
+    "featureCount": 84
+  }
+}

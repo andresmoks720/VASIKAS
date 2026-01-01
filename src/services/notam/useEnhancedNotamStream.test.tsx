@@ -14,6 +14,7 @@ vi.mock("./notamStream", () => ({
 vi.mock("../airspace/AirspaceIntegrationService", () => {
   const mockService = {
     loadAirspaceFromHtml: vi.fn(),
+    loadLatestAirspaceData: vi.fn(),
     loadAirspaceData: vi.fn(),
     isLoadedForDate: vi.fn(),
     isLoadedFromHtml: vi.fn().mockReturnValue(false),
@@ -65,6 +66,7 @@ describe("useEnhancedNotamStream", () => {
   it("should handle error in enhancement by falling back to original geometry source without invalid values", async () => {
     // Simulate an error during enhancement
     (airspaceIntegrationService.loadAirspaceFromHtml as any).mockRejectedValue(new Error("HTML load failed"));
+    (airspaceIntegrationService.loadLatestAirspaceData as any).mockRejectedValue(new Error("GeoJSON latest load failed"));
     (airspaceIntegrationService.loadAirspaceData as any).mockRejectedValue(new Error("GeoJSON load failed"));
 
     // We need enhanceNotams to return something so it doesn't stay null
@@ -96,5 +98,20 @@ describe("useEnhancedNotamStream", () => {
     expect(notamWithGeom.geometrySource).toBe('notamText');
 
     expect(notamNoGeom.geometrySource).toBe('none');
+  });
+
+  it("does not refetch airspace data when already loaded", async () => {
+    (airspaceIntegrationService.getLoadedSourceType as any).mockReturnValue("geojson");
+    (airspaceIntegrationService.enhanceNotams as any).mockImplementation((notams: any[]) => notams);
+
+    const { result } = renderHook(() => useEnhancedNotamStream());
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    }, { timeout: 3000 });
+
+    expect(airspaceIntegrationService.loadAirspaceFromHtml).not.toHaveBeenCalled();
+    expect(airspaceIntegrationService.loadLatestAirspaceData).not.toHaveBeenCalled();
+    expect(airspaceIntegrationService.loadAirspaceData).not.toHaveBeenCalled();
   });
 });
