@@ -22,10 +22,11 @@ export type GeometryParseReason =
     | "INVALID_COORDS"
     | "EMPTY"
     | "EXCEPTION"
-    | "SYNTHETIC_GEOMETRY";
+    | "SYNTHETIC_GEOMETRY"
+    | "GEOMETRY_VALIDATION_ISSUES";
 
 export type GeometryParseResult =
-    | { geometry: NotamGeometry; reason?: undefined; details?: undefined }
+    | { geometry: NotamGeometry; reason?: GeometryParseReason; details?: Record<string, unknown> }
     | { geometry: null; reason: GeometryParseReason; details?: Record<string, unknown> };
 
 /**

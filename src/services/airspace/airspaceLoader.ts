@@ -6,12 +6,23 @@ export const GEOJSON_LOADER_VERSION = "1.0.0";
 /**
  * Service to load airspace data from public or data-served GeoJSON
  */
+type AirspaceLoadResult = {
+  features: AirspaceFeature[];
+  metadata?: Record<string, unknown>;
+  sourceUrl?: string;
+};
+
+type GeoJsonResponse = {
+  features?: unknown;
+  metadata?: Record<string, unknown>;
+};
+
 export class AirspaceLoader {
   /**
    * Load airspace data from a GeoJSON endpoint
    * @param url The URL to the GeoJSON file (e.g., /data/airspace/ee/${date}/enr5_1.geojson)
    */
-  async loadAirspaceData(url: string): Promise<{ features: AirspaceFeature[], metadata?: any, sourceUrl?: string }> {
+  async loadAirspaceData(url: string): Promise<AirspaceLoadResult> {
     try {
       const response = await fetch(url);
 
@@ -19,7 +30,7 @@ export class AirspaceLoader {
         throw new Error(`Failed to load airspace data: ${response.status} ${response.statusText}`);
       }
 
-      const geojsonData = await response.json();
+      const geojsonData = await response.json() as GeoJsonResponse;
 
       if (!geojsonData.features || !Array.isArray(geojsonData.features)) {
         throw new Error('Invalid GeoJSON format: missing features array');
@@ -53,7 +64,7 @@ export class AirspaceLoader {
    * Load airspace data by effective date
    * @param effectiveDate The date string in YYYY-MM-DD format
    */
-  async loadAirspaceByDate(effectiveDate: string): Promise<{ features: AirspaceFeature[], metadata?: any, sourceUrl?: string }> {
+  async loadAirspaceByDate(effectiveDate: string): Promise<AirspaceLoadResult> {
     const url = `/data/airspace/ee/${effectiveDate}/enr5_1.geojson`;
     const result = await this.loadAirspaceData(url);
 

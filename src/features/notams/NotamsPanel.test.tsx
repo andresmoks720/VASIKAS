@@ -5,8 +5,27 @@ import { NotamsPanel } from "./NotamsPanel";
 import * as StreamsProvider from "@/services/streams/StreamsProvider";
 import { makeNotam } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
+import type { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 const toggleUseLiveNotams = vi.fn();
+type NotamStream = ReturnType<typeof StreamsProvider.useSharedNotamStream>;
+
+const makeStream = (overrides: Partial<NotamStream> = {}): NotamStream => ({
+  data: [] as EnhancedNotam[],
+  status: "live",
+  lastOkUtc: null,
+  lastErrorUtc: null,
+  tick: 0,
+  ageSeconds: null,
+  error: null,
+  rawCount: 0,
+  displayedCount: 0,
+  dataSource: "mock",
+  liveError: null,
+  isLoading: false,
+  effectiveDate: null,
+  ...overrides,
+});
 
 vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
   useSidebarUrlState: () => ({
@@ -27,21 +46,7 @@ describe("NotamsPanel", () => {
   });
 
   it("renders empty state when no NOTAMs are available", () => {
-    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [] as any[],
-      status: "live",
-      lastOkUtc: null,
-      lastErrorUtc: null,
-      tick: 0,
-      ageSeconds: null,
-      error: null,
-      rawCount: 0,
-      displayedCount: 0,
-      dataSource: "mock",
-      liveError: null,
-      isLoading: false,
-      effectiveDate: null,
-    });
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue(makeStream());
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
@@ -56,21 +61,16 @@ describe("NotamsPanel", () => {
       geometry: null,
     });
 
-    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithoutGeometry] as any[],
-      status: "live",
-      lastOkUtc: "",
-      lastErrorUtc: null,
-      tick: 0,
-      ageSeconds: 5,
-      error: null,
-      rawCount: 1,
-      displayedCount: 1,
-      dataSource: "live",
-      liveError: null,
-      isLoading: false,
-      effectiveDate: null,
-    });
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue(
+      makeStream({
+        data: [notamWithoutGeometry as EnhancedNotam],
+        lastOkUtc: "",
+        ageSeconds: 5,
+        rawCount: 1,
+        displayedCount: 1,
+        dataSource: "live",
+      }),
+    );
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
@@ -90,21 +90,16 @@ describe("NotamsPanel", () => {
       altitudes: [],
     });
 
-    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithAltitude, notamWithoutAltitude] as any[],
-      status: "live",
-      lastOkUtc: "2025-01-01T00:00:00Z",
-      lastErrorUtc: null,
-      tick: 0,
-      ageSeconds: 10,
-      error: null,
-      rawCount: 2,
-      displayedCount: 2,
-      dataSource: "live",
-      liveError: null,
-      isLoading: false,
-      effectiveDate: null,
-    });
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue(
+      makeStream({
+        data: [notamWithAltitude as EnhancedNotam, notamWithoutAltitude as EnhancedNotam],
+        lastOkUtc: "2025-01-01T00:00:00Z",
+        ageSeconds: 10,
+        rawCount: 2,
+        displayedCount: 2,
+        dataSource: "live",
+      }),
+    );
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
@@ -116,21 +111,7 @@ describe("NotamsPanel", () => {
   });
 
   it("toggles the NOTAM live mode control", () => {
-    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [],
-      status: "live",
-      lastOkUtc: null,
-      lastErrorUtc: null,
-      tick: 0,
-      ageSeconds: null,
-      error: null,
-      rawCount: 0,
-      displayedCount: 0,
-      dataSource: "mock",
-      liveError: null,
-      isLoading: false,
-      effectiveDate: null,
-    });
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue(makeStream());
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 
@@ -140,21 +121,9 @@ describe("NotamsPanel", () => {
   });
 
   it("labels live fallback data as mock fallback", () => {
-    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [],
-      status: "live",
-      lastOkUtc: null,
-      lastErrorUtc: null,
-      tick: 0,
-      ageSeconds: null,
-      error: null,
-      rawCount: 0,
-      displayedCount: 0,
-      dataSource: "fallback",
-      liveError: new Error("Timeout"),
-      isLoading: false,
-      effectiveDate: null,
-    });
+    vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue(
+      makeStream({ dataSource: "fallback", liveError: new Error("Timeout") }),
+    );
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
 

@@ -1,19 +1,16 @@
-import type { Altitude } from "@/shared/types/domain";
 import {
     GeometryParseResult,
-    NormalizedNotam,
     NotamGeometry,
-    NotamRaw,
+    type GeometryParseReason,
 } from "../notamTypes";
-import { parseCoordinateChain, parseEansCoordinate, normalizeCoordinate, parseEnhancedCoordinate, parseEnhancedCoordinateChain } from "./coordParsers";
+import { parseCoordinateChain, normalizeCoordinate, parseEnhancedCoordinateChain } from "./coordParsers";
 import { parseGeometryFromNotamText } from "./textGeometryParser";
-import { validatePolygonGeometry, type PolygonValidationResult } from "./polygonValidation";
+import { validatePolygonGeometry } from "./polygonValidation";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────────────
 
-const FT_TO_METERS = 0.3048;
 const KM_TO_METERS = 1000;
 const NM_TO_METERS = 1852;
 
@@ -112,6 +109,10 @@ function parseRadiusValue(value: unknown, unitHint: "m" | "km" | "nm"): number |
         return parsed * NM_TO_METERS;
     }
     return parsed;
+}
+
+function resolveValidationReason(issues: string[]): GeometryParseReason | undefined {
+    return issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -516,7 +517,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
 
                 const ring = isClosed ? coordChain : [...coordChain, firstPoint];
 
-                const geometry = {
+                const geometry: NotamGeometry = {
                     kind: "polygon",
                     rings: [ring]
                 };
@@ -525,7 +526,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 const validated = validateAndCorrectGeometry(geometry);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -542,7 +543,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 const validated = validateAndCorrectGeometry(geometry);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -570,7 +571,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 const validated = validateAndCorrectGeometry(circle);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -602,7 +603,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                     return { geometry: null, reason: "INVALID_COORDS" };
                 }
                 const splitPolygons = splitPolygonIfDatelineCrossing(rings);
-                let geometry;
+                let geometry: NotamGeometry;
                 if (splitPolygons) {
                     geometry = { kind: "multiPolygon", polygons: splitPolygons };
                 } else {
@@ -613,7 +614,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 const validated = validateAndCorrectGeometry(geometry);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -633,13 +634,13 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                     }
                 }
 
-                const geometry = { kind: "multiPolygon", polygons: splitPolygons };
+                const geometry: NotamGeometry = { kind: "multiPolygon", polygons: splitPolygons };
 
                 // Validate and correct the geometry
                 const validated = validateAndCorrectGeometry(geometry);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -658,7 +659,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
         if (isArray(candidate)) {
             const polygons = normalizeMultiPolygon(candidate);
             if (polygons && polygons.length > 0) {
-                let geometry;
+                let geometry: NotamGeometry;
                 if (polygons.length === 1) {
                     geometry = { kind: "polygon", rings: polygons[0] };
                 } else {
@@ -669,7 +670,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 const validated = validateAndCorrectGeometry(geometry);
                 return {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                    reason: resolveValidationReason(validated.issues),
                     details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                 };
             }
@@ -679,7 +680,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                 return { geometry: null, reason: "INVALID_COORDS" };
             }
             const splitPolygons = splitPolygonIfDatelineCrossing(rings);
-            let geometry;
+            let geometry: NotamGeometry;
             if (splitPolygons) {
                 geometry = { kind: "multiPolygon", polygons: splitPolygons };
             } else {
@@ -690,7 +691,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
             const validated = validateAndCorrectGeometry(geometry);
             return {
                 geometry: validated.geometry,
-                reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                reason: resolveValidationReason(validated.issues),
                 details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
             };
         }
@@ -705,7 +706,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                     const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
                     return {
                         geometry: validated.geometry,
-                        reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                        reason: resolveValidationReason(validated.issues),
                         details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                     };
                 }
@@ -719,7 +720,7 @@ export function parseNotamGeometryWithReason(candidate: unknown): GeometryParseR
                     const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
                     return {
                         geometry: validated.geometry,
-                        reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
+                        reason: resolveValidationReason(validated.issues),
                         details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
                     };
                 }

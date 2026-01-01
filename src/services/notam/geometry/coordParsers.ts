@@ -1,5 +1,3 @@
-import type { NotamGeometry } from "../notamTypes";
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Type guards and helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -18,11 +16,6 @@ function isNumber(value: unknown): value is number {
 
 function isArray(value: unknown): value is unknown[] {
     return Array.isArray(value);
-}
-
-function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
-    const value = obj[key];
-    return isNumber(value) ? value : undefined;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -178,10 +171,10 @@ function parseDecimalDegrees(text: string): [number, number] | null {
 
   if (match) {
     // The pattern can match in different ways, so we need to determine which groups are lat/lon
-    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDir] = match;
+    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDirMatch] = match;
 
     let latDir: string | undefined;
-    let lonDir: string | undefined;
+    let lonDir: string | undefined = lonDirMatch;
     let latStrFinal: string;
     let lonStrFinal: string;
 
@@ -197,7 +190,6 @@ function parseDecimalDegrees(text: string): [number, number] | null {
       latStrFinal = latStr;
       latDir = dir3OrLat2;
       lonStrFinal = lonStr;
-      lonDir = lonDir;
     } else {
       // Try to determine based on value ranges
       const latVal = parseFloat(latStr);
@@ -629,8 +621,3 @@ function containsDescriptiveText(segment: string): boolean {
  *
  * NOTE: This is specific to the HTML parsing workflow from eAIP documents.
  */
-function mightBeDescriptiveText(segment: string): boolean {
-    // If it doesn't look like coordinates (doesn't start with numbers), it might be descriptive text
-    // This is a simple heuristic - if it doesn't match coordinate patterns, it might be text
-    return !/^\d/.test(segment.trim());
-}

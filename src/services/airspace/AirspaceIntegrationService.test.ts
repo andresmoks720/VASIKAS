@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { AirspaceIntegrationService } from './AirspaceIntegrationService';
 
 describe('AirspaceIntegrationService', () => {
@@ -28,7 +28,9 @@ describe('AirspaceIntegrationService', () => {
     });
 
     it('should sanitize HTML before hashing to ensure stable cache', () => {
-        const service = new AirspaceIntegrationService() as any; // Access private methods
+        const service = new AirspaceIntegrationService() as unknown as {
+            computeSimpleHash: (html: string) => string;
+        };
 
         const html1 = '<html><body>Generated at: 2025-12-28 10:00:00<div id="content">Airspace Data</div></body></html>';
         const html2 = '<html><body>Generated at: 2025-12-28 11:00:00<div id="content">Airspace Data</div></body></html>';
@@ -44,7 +46,9 @@ describe('AirspaceIntegrationService', () => {
     });
 
     it('should handle long timestamps during sanitization', () => {
-        const service = new AirspaceIntegrationService() as any;
+        const service = new AirspaceIntegrationService() as unknown as {
+            computeSimpleHash: (html: string) => string;
+        };
         const html1 = '<div>Data 1735346347000</div>';
         const html2 = '<div>Data 1735346350000</div>';
 

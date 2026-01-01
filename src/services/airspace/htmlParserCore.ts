@@ -252,7 +252,7 @@ export function parseDms(dms: string, isNegative: boolean, isLongitude: boolean)
 
     if (min < 0 || min >= 60 || sec < 0 || sec >= 60) return null;
 
-    let val = deg + min / 60 + sec / 3600;
+    const val = deg + min / 60 + sec / 3600;
     return isNegative ? -val : val;
 }
 

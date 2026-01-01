@@ -1,4 +1,4 @@
-import { NormalizedNotam, NotamGeometry } from "../notam/notamTypes";
+import { NormalizedNotam } from "../notam/notamTypes";
 import { AirspaceFeature, EnhancedNotam } from "./airspaceTypes";
 import { AirspaceLoader } from "./airspaceLoader";
 import { NotamAirspaceIndex } from "../notam/NotamAirspaceIndex";

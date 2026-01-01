@@ -245,7 +245,7 @@ export function useAdsbStream() {
     trackStoreRef.current = state;
 
     return nextTracks;
-  }, [aircraft, useMocks]);
+  }, [aircraft]);
 
   return { ...polled, data: aircraft, tracks };
 }

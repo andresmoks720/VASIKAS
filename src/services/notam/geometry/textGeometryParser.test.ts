@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseGeometryFromNotamText } from './textGeometryParser';
+import type { NotamGeometry } from '../notamTypes';
 
 describe('textGeometryParser', () => {
   describe('parseGeometryFromNotamText', () => {
@@ -9,7 +10,8 @@ describe('textGeometryParser', () => {
       
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe('polygon');
-      expect(Array.isArray((result.geometry as any).rings)).toBe(true);
+      const polygon = result.geometry as Extract<NotamGeometry, { kind: "polygon" }>;
+      expect(Array.isArray(polygon.rings)).toBe(true);
     });
 
     it('should parse circle from radius pattern', () => {
@@ -18,7 +20,8 @@ describe('textGeometryParser', () => {
       
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe('circle');
-      expect((result.geometry as any).radiusMeters).toBe(5 * 1852); // 5 NM in meters
+      const circle = result.geometry as Extract<NotamGeometry, { kind: "circle" }>;
+      expect(circle.radiusMeters).toBe(5 * 1852); // 5 NM in meters
     });
 
     it('should handle text with no geometry', () => {
@@ -26,7 +29,7 @@ describe('textGeometryParser', () => {
       const result = parseGeometryFromNotamText(text);
       
       expect(result.geometry).toBeNull();
-      expect(result.reason).toBe('NO_GEOMETRY_IN_TEXT');
+      expect(result.reason).toBe('EMPTY');
     });
 
     it('should parse coordinates in EANS format', () => {

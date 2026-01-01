@@ -42,6 +42,10 @@ describe('enhancedCoordParsers', () => {
   describe('parseEnhancedCoordinateChain', () => {
     it('should parse coordinate chain with dash separator', () => {
       const result = parseEnhancedCoordinateChain('N59.1234 E024.5678 - N59.2345 E024.6789');
+      expect(result).not.toBeNull();
+      if (!result) {
+        throw new Error("Expected coordinate chain to be parsed");
+      }
       expect(result).toHaveLength(2);
       expect(result[0]).toEqual([24.5678, 59.1234]);
       expect(result[1]).toEqual([24.6789, 59.2345]);
@@ -49,6 +53,10 @@ describe('enhancedCoordParsers', () => {
 
     it('should parse coordinate chain with comma separator', () => {
       const result = parseEnhancedCoordinateChain('N59.1234 E024.5678, N59.2345 E024.6789');
+      expect(result).not.toBeNull();
+      if (!result) {
+        throw new Error("Expected coordinate chain to be parsed");
+      }
       expect(result).toHaveLength(2);
       expect(result[0]).toEqual([24.5678, 59.1234]);
       expect(result[1]).toEqual([24.6789, 59.2345]);
@@ -56,6 +64,10 @@ describe('enhancedCoordParsers', () => {
 
     it('should parse coordinate chain with multiple formats', () => {
       const result = parseEnhancedCoordinateChain('591633N 0261500E - N59.2345 E024.6789');
+      expect(result).not.toBeNull();
+      if (!result) {
+        throw new Error("Expected coordinate chain to be parsed");
+      }
       expect(result).toHaveLength(2);
       // First coordinate is DMS format
       expect(result[0][0]).toBeCloseTo(26.25, 2); // approximately 26.25

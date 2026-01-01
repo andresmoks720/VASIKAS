@@ -1,19 +1,19 @@
 import { describe, it, expect } from 'vitest';
 import { validatePolygonGeometry } from './polygonValidation';
+import type { NotamGeometry } from '../notamTypes';
 
 describe('polygonValidation', () => {
   describe('validatePolygonGeometry', () => {
     it('should validate a properly formed polygon', () => {
-      const geometry = {
-        kind: 'polygon' as const,
-        rings: [
-          [
-            [24.74, 59.43],
-            [24.75, 59.44],
-            [24.76, 59.43],
-            [24.74, 59.43] // Closed ring
-          ]
-        ]
+      const ring: [number, number][] = [
+        [24.74, 59.43],
+        [24.75, 59.44],
+        [24.76, 59.43],
+        [24.74, 59.43], // Closed ring
+      ];
+      const geometry: NotamGeometry = {
+        kind: 'polygon',
+        rings: [ring],
       };
       
       const result = validatePolygonGeometry(geometry);
@@ -22,16 +22,15 @@ describe('polygonValidation', () => {
     });
 
     it('should detect unclosed rings', () => {
-      const geometry = {
-        kind: 'polygon' as const,
-        rings: [
-          [
-            [24.74, 59.43],
-            [24.75, 59.44],
-            [24.76, 59.43]
-            // Missing closing point
-          ]
-        ]
+      const ring: [number, number][] = [
+        [24.74, 59.43],
+        [24.75, 59.44],
+        [24.76, 59.43],
+        // Missing closing point
+      ];
+      const geometry: NotamGeometry = {
+        kind: 'polygon',
+        rings: [ring],
       };
       
       const result = validatePolygonGeometry(geometry);
@@ -40,15 +39,14 @@ describe('polygonValidation', () => {
     });
 
     it('should detect polygons with insufficient points', () => {
-      const geometry = {
-        kind: 'polygon' as const,
-        rings: [
-          [
-            [24.74, 59.43],
-            [24.75, 59.44]
-            // Only 2 points, need at least 4 for a closed ring
-          ]
-        ]
+      const ring: [number, number][] = [
+        [24.74, 59.43],
+        [24.75, 59.44],
+        // Only 2 points, need at least 4 for a closed ring
+      ];
+      const geometry: NotamGeometry = {
+        kind: 'polygon',
+        rings: [ring],
       };
       
       const result = validatePolygonGeometry(geometry);
@@ -57,10 +55,10 @@ describe('polygonValidation', () => {
     });
 
     it('should validate circles as valid', () => {
-      const geometry = {
-        kind: 'circle' as const,
-        center: [24.74, 59.43] as [number, number],
-        radiusMeters: 1000
+      const geometry: NotamGeometry = {
+        kind: 'circle',
+        center: [24.74, 59.43],
+        radiusMeters: 1000,
       };
       
       const result = validatePolygonGeometry(geometry);
@@ -69,18 +67,15 @@ describe('polygonValidation', () => {
     });
 
     it('should validate multi-polygons', () => {
-      const geometry = {
-        kind: 'multiPolygon' as const,
-        polygons: [
-          [
-            [
-              [24.74, 59.43],
-              [24.75, 59.44],
-              [24.76, 59.43],
-              [24.74, 59.43] // Closed ring
-            ]
-          ]
-        ]
+      const ring: [number, number][] = [
+        [24.74, 59.43],
+        [24.75, 59.44],
+        [24.76, 59.43],
+        [24.74, 59.43], // Closed ring
+      ];
+      const geometry: NotamGeometry = {
+        kind: 'multiPolygon',
+        polygons: [[ring]],
       };
       
       const result = validatePolygonGeometry(geometry);
@@ -92,17 +87,16 @@ describe('polygonValidation', () => {
   describe('winding order validation', () => {
     it('should detect incorrect winding order for outer rings', () => {
       // A clockwise ring (which would be incorrect for an outer ring)
-      const geometry = {
-        kind: 'polygon' as const,
-        rings: [
-          [
-            [24.74, 59.43], // Start
-            [24.76, 59.43], // Go east
-            [24.76, 59.45], // Go north
-            [24.74, 59.45], // Go west
-            [24.74, 59.43]  // Close (clockwise order)
-          ]
-        ]
+      const ring: [number, number][] = [
+        [24.74, 59.43], // Start
+        [24.76, 59.43], // Go east
+        [24.76, 59.45], // Go north
+        [24.74, 59.45], // Go west
+        [24.74, 59.43], // Close (clockwise order)
+      ];
+      const geometry: NotamGeometry = {
+        kind: 'polygon',
+        rings: [ring],
       };
       
       const result = validatePolygonGeometry(geometry);

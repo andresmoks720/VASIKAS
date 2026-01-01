@@ -11,7 +11,7 @@ describe('htmlParserCore', () => {
                         { textContent: 'EER15 590000N 0240000E - 590000N 0250000E - 580000N 0250000E - 580000N 0240000E - 590000N 0240000E. 570000N 0260000E - 570000N 0270000E - 560000N 0270000E - 560000N 0260000E - 570000N 0260000E' },
                         { textContent: 'FL100\nSFC' },
                         { textContent: 'Remarks' }
-                    ] as any[];
+                    ] as Array<{ textContent: string }>;
                 }
                 return [];
             },
@@ -72,7 +72,7 @@ describe('htmlParserCore', () => {
                         { textContent: 'TESTAREA\n5900N 02400E – 5900N 02500E | 5800N 02500E\n5800N 02400E - 5900N 02400E' },
                         { textContent: 'FL100\nSFC' },
                         { textContent: 'Remarks' }
-                    ] as any[];
+                    ] as Array<{ textContent: string }>;
                 }
                 return [];
             },

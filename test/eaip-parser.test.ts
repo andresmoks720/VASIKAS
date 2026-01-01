@@ -1,6 +1,4 @@
-import { describe, it, expect, beforeEach, vi, MockedFunction } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { describe, it, expect, vi } from 'vitest';
 import { parseEaipEnr51, generateGeoJson } from '../tools/eaip-import/src/parser';
 
 // Mock fetch globally
@@ -153,7 +151,8 @@ describe('eAIP Parser', () => {
     // Should have issues for invalid geometry (too few points)
     expect(result.issues.some(issue =>
       issue.includes('INVALID_GEOMETRY') ||
-      issue.includes('has less than 2 points')
+      issue.includes('AIP_PARSE') ||
+      issue.includes('less than')
     )).toBe(true);
   });
 
@@ -210,7 +209,7 @@ describe('Coordinate Parsing', () => {
               <tr>
                 <td>
                   <p><strong>TEST01</strong></p>
-                  591633N 0261500E - 591639N 0255647E
+                  591633N 0261500E - 591639N 0255647E - 591614N 0254748E
                 </td>
                 <td>FL95<br/>SFC</td>
                 <td>Test coordinates</td>

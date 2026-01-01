@@ -1,5 +1,3 @@
-import type { NotamGeometry } from "../notamTypes";
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Enhanced Coordinate Parsing Functions
 // ─────────────────────────────────────────────────────────────────────────────
@@ -42,10 +40,10 @@ function parseDecimalDegrees(text: string): [number, number] | null {
 
   if (match) {
     // The pattern can match in different ways, so we need to determine which groups are lat/lon
-    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDir] = match;
+    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDirMatch] = match;
 
     let latDir: string | undefined;
-    let lonDir: string | undefined;
+    let lonDir: string | undefined = lonDirMatch;
     let latStrFinal: string;
     let lonStrFinal: string;
 
@@ -61,7 +59,6 @@ function parseDecimalDegrees(text: string): [number, number] | null {
       latStrFinal = latStr;
       latDir = dir3OrLat2;
       lonStrFinal = lonStr;
-      lonDir = lonDir;
     } else {
       // Try to determine based on value ranges
       const latVal = parseFloat(latStr);

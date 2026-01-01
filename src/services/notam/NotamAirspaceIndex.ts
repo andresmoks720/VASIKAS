@@ -171,7 +171,7 @@ export class NotamAirspaceIndex {
     }
     return {
       geometry: null,
-      issues: [`UNSUPPORTED_AIRSPACE_GEOMETRY_TYPE: ${(airspaceGeometry as any).type}`]
+      issues: [`UNSUPPORTED_AIRSPACE_GEOMETRY_TYPE: ${airspaceGeometry.type}`]
     };
   }
 
@@ -208,7 +208,6 @@ export class NotamAirspaceIndex {
       }
 
       // Fallback: original logic for the first match if no index match found
-      const firstNormalized = this.normalizeDesignator(matches[0].trim());
       // Re-normalize to prefix only for the check if it's a multi-word match
       const firstPart = matches[0].trim().split(/\s+/)[0];
       const checkNormalized = this.normalizeDesignator(firstPart);

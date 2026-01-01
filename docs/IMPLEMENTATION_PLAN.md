@@ -29,6 +29,7 @@
   - Testing culture documented with updated testing guide, test case register, and PR checklist.
   - NOTAM geometry parsing now reports structured reasons with dev-only map-layer warnings and regression coverage.
   - Added NOTAM geometry contract fixtures and a local report script for schema drift diagnosis.
+  - Aligned NOTAM geometry validation typing and hole winding normalization tests; refreshed eAIP parser regression coverage.
   - Added unit coverage for env parsing, ADS-B/drone track mapping, and HistoryPanel rendering.
   - Added coverage for NOTAM polling/stream hooks, StreamsProvider context, and AirTrafficPanel empty/list states.
   - Added coverage for ADS-B/drone motion edge cases, API timeout boundaries, and KnownDronesPanel empty/list states.

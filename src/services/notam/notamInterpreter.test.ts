@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 
 import {
     parseNotamGeometry,
-    parseEaipCoordinateChain,
 } from "./notamInterpreter";
 import {
     parseAltitudesFromText,
@@ -300,9 +299,9 @@ describe("parseNotamGeometry", () => {
                 ],
                 [
                     [24.745, 59.435],
-                    [24.755, 59.435],
-                    [24.755, 59.439],
                     [24.745, 59.439],
+                    [24.755, 59.439],
+                    [24.755, 59.435],
                     [24.745, 59.435],
                 ],
             ]);

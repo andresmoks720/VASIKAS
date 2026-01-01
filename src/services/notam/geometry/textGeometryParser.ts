@@ -7,7 +7,7 @@ import { parseCoordinateChain, parseDmsLatLonPair, parseEansCoordinate, parseEnh
  */
 export function parseGeometryFromNotamText(text: string): GeometryParseResult {
   if (!text || typeof text !== 'string') {
-    return { geometry: null, reason: "NO_TEXT" };
+    return { geometry: null, reason: "NO_CANDIDATE" };
   }
 
   // Clean up the text to remove extra whitespace and normalize
@@ -38,7 +38,7 @@ export function parseGeometryFromNotamText(text: string): GeometryParseResult {
   }
 
   // If no geometry found, return null with reason
-  return { geometry: null, reason: "NO_GEOMETRY_IN_TEXT" };
+  return { geometry: null, reason: "EMPTY" };
 }
 
 /**
@@ -79,7 +79,7 @@ function parseCoordinateChainFromText(text: string): NotamGeometry | null {
 
   // Look for coordinate chains in the text
   // Pattern: sequences of coordinates separated by " - " or similar separators
-  const coordChainPattern = /(\d{6}[NS]\s*\d{6,7}[EW](?:\s*-\s*\d{6}[NS]\s*\d{6,7}[EW})*)+/gi;
+  const coordChainPattern = /(\d{6}[NS]\s*\d{6,7}[EW](?:\s*-\s*\d{6}[NS]\s*\d{6,7}[EW])*)+/gi;
   const matches = text.match(coordChainPattern);
 
   if (matches) {
@@ -107,7 +107,7 @@ function parseCoordinateChainFromText(text: string): NotamGeometry | null {
 
   // Try alternative patterns for coordinate chains
   // Look for coordinates separated by various delimiters
-  const altCoordChainPattern = /(\d{6}[NS][\s,]*\d{6,7}[EW](?:\s*(?:-|,|to)\s*\d{6}[NS][\s,]*\d{6,7}[EW})*)+/gi;
+  const altCoordChainPattern = /(\d{6}[NS][\s,]*\d{6,7}[EW](?:\s*(?:-|,|to)\s*\d{6}[NS][\s,]*\d{6,7}[EW])*)+/gi;
   const altMatches = text.match(altCoordChainPattern);
 
   if (altMatches) {
@@ -265,9 +265,9 @@ function parseDecimalCoordinate(text: string): [number, number] | null {
 function parseCircleFromText(text: string): NotamGeometry | null {
   // Pattern for circles: radius followed by distance unit and center point
   const circlePatterns = [
-    /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+from\s+point\s+([NSEW\d\s\.\-]+)/i,
+    /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+from\s+point\s+([NSEW\d\s.-]+)/i,
     /circle\s+of\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+radius/i,
-    /within\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+of\s+point\s+([NSEW\d\s\.\-]+)/i,
+    /within\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+of\s+point\s+([NSEW\d\s.-]+)/i,
     /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)/i, // Simple radius pattern
     /(\d+(?:\.\d+)?)\s*nmi?\s+circular\s+area/i, // "5NM circular area"
     /circular\s+area\s+of\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)/i, // "circular area of 5NM"

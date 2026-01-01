@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseNotamGeometryWithReason } from "./geometryParsers";
+import type { NotamGeometry } from "../notamTypes";
 
 describe("geometryParsers", () => {
   describe("parseNotamGeometryWithReason", () => {
@@ -20,8 +21,9 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonPolygon);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("polygon");
-      expect(Array.isArray((result.geometry as any).rings)).toBe(true);
-      expect((result.geometry as any).rings[0]).toHaveLength(5); // Should have 5 points (closed ring)
+      const polygon = result.geometry as Extract<NotamGeometry, { kind: "polygon" }>;
+      expect(Array.isArray(polygon.rings)).toBe(true);
+      expect(polygon.rings[0]).toHaveLength(5); // Should have 5 points (closed ring)
     });
 
     it("parses GeoJSON MultiPolygon geometry", () => {
@@ -52,8 +54,9 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonMultiPolygon);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("multiPolygon");
-      expect(Array.isArray((result.geometry as any).polygons)).toBe(true);
-      expect((result.geometry as any).polygons).toHaveLength(2); // Two polygons
+      const multiPolygon = result.geometry as Extract<NotamGeometry, { kind: "multiPolygon" }>;
+      expect(Array.isArray(multiPolygon.polygons)).toBe(true);
+      expect(multiPolygon.polygons).toHaveLength(2); // Two polygons
     });
 
     it("parses GeoJSON Point geometry as circle", () => {
@@ -66,8 +69,9 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonPoint);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("circle");
-      expect((result.geometry as any).center).toEqual([24.7536, 59.4369]);
-      expect((result.geometry as any).radiusMeters).toBe(1000);
+      const circle = result.geometry as Extract<NotamGeometry, { kind: "circle" }>;
+      expect(circle.center).toEqual([24.7536, 59.4369]);
+      expect(circle.radiusMeters).toBe(1000);
     });
 
     it("returns unsupported type for LineString", () => {
