@@ -173,12 +173,12 @@ export function parseEnhancedCoordinate(text: string): [number, number] | null {
  */
 function parseDecimalDegrees(text: string): [number, number] | null {
   // Pattern for decimal degrees: N59.1234 E024.5678 or 59.1234N 024.5678E
-  const decimalPattern = /([NS])?(\d{2,3}\.\d+)\s*([EW])?\s*([NS])?(\d{2,3}\.\d+)([EW])?/i;
+  const decimalPattern = /([NS])?(\d{2,3}\.\d+)\s*([EW])?\s*([NS])?\s*(\d{2,3}\.\d+)([EW])?/i;
   const match = text.match(decimalPattern);
 
   if (match) {
     // The pattern can match in different ways, so we need to determine which groups are lat/lon
-    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDir] = match;
+    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDirMatch] = match;
 
     let latDir: string | undefined;
     let lonDir: string | undefined;
@@ -197,7 +197,7 @@ function parseDecimalDegrees(text: string): [number, number] | null {
       latStrFinal = latStr;
       latDir = dir3OrLat2;
       lonStrFinal = lonStr;
-      lonDir = lonDir;
+      lonDir = lonDirMatch;
     } else {
       // Try to determine based on value ranges
       const latVal = parseFloat(latStr);
@@ -373,8 +373,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                     continue;
                 } else {
                     // This is not recognized descriptive text, so it's an invalid coordinate format
-                    // But we continue rather than returning null, as other segments might be valid
-                    continue; // Skip this invalid segment but continue with others
+                    return null;
                 }
             }
 
@@ -407,7 +406,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                 lonMin = parseInt(lonDMS.substring(3, 5), 10);
                 lonSec = parseInt(lonDMS.substring(5, 7), 10);
             } else {
-                continue; // Invalid longitude format, skip this segment
+                return null; // Invalid longitude format
             }
 
             let lon = lonDeg + lonMin / 60 + lonSec / 3600;

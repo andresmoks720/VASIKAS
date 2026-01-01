@@ -46,6 +46,8 @@
   - **Data model alignment**: Data models between tooling and runtime are now aligned with consistent coordinate parsing logic.
   - **Airspace load throttling**: Enhanced NOTAM stream skips repeated HTML/GeoJSON fetches once airspace data is loaded.
   - **Latest airspace manifest fallback**: GeoJSON fallback now resolves the latest effective date via `/data/airspace/ee/latest.json` before attempting date-specific files.
+  - Fixed NOTAM decimal-degree parsing to honor suffix directions and corrected coordinate-chain regex, with regression coverage for suffix S/W formats.
+  - Aligned eAIP tooling parser tests with coordinate-chain expectations and parse error reporting for short geometry inputs.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:
