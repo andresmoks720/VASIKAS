@@ -9,7 +9,9 @@ describe('textGeometryParser', () => {
       
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe('polygon');
-      expect(Array.isArray((result.geometry as any).rings)).toBe(true);
+      if (result.geometry && result.geometry.kind === "polygon") {
+        expect(Array.isArray(result.geometry.rings)).toBe(true);
+      }
     });
 
     it('should parse circle from radius pattern', () => {
@@ -18,7 +20,9 @@ describe('textGeometryParser', () => {
       
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe('circle');
-      expect((result.geometry as any).radiusMeters).toBe(5 * 1852); // 5 NM in meters
+      if (result.geometry && result.geometry.kind === "circle") {
+        expect(result.geometry.radiusMeters).toBe(5 * 1852); // 5 NM in meters
+      }
     });
 
     it('should handle text with no geometry', () => {

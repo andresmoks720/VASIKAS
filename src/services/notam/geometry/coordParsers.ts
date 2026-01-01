@@ -1,5 +1,3 @@
-import type { NotamGeometry } from "../notamTypes";
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Type guards and helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -18,11 +16,6 @@ function isNumber(value: unknown): value is number {
 
 function isArray(value: unknown): value is unknown[] {
     return Array.isArray(value);
-}
-
-function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
-    const value = obj[key];
-    return isNumber(value) ? value : undefined;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -172,83 +165,63 @@ export function parseEnhancedCoordinate(text: string): [number, number] | null {
  * Parse decimal degrees format like "N59.1234 E024.5678" or "59.1234N 024.5678E"
  */
 function parseDecimalDegrees(text: string): [number, number] | null {
-  // Pattern for decimal degrees: N59.1234 E024.5678 or 59.1234N 024.5678E
-  const decimalPattern = /([NS])?(\d{2,3}\.\d+)\s*([EW])?\s*([NS])?(\d{2,3}\.\d+)([EW])?/i;
-  const match = text.match(decimalPattern);
-
-  if (match) {
-    // The pattern can match in different ways, so we need to determine which groups are lat/lon
-    const [, dir1, latStr, dir2OrLonDir, dir3OrLat2, lonStr, lonDir] = match;
-
-    let latDir: string | undefined;
-    let lonDir: string | undefined;
-    let latStrFinal: string;
-    let lonStrFinal: string;
-
-    // Determine which is latitude and which is longitude based on the format
-    if (dir1 && !dir3OrLat2) {
-      // Format: N59.1234 E024.5678
-      latDir = dir1;
-      latStrFinal = latStr;
-      lonDir = dir2OrLonDir;
-      lonStrFinal = lonStr;
-    } else if (dir3OrLat2 && !dir1) {
-      // Format: 59.1234N 024.5678E
-      latStrFinal = latStr;
-      latDir = dir3OrLat2;
-      lonStrFinal = lonStr;
-      lonDir = lonDir;
-    } else {
-      // Try to determine based on value ranges
-      const latVal = parseFloat(latStr);
-      const lonVal = parseFloat(lonStr);
-
-      if (latVal <= 90 && lonVal <= 180) {
-        latStrFinal = latStr;
-        lonStrFinal = lonStr;
-        // Try to extract directions from other parts
-        const directionMatch = text.match(/([NS])|([EW])/gi);
-        if (directionMatch && directionMatch.length >= 2) {
-          latDir = directionMatch[0];
-          lonDir = directionMatch[1];
-        }
-      } else {
-        return null;
-      }
-    }
-
-    const lat = parseFloat(latStrFinal);
-    const lon = parseFloat(lonStrFinal);
-
-    if (isNaN(lat) || isNaN(lon)) {
+  const prefixPattern = /([NS])\s*(\d{2,3}\.\d+)\s*([EW])\s*(\d{2,3}\.\d+)/i;
+  const prefixMatch = text.match(prefixPattern);
+  if (prefixMatch) {
+    const [, latDir, latStr, lonDir, lonStr] = prefixMatch;
+    const lat = parseFloat(latStr);
+    const lon = parseFloat(lonStr);
+    if (Number.isNaN(lat) || Number.isNaN(lon)) {
       return null;
     }
-
-    // Apply direction signs
-    let finalLat = lat;
-    let finalLon = lon;
-
-    if (latDir) {
-      if (latDir.toUpperCase() === 'S') {
-        finalLat = -lat;
-      }
-    }
-
-    if (lonDir) {
-      if (lonDir.toUpperCase() === 'W') {
-        finalLon = -lon;
-      }
-    }
-
-    // Validate ranges
-    if (Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180) {
-      return null;
-    }
-
-    return [finalLon, finalLat];
+    const finalLat = latDir.toUpperCase() === "S" ? -lat : lat;
+    const finalLon = lonDir.toUpperCase() === "W" ? -lon : lon;
+    return Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180 ? null : [finalLon, finalLat];
   }
 
-  return null;
+  const suffixPattern = /(\d{2,3}\.\d+)\s*([NS])\s*(\d{2,3}\.\d+)\s*([EW])/i;
+  const suffixMatch = text.match(suffixPattern);
+  if (suffixMatch) {
+    const [, latStr, latDir, lonStr, lonDir] = suffixMatch;
+    const lat = parseFloat(latStr);
+    const lon = parseFloat(lonStr);
+    if (Number.isNaN(lat) || Number.isNaN(lon)) {
+      return null;
+    }
+    const finalLat = latDir.toUpperCase() === "S" ? -lat : lat;
+    const finalLon = lonDir.toUpperCase() === "W" ? -lon : lon;
+    return Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180 ? null : [finalLon, finalLat];
+  }
+
+  const genericPattern = /(\d{2,3}\.\d+)\s+(\d{2,3}\.\d+)/;
+  const genericMatch = text.match(genericPattern);
+  if (!genericMatch) {
+    return null;
+  }
+  const [, latStr, lonStr] = genericMatch;
+  const lat = parseFloat(latStr);
+  const lon = parseFloat(lonStr);
+  if (Number.isNaN(lat) || Number.isNaN(lon)) {
+    return null;
+  }
+
+  let finalLat = lat;
+  let finalLon = lon;
+  const directionMatch = text.match(/([NS])|([EW])/gi);
+  if (directionMatch && directionMatch.length >= 2) {
+    if (directionMatch[0].toUpperCase() === "S") {
+      finalLat = -lat;
+    }
+    if (directionMatch[1].toUpperCase() === "W") {
+      finalLon = -lon;
+    }
+  }
+
+  if (Math.abs(finalLat) > 90 || Math.abs(finalLon) > 180) {
+    return null;
+  }
+
+  return [finalLon, finalLat];
 }
 
 /**
@@ -343,6 +316,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
     const coordPairs = text.split(' - ');
 
     const coordinates: [number, number][] = [];
+    let hasInvalidSegment = false;
 
     for (const pair of coordPairs) {
         const trimmed = pair.trim();
@@ -373,7 +347,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                     continue;
                 } else {
                     // This is not recognized descriptive text, so it's an invalid coordinate format
-                    // But we continue rather than returning null, as other segments might be valid
+                    hasInvalidSegment = true;
                     continue; // Skip this invalid segment but continue with others
                 }
             }
@@ -407,6 +381,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                 lonMin = parseInt(lonDMS.substring(3, 5), 10);
                 lonSec = parseInt(lonDMS.substring(5, 7), 10);
             } else {
+                hasInvalidSegment = true;
                 continue; // Invalid longitude format, skip this segment
             }
 
@@ -446,6 +421,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
                 lonMin = parseInt(lonDMS.substring(3, 5), 10);
                 lonSec = parseInt(lonDMS.substring(5, 7), 10);
             } else {
+                hasInvalidSegment = true;
                 continue; // Invalid longitude format, skip this segment
             }
 
@@ -460,7 +436,7 @@ export function parseCoordinateChain(text: string): [number, number][] | null {
 
     // If we went through all segments but found no valid coordinates, return null
     // This handles cases like "invalid input" where there are no valid coordinates at all
-    if (coordinates.length === 0) {
+    if (coordinates.length === 0 || hasInvalidSegment) {
         return null;
     }
 
@@ -629,8 +605,3 @@ function containsDescriptiveText(segment: string): boolean {
  *
  * NOTE: This is specific to the HTML parsing workflow from eAIP documents.
  */
-function mightBeDescriptiveText(segment: string): boolean {
-    // If it doesn't look like coordinates (doesn't start with numbers), it might be descriptive text
-    // This is a simple heuristic - if it doesn't match coordinate patterns, it might be text
-    return !/^\d/.test(segment.trim());
-}

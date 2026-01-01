@@ -1,6 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { parseEaipEnr51Core, ParserElement, normalizeWindingOrder } from './htmlParserCore';
 
+function createParserElement(textContent: string): ParserElement {
+    return {
+        textContent,
+        innerHTML: null,
+        querySelector: () => null,
+        querySelectorAll: () => [],
+        getAttribute: () => null,
+    };
+}
+
 describe('htmlParserCore', () => {
     it('should encode multiple coordinate chains as separate polygons in a MultiPolygon', () => {
         // Mock root element
@@ -8,10 +18,10 @@ describe('htmlParserCore', () => {
             querySelectorAll: (selector: string) => {
                 if (selector === 'td') {
                     return [
-                        { textContent: 'EER15 590000N 0240000E - 590000N 0250000E - 580000N 0250000E - 580000N 0240000E - 590000N 0240000E. 570000N 0260000E - 570000N 0270000E - 560000N 0270000E - 560000N 0260000E - 570000N 0260000E' },
-                        { textContent: 'FL100\nSFC' },
-                        { textContent: 'Remarks' }
-                    ] as any[];
+                        createParserElement('EER15 590000N 0240000E - 590000N 0250000E - 580000N 0250000E - 580000N 0240000E - 590000N 0240000E. 570000N 0260000E - 570000N 0270000E - 560000N 0270000E - 560000N 0260000E - 570000N 0260000E'),
+                        createParserElement('FL100\nSFC'),
+                        createParserElement('Remarks'),
+                    ];
                 }
                 return [];
             },
@@ -69,10 +79,10 @@ describe('htmlParserCore', () => {
             querySelectorAll: (selector: string) => {
                 if (selector === 'td') {
                     return [
-                        { textContent: 'TESTAREA\n5900N 02400E – 5900N 02500E | 5800N 02500E\n5800N 02400E - 5900N 02400E' },
-                        { textContent: 'FL100\nSFC' },
-                        { textContent: 'Remarks' }
-                    ] as any[];
+                        createParserElement('TESTAREA\n5900N 02400E – 5900N 02500E | 5800N 02500E\n5800N 02400E - 5900N 02400E'),
+                        createParserElement('FL100\nSFC'),
+                        createParserElement('Remarks'),
+                    ];
                 }
                 return [];
             },

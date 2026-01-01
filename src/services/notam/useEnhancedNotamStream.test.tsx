@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useEnhancedNotamStream } from "./useEnhancedNotamStream";
 import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
 import * as notamStream from "./notamStream";
+import type { NormalizedNotam } from "./notamTypes";
+import type { EnhancedNotam } from "../airspace/airspaceTypes";
 
 // Mock dependencies
 vi.mock("./notamStream", () => ({
@@ -30,7 +32,7 @@ vi.mock("../airspace/AirspaceIntegrationService", () => {
 });
 
 describe("useEnhancedNotamStream", () => {
-  const mockNotams = [
+  const mockNotams: NormalizedNotam[] = [
     {
       id: "A1234/25",
       summary: "Test Notam",
@@ -55,26 +57,39 @@ describe("useEnhancedNotamStream", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (notamStream.useNotamStream as any).mockReturnValue({
+    const mockedUseNotamStream = vi.mocked(notamStream.useNotamStream);
+    mockedUseNotamStream.mockReturnValue({
       data: mockNotams,
-      isLoading: false,
+      status: "live",
+      lastOkUtc: null,
+      lastErrorUtc: null,
+      tick: 0,
+      ageSeconds: null,
       error: null,
+      rawCount: null,
+      displayedCount: null,
+      dataSource: "mock",
+      liveError: null,
     });
   });
 
   it("should handle error in enhancement by falling back to original geometry source without invalid values", async () => {
+    const mockedAirspaceService = vi.mocked(airspaceIntegrationService);
     // Simulate an error during enhancement
-    (airspaceIntegrationService.loadAirspaceFromHtml as any).mockRejectedValue(new Error("HTML load failed"));
-    (airspaceIntegrationService.loadAirspaceData as any).mockRejectedValue(new Error("GeoJSON load failed"));
+    mockedAirspaceService.loadAirspaceFromHtml.mockRejectedValue(new Error("HTML load failed"));
+    mockedAirspaceService.loadAirspaceData.mockRejectedValue(new Error("GeoJSON load failed"));
 
     // We need enhanceNotams to return something so it doesn't stay null
-    (airspaceIntegrationService.enhanceNotams as any).mockImplementation((notams: any[]) => notams.map(n => ({
-      ...n,
-      enhancedGeometry: null,
-      sourceGeometry: n.geometry,
-      geometrySource: n.geometrySource,
-      geometrySourceDetails: n.geometrySourceDetails,
-    })));
+    mockedAirspaceService.enhanceNotams.mockImplementation((notams: NormalizedNotam[]): EnhancedNotam[] =>
+      notams.map((notam) => ({
+        ...notam,
+        enhancedGeometry: null,
+        sourceGeometry: notam.geometry,
+        geometrySource: notam.geometrySource,
+        geometrySourceDetails: notam.geometrySourceDetails,
+        issues: [],
+      })),
+    );
 
     const { result } = renderHook(() => useEnhancedNotamStream());
 

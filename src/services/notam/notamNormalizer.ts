@@ -1,14 +1,13 @@
-import type { Altitude } from "@/shared/types/domain";
 import {
     formatNotamSummary,
-    GeometryParseResult,
+    GeometryParseReason,
     NormalizedNotam,
     NotamGeometry,
     NotamRaw,
 } from "./notamTypes";
 import { parseAltitudesFromText } from "./altitude/altitudeParser";
 import { parseNotamGeometryWithReason, validateAndCorrectGeometry } from "./geometry/geometryParsers";
-import { parseEansCoordinate, parseEnhancedCoordinate } from "./geometry/coordParsers";
+import { parseEansCoordinate } from "./geometry/coordParsers";
 import { parseGeometryFromNotamText } from "./geometry/textGeometryParser";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -48,6 +47,20 @@ function getString(obj: unknown, key: string): string | undefined {
 function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
     const value = obj[key];
     return isNumber(value) ? value : undefined;
+}
+
+type EansGeometryCandidate = {
+    eansCoord: string;
+    radiusNm: number;
+};
+
+function isEansGeometryCandidate(value: unknown): value is EansGeometryCandidate {
+    if (!isObject(value)) {
+        return false;
+    }
+    const eansCoord = getString(value, "eansCoord");
+    const radiusNm = getNumber(value, "radiusNm");
+    return typeof eansCoord === "string" && typeof radiusNm === "number";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -106,26 +119,28 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
     let geometryResult = parseNotamGeometryWithReason(item);
 
     // If standard parsing failed, try EANS qualifiers
-    if (!geometryResult.geometry && geometryCandidate && (geometryCandidate as any).eansCoord) {
-        const gc = geometryCandidate as any;
+    const eansCandidate = isEansGeometryCandidate(geometryCandidate) ? geometryCandidate : null;
+    if (!geometryResult.geometry && eansCandidate) {
 
         // Filter out massive areas (e.g. entire FIR > 900NM) which clutter the map
-        if (typeof gc.radiusNm === "number" && gc.radiusNm < 900) {
-            const center = parseEansCoordinate(gc.eansCoord);
+        if (eansCandidate.radiusNm < 900) {
+            const center = parseEansCoordinate(eansCandidate.eansCoord);
             if (center) {
                 isSynthetic = true;
-                const rawGeometry = {
+                const rawGeometry: NotamGeometry = {
                     kind: "circle",
                     center,
-                    radiusMeters: gc.radiusNm * NM_TO_METERS,
+                    radiusMeters: eansCandidate.radiusNm * NM_TO_METERS,
                 };
 
                 // Validate and correct the geometry
                 const validated = validateAndCorrectGeometry(rawGeometry);
+                const reason: GeometryParseReason | undefined =
+                    validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined;
                 geometryResult = {
                     geometry: validated.geometry,
-                    reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
-                    details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                    reason,
+                    details: reason ? { issues: validated.issues } : undefined,
                 };
             }
         }
@@ -137,10 +152,12 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
         if (textGeometryResult.geometry) {
             // Validate and correct the geometry
             const validated = validateAndCorrectGeometry(textGeometryResult.geometry);
+            const reason: GeometryParseReason | undefined =
+                validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined;
             geometryResult = {
                 geometry: validated.geometry,
-                reason: validated.issues.length > 0 ? "GEOMETRY_VALIDATION_ISSUES" : undefined,
-                details: validated.issues.length > 0 ? { issues: validated.issues } : undefined
+                reason,
+                details: reason ? { issues: validated.issues } : undefined,
             };
             isSynthetic = true; // Mark as synthetic since it was derived from text
         }
@@ -249,8 +266,11 @@ export function normalizeNotams(raw: NotamRaw, nowUtcIso: string): NormalizedNot
         items = raw;
     }
     // EANS live format
-    else if (isObject(raw.dynamicData) && isArray((raw.dynamicData as any).notams)) {
-        items = (raw.dynamicData as any).notams as unknown[];
+    else if (isObject(raw.dynamicData)) {
+        const dynamicData = raw.dynamicData as Record<string, unknown>;
+        if (isArray(dynamicData.notams)) {
+            items = dynamicData.notams as unknown[];
+        }
     }
 
     if (!items) {

@@ -44,6 +44,7 @@
   - **HTML → airspace → NOTAM enhancement path**: Implemented real functionality to process HTML eAIP data and enhance NOTAM geometry with accurate airspace polygons.
   - **Enhanced map rendering**: Map rendering now uses enhanced geometry when available, falling back to original geometry.
   - **Data model alignment**: Data models between tooling and runtime are now aligned with consistent coordinate parsing logic.
+  - Refined NOTAM geometry validation reasons, coordinate parsing (decimal/DMS), and Vitest excludes nested `node_modules` tests.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:

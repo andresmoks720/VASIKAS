@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
 import { ENV } from "@/shared/env";
-import { mapSensorDtos, Sensor, SensorDto } from "./sensorsTypes";
-import { sensorStore } from "./sensorStore";
+import { mapSensorDto, mapSensorDtos, Sensor, SensorDto } from "./sensorsTypes";
+import { sensorStore, UserSensor } from "./sensorStore";
 
 const DEFAULT_POLL_MS = 1000;
 
@@ -61,12 +61,12 @@ export function useSensorsStream() {
   }, []);
 
   const merged = useMemo(() => {
-    const userSensorsDtos = sensorStore.getAll();
-    const userSensors: Sensor[] = userSensorsDtos.map((dto) => ({
-      ...dto as any,
-      ingestTimeUtc: (dto as any).updatedAtUtc || (dto as any).createdAtUtc || new Date().toISOString(),
-      source: "user",
-    }));
+    void storeVersion;
+    const userSensorsDtos: UserSensor[] = sensorStore.getAll();
+    const userSensors: Sensor[] = userSensorsDtos.map((dto) => {
+      const ingestTimeUtc = dto.updatedAtUtc ?? dto.createdAtUtc ?? new Date().toISOString();
+      return mapSensorDto(dto, ingestTimeUtc, "user");
+    });
     return [...(baseSensors ?? []), ...userSensors];
   }, [baseSensors, storeVersion]); // Re-calculate when base polling updates OR store updates
 

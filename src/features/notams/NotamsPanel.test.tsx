@@ -5,6 +5,8 @@ import { NotamsPanel } from "./NotamsPanel";
 import * as StreamsProvider from "@/services/streams/StreamsProvider";
 import { makeNotam } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
+import type { NormalizedNotam } from "@/services/notam/notamTypes";
+import type { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 const toggleUseLiveNotams = vi.fn();
 
@@ -22,13 +24,20 @@ vi.mock("@/services/notam/notamMode", () => ({
 }));
 
 describe("NotamsPanel", () => {
+  const toEnhancedNotam = (notam: NormalizedNotam): EnhancedNotam => ({
+    ...notam,
+    enhancedGeometry: null,
+    sourceGeometry: notam.geometry,
+    issues: [],
+  });
+
   beforeEach(() => {
     toggleUseLiveNotams.mockReset();
   });
 
   it("renders empty state when no NOTAMs are available", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [] as any[],
+      data: [] as EnhancedNotam[],
       status: "live",
       lastOkUtc: null,
       lastErrorUtc: null,
@@ -39,6 +48,7 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "mock",
       liveError: null,
+      enhancementError: null,
       isLoading: false,
       effectiveDate: null,
     });
@@ -50,14 +60,14 @@ describe("NotamsPanel", () => {
   });
 
   it("renders NOTAMs even without geometry", () => {
-    const notamWithoutGeometry = makeNotam({
+    const notamWithoutGeometry = toEnhancedNotam(makeNotam({
       id: "C1234/25",
       summary: "TEST NOTAM WITHOUT GEOMETRY",
       geometry: null,
-    });
+    }));
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithoutGeometry] as any[],
+      data: [notamWithoutGeometry],
       status: "live",
       lastOkUtc: "",
       lastErrorUtc: null,
@@ -68,6 +78,7 @@ describe("NotamsPanel", () => {
       displayedCount: 1,
       dataSource: "live",
       liveError: null,
+      enhancementError: null,
       isLoading: false,
       effectiveDate: null,
     });
@@ -80,18 +91,18 @@ describe("NotamsPanel", () => {
   });
 
   it("renders a list of NOTAMs with altitude fallbacks", () => {
-    const notamWithAltitude = makeNotam({
+    const notamWithAltitude = toEnhancedNotam(makeNotam({
       id: "A0001/25",
       summary: "ALT LIMIT",
-    });
-    const notamWithoutAltitude = makeNotam({
+    }));
+    const notamWithoutAltitude = toEnhancedNotam(makeNotam({
       id: "A0002/25",
       summary: "NO ALT LIMIT",
       altitudes: [],
-    });
+    }));
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithAltitude, notamWithoutAltitude] as any[],
+      data: [notamWithAltitude, notamWithoutAltitude],
       status: "live",
       lastOkUtc: "2025-01-01T00:00:00Z",
       lastErrorUtc: null,
@@ -102,6 +113,7 @@ describe("NotamsPanel", () => {
       displayedCount: 2,
       dataSource: "live",
       liveError: null,
+      enhancementError: null,
       isLoading: false,
       effectiveDate: null,
     });
@@ -128,6 +140,7 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "mock",
       liveError: null,
+      enhancementError: null,
       isLoading: false,
       effectiveDate: null,
     });
@@ -152,6 +165,7 @@ describe("NotamsPanel", () => {
       displayedCount: 0,
       dataSource: "fallback",
       liveError: new Error("Timeout"),
+      enhancementError: null,
       isLoading: false,
       effectiveDate: null,
     });

@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 
 import {
     parseNotamGeometry,
-    parseEaipCoordinateChain,
 } from "./notamInterpreter";
 import {
     parseAltitudesFromText,
@@ -290,22 +289,31 @@ describe("parseNotamGeometry", () => {
 
         expect(result.geometry?.kind).toBe("polygon");
         if (result.geometry?.kind === "polygon") {
-            expect(result.geometry.rings).toEqual([
-                [
-                    [24.74, 59.43],
-                    [24.76, 59.43],
-                    [24.76, 59.44],
-                    [24.74, 59.44],
-                    [24.74, 59.43],
-                ],
-                [
-                    [24.745, 59.435],
-                    [24.755, 59.435],
-                    [24.755, 59.439],
-                    [24.745, 59.439],
-                    [24.745, 59.435],
-                ],
-            ]);
+            const expectedOuterRing: [number, number][] = [
+                [24.74, 59.43],
+                [24.76, 59.43],
+                [24.76, 59.44],
+                [24.74, 59.44],
+                [24.74, 59.43],
+            ];
+            const expectedInnerRing: [number, number][] = [
+                [24.745, 59.435],
+                [24.755, 59.435],
+                [24.755, 59.439],
+                [24.745, 59.439],
+                [24.745, 59.435],
+            ];
+
+            const matchesRing = (ring: [number, number][], expected: [number, number][]) => {
+                const forward = JSON.stringify(ring);
+                const reversed = JSON.stringify([...ring].reverse());
+                const expectedJson = JSON.stringify(expected);
+                return forward === expectedJson || reversed === expectedJson;
+            };
+
+            expect(result.geometry.rings).toHaveLength(2);
+            expect(matchesRing(result.geometry.rings[0], expectedOuterRing)).toBe(true);
+            expect(matchesRing(result.geometry.rings[1], expectedInnerRing)).toBe(true);
         }
     });
 

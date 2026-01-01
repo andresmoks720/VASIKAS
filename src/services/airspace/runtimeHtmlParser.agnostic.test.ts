@@ -5,9 +5,9 @@ import { ParserElement } from './htmlParserCore';
 // Simple mock element that implements ParserElement
 class MockElement implements ParserElement {
     constructor(public textContent: string | null = '', public innerHTML: string | null = '') { }
-    querySelector(selector: string): ParserElement | null { return null; }
-    querySelectorAll(selector: string): ParserElement[] { return []; }
-    getAttribute(name: string): string | null { return null; }
+    querySelector(_selector: string): ParserElement | null { void _selector; return null; }
+    querySelectorAll(_selector: string): ParserElement[] { void _selector; return []; }
+    getAttribute(_name: string): string | null { void _name; return null; }
 }
 
 describe('runtimeHtmlParser - engine agnostic', () => {

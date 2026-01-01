@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import type { AnyNode } from 'domhandler';
 import * as crypto from 'crypto-js';
 import { parseEaipEnr51Core, ParserElement } from '../../../src/services/airspace/htmlParserCore';
 import { AirspaceFeature } from '../../../src/services/airspace/airspaceTypes';
@@ -7,7 +8,7 @@ import { AirspaceFeature } from '../../../src/services/airspace/airspaceTypes';
  * Cheerio-based element wrapper for htmlParserCore
  */
 class CheerioParserElement implements ParserElement {
-  constructor(private $: cheerio.CheerioAPI, private element: cheerio.Cheerio<any>) { }
+  constructor(private $: cheerio.CheerioAPI, private element: cheerio.Cheerio<AnyNode>) { }
 
   querySelector(selector: string): ParserElement | null {
     const el = this.element.find(selector).first();

@@ -35,6 +35,7 @@
 | UI-DRONES-002 | KnownDronesPanel empty + list render | Yes | `src/features/known-drones/KnownDronesPanel.test.tsx` | Empty state and list rendering. |
 | UI-AIR-002 | AirTrafficPanel empty + list render | Yes | `src/features/air/AirTrafficPanel.test.tsx` | Empty state and list rendering. |
 | UI-NOTAM-001 | NotamsPanel empty + list render | Yes | `src/features/notams/NotamsPanel.test.tsx` | Empty state + list render coverage, including live fallback label. |
+| UNIT-NOTAM-GEOM-002 | Enhanced coord parsing + text geometry circles | Yes | `src/services/notam/geometry/enhancedCoordParsers.test.ts`, `src/services/notam/geometry/textGeometryParser.test.ts` | Covers decimal/DMS formats and radius patterns. |
 | UNIT-TIME-UPDATE-001 | formatUpdateAge label formatting | Yes | `src/shared/time/updateAge.test.ts` | Ensures seconds/minutes copy uses explicit wording. |
 | UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
 | UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |

@@ -1,4 +1,4 @@
-import { parseCoordinate, parseEaipCoordinateChain } from '../src/parser';
+import { parseCoordinate } from '../src/parser';
 
 // Unit tests for coordinate parsing
 console.log('=== Unit Tests for Coordinate Parsing ===\n');
