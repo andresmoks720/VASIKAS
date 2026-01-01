@@ -49,6 +49,7 @@
   - Fixed NOTAM decimal-degree parsing to honor suffix directions and corrected coordinate-chain regex, with regression coverage for suffix S/W formats.
   - Aligned eAIP tooling parser tests with coordinate-chain expectations and parse error reporting for short geometry inputs.
   - EAIP effective-date discovery now parses history HTML via DOM APIs with redirect fallback coverage.
+  - Aligned ADS-B/drone mock fixtures with track DTOs, added regression coverage, and normalized NOTAM text field/geometry source tagging.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:

@@ -43,6 +43,7 @@
 | UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `src/services/notam/altitude/altitudeParser.test.ts` | Covers km/nm string and numeric radius inputs. |
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
+| UNIT-MOCK-FIXTURES-001 | Mock ADS-B/drone fixtures validate track DTOs | Yes | `src/services/mockFixtures.test.ts` | Guards against empty-track mock regressions. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
 | UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
 | UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `src/services/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
@@ -84,6 +85,7 @@
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler (no external mock server). (Implemented) | Unit | `src/services/drones/droneSnapshotClient.msw.test.ts` |
+| UNIT-MOCK-FIXTURES-001 | Mock ADS-B/drone fixtures validate track DTOs. (Implemented) | Unit | `src/services/mockFixtures.test.ts` |
 | UNIT-POLL-EDGE-001 | Polling status idle/error + invalid interval. (Implemented) | Unit | `src/services/polling/usePolling.test.ts` |
 | UNIT-SPEED-001 | Speed formatter edge cases. (Implemented) | Unit | `src/shared/units/speed.test.ts` |
 | UNIT-UTC-002 | UTC timestamp whitespace + boundary checks. (Implemented) | Unit | `src/shared/time/utc.test.ts` |
