@@ -79,7 +79,7 @@ function parseCoordinateChainFromText(text: string): NotamGeometry | null {
 
   // Look for coordinate chains in the text
   // Pattern: sequences of coordinates separated by " - " or similar separators
-  const coordChainPattern = /(\d{6}[NS]\s*\d{6,7}[EW](?:\s*-\s*\d{6}[NS]\s*\d{6,7}[EW})*)+/gi;
+  const coordChainPattern = /(\d{6}[NS]\s*\d{6,7}[EW](?:\s*-\s*\d{6}[NS]\s*\d{6,7}[EW])*)+/gi;
   const matches = text.match(coordChainPattern);
 
   if (matches) {
@@ -107,7 +107,7 @@ function parseCoordinateChainFromText(text: string): NotamGeometry | null {
 
   // Try alternative patterns for coordinate chains
   // Look for coordinates separated by various delimiters
-  const altCoordChainPattern = /(\d{6}[NS][\s,]*\d{6,7}[EW](?:\s*(?:-|,|to)\s*\d{6}[NS][\s,]*\d{6,7}[EW})*)+/gi;
+  const altCoordChainPattern = /(\d{6}[NS][\s,]*\d{6,7}[EW](?:\s*(?:-|,|to)\s*\d{6}[NS][\s,]*\d{6,7}[EW])*)+/gi;
   const altMatches = text.match(altCoordChainPattern);
 
   if (altMatches) {

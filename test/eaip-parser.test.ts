@@ -117,7 +117,7 @@ describe('eAIP Parser', () => {
     }
   });
 
-  it('should detect geometry validation issues', async () => {
+  it('should report parse errors for invalid geometry', async () => {
     // Create HTML with invalid geometry (too few points)
     const invalidHtml = `
     <?xml version="1.0" encoding="UTF-8"?>
@@ -152,8 +152,8 @@ describe('eAIP Parser', () => {
 
     // Should have issues for invalid geometry (too few points)
     expect(result.issues.some(issue =>
-      issue.includes('INVALID_GEOMETRY') ||
-      issue.includes('has less than 2 points')
+      issue.includes('AIP_PARSE_ERROR') ||
+      issue.includes('Failed to parse coordinates')
     )).toBe(true);
   });
 
@@ -210,7 +210,7 @@ describe('Coordinate Parsing', () => {
               <tr>
                 <td>
                   <p><strong>TEST01</strong></p>
-                  591633N 0261500E - 591639N 0255647E
+                  591633N 0261500E - 591639N 0255647E - 591614N 0254748E
                 </td>
                 <td>FL95<br/>SFC</td>
                 <td>Test coordinates</td>
@@ -229,13 +229,15 @@ describe('Coordinate Parsing', () => {
 
       if (testFeature) {
         const coords = testFeature.geometry.coordinates[0];
-        expect(coords.length).toBeGreaterThanOrEqual(2);
+        expect(coords.length).toBeGreaterThanOrEqual(4);
 
         // The first coordinate should be approximately 26.25, 59.275 (from 0261500E, 591633N)
         // Note: The actual values depend on the correctness of the coordinate parsing
         const [firstLon, firstLat] = coords[0];
         expect(typeof firstLon).toBe('number');
         expect(typeof firstLat).toBe('number');
+        expect(firstLon).toBeCloseTo(26.25, 5);
+        expect(firstLat).toBeCloseTo(59.275833, 5);
       }
     });
   });
