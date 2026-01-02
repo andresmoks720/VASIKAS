@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { usePolling } from "@/services/polling/usePolling";
-import { ENV } from "@/shared/env";
+import { buildAdsbPointUrl, ENV } from "@/shared/env";
 import { computeAircraftAtTime } from "./adsbMotion";
 import {
   AdsbPointResponseDto,
@@ -14,6 +14,7 @@ import {
 import { updateTrackStore } from "./trackStore";
 import { feetToMeters } from "@/shared/units/altitude";
 import { LonLat } from "@/shared/types/domain";
+import { useAdsbMode } from "./adsbMode";
 
 const DEFAULT_POLL_MS = 10000;
 const MOTION_TICK_MS = 1000;
@@ -188,9 +189,11 @@ export function parseLiveAdsbResponse(raw: unknown, ingestTimeUtc: string): Airc
 }
 
 export function useAdsbStream() {
-  const adsbMode = ENV.adsb.mode();
-  const useMocks = adsbMode === "mock";
-  const url = useMocks ? "/mock/adsb.json" : ENV.adsbUrl();
+  const { useLiveAdsb } = useAdsbMode();
+  const useMocks = !useLiveAdsb;
+  const url = useMocks
+    ? "/mock/adsb.json"
+    : buildAdsbPointUrl(ENV.adsb.baseUrl(), ENV.adsb.centerLat(), ENV.adsb.centerLon(), ENV.adsb.radiusNm());
   const pollMs = parsePollInterval(ENV.poll.adsbMs());
   const [motionTick, setMotionTick] = useState(0);
   const trackStoreRef = useRef<ReturnType<typeof updateTrackStore>["state"]>(new Map());
@@ -245,7 +248,7 @@ export function useAdsbStream() {
     trackStoreRef.current = state;
 
     return nextTracks;
-  }, [aircraft, useMocks]);
+  }, [aircraft]);
 
   return { ...polled, data: aircraft, tracks };
 }

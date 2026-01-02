@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Divider,
   List,
@@ -18,12 +19,12 @@ import { formatAircraftSpeedKmh } from "@/shared/units/speed";
 import { StatusPill } from "@/ui/StatusPill";
 import { useSharedAdsbStream } from "@/services/streams/StreamsProvider";
 import { PollingStatus } from "@/services/polling/usePolling";
-import { ENV } from "@/shared/env";
 import { formatUpdateAge } from "@/shared/time/updateAge";
+import { useAdsbMode } from "@/services/adsb/adsbMode";
 
 export function AirTrafficPanel() {
   const { data, status, ageSeconds, error } = useSharedAdsbStream();
-  const adsbMode = ENV.adsb.mode();
+  const { useLiveAdsb, toggleUseLiveAdsb } = useAdsbMode();
   const { selectEntity } = useSidebarUrlState();
   const nowMs = Date.now();
   const flights = useMemo(() => {
@@ -57,8 +58,14 @@ export function AirTrafficPanel() {
     <Stack spacing={2} sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Airplanes <Typography component="span" variant="caption" sx={{ opacity: 0.7 }}>– {adsbMode === "live" ? "Live API" : "Mock Data"}</Typography>
+          Airplanes{" "}
+          <Typography component="span" variant="caption" sx={{ opacity: 0.7 }}>
+            – {useLiveAdsb ? "Live API" : "Mock Data"}
+          </Typography>
         </Typography>
+        <Button size="small" variant="outlined" onClick={toggleUseLiveAdsb} sx={{ textTransform: "none" }}>
+          {useLiveAdsb ? "Switch to Mock" : "Switch to Live"}
+        </Button>
         <StatusPill status={status} />
         {status === "loading" ? <CircularProgress size={16} /> : null}
       </Stack>

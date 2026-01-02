@@ -17,7 +17,7 @@
           "meters": 3500,
           "ref": "MSL",
           "source": "reported",
-          "comment": "ADS-B reported"
+          "comment": "ADS-B reported (mocked)"
         }
       },
       {
@@ -32,7 +32,7 @@
           "meters": 3420,
           "ref": "MSL",
           "source": "reported",
-          "comment": "ADS-B reported"
+          "comment": "ADS-B reported (mocked)"
         }
       }
     ]

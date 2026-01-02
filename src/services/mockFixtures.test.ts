@@ -23,6 +23,7 @@ describe("mock fixtures", () => {
 
     expect(tracks.length).toBeGreaterThan(0);
     expect(tracks[0]?.track.length).toBeGreaterThan(0);
+    expect(tracks[0]?.track[0]?.altitude.comment).toContain("(mocked)");
   });
 
   it("parses drone mock tracks", () => {
