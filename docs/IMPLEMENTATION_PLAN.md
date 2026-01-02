@@ -50,6 +50,8 @@
   - Aligned eAIP tooling parser tests with coordinate-chain expectations and parse error reporting for short geometry inputs.
   - EAIP effective-date discovery now parses history HTML via DOM APIs with redirect fallback coverage.
   - Aligned ADS-B/drone mock fixtures with track DTOs, added regression coverage, and normalized NOTAM text field/geometry source tagging.
+  - Tagged mock ADS-B altitude comments with "(mocked)" and documented ADS-B live-mode requirements in data sources.
+  - Added an ADS-B live/mock toggle with localStorage persistence plus unit coverage.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:

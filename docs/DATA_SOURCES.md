@@ -81,6 +81,7 @@ This document inventories **all data sources** used by the **frontend-first** pr
   - `VITE_ADSB_CENTER_LAT`
   - `VITE_ADSB_CENTER_LON`
   - `VITE_ADSB_RADIUS_NM`
+- **Mode note:** the Air panel includes a live/mock toggle stored in localStorage (`adsb:useLive`). When `VITE_USE_MOCKS=1` (default), ADS-B still defaults to mock until you switch it.
 - **Polling:** every `VITE_POLL_ADSB_MS` (default **10000 ms / 10s**)
 - **Rate limit:** upstream allows **1 req/sec**; current polling is safely below.
 - **Fields consumed:** `hex`, `flight`, `lat`, `lon`, `track`, `gs`, `alt_baro`, `seen_pos`, `seen`, `lastPosition`. Keys may be absent when data is stale; `lastPosition` provides the last known coordinates when current `lat/lon` are missing.

@@ -339,7 +339,7 @@ Represents air traffic snapshots.
       "meters": 3500,
       "ref": "MSL",
       "source": "reported",
-      "comment": "ADS-B reported"
+      "comment": "ADS-B reported (mocked)"
     },
     "eventTimeUtc": "2025-12-18T10:15:20Z"
   }
@@ -588,4 +588,3 @@ Then evolve toward:
 - Auth/roles/audit
 
 The objective is to keep the mock formats and DB plan aligned while getting the GUI working fast.
-
