@@ -1,4 +1,14 @@
-import { parseCoordinate, parseEaipCoordinateChain } from '../src/parser';
+import { parseCoordinateChain } from '../../src/services/notam/geometry/coordParsers';
+
+const parseCoordinate = (text: string): { lat: number; lon: number } | null => {
+  const chain = parseCoordinateChain(text);
+  if (!chain || chain.length === 0) {
+    return null;
+  }
+
+  const [lon, lat] = chain[0];
+  return { lat, lon };
+};
 
 // Unit tests for coordinate parsing
 console.log('=== Unit Tests for Coordinate Parsing ===\n');

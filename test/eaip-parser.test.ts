@@ -1,6 +1,4 @@
-import { describe, it, expect, beforeEach, vi, MockedFunction } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { describe, it, expect, vi } from 'vitest';
 import { parseEaipEnr51, generateGeoJson } from '../tools/eaip-import/src/parser';
 
 // Mock fetch globally

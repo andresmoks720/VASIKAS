@@ -7,18 +7,6 @@ import * as cheerio from 'cheerio';
 import type { AirspaceFeature } from './airspaceTypes';
 
 // Define types for internal parsing
-interface AirspaceCoordinate {
-  lat: number;
-  lon: number;
-}
-
-interface RawAirspaceFeature {
-  designator: string;
-  coordinates: AirspaceCoordinate[];
-  upperLimit: string;
-  lowerLimit: string;
-  remarks?: string;
-}
 
 /**
  * Parse eAIP ENR 5.1 HTML content into AirspaceFeatures
@@ -50,7 +38,6 @@ export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<{
 
     if (cell.length === 0) return;
 
-    const cellHtml = cell.html() || '';
     const cellText = cell.text().trim();
 
     // Look for designator in strong tag (e.g., <strong>EER15D</strong>)

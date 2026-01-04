@@ -19,16 +19,16 @@ export function parseGeometryFromNotamText(text: string): GeometryParseResult {
     return { geometry: coordinateChainResult };
   }
 
-  // Try to parse individual coordinate pairs
-  const coordinatePairResult = parseCoordinatePairsFromText(cleanText);
-  if (coordinatePairResult) {
-    return { geometry: coordinatePairResult };
-  }
-
   // Try to parse circle patterns (like "radius 5NM from point X")
   const circleResult = parseCircleFromText(cleanText);
   if (circleResult) {
     return { geometry: circleResult };
+  }
+
+  // Try to parse individual coordinate pairs
+  const coordinatePairResult = parseCoordinatePairsFromText(cleanText);
+  if (coordinatePairResult) {
+    return { geometry: coordinatePairResult };
   }
 
   // Try to parse polygon patterns
@@ -133,8 +133,7 @@ function parseCoordinateChainFromText(text: string): NotamGeometry | null {
     }
   }
 
-  // If no chain pattern matched, try to find individual coordinate pairs
-  return parseCoordinatePairsFromText(text);
+  return null;
 }
 
 /**
@@ -265,9 +264,9 @@ function parseDecimalCoordinate(text: string): [number, number] | null {
 function parseCircleFromText(text: string): NotamGeometry | null {
   // Pattern for circles: radius followed by distance unit and center point
   const circlePatterns = [
-    /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+from\s+point\s+([NSEW\d\s\.\-]+)/i,
+    /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+from\s+point\s+([NSEW\d\s.-]+)/i,
     /circle\s+of\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+radius/i,
-    /within\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+of\s+point\s+([NSEW\d\s\.\-]+)/i,
+    /within\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)\s+of\s+point\s+([NSEW\d\s.-]+)/i,
     /radius\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)/i, // Simple radius pattern
     /(\d+(?:\.\d+)?)\s*nmi?\s+circular\s+area/i, // "5NM circular area"
     /circular\s+area\s+of\s+(\d+(?:\.\d+)?)\s*(nm|nmi|km|m|ft)/i, // "circular area of 5NM"

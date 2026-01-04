@@ -53,7 +53,7 @@ const result4 = parseEaipCoordinateChain(coord4);
 console.log(`Input: ${coord4}`);
 console.log(`Output: ${JSON.stringify(result4)}`);
 if (result4 && result4.length > 0) {
-  const [lon, lat] = result4[0];
+  const [lon] = result4[0];
   const isNegative = lon < 0;
   console.log(`✅ Passed: ${isNegative} (longitude is negative for West: ${lon})`);
 } else {
@@ -68,7 +68,7 @@ const result5 = parseEaipCoordinateChain(coord5);
 console.log(`Input: ${coord5}`);
 console.log(`Output: ${JSON.stringify(result5)}`);
 if (result5 && result5.length > 0) {
-  const [lon, lat] = result5[0];
+  const [, lat] = result5[0];
   const isNegative = lat < 0;
   console.log(`✅ Passed: ${isNegative} (latitude is negative for South: ${lat})`);
 } else {

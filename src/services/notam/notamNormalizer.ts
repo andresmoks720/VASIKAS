@@ -1,14 +1,12 @@
-import type { Altitude } from "@/shared/types/domain";
 import {
     formatNotamSummary,
-    GeometryParseResult,
     NormalizedNotam,
     NotamGeometry,
     NotamRaw,
 } from "./notamTypes";
 import { parseAltitudesFromText } from "./altitude/altitudeParser";
 import { parseNotamGeometryWithReason, validateAndCorrectGeometry } from "./geometry/geometryParsers";
-import { parseEansCoordinate, parseEnhancedCoordinate } from "./geometry/coordParsers";
+import { parseEansCoordinate } from "./geometry/coordParsers";
 import { parseGeometryFromNotamText } from "./geometry/textGeometryParser";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -48,6 +46,18 @@ function getString(obj: unknown, key: string): string | undefined {
 function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
     const value = obj[key];
     return isNumber(value) ? value : undefined;
+}
+
+type EansGeometryCandidate = {
+    eansCoord: string;
+    radiusNm: number;
+};
+
+function isEansGeometryCandidate(value: unknown): value is EansGeometryCandidate {
+    if (!isObject(value)) {
+        return false;
+    }
+    return typeof value.eansCoord === "string" && typeof value.radiusNm === "number";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -109,18 +119,16 @@ export function normalizeNotamItem(item: unknown, eventTimeUtc: string): Normali
     let geometryResult = parseNotamGeometryWithReason(item);
 
     // If standard parsing failed, try EANS qualifiers
-    if (!geometryResult.geometry && geometryCandidate && (geometryCandidate as any).eansCoord) {
-        const gc = geometryCandidate as any;
-
+    if (!geometryResult.geometry && geometryCandidate && isEansGeometryCandidate(geometryCandidate)) {
         // Filter out massive areas (e.g. entire FIR > 900NM) which clutter the map
-        if (typeof gc.radiusNm === "number" && gc.radiusNm < 900) {
-            const center = parseEansCoordinate(gc.eansCoord);
+        if (geometryCandidate.radiusNm < 900) {
+            const center = parseEansCoordinate(geometryCandidate.eansCoord);
             if (center) {
                 isSynthetic = true;
                 const rawGeometry: NotamGeometry = {
                     kind: "circle",
                     center,
-                    radiusMeters: gc.radiusNm * NM_TO_METERS,
+                    radiusMeters: geometryCandidate.radiusNm * NM_TO_METERS,
                 };
 
                 // Validate and correct the geometry
@@ -258,8 +266,11 @@ export function normalizeNotams(raw: NotamRaw, nowUtcIso: string): NormalizedNot
         items = raw;
     }
     // EANS live format
-    else if (isObject(raw.dynamicData) && isArray((raw.dynamicData as any).notams)) {
-        items = (raw.dynamicData as any).notams as unknown[];
+    else if (isObject(raw.dynamicData)) {
+        const dynamicNotams = raw.dynamicData.notams;
+        if (isArray(dynamicNotams)) {
+            items = dynamicNotams;
+        }
     }
 
     if (!items) {

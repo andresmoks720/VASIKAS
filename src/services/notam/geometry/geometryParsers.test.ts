@@ -20,8 +20,11 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonPolygon);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("polygon");
-      expect(Array.isArray((result.geometry as any).rings)).toBe(true);
-      expect((result.geometry as any).rings[0]).toHaveLength(5); // Should have 5 points (closed ring)
+      if (!result.geometry || result.geometry.kind !== "polygon") {
+        throw new Error("Expected polygon geometry");
+      }
+      expect(Array.isArray(result.geometry.rings)).toBe(true);
+      expect(result.geometry.rings[0]).toHaveLength(5); // Should have 5 points (closed ring)
     });
 
     it("parses GeoJSON MultiPolygon geometry", () => {
@@ -52,8 +55,11 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonMultiPolygon);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("multiPolygon");
-      expect(Array.isArray((result.geometry as any).polygons)).toBe(true);
-      expect((result.geometry as any).polygons).toHaveLength(2); // Two polygons
+      if (!result.geometry || result.geometry.kind !== "multiPolygon") {
+        throw new Error("Expected multiPolygon geometry");
+      }
+      expect(Array.isArray(result.geometry.polygons)).toBe(true);
+      expect(result.geometry.polygons).toHaveLength(2); // Two polygons
     });
 
     it("parses GeoJSON Point geometry as circle", () => {
@@ -66,8 +72,11 @@ describe("geometryParsers", () => {
       const result = parseNotamGeometryWithReason(geoJsonPoint);
       expect(result.geometry).not.toBeNull();
       expect(result.geometry?.kind).toBe("circle");
-      expect((result.geometry as any).center).toEqual([24.7536, 59.4369]);
-      expect((result.geometry as any).radiusMeters).toBe(1000);
+      if (!result.geometry || result.geometry.kind !== "circle") {
+        throw new Error("Expected circle geometry");
+      }
+      expect(result.geometry.center).toEqual([24.7536, 59.4369]);
+      expect(result.geometry.radiusMeters).toBe(1000);
     });
 
     it("returns unsupported type for LineString", () => {

@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useEnhancedNotamStream } from "./useEnhancedNotamStream";
 import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
 import * as notamStream from "./notamStream";
+import type { EnhancedNotam } from "../airspace/airspaceTypes";
+import type { NormalizedNotam } from "./notamTypes";
 
 // Mock dependencies
 vi.mock("./notamStream", () => ({
@@ -31,7 +33,7 @@ vi.mock("../airspace/AirspaceIntegrationService", () => {
 });
 
 describe("useEnhancedNotamStream", () => {
-  const mockNotams = [
+  const mockNotams: NormalizedNotam[] = [
     {
       id: "A1234/25",
       summary: "Test Notam",
@@ -54,29 +56,53 @@ describe("useEnhancedNotamStream", () => {
     },
   ];
 
+  const mockedUseNotamStream = vi.mocked(notamStream.useNotamStream);
+  const mockedAirspaceService = airspaceIntegrationService as unknown as {
+    loadAirspaceFromHtml: ReturnType<typeof vi.fn>;
+    loadLatestAirspaceData: ReturnType<typeof vi.fn>;
+    loadAirspaceData: ReturnType<typeof vi.fn>;
+    isLoadedForDate: ReturnType<typeof vi.fn>;
+    isLoadedFromHtml: ReturnType<typeof vi.fn>;
+    enhanceNotams: ReturnType<typeof vi.fn>;
+    getLoadedSourceUrl: ReturnType<typeof vi.fn>;
+    getLoadedSourceType: ReturnType<typeof vi.fn>;
+    getEffectiveDate: ReturnType<typeof vi.fn>;
+  };
+
+  const toEnhancedNotam = (notam: NormalizedNotam): EnhancedNotam => ({
+    ...notam,
+    enhancedGeometry: null,
+    sourceGeometry: notam.geometry,
+    issues: [],
+  });
+
   beforeEach(() => {
     vi.clearAllMocks();
-    (notamStream.useNotamStream as any).mockReturnValue({
+    mockedUseNotamStream.mockReturnValue({
       data: mockNotams,
-      isLoading: false,
+      status: "live",
+      lastOkUtc: null,
+      lastErrorUtc: null,
+      tick: 0,
+      ageSeconds: null,
       error: null,
+      rawCount: 0,
+      displayedCount: 0,
+      dataSource: "mock",
+      liveError: null,
     });
   });
 
   it("should handle error in enhancement by falling back to original geometry source without invalid values", async () => {
     // Simulate an error during enhancement
-    (airspaceIntegrationService.loadAirspaceFromHtml as any).mockRejectedValue(new Error("HTML load failed"));
-    (airspaceIntegrationService.loadLatestAirspaceData as any).mockRejectedValue(new Error("GeoJSON latest load failed"));
-    (airspaceIntegrationService.loadAirspaceData as any).mockRejectedValue(new Error("GeoJSON load failed"));
+    mockedAirspaceService.loadAirspaceFromHtml.mockRejectedValue(new Error("HTML load failed"));
+    mockedAirspaceService.loadLatestAirspaceData.mockRejectedValue(new Error("GeoJSON latest load failed"));
+    mockedAirspaceService.loadAirspaceData.mockRejectedValue(new Error("GeoJSON load failed"));
 
     // We need enhanceNotams to return something so it doesn't stay null
-    (airspaceIntegrationService.enhanceNotams as any).mockImplementation((notams: any[]) => notams.map(n => ({
-      ...n,
-      enhancedGeometry: null,
-      sourceGeometry: n.geometry,
-      geometrySource: n.geometrySource,
-      geometrySourceDetails: n.geometrySourceDetails,
-    })));
+    mockedAirspaceService.enhanceNotams.mockImplementation((notams: NormalizedNotam[]) =>
+      notams.map((notam) => toEnhancedNotam(notam))
+    );
 
     const { result } = renderHook(() => useEnhancedNotamStream());
 
@@ -101,8 +127,10 @@ describe("useEnhancedNotamStream", () => {
   });
 
   it("does not refetch airspace data when already loaded", async () => {
-    (airspaceIntegrationService.getLoadedSourceType as any).mockReturnValue("geojson");
-    (airspaceIntegrationService.enhanceNotams as any).mockImplementation((notams: any[]) => notams);
+    mockedAirspaceService.getLoadedSourceType.mockReturnValue("geojson");
+    mockedAirspaceService.enhanceNotams.mockImplementation((notams: NormalizedNotam[]) =>
+      notams.map((notam) => toEnhancedNotam(notam))
+    );
 
     const { result } = renderHook(() => useEnhancedNotamStream());
 
