@@ -52,6 +52,7 @@
   - Aligned ADS-B/drone mock fixtures with track DTOs, added regression coverage, and normalized NOTAM text field/geometry source tagging.
   - Tagged mock ADS-B altitude comments with "(mocked)" and documented ADS-B live-mode requirements in data sources.
   - Added an ADS-B live/mock toggle with localStorage persistence plus unit coverage.
+  - Hardened NOTAM normalization and enhanced stream error handling with typed airspace metadata and geometry parsing cleanups.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:

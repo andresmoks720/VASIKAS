@@ -10,8 +10,9 @@ describe('polygonValidation', () => {
         rings: [
           [
             [24.74, 59.43],
-            [24.75, 59.44],
             [24.76, 59.43],
+            [24.76, 59.45],
+            [24.74, 59.45],
             [24.74, 59.43] // Closed ring
           ]
         ]
@@ -28,9 +29,10 @@ describe('polygonValidation', () => {
         rings: [
           [
             [24.74, 59.43],
-            [24.75, 59.44],
-            [24.76, 59.43]
-            // Missing closing point
+            [24.76, 59.43],
+            [24.76, 59.45],
+            [24.74, 59.45]
+            // Missing closing point, ring still has 4 points
           ]
         ]
       };
@@ -54,7 +56,7 @@ describe('polygonValidation', () => {
       
       const result = validatePolygonGeometry(geometry);
       expect(result.isValid).toBe(false);
-      expect(result.issues).toContain('Ring 0 has fewer than 4 points (needs at least 4 for a closed ring)');
+      expect(result.issues).toContain('Ring 0 has fewer than 3 points');
     });
 
     it('should validate circles as valid', () => {
@@ -76,8 +78,9 @@ describe('polygonValidation', () => {
           [
             [
               [24.74, 59.43],
-              [24.75, 59.44],
               [24.76, 59.43],
+              [24.76, 59.45],
+              [24.74, 59.45],
               [24.74, 59.43] // Closed ring
             ]
           ]

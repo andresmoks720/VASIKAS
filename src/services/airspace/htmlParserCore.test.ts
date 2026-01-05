@@ -1,26 +1,37 @@
 import { describe, it, expect } from 'vitest';
 import { parseEaipEnr51Core, ParserElement, normalizeWindingOrder } from './htmlParserCore';
 
+const createMockElement = (textContent: string | null): ParserElement => ({
+    textContent,
+    innerHTML: null,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    getAttribute: () => null,
+});
+
 describe('htmlParserCore', () => {
     it('should encode multiple coordinate chains as separate polygons in a MultiPolygon', () => {
         // Mock root element
-        const mockRow = {
+        const mockRow: ParserElement = {
             querySelectorAll: (selector: string) => {
                 if (selector === 'td') {
                     return [
-                        { textContent: 'EER15 590000N 0240000E - 590000N 0250000E - 580000N 0250000E - 580000N 0240000E - 590000N 0240000E. 570000N 0260000E - 570000N 0270000E - 560000N 0270000E - 560000N 0260000E - 570000N 0260000E' },
-                        { textContent: 'FL100\nSFC' },
-                        { textContent: 'Remarks' }
-                    ] as any[];
+                        createMockElement('EER15 590000N 0240000E - 590000N 0250000E - 580000N 0250000E - 580000N 0240000E - 590000N 0240000E. 570000N 0260000E - 570000N 0270000E - 560000N 0270000E - 560000N 0260000E - 570000N 0260000E'),
+                        createMockElement('FL100\nSFC'),
+                        createMockElement('Remarks')
+                    ];
                 }
                 return [];
             },
             querySelector: (selector: string) => {
                 if (selector === 'p strong') {
-                    return { textContent: 'EER15' };
+                    return createMockElement('EER15');
                 }
                 return null;
-            }
+            },
+            getAttribute: () => null,
+            textContent: '',
+            innerHTML: null,
         };
 
         const mockRoot = {
@@ -65,21 +76,24 @@ describe('htmlParserCore', () => {
     });
 
     it('should handle various coordinate separators and variable spacing', () => {
-        const mockRow = {
+        const mockRow: ParserElement = {
             querySelectorAll: (selector: string) => {
                 if (selector === 'td') {
                     return [
-                        { textContent: 'TESTAREA\n5900N 02400E – 5900N 02500E | 5800N 02500E\n5800N 02400E - 5900N 02400E' },
-                        { textContent: 'FL100\nSFC' },
-                        { textContent: 'Remarks' }
-                    ] as any[];
+                        createMockElement('TESTAREA\n5900N 02400E – 5900N 02500E | 5800N 02500E\n5800N 02400E - 5900N 02400E'),
+                        createMockElement('FL100\nSFC'),
+                        createMockElement('Remarks')
+                    ];
                 }
                 return [];
             },
             querySelector: (selector: string) => {
-                if (selector === 'p strong') return { textContent: 'TESTAREA' };
+                if (selector === 'p strong') return createMockElement('TESTAREA');
                 return null;
-            }
+            },
+            getAttribute: () => null,
+            textContent: '',
+            innerHTML: null,
         };
 
         const mockRoot = {

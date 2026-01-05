@@ -26,7 +26,7 @@ function resetTelemetry() {
   notamGeometryTelemetry.byReason = {};
 }
 
-function isValidCoord(coord: any): coord is [number, number] {
+function isValidCoord(coord: unknown): coord is [number, number] {
   return (
     Array.isArray(coord) &&
     coord.length === 2 &&
@@ -101,7 +101,6 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
 
     source.clear();
     resetTelemetry();
-    let missingGeometryCount = 0;
     const batchStats = { total: notams.length, rendered: 0, skipped: 0, byReason: {} as Record<string, number> };
     notams.forEach((notam) => {
       // Use enhanced geometry if available, otherwise use original geometry
@@ -115,7 +114,6 @@ export function createNotamsLayerController(): LayerController<NormalizedNotam[]
 
       const geom = notamGeometryToOl(geometryToUse);
       if (!geom) {
-        missingGeometryCount += 1;
         batchStats.skipped += 1;
         const reason = ('geometryParseReason' in notam) ? notam.geometryParseReason : "UNKNOWN";
         batchStats.byReason[reason ?? "UNKNOWN"] = (batchStats.byReason[reason ?? "UNKNOWN"] ?? 0) + 1;

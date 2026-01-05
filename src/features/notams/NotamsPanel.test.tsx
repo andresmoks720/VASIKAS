@@ -5,6 +5,8 @@ import { NotamsPanel } from "./NotamsPanel";
 import * as StreamsProvider from "@/services/streams/StreamsProvider";
 import { makeNotam } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
+import type { EnhancedNotam } from "@/services/airspace/airspaceTypes";
+import type { NormalizedNotam } from "@/services/notam/notamTypes";
 
 const toggleUseLiveNotams = vi.fn();
 
@@ -22,13 +24,20 @@ vi.mock("@/services/notam/notamMode", () => ({
 }));
 
 describe("NotamsPanel", () => {
+  const toEnhancedNotam = (notam: NormalizedNotam): EnhancedNotam => ({
+    ...notam,
+    enhancedGeometry: null,
+    sourceGeometry: notam.geometry,
+    issues: [],
+  });
+
   beforeEach(() => {
     toggleUseLiveNotams.mockReset();
   });
 
   it("renders empty state when no NOTAMs are available", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [] as any[],
+      data: [] as EnhancedNotam[],
       status: "live",
       lastOkUtc: null,
       lastErrorUtc: null,
@@ -41,6 +50,7 @@ describe("NotamsPanel", () => {
       liveError: null,
       isLoading: false,
       effectiveDate: null,
+      enhancementError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -57,7 +67,7 @@ describe("NotamsPanel", () => {
     });
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithoutGeometry] as any[],
+      data: [toEnhancedNotam(notamWithoutGeometry)],
       status: "live",
       lastOkUtc: "",
       lastErrorUtc: null,
@@ -70,6 +80,7 @@ describe("NotamsPanel", () => {
       liveError: null,
       isLoading: false,
       effectiveDate: null,
+      enhancementError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -91,7 +102,7 @@ describe("NotamsPanel", () => {
     });
 
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [notamWithAltitude, notamWithoutAltitude] as any[],
+      data: [toEnhancedNotam(notamWithAltitude), toEnhancedNotam(notamWithoutAltitude)],
       status: "live",
       lastOkUtc: "2025-01-01T00:00:00Z",
       lastErrorUtc: null,
@@ -104,6 +115,7 @@ describe("NotamsPanel", () => {
       liveError: null,
       isLoading: false,
       effectiveDate: null,
+      enhancementError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -117,7 +129,7 @@ describe("NotamsPanel", () => {
 
   it("toggles the NOTAM live mode control", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [],
+      data: [] as EnhancedNotam[],
       status: "live",
       lastOkUtc: null,
       lastErrorUtc: null,
@@ -130,6 +142,7 @@ describe("NotamsPanel", () => {
       liveError: null,
       isLoading: false,
       effectiveDate: null,
+      enhancementError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });
@@ -141,7 +154,7 @@ describe("NotamsPanel", () => {
 
   it("labels live fallback data as mock fallback", () => {
     vi.spyOn(StreamsProvider, "useSharedNotamStream").mockReturnValue({
-      data: [],
+      data: [] as EnhancedNotam[],
       status: "live",
       lastOkUtc: null,
       lastErrorUtc: null,
@@ -154,6 +167,7 @@ describe("NotamsPanel", () => {
       liveError: new Error("Timeout"),
       isLoading: false,
       effectiveDate: null,
+      enhancementError: null,
     });
 
     renderWithRouter(<NotamsPanel />, { route: "/notams" });

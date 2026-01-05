@@ -5,8 +5,6 @@ import type { Altitude } from "@/shared/types/domain";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const FT_TO_METERS = 0.3048;
-const KM_TO_METERS = 1000;
-const NM_TO_METERS = 1852;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Altitude parsing

@@ -21,8 +21,6 @@ export function validatePolygonGeometry(geometry: NotamGeometry): PolygonValidat
   }
 
   if (geometry.kind === "polygon") {
-    const issues: string[] = [];
-    
     // Validate each ring in the polygon
     const validatedRings = geometry.rings.map((ring, index) => {
       const ringIssues: string[] = [];

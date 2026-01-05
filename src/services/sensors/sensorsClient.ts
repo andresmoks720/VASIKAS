@@ -61,12 +61,12 @@ export function useSensorsStream() {
   }, []);
 
   const merged = useMemo(() => {
+    void storeVersion;
     const userSensorsDtos = sensorStore.getAll();
-    const userSensors: Sensor[] = userSensorsDtos.map((dto) => ({
-      ...dto as any,
-      ingestTimeUtc: (dto as any).updatedAtUtc || (dto as any).createdAtUtc || new Date().toISOString(),
-      source: "user",
-    }));
+    const userSensors: Sensor[] = userSensorsDtos.map((dto) => {
+      const ingestTimeUtc = dto.updatedAtUtc ?? dto.createdAtUtc ?? new Date().toISOString();
+      return { ...dto, ingestTimeUtc, source: "user" };
+    });
     return [...(baseSensors ?? []), ...userSensors];
   }, [baseSensors, storeVersion]); // Re-calculate when base polling updates OR store updates
 

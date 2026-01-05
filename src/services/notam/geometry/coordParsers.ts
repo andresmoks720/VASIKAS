@@ -1,5 +1,3 @@
-import type { NotamGeometry } from "../notamTypes";
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Type guards and helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20,10 +18,6 @@ function isArray(value: unknown): value is unknown[] {
     return Array.isArray(value);
 }
 
-function getNumber(obj: Record<string, unknown>, key: string): number | undefined {
-    const value = obj[key];
-    return isNumber(value) ? value : undefined;
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Coordinate parsing functions
@@ -620,16 +614,4 @@ function containsDescriptiveText(segment: string): boolean {
 
     const lowerSegment = segment.toLowerCase();
     return estonianPhrases.some(phrase => lowerSegment.includes(phrase.toLowerCase()));
-}
-
-/**
- * Helper function to determine if a text segment might be descriptive text
- * Used as a fallback when the main detection doesn't catch all cases
- *
- * NOTE: This is specific to the HTML parsing workflow from eAIP documents.
- */
-function mightBeDescriptiveText(segment: string): boolean {
-    // If it doesn't look like coordinates (doesn't start with numbers), it might be descriptive text
-    // This is a simple heuristic - if it doesn't match coordinate patterns, it might be text
-    return !/^\d/.test(segment.trim());
 }

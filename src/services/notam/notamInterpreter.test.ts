@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 
 import {
     parseNotamGeometry,
-    parseEaipCoordinateChain,
 } from "./notamInterpreter";
 import {
     parseAltitudesFromText,

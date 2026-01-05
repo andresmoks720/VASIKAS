@@ -1,19 +1,15 @@
-import type { Altitude } from "@/shared/types/domain";
 import {
     GeometryParseResult,
-    NormalizedNotam,
     NotamGeometry,
-    NotamRaw,
 } from "../notamTypes";
-import { parseCoordinateChain, parseEansCoordinate, normalizeCoordinate, parseEnhancedCoordinate, parseEnhancedCoordinateChain } from "./coordParsers";
+import { parseCoordinateChain, normalizeCoordinate, parseEnhancedCoordinateChain } from "./coordParsers";
 import { parseGeometryFromNotamText } from "./textGeometryParser";
-import { validatePolygonGeometry, type PolygonValidationResult } from "./polygonValidation";
+import { validatePolygonGeometry } from "./polygonValidation";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────────────
 
-const FT_TO_METERS = 0.3048;
 const KM_TO_METERS = 1000;
 const NM_TO_METERS = 1852;
 

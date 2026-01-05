@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNotamStream } from "./notamStream";
 import { EnhancedNotam } from "../airspace/airspaceTypes";
 import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
-import { NormalizedNotam } from "./notamTypes";
+
+const FETCH_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes cooldown on error
 
 /**
  * Hook that provides NOTAMs enhanced with eAIP airspace geometry
@@ -11,14 +12,17 @@ export function useEnhancedNotamStream() {
   const { data: notams, ...notamStream } = useNotamStream();
   const [enhancedData, setEnhancedData] = useState<EnhancedNotam[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [enhancementError, setEnhancementError] = useState<Error | null>(null);
   const [effectiveDate, setEffectiveDate] = useState<string | null>(null);
   const [lastFetchErrorTime, setLastFetchErrorTime] = useState<number>(0);
-
-  const FETCH_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes cooldown on error
+  const enhancedDataRef = useRef<EnhancedNotam[] | null>(null);
 
   // Use the shared airspace integration service
   const airspaceService = airspaceIntegrationService;
+
+  useEffect(() => {
+    enhancedDataRef.current = enhancedData;
+  }, [enhancedData]);
 
   useEffect(() => {
     async function enhanceNotams() {
@@ -36,7 +40,7 @@ export function useEnhancedNotamStream() {
         if (lastFetchErrorTime > 0 && now - lastFetchErrorTime < FETCH_COOLDOWN_MS) {
           // If we already have some data (even if old), keep it. 
           // If we have nothing, we should still try to show original NOTAMs.
-          if (!enhancedData) {
+          if (!enhancedDataRef.current) {
             setEnhancedData(notams.map(notam => ({
               ...notam,
               enhancedGeometry: null,
@@ -51,7 +55,7 @@ export function useEnhancedNotamStream() {
         }
 
         setIsLoading(true);
-        setError(null);
+        setEnhancementError(null);
 
         let htmlFetchFailed = false;
         let geojsonFetchFailed = false;
@@ -128,7 +132,7 @@ export function useEnhancedNotamStream() {
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
         console.error("Failed to enhance NOTAMs with airspace data:", error);
-        setError(error);
+        setEnhancementError(error);
         setLastFetchErrorTime(Date.now());
 
         // Still return original NOTAMs if enhancement fails, but mark why
@@ -148,12 +152,13 @@ export function useEnhancedNotamStream() {
     }
 
     enhanceNotams();
-  }, [notams]);
+  }, [airspaceService, lastFetchErrorTime, notams]);
 
   return {
     data: enhancedData,
     isLoading,
     effectiveDate,
+    enhancementError,
     ...notamStream
   };
 }
