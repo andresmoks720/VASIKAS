@@ -55,6 +55,11 @@
 | UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions | Yes | `parser/notam/geometry/enhancedCoordParsers.test.ts` | Regression coverage for decimal degrees with suffix directions. |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing | Yes | `test/eaip-parser.test.ts` | Ensures tooling parser reports coordinate parse errors and DMS parsing. |
 | UNIT-EAIP-SCRAPER-001 | eAIP index scraper resolves ENR 5.1 link | Yes | `test/eaip-scraper.test.ts` | Validates ENR 5.1 link resolution from ENR 5 section. |
+| UNIT-NORM-TIME-001 | SR/SS placeholder unroll stays within lookahead | Yes | `parser/normalize/time_unroll.test.ts` | Ensures SR/SS placeholders emit bounded activations. |
+| UNIT-NORM-MERGE-001 | Replacement chain removes superseded features | Yes | `parser/normalize/merge.test.ts` | Drops superseded NOTAM entries. |
+| UNIT-NORM-ALT-001 | Altitude rounding preserves lower/upper ordering | Yes | `parser/normalize/units.test.ts` | Enforces lower<=upper after rounding. |
+| UNIT-NORM-SCHEMA-001 | Unified Restriction schema validation passes | Yes | `parser/normalize/schemaValidation.test.ts` | Validates example output with AJV. |
+| UNIT-NORM-FILTER-001 | NOTAM relevance gate filters by subject/scope/geometry quality | Yes | `parser/normalize/normalize_notam.test.ts` | Ensures subject/scope/geometry-quality gating. |
 
 ## Test Plan (current ticket)
 
@@ -103,3 +108,8 @@
 | UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions. (Implemented) | Unit | `parser/notam/geometry/enhancedCoordParsers.test.ts` |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing. (Implemented) | Unit | `test/eaip-parser.test.ts` |
 | UNIT-EAIP-SCRAPER-001 | eAIP index scraper resolves ENR 5.1 link. (Implemented) | Unit | `test/eaip-scraper.test.ts` |
+| UNIT-NORM-TIME-001 | SR/SS placeholder unroll stays within lookahead. (Implemented) | Unit | `parser/normalize/time_unroll.test.ts` |
+| UNIT-NORM-MERGE-001 | Replacement chain removes superseded features. (Implemented) | Unit | `parser/normalize/merge.test.ts` |
+| UNIT-NORM-ALT-001 | Altitude rounding preserves lower/upper ordering. (Implemented) | Unit | `parser/normalize/units.test.ts` |
+| UNIT-NORM-SCHEMA-001 | Unified Restriction schema validation passes. (Implemented) | Unit | `parser/normalize/schemaValidation.test.ts` |
+| UNIT-NORM-FILTER-001 | NOTAM relevance gate filters by subject/scope/geometry quality. (Implemented) | Unit | `parser/normalize/normalize_notam.test.ts` |
