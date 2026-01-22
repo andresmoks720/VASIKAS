@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { NotamAirspaceIndex } from './NotamAirspaceIndex';
 import { NormalizedNotam } from './notamTypes';
-import { AirspaceFeature } from '../airspace/airspaceTypes';
+import { AirspaceFeature } from '@/services/airspace/airspaceTypes';
 
 describe('NotamAirspaceIndex', () => {
     it('should use dynamic metadata when enhancing NOTAMs', () => {

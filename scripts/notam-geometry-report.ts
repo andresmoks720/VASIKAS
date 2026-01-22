@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { normalizeNotams } from "@/services/notam/notamNormalizer";
+import { normalizeNotams } from "@parser/notam/notamNormalizer";
 
 const [, , inputPath] = process.argv;
 

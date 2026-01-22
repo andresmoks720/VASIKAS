@@ -67,6 +67,48 @@ export async function parseEaipEnr51(html: string, sourceUrl: string): Promise<P
   };
 }
 
+export function resolveEnr5_1UrlFromIndexHtml(html: string, baseUrl: string): string {
+  const $ = cheerio.load(html);
+  const enrAnchor = $("#ENR-5");
+  const scope = enrAnchor.length > 0 ? enrAnchor.parent() : $("body");
+  const links = scope.find("a[href]").toArray();
+
+  const scored = links
+    .map((el) => {
+      const href = $(el).attr("href")?.trim() ?? "";
+      const text = $(el).text().trim();
+      const haystack = `${href} ${text}`;
+      let score = 0;
+
+      if (/ENR\s*5\.1/i.test(haystack)) score += 3;
+      if (/ENR[-\s]*5\.1/i.test(href)) score += 3;
+      if (/ENR\s*5/i.test(haystack)) score += 1;
+
+      return { href, score };
+    })
+    .filter((candidate) => candidate.href.length > 0 && candidate.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  const winner = scored[0]?.href;
+  if (!winner) {
+    throw new Error("Failed to locate ENR 5.1 link in eAIP index HTML.");
+  }
+
+  return new URL(winner, baseUrl).toString();
+}
+
+export async function fetchLatestEnr5_1Url(baseUrl: string = "https://eaip.eans.ee/"): Promise<string> {
+  const response = await fetch(baseUrl, { redirect: "follow" });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch eAIP index: ${response.status} ${response.statusText}`);
+  }
+
+  const html = await response.text();
+  const resolvedBase = response.url || baseUrl;
+  return resolveEnr5_1UrlFromIndexHtml(html, resolvedBase);
+}
+
 /**
  * Validate geometry for a feature (preserved from original tooling)
  */
@@ -139,12 +181,13 @@ export function generateGeoJson(result: ParseResult): string {
 /**
  * Fetch and parse eAIP ENR 5.1 page
  */
-export async function fetchAndParseEaipEnr51(url: string): Promise<ParseResult> {
+export async function fetchAndParseEaipEnr51(url?: string): Promise<ParseResult> {
   try {
-    const response = await fetch(url);
+    const targetUrl = url ?? await fetchLatestEnr5_1Url();
+    const response = await fetch(targetUrl);
     const html = await response.text();
 
-    return await parseEaipEnr51(html, url);
+    return await parseEaipEnr51(html, targetUrl);
   } catch (error) {
     throw new Error(`Failed to fetch and parse eAIP ENR 5.1: ${error}`);
   }

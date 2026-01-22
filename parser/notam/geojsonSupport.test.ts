@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseNotamGeometryWithReason } from "@/services/notam/geometry/geometryParsers";
+import { parseNotamGeometryWithReason } from "@parser/notam/geometry/geometryParsers";
 
 describe("GeoJSON support in NOTAM parsing", () => {
   describe("supported geometry types", () => {

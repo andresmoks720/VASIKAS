@@ -24,7 +24,7 @@ const sampleEaipHtml = `
           <tr>
             <td>
               <p><strong>EER15D</strong></p>
-              591633N 0261500E - 591639N 0255647E - 591614N 0254748E
+              Restricted Area Alpha 591633N 0261500E - 591639N 0255647E - 591614N 0254748E
             </td>
             <td>FL95<br/>SFC</td>
             <td>Military air operations</td>
@@ -32,7 +32,7 @@ const sampleEaipHtml = `
           <tr>
             <td>
               <p><strong>EER15E</strong></p>
-              591617N 0265703E - 591633N 0261500E - 594421N 0261500E
+              Restricted Area Bravo 591617N 0265703E - 591633N 0261500E - 594421N 0261500E
             </td>
             <td>FL95<br/>SFC</td>
             <td>Military air operations</td>
@@ -67,6 +67,8 @@ describe('eAIP Parser', () => {
     const eer15dFeature = result.features.find(f => f.properties.designator === 'EER15D');
     expect(eer15dFeature).toBeDefined();
     expect(eer15dFeature?.properties.designator).toBe('EER15D');
+    expect(eer15dFeature?.properties.name).toBe('Restricted Area Alpha');
+    expect(eer15dFeature?.properties.lateralLimits).toContain('591633N 0261500E');
     expect(eer15dFeature?.properties.upperLimit).toContain('FL95');
   });
 

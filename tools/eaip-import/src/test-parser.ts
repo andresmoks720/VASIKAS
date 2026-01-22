@@ -1,4 +1,4 @@
-import { fetchAndParseEaipEnr51, generateGeoJson } from './parser';
+import { fetchAndParseEaipEnr51, fetchLatestEnr5_1Url, generateGeoJson } from './parser';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -7,8 +7,8 @@ async function testParser() {
     console.log('Testing eAIP parser...');
     
     // Test with the provided URL
-    const url = 'https://eaip.eans.ee/2025-10-30/html/eAIP/EE-ENR-5.1-en-GB.html';
-    
+    const url = await fetchLatestEnr5_1Url();
+
     console.log(`Fetching and parsing: ${url}`);
     const result = await fetchAndParseEaipEnr51(url);
     

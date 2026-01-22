@@ -85,7 +85,33 @@ export function parseEaipEnr51Core(root: ParserElement, sourceUrl: string): Pars
         const cleanCellText = cellText.replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
         // Look for any string that seems to contain coordinate patterns
         const coordPattern = /(\d{4,6}[NS]\s+\d{5,7}[EW](?:\s*[-–—|]?\s*\d{4,6}[NS]\s+\d{5,7}[EW])*)/g;
+        const coordPatternTest = /(\d{4,6}[NS]\s+\d{5,7}[EW](?:\s*[-–—|]?\s*\d{4,6}[NS]\s+\d{5,7}[EW])*)/i;
+        const firstCoordIndex = cleanCellText.search(coordPattern);
+        let name: string | undefined;
+
+        if (firstCoordIndex > -1) {
+            const nameCandidate = cleanCellText.slice(0, firstCoordIndex).trim();
+            if (nameCandidate) {
+                const stripped = nameCandidate.replace(designator, '').replace(/^[\s-–—]+/, '').trim();
+                if (stripped) {
+                    name = stripped;
+                }
+            }
+        }
+        if (!name) {
+            const paragraphTexts = firstCell
+                .querySelectorAll('p')
+                .map((paragraph) => (paragraph.textContent || '').trim())
+                .filter((text) => text.length > 0);
+            const nameCandidate = paragraphTexts.find(
+                (text) => !text.includes(designator) && !coordPatternTest.test(text)
+            );
+            if (nameCandidate) {
+                name = nameCandidate;
+            }
+        }
         const allCoordMatches = cleanCellText.match(coordPattern);
+        const lateralLimits = allCoordMatches ? allCoordMatches.join(' ') : undefined;
 
         if (!allCoordMatches || allCoordMatches.length === 0) {
             if (cellText.includes('further along') || cellText.includes('along the state border')) {
@@ -130,6 +156,8 @@ export function parseEaipEnr51Core(root: ParserElement, sourceUrl: string): Pars
                 : { type: 'Polygon', coordinates: [allRings[0]] },
             properties: {
                 designator: designator.trim(),
+                name: name,
+                lateralLimits: lateralLimits,
                 upperLimit: upperLimit.trim(),
                 lowerLimit: lowerLimit.trim(),
                 remarks: remarks,

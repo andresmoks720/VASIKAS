@@ -32,7 +32,7 @@ import { createGeofencesLayerController } from "@/map/layers/controllers/createG
 import { createNotamsLayerController } from "@/map/layers/controllers/createNotamsLayerController";
 import { createSensorsLayerController } from "@/map/layers/controllers/createSensorsLayerController";
 import { createSelectionManager } from "@/map/selection/selectionManager";
-import { NormalizedNotam } from "@/services/notam/notamTypes";
+import { NormalizedNotam } from "@parser/notam/notamTypes";
 import { TrackPoint } from "@/services/adsb/trackStore";
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [25.1122, 58.5648]; // Match new ADS-B default center

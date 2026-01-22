@@ -2,9 +2,9 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useEnhancedNotamStream } from "./useEnhancedNotamStream";
-import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
+import { airspaceIntegrationService } from "@/services/airspace/AirspaceIntegrationService";
 import * as notamStream from "./notamStream";
-import type { EnhancedNotam } from "../airspace/airspaceTypes";
+import type { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 import type { NormalizedNotam } from "./notamTypes";
 
 // Mock dependencies
@@ -13,7 +13,7 @@ vi.mock("./notamStream", () => ({
 }));
 
 // Mock the AirspaceIntegrationService class and singleton
-vi.mock("../airspace/AirspaceIntegrationService", () => {
+vi.mock("@/services/airspace/AirspaceIntegrationService", () => {
   const mockService = {
     loadAirspaceFromHtml: vi.fn(),
     loadLatestAirspaceData: vi.fn(),

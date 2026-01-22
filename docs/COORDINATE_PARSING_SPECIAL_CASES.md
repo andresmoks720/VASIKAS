@@ -18,7 +18,7 @@ edasi mööda Eesti Vabariigi ja Vene Föderatsiooni vahelist kontrolljoont punk
 
 ### Parsing Logic
 
-The `parseCoordinateChain` function in `src/services/notam/geometry/coordParsers.ts` handles these complex chains by:
+The `parseCoordinateChain` function in `parser/notam/geometry/coordParsers.ts` handles these complex chains by:
 
 1. Splitting the text by " - " to get individual segments
 2. Checking each segment to determine if it's coordinates or descriptive text
@@ -35,11 +35,11 @@ The `parseCoordinateChain` function in `src/services/notam/geometry/coordParsers
 
 ### File Locations
 
-- Main parsing logic: `src/services/notam/geometry/coordParsers.ts`
-- Tests: `src/services/notam/geometry/coordParsers.test.ts`
+- Main parsing logic: `parser/notam/geometry/coordParsers.ts`
+- Tests: `parser/notam/geometry/coordParsers.test.ts`
 - Used by: 
   - Offline HTML parser: `tools/eaip-import/src/parser.ts`
-  - Runtime NOTAM processing: `src/services/notam/geometry/geometryParsers.ts`
+  - Runtime NOTAM processing: `parser/notam/geometry/geometryParsers.ts`
 
 ### Future Considerations
 

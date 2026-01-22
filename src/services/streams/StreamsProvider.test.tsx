@@ -62,7 +62,7 @@ vi.mock("@/services/sensors/sensorsClient", () => ({
   useSensorsStream: () => sensorsStream,
 }));
 
-vi.mock("@/services/notam/useEnhancedNotamStream", () => ({
+vi.mock("@parser/notam/useEnhancedNotamStream", () => ({
   useEnhancedNotamStream: () => notamStream,
 }));
 
@@ -131,7 +131,7 @@ describe("StreamsProvider", () => {
       vi.doMock("@/services/adsb/adsbClient", () => ({ useAdsbStream: () => ({ status: "idle" }) }));
       vi.doMock("@/services/drones/droneClient", () => ({ useDronesStream: () => ({ status: "idle" }) }));
       vi.doMock("@/services/sensors/sensorsClient", () => ({ useSensorsStream: () => ({ status: "idle" }) }));
-      vi.doMock("@/services/notam/useEnhancedNotamStream", () => ({ useEnhancedNotamStream: () => ({ status: "idle" }) }));
+      vi.doMock("@parser/notam/useEnhancedNotamStream", () => ({ useEnhancedNotamStream: () => ({ status: "idle" }) }));
 
       // Import fresh module
       const { StreamsProvider, useSharedDronesStream } = await import("./StreamsProvider");

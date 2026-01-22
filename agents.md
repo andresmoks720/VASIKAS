@@ -274,7 +274,7 @@ Display rules:
 ## NOTAM handling (prototype)
 
 - Fetch NOTAM JSON from `VITE_NOTAM_URL`.
-- Implement `src/services/notam/notamInterpreter.ts` that:
+- Implement `parser/notam/notamInterpreter.ts` that:
   - Decodes/normalizes NOTAM content as needed
   - Converts altitude/levels into **meters**
   - Produces domain objects ready for UI + map layers

@@ -1,5 +1,5 @@
 import { NormalizedNotam, NotamGeometry } from "./notamTypes";
-import { AirspaceFeature, AirspaceGeometry, EnhancedNotam } from "../airspace/airspaceTypes";
+import { AirspaceFeature, AirspaceGeometry, EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 /**
  * Combines eAIP airspace data with NOTAM data to provide enhanced visualization

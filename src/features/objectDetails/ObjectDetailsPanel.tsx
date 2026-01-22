@@ -19,7 +19,7 @@ import {
   useSharedSensorsStream,
   useSharedNotamStream,
 } from "@/services/streams/StreamsProvider";
-import { NormalizedNotam } from "@/services/notam/notamTypes";
+import { NormalizedNotam } from "@parser/notam/notamTypes";
 import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 
 const formatPosition = (lon?: number, lat?: number) => {

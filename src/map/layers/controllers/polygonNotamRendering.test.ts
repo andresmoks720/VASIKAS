@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeNotams } from "@/services/notam/notamNormalizer";
+import { normalizeNotams } from "@parser/notam/notamNormalizer";
 import { notamGeometryToOl } from "./createNotamsLayerController";
 
 describe("polygon NOTAM rendering", () => {

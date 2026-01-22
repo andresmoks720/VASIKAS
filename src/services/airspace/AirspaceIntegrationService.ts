@@ -1,7 +1,7 @@
-import { NormalizedNotam } from "../notam/notamTypes";
+import { NormalizedNotam } from "@parser/notam/notamTypes";
 import { AirspaceFeature, EnhancedNotam } from "./airspaceTypes";
 import { AirspaceLoader } from "./airspaceLoader";
-import { NotamAirspaceIndex } from "../notam/NotamAirspaceIndex";
+import { NotamAirspaceIndex } from "@parser/notam/NotamAirspaceIndex";
 import { fetchEaipHtml } from "./airspaceHtmlClient";
 import { parseEaipEnr51 } from "./runtimeHtmlParser";
 

@@ -6,7 +6,7 @@ import * as StreamsProvider from "@/services/streams/StreamsProvider";
 import { makeNotam } from "@/shared/test/factories";
 import { renderWithRouter } from "@/shared/test/render";
 import type { EnhancedNotam } from "@/services/airspace/airspaceTypes";
-import type { NormalizedNotam } from "@/services/notam/notamTypes";
+import type { NormalizedNotam } from "@parser/notam/notamTypes";
 
 const toggleUseLiveNotams = vi.fn();
 
@@ -16,7 +16,7 @@ vi.mock("@/layout/MapShell/useSidebarUrlState", () => ({
   }),
 }));
 
-vi.mock("@/services/notam/notamMode", () => ({
+vi.mock("@parser/notam/notamMode", () => ({
   useNotamMode: () => ({
     useLiveNotams: false,
     toggleUseLiveNotams,

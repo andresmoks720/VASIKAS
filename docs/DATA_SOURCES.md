@@ -311,7 +311,7 @@ For the mock file, we use a minimal stable structure:
 
 #### 4.2 Normalized NOTAM domain object (frontend output)
 
-Produced by `src/services/notam/notamInterpreter.ts`.
+Produced by `parser/notam/notamInterpreter.ts`.
 
 Key fields the UI expects:
 

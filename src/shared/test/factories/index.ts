@@ -2,7 +2,7 @@ import { Drone } from "@/services/drones/droneTypes";
 import { Aircraft } from "@/services/adsb/adsbTypes";
 import { Sensor } from "@/services/sensors/sensorsTypes";
 import { Geofence } from "@/services/geofences/geofenceStore";
-import { NormalizedNotam } from "@/services/notam/notamTypes";
+import { NormalizedNotam } from "@parser/notam/notamTypes";
 import { Altitude } from "@/shared/types/domain";
 
 const DEFAULT_TIME_UTC = "2025-01-01T00:00:00Z";

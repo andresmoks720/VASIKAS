@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Chip, Collapse, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { NormalizedNotam } from '@/services/notam/notamTypes';
+import { NormalizedNotam } from '@parser/notam/notamTypes';
 import { EnhancedNotam } from '@/services/airspace/airspaceTypes';
 
 interface UnvisualizableNotamsProps {
