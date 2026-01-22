@@ -1,5 +1,5 @@
 import { Geofence } from "@/services/geofences/geofenceStore";
-import { NormalizedNotam } from "@/services/notam/notamTypes";
+import { NormalizedNotam } from "@parser/notam/notamTypes";
 
 type MapApiEvent = {
     "set-geofences": Geofence[];

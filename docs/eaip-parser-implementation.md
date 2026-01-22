@@ -6,8 +6,8 @@ The eAIP (Electronic Aeronautical Information Publication) parser extracts airsp
 ## Architecture
 
 ### Data Flow
-1. **Discovery**: Scrape `eaip.eans.ee/history-en-GB.html` for current effective date
-2. **Fetch**: Download ENR 5.1 HTML from generated URL
+1. **Discovery**: Fetch `https://eaip.eans.ee/` (auto-redirects to latest) and locate the ENR 5 section
+2. **Fetch**: Follow the ENR 5.1 link from the index to download HTML
 3. **Cache**: Save raw HTML to `data/cache/eaip/<date>/EE-ENR-5.1.html`
 4. **Parse**: Extract designators and coordinate chains using Cheerio
 5. **Convert**: Transform DMS coordinates to decimal degrees
@@ -15,8 +15,8 @@ The eAIP (Electronic Aeronautical Information Publication) parser extracts airsp
 7. **Index**: Build Map<designator, Feature> for runtime use
 
 ### Input Format
-- Source: `https://eaip.eans.ee/history-en-GB.html` (for effective date)
-- Target: `https://eaip.eans.ee/YYYY-MM-DD/html/eAIP/EE-ENR-5.1-en-GB.html`
+- Source: `https://eaip.eans.ee/` (redirects to latest index)
+- Target: `.../EE-ENR-5.1-en-GB.html` (resolved from ENR 5 section link)
 - Format: HTML table with coordinate chains like `"591633N 0261500E - 591639N 0255647E - ..."`
 
 ### Output Format
@@ -31,6 +31,8 @@ The eAIP (Electronic Aeronautical Information Publication) parser extracts airsp
     },
     "properties": {
       "designator": "EER15D",
+      "name": "Area Name",
+      "lateralLimits": "591633N 0261500E - ...",
       "upperLimit": "FL95",
       "lowerLimit": "SFC",
       "remarks": "..."

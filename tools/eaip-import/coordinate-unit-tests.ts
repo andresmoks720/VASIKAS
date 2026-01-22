@@ -1,4 +1,4 @@
-import { parseEaipCoordinateChain } from '../../src/services/notam/notamInterpreter';
+import { parseEaipCoordinateChain } from '../../parser/notam/notamInterpreter';
 
 // Unit tests for coordinate parsing
 console.log('=== Unit Tests for eAIP Coordinate Parsing ===\n');

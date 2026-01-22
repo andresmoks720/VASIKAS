@@ -39,7 +39,7 @@
   - Offline basemap now falls back to WMTS/OSM when demo tiles fail to load.
   - NOTAM live/mock runtime toggle with localStorage persistence and live fetch fallback to mock.
   - **Centralized polling update-age formatting**: Created `src/shared/time/updateAge.ts` with `formatUpdateAge()` to standardize "Updated: X seconds/minutes ago" labels across all panels, replacing inconsistent "Updated just now" messages.
-  - **Refactored NOTAM interpreter into focused modules**: Created `src/services/notam/geometry/coordParsers.ts`, `src/services/notam/geometry/geometryParsers.ts`, `src/services/notam/altitude/altitudeParser.ts`, and `src/services/notam/notamNormalizer.ts` for better maintainability and testability.
+  - **Refactored NOTAM interpreter into focused modules**: Created `parser/notam/geometry/coordParsers.ts`, `parser/notam/geometry/geometryParsers.ts`, `parser/notam/altitude/altitudeParser.ts`, and `parser/notam/notamNormalizer.ts` for better maintainability and testability.
   - **Unified geometry parsing**: Shared coordinate parsing logic between offline tools and runtime to prevent drift.
   - **HTML → airspace → NOTAM enhancement path**: Implemented real functionality to process HTML eAIP data and enhance NOTAM geometry with accurate airspace polygons.
   - **Enhanced map rendering**: Map rendering now uses enhanced geometry when available, falling back to original geometry.
@@ -53,6 +53,8 @@
   - Tagged mock ADS-B altitude comments with "(mocked)" and documented ADS-B live-mode requirements in data sources.
   - Added an ADS-B live/mock toggle with localStorage persistence plus unit coverage.
   - Hardened NOTAM normalization and enhanced stream error handling with typed airspace metadata and geometry parsing cleanups.
+  - Moved NOTAM processing/parsing modules into `parser/notam` with shared imports via `@parser`.
+  - eAIP tooling parser now resolves ENR 5.1 URLs via the latest index and captures airspace names from the identification column.
 - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
 - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
 - In progress:

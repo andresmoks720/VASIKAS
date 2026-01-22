@@ -1,4 +1,4 @@
-import { parseCoordinateChain } from '../../src/services/notam/geometry/coordParsers';
+import { parseCoordinateChain } from '../../parser/notam/geometry/coordParsers';
 
 const parseCoordinate = (text: string): { lat: number; lon: number } | null => {
   const chain = parseCoordinateChain(text);

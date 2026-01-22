@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNotamStream } from "./notamStream";
-import { EnhancedNotam } from "../airspace/airspaceTypes";
-import { airspaceIntegrationService } from "../airspace/AirspaceIntegrationService";
+import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
+import { airspaceIntegrationService } from "@/services/airspace/AirspaceIntegrationService";
 
 const FETCH_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes cooldown on error
 
@@ -99,7 +99,7 @@ export function useEnhancedNotamStream() {
         const effective = airspaceService.getEffectiveDate();
         setEffectiveDate(effective);
 
-        const enrichedByService = enhanced.map(notam => {
+        const enrichedByService = enhanced.map((notam: EnhancedNotam) => {
           if (notam.enhancedGeometry && notam.geometrySourceDetails) {
             let finalUrl = notam.geometrySourceDetails.sourceUrl;
             if (!finalUrl && sourceType === 'html') {
@@ -121,7 +121,7 @@ export function useEnhancedNotamStream() {
         });
 
         // Add fetch failure flags if any (but enhancement might have still "succeeded" for some NOTAMs if data was already cached)
-        const enriched = enrichedByService.map(notam => {
+        const enriched = enrichedByService.map((notam: EnhancedNotam) => {
           const issues = [...(notam.issues || [])];
           if (htmlFetchFailed && !airspaceService.isLoadedFromHtml()) issues.push('HTML_FETCH_FAILED');
           if (geojsonFetchFailed && !airspaceService.isLoadedForDate(new Date().toISOString().split('T')[0])) issues.push('GEOJSON_FETCH_FAILED');

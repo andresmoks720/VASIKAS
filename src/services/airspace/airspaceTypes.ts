@@ -1,4 +1,4 @@
-import type { NotamGeometry, NormalizedNotam } from "../notam/notamTypes";
+import type { NotamGeometry, NormalizedNotam } from "@parser/notam/notamTypes";
 
 // Define the shared AirspaceFeature type
 export interface AirspaceCoordinate {
@@ -21,6 +21,7 @@ export interface ParserInfo {
 export interface AirspaceProperties {
   designator: string;
   name?: string;
+  lateralLimits?: string;
   upperLimit: string;
   lowerLimit: string;
   remarks?: string;

@@ -73,7 +73,7 @@ NOTAM geometries follow the GeoJSON specification format:
 ## Implementation Details
 
 ### Data Processing
-- NOTAM geometry data is parsed in `src/services/notam/notamInterpreter.ts`
+- NOTAM geometry data is parsed in `parser/notam/notamInterpreter.ts`
 - The `parseNotamGeometry` function handles all three geometry types
 - Geometry is converted to OpenLayers format in `notamGeometryToOl` function
 

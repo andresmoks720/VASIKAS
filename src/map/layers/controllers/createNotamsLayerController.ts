@@ -2,7 +2,7 @@ import Feature from "ol/Feature";
 import { Circle as CircleGeom, MultiPolygon, Polygon } from "ol/geom";
 import { fromCircle } from "ol/geom/Polygon";
 
-import { NormalizedNotam, NotamGeometry } from "@/services/notam/notamTypes";
+import { NormalizedNotam, NotamGeometry } from "@parser/notam/notamTypes";
 import { EnhancedNotam } from "@/services/airspace/airspaceTypes";
 import { to3857 } from "@/map/transforms";
 import { createNotamLayer } from "@/map/layers/notams";

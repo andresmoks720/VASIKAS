@@ -17,12 +17,13 @@ import {
 } from "@mui/material";
 
 import { useSidebarUrlState } from "@/layout/MapShell/useSidebarUrlState";
-import { useNotamMode } from "@/services/notam/notamMode";
+import { useNotamMode } from "@parser/notam/notamMode";
 import { useSharedNotamStream } from "@/services/streams/StreamsProvider";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { StatusPill } from "@/ui/StatusPill";
 import { formatUpdateAge } from "@/shared/time/updateAge";
+import type { Altitude } from "@/shared/types/domain";
 
 export function NotamsPanel() {
   const { data, status, ageSeconds, lastOkUtc, error, rawCount, displayedCount, dataSource, liveError } =
@@ -118,7 +119,7 @@ export function NotamsPanel() {
             {notams.map((notam, index) => {
               const altitudeText =
                 notam.altitudes.length > 0
-                  ? notam.altitudes.map((alt) => formatAltitude(alt, { showFeet: true })).join("; ")
+                  ? notam.altitudes.map((alt: Altitude) => formatAltitude(alt, { showFeet: true })).join("; ")
                   : "No altitude limits";
 
               return (

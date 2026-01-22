@@ -2,8 +2,8 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { parseGeometryHint, parseNotamGeometryWithReason } from "@/services/notam/geometry/geometryParsers";
-import type { NotamGeometry } from "@/services/notam/notamTypes";
+import { parseGeometryHint, parseNotamGeometryWithReason } from "@parser/notam/geometry/geometryParsers";
+import type { NotamGeometry } from "@parser/notam/notamTypes";
 import { notamGeometryToOl } from "./createNotamsLayerController";
 
 const FIXTURE_DIR = resolve(process.cwd(), "test/fixtures/notams");

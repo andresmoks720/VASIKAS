@@ -4,7 +4,7 @@ import { useAdsbStream } from "@/services/adsb/adsbClient";
 import { useDronesStream } from "@/services/drones/droneClient";
 import { useDronesSnapshotStream } from "@/services/drones/droneSnapshotClient";
 import { useSensorsStream } from "@/services/sensors/sensorsClient";
-import { useEnhancedNotamStream } from "@/services/notam/useEnhancedNotamStream";
+import { useEnhancedNotamStream } from "@parser/notam/useEnhancedNotamStream";
 import { ENV } from "@/shared/env";
 
 type StreamContextValue = {

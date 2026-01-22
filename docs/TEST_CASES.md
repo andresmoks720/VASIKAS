@@ -23,8 +23,8 @@
 | E2E-MAP-002 | offline tiles failure falls back to online basemap | Yes | `e2e/basemap-offline.spec.ts` | Forces mock tile 404s to confirm OSM fallback. |
 | E2E-SMOKE-001 | load map + switch tools | Yes | `e2e/smoke.spec.ts` | Smoke path for map + routing. |
 | DOC-TEST-001 | testing culture requirements documented | Yes | `agents.md`, `docs/TESTING.md` | Codifies test expectations for future work. |
-| UNIT-NOTAM-OBS-001 | NOTAM geometry parse reasons + dev logging | Yes | `src/services/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` | Ensures schema mismatches are observable. |
-| UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures | Yes | `src/services/notam/notamGeometryParsing.test.ts` | Fixture-driven schema guardrails. |
+| UNIT-NOTAM-OBS-001 | NOTAM geometry parse reasons + dev logging | Yes | `parser/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` | Ensures schema mismatches are observable. |
+| UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures | Yes | `parser/notam/notamGeometryParsing.test.ts` | Fixture-driven schema guardrails. |
 | TOOL-NOTAM-REPORT-001 | NOTAM geometry report script | Yes | `scripts/notam-geometry-report.ts` | Local diagnosis tool. |
 | UNIT-ENV-001 | Env parsing helpers | Yes | `src/shared/env.test.ts` | Boolean/number parsing and URL resolution. |
 | UNIT-ENV-002 | Optional env coordinate range validation | Yes | `src/shared/env.test.ts` | Rejects NaN/out-of-range optional coordinates. |
@@ -36,24 +36,25 @@
 | UI-AIR-002 | AirTrafficPanel empty + list render | Yes | `src/features/air/AirTrafficPanel.test.tsx` | Empty state and list rendering. |
 | UI-NOTAM-001 | NotamsPanel empty + list render | Yes | `src/features/notams/NotamsPanel.test.tsx` | Empty state + list render coverage, including live fallback label. |
 | UNIT-TIME-UPDATE-001 | formatUpdateAge label formatting | Yes | `src/shared/time/updateAge.test.ts` | Ensures seconds/minutes copy uses explicit wording. |
-| UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `src/services/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
-| UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `src/services/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
-| UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence | Yes | `src/services/notam/notamMode.test.tsx` | Local storage hydration and updates. |
+| UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundary values | Yes | `parser/notam/useNotamPolling.test.tsx` | Option handling + invalid/boundary inputs. |
+| UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries | Yes | `parser/notam/notamStream.test.tsx` | Mapper delegation + empty URL interval. |
+| UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence | Yes | `parser/notam/notamMode.test.tsx` | Local storage hydration and updates. |
 | UNIT-ADSB-MODE-001 | ADS-B live/mock toggle persistence | Yes | `src/services/adsb/adsbMode.test.tsx` | Local storage hydration and updates. |
-| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting | Yes | `src/services/notam/notamNormalizer.test.ts` | Counts mock/live payload items for discrepancy checks. |
-| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `src/services/notam/altitude/altitudeParser.test.ts` | Covers km/nm string and numeric radius inputs. |
+| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting | Yes | `parser/notam/notamNormalizer.test.ts` | Counts mock/live payload items for discrepancy checks. |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization | Yes | `parser/notam/altitude/altitudeParser.test.ts` | Covers km/nm string and numeric radius inputs. |
 | UNIT-STREAMS-CTX-001 | StreamsProvider context enforcement | Yes | `src/services/streams/StreamsProvider.test.tsx` | Shared hooks and missing-provider error. |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler | Yes | `src/services/drones/droneSnapshotClient.msw.test.ts` | Ensures snapshot flow returns drones without external server. |
 | UNIT-MOCK-FIXTURES-001 | Mock ADS-B/drone fixtures validate track DTOs | Yes | `src/services/mockFixtures.test.ts` | Guards against empty-track mock regressions. |
 | UNIT-MOCK-ADSB-002 | ADS-B mock fixtures tag mocked altitude comments | Yes | `src/services/mockFixtures.test.ts` | Ensures mock ADS-B data is visibly tagged. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
 | UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
-| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `src/services/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
-| UNIT-NOTAM-ENHANCE-003 | Enhanced NOTAM stream falls back on enhancement errors | Yes | `src/services/notam/useEnhancedNotamStream.test.tsx` | Guards error fallback while keeping original geometry data. |
+| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `parser/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
+| UNIT-NOTAM-ENHANCE-003 | Enhanced NOTAM stream falls back on enhancement errors | Yes | `parser/notam/useEnhancedNotamStream.test.tsx` | Guards error fallback while keeping original geometry data. |
 | UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback | Yes | `src/services/airspace/airspaceLoader.test.ts` | Ensures latest.json effective date drives GeoJSON load. |
 | UNIT-EAIP-DISCOVERY-001 | EAIP discovery parses effective date + redirect fallback | Yes | `src/services/airspace/eaipDiscovery.test.ts` | Covers history page parsing and redirect fallback. |
-| UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions | Yes | `src/services/notam/geometry/enhancedCoordParsers.test.ts` | Regression coverage for decimal degrees with suffix directions. |
+| UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions | Yes | `parser/notam/geometry/enhancedCoordParsers.test.ts` | Regression coverage for decimal degrees with suffix directions. |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing | Yes | `test/eaip-parser.test.ts` | Ensures tooling parser reports coordinate parse errors and DMS parsing. |
+| UNIT-EAIP-SCRAPER-001 | eAIP index scraper resolves ENR 5.1 link | Yes | `test/eaip-scraper.test.ts` | Validates ENR 5.1 link resolution from ENR 5 section. |
 
 ## Test Plan (current ticket)
 
@@ -65,8 +66,8 @@
 | E2E-NAV-002 | Tool switching updates URL and sidebar heading. (Implemented) | E2E | `e2e/smoke.spec.ts` |
 | E2E-MAP-002 | Offline tiles failure triggers online basemap fallback. (Implemented) | E2E | `e2e/basemap-offline.spec.ts` |
 | DOC-TEST-001 | Codify testing culture requirements and PR checklist. (Implemented) | Docs | `agents.md`, `docs/TESTING.md`, `.github/pull_request_template.md` |
-| UNIT-NOTAM-OBS-001 | NOTAM geometry parse results + dev-only warnings. (Implemented) | Unit | `src/services/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` |
-| UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures + success-rate guardrail. (Implemented) | Unit | `src/services/notam/notamGeometryParsing.test.ts`, `test/fixtures/notams.geometry.contract.json` |
+| UNIT-NOTAM-OBS-001 | NOTAM geometry parse results + dev-only warnings. (Implemented) | Unit | `parser/notam/notamGeometryParsing.test.ts`, `src/map/layers/controllers/createNotamsLayerController.test.ts` |
+| UNIT-NOTAM-CONTRACT-001 | NOTAM geometry contract fixtures + success-rate guardrail. (Implemented) | Unit | `parser/notam/notamGeometryParsing.test.ts`, `test/fixtures/notams.geometry.contract.json` |
 | TOOL-NOTAM-REPORT-001 | NOTAM geometry report script for local diagnosis. (Implemented) | Tooling | `scripts/notam-geometry-report.ts` |
 | UNIT-ENV-001 | Env parsing helpers: booleans, ranges, URLs. (Implemented) | Unit | `src/shared/env.test.ts` |
 | UNIT-ENV-002 | Optional env coordinate validation for snapshot drones. (Implemented) | Unit | `src/shared/env.test.ts` |
@@ -80,12 +81,12 @@
 | UI-AIR-002 | AirTrafficPanel empty + populated render. (Implemented) | UI | `src/features/air/AirTrafficPanel.test.tsx` |
 | UI-NOTAM-001 | NotamsPanel empty + list render. (Implemented) | UI | `src/features/notams/NotamsPanel.test.tsx` |
 | UNIT-TIME-UPDATE-001 | Polling update-age label formatting. (Implemented) | Unit | `src/shared/time/updateAge.test.ts` |
-| UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `src/services/notam/useNotamPolling.test.tsx` |
-| UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `src/services/notam/notamStream.test.tsx` |
-| UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence. (Implemented) | Unit | `src/services/notam/notamMode.test.tsx` |
+| UNIT-NOTAM-POLL-001 | NOTAM polling defaults + boundaries. (Implemented) | Unit | `parser/notam/useNotamPolling.test.tsx` |
+| UNIT-NOTAM-STREAM-001 | NOTAM stream mapper + env boundaries. (Implemented) | Unit | `parser/notam/notamStream.test.tsx` |
+| UNIT-NOTAM-MODE-001 | NOTAM live/mock toggle persistence. (Implemented) | Unit | `parser/notam/notamMode.test.tsx` |
 | UNIT-ADSB-MODE-001 | ADS-B live/mock toggle persistence. (Implemented) | Unit | `src/services/adsb/adsbMode.test.tsx` |
-| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting. (Implemented) | Unit | `src/services/notam/notamNormalizer.test.ts` |
-| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization. (Implemented) | Unit | `src/services/notam/altitude/altitudeParser.test.ts` |
+| UNIT-NOTAM-COUNT-001 | NOTAM raw item counting. (Implemented) | Unit | `parser/notam/notamNormalizer.test.ts` |
+| UNIT-NOTAM-RADIUS-001 | NOTAM radius unit normalization. (Implemented) | Unit | `parser/notam/altitude/altitudeParser.test.ts` |
 | UNIT-STREAMS-CTX-001 | StreamsProvider shared hook context. (Implemented) | Unit | `src/services/streams/StreamsProvider.test.tsx` |
 | UNIT-DRONE-CLIENT-002 | Drone client supports envelope response from Mock API. (Implemented) | Unit | `src/services/drones/droneClient.test.ts` |
 | UNIT-DRONE-SNAPSHOT-001 | Snapshot drone stream uses MSW handler (no external mock server). (Implemented) | Unit | `src/services/drones/droneSnapshotClient.msw.test.ts` |
@@ -95,9 +96,10 @@
 | UNIT-SPEED-001 | Speed formatter edge cases. (Implemented) | Unit | `src/shared/units/speed.test.ts` |
 | UNIT-UTC-002 | UTC timestamp whitespace + boundary checks. (Implemented) | Unit | `src/shared/time/utc.test.ts` |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles fallback only on error. (Implemented) | Unit | `src/map/layers/offlineXyz.test.ts` |
-| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads. (Implemented) | Unit | `src/services/notam/useEnhancedNotamStream.test.tsx` |
-| UNIT-NOTAM-ENHANCE-003 | Enhanced NOTAM stream falls back on enhancement errors. (Implemented) | Unit | `src/services/notam/useEnhancedNotamStream.test.tsx` |
+| UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads. (Implemented) | Unit | `parser/notam/useEnhancedNotamStream.test.tsx` |
+| UNIT-NOTAM-ENHANCE-003 | Enhanced NOTAM stream falls back on enhancement errors. (Implemented) | Unit | `parser/notam/useEnhancedNotamStream.test.tsx` |
 | UNIT-AIRSPACE-LOADER-001 | Airspace loader latest manifest fallback. (Implemented) | Unit | `src/services/airspace/airspaceLoader.test.ts` |
 | UNIT-EAIP-DISCOVERY-001 | EAIP discovery parses effective date + redirect fallback. (Implemented) | Unit | `src/services/airspace/eaipDiscovery.test.ts` |
-| UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions. (Implemented) | Unit | `src/services/notam/geometry/enhancedCoordParsers.test.ts` |
+| UNIT-NOTAM-COORD-001 | Enhanced coordinate parsing handles suffix S/W directions. (Implemented) | Unit | `parser/notam/geometry/enhancedCoordParsers.test.ts` |
 | UNIT-AIRSPACE-PARSER-001 | eAIP ENR 5.1 parsing errors + DMS coordinate parsing. (Implemented) | Unit | `test/eaip-parser.test.ts` |
+| UNIT-EAIP-SCRAPER-001 | eAIP index scraper resolves ENR 5.1 link. (Implemented) | Unit | `test/eaip-scraper.test.ts` |

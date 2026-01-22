@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@parser": path.resolve(__dirname, "./parser"),
     },
   },
   test: {
@@ -18,7 +19,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html", "lcov", "json-summary"],
       reportsDirectory: "coverage",
-      include: ["src/**/*.{ts,tsx}"],
+      include: ["src/**/*.{ts,tsx}", "parser/**/*.{ts,tsx}"],
       exclude: [
         "src/mocks/**",
         "src/test/**",
