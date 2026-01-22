@@ -1,0 +1,475 @@
+{
+  "type": "FeatureCollection",
+  "generatedAt": "2026-01-22T12:00:00Z",
+  "lookaheadDays": 14,
+  "units": { "distance": "m", "altitude": "m" },
+  "rounding": { "distance_m": 1, "altitude_m": 1 },
+  "metadata": {
+    "parserVersion": "uas-agg@2.0.0",
+    "sources": {
+      "notamFetchedAt": "2026-01-22T11:59:00Z",
+      "eaipVersion": "2401",
+      "aipEffectiveFrom": "2026-01-01T00:00:00Z",
+      "aipEffectiveUntil": "2026-03-26T23:59:59Z"
+    },
+    "counts": { "total": 8, "activeNow": 4 }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "eff:EAIP:EER1:perm",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.9000, 59.3500],
+            [25.0500, 59.3500],
+            [25.0500, 59.4500],
+            [24.9000, 59.4500],
+            [24.9000, 59.3500]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "PROHIBITED",
+        "priority": "HIGH",
+        "tags": ["EAIP", "PERM", "PROHIBITED", "NATIONAL_SECURITY"],
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 914,
+          "upper_ref": "AMSL",
+          "original": { "lower": "SFC", "upper": "3000FT AMSL" }
+        },
+        "time": {
+          "validFrom": "2026-01-01T00:00:00Z",
+          "validUntil": "2100-01-01T00:00:00Z",
+          "activations": [
+            { "start": "2026-01-01T00:00:00Z", "end": "2100-01-01T00:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": { "rawText": "PERM", "note": "Permanent EAIP structure; sentinel validUntil used." }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": "EER1",
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "EAIP", "id": "EER1" }]
+        },
+        "display": {
+          "title": "EER1 Prohibited Area",
+          "summary": "PROHIBITED • SFC–914 m AMSL • Permanent",
+          "content": "Permanent prohibited area (EAIP)."
+        },
+        "labelPoint": [24.9750, 59.4000],
+        "bbox": [24.9000, 59.3500, 25.0500, 59.4500]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:EAIP:EED123:2026-01-22T11:00:00Z",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.0000, 58.0000],
+            [24.1000, 58.0000],
+            [24.1000, 58.1000],
+            [24.0000, 58.1000],
+            [24.0000, 58.0000]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "DANGER",
+        "priority": "HIGH",
+        "tags": ["NOTAM", "AIRSPACE", "ACTIVATION", "DANGER"],
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 1219,
+          "upper_ref": "AMSL",
+          "original": { "lower": "SFC", "upper": "4000FT AMSL" }
+        },
+        "time": {
+          "validFrom": "2026-01-22T00:00:00Z",
+          "validUntil": "2026-01-22T23:59:59Z",
+          "activations": [
+            { "start": "2026-01-22T11:00:00Z", "end": "2026-01-22T13:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": {
+            "rawText": "JAN 22 1100-1300",
+            "srSsPolicy": "N/A"
+          }
+        },
+        "link": {
+          "relationType": "ACTIVATION",
+          "relatedTo": "EED123",
+          "supersedes": ["A0022/26"]
+        },
+        "provenance": {
+          "inputs": [
+            { "source": "EAIP", "id": "EED123" },
+            { "source": "NOTAM", "id": "A0022/26" }
+          ]
+        },
+        "display": {
+          "title": "EED123 active",
+          "summary": "DANGER • SFC–1219 m AMSL • 11:00–13:00Z",
+          "content": "DANGER AREA EED123 ACTIVATED."
+        },
+        "labelPoint": [24.0500, 58.0500],
+        "bbox": [24.0000, 58.0000, 24.1000, 58.1000]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:MIL-EX:2026-01-22:daylight",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [26.0000, 58.0000],
+            [26.2000, 58.0000],
+            [26.2000, 58.1500],
+            [26.0000, 58.1500],
+            [26.0000, 58.0000]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "RESTRICTED",
+        "priority": "HIGH",
+        "tags": ["NOTAM", "MIL", "SCHEDULE", "SRSS_PLACEHOLDER"],
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 610,
+          "upper_ref": "AMSL",
+          "original": { "lower": "SFC", "upper": "2000FT AMSL" }
+        },
+        "time": {
+          "validFrom": "2026-01-22T00:00:00Z",
+          "validUntil": "2026-01-24T23:59:59Z",
+          "activations": [
+            { "start": "2026-01-23T07:00:00Z", "end": "2026-01-23T18:00:00Z", "comment": "SR/SS placeholder applied" },
+            { "start": "2026-01-24T07:00:00Z", "end": "2026-01-24T18:00:00Z", "comment": "SR/SS placeholder applied" }
+          ],
+          "quality": "PLACEHOLDER",
+          "original": {
+            "rawText": "SR-SS (exact SR/SS replaced in backend; placeholder 07:00–18:00)",
+            "srSsPolicy": "PLACEHOLDER_0700_1800"
+          }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": null,
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "NOTAM", "id": "A0030/26" }]
+        },
+        "display": {
+          "title": "Military exercise area",
+          "summary": "RESTRICTED • SFC–610 m AMSL • Daylight windows",
+          "content": "Military exercise; active daylight per computed windows."
+        },
+        "labelPoint": [26.1000, 58.0750],
+        "bbox": [26.0000, 58.0000, 26.2000, 58.1500]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:CRANE:2026-01-22T05:00:00Z",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.5000, 59.0000]
+      },
+      "properties": {
+        "category": "OBSTACLE",
+        "restriction": "WARNING",
+        "priority": "LOW",
+        "tags": ["NOTAM", "CRANE", "CIRCLE", "OBSTACLE"],
+        "shape": {
+          "type": "CIRCLE",
+          "radius_m": 1000
+        },
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 91,
+          "upper_ref": "AGL",
+          "original": { "lower": "SFC", "upper": "300FT AGL", "radius": "1KM" }
+        },
+        "time": {
+          "validFrom": "2026-01-22T05:00:00Z",
+          "validUntil": "2026-01-22T17:00:00Z",
+          "activations": [
+            { "start": "2026-01-22T05:00:00Z", "end": "2026-01-22T17:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": { "rawText": "JAN 22 0500-1700", "note": "Circle rendered via Point+radius_m." }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": null,
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "NOTAM", "id": "A0040/26" }]
+        },
+        "display": {
+          "title": "Crane work",
+          "summary": "WARNING • 0–91 m AGL • 1000 m radius • 05:00–17:00Z",
+          "content": "Crane erected; hazard within 1 km radius."
+        },
+        "labelPoint": [25.5000, 59.0000],
+        "bbox": [25.4880, 58.9880, 25.5120, 59.0120]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:OBST-MAST:EE:2026-01-05:corrected",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.7100, 58.4100]
+      },
+      "properties": {
+        "category": "OBSTACLE",
+        "restriction": "WARNING",
+        "priority": "LOW",
+        "tags": ["NOTAM", "OBSTACLE", "MAST", "PERM", "REPLACEMENT", "CIRCLE"],
+        "shape": {
+          "type": "CIRCLE",
+          "radius_m": 200
+        },
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 107,
+          "upper_ref": "AGL",
+          "original": { "lower": "SFC", "upper": "350FT AGL", "radius": "200M" }
+        },
+        "time": {
+          "validFrom": "2026-01-05T12:00:00Z",
+          "validUntil": "2100-01-01T00:00:00Z",
+          "activations": [
+            { "start": "2026-01-05T12:00:00Z", "end": "2100-01-01T00:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": {
+            "rawText": "PERM",
+            "note": "Permanent obstacle published via NOTAM; corrected coordinates."
+          }
+        },
+        "link": {
+          "relationType": "REPLACEMENT",
+          "relatedTo": "OBST:MAST:EE:TARTU:001",
+          "supersedes": ["A0005/26"]
+        },
+        "provenance": {
+          "inputs": [
+            { "source": "NOTAM", "id": "A0006/26" },
+            { "source": "NOTAM", "id": "A0005/26" }
+          ]
+        },
+        "display": {
+          "title": "New obstacle (corrected)",
+          "summary": "WARNING • 0–107 m AGL • 200 m radius • Permanent",
+          "content": "Mast erected; coordinates corrected; replaces earlier notice."
+        },
+        "labelPoint": [26.7100, 58.4100],
+        "bbox": [26.7070, 58.4070, 26.7130, 58.4130]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:DONUT:2026-01-23T00:00:00Z",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.0000, 58.0000],
+            [25.0000, 58.0000],
+            [25.0000, 59.0000],
+            [24.0000, 59.0000],
+            [24.0000, 58.0000]
+          ],
+          [
+            [24.4000, 58.4000],
+            [24.6000, 58.4000],
+            [24.6000, 58.6000],
+            [24.4000, 58.6000],
+            [24.4000, 58.4000]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "RESTRICTED",
+        "priority": "MEDIUM",
+        "tags": ["NOTAM", "AIRSPACE", "HOLE", "DONUT", "CORRIDOR"],
+        "vertical": {
+          "lower_m": 0,
+          "lower_ref": "SFC",
+          "upper_m": 1524,
+          "upper_ref": "AMSL",
+          "original": { "lower": "SFC", "upper": "5000FT AMSL" }
+        },
+        "time": {
+          "validFrom": "2026-01-23T00:00:00Z",
+          "validUntil": "2026-01-23T23:59:59Z",
+          "activations": [
+            { "start": "2026-01-23T10:00:00Z", "end": "2026-01-23T16:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": { "rawText": "JAN 23 1000-1600", "note": "Polygon with hole; inner corridor not restricted." }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": null,
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "NOTAM", "id": "A0050/26" }]
+        },
+        "display": {
+          "title": "Restricted area with corridor",
+          "summary": "RESTRICTED • SFC–1524 m AMSL • 10:00–16:00Z",
+          "content": "Restricted area with a safe inner corridor (hole)."
+        },
+        "labelPoint": [24.5000, 58.5000],
+        "bbox": [24.0000, 58.0000, 25.0000, 59.0000]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:DISJOINT:2026-01-24T08:00:00Z",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [26.0000, 59.0000],
+              [26.1000, 59.0000],
+              [26.1000, 59.1000],
+              [26.0000, 59.1000],
+              [26.0000, 59.0000]
+            ]
+          ],
+          [
+            [
+              [26.5000, 59.5000],
+              [26.6000, 59.5000],
+              [26.6000, 59.6000],
+              [26.5000, 59.6000],
+              [26.5000, 59.5000]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "DANGER",
+        "priority": "MEDIUM",
+        "tags": ["NOTAM", "AIRSPACE", "MULTIPOLYGON", "DISJOINT"],
+        "vertical": {
+          "lower_m": 305,
+          "lower_ref": "AMSL",
+          "upper_m": 914,
+          "upper_ref": "AMSL",
+          "original": { "lower": "1000FT AMSL", "upper": "3000FT AMSL" }
+        },
+        "time": {
+          "validFrom": "2026-01-24T00:00:00Z",
+          "validUntil": "2026-01-24T23:59:59Z",
+          "activations": [
+            { "start": "2026-01-24T08:00:00Z", "end": "2026-01-24T12:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": { "rawText": "JAN 24 0800-1200" }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": null,
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "NOTAM", "id": "A0060/26" }]
+        },
+        "display": {
+          "title": "Disjointed danger areas",
+          "summary": "DANGER • 305–914 m AMSL • 08:00–12:00Z",
+          "content": "Two separate areas active simultaneously."
+        },
+        "bbox": [26.0000, 59.0000, 26.6000, 59.6000]
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "eff:NOTAM:TRA:FL100-FL200:2026-01-25T08:00:00Z",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [25.0000, 58.0000],
+            [25.5000, 58.0000],
+            [25.5000, 58.5000],
+            [25.0000, 58.5000],
+            [25.0000, 58.0000]
+          ]
+        ]
+      },
+      "properties": {
+        "category": "AIRSPACE",
+        "restriction": "REQ_AUTHORISATION",
+        "priority": "LOW",
+        "tags": ["NOTAM", "TRA", "VERTICAL_SANDWICH", "FL", "STD"],
+        "vertical": {
+          "lower_m": 3048,
+          "lower_ref": "STD",
+          "upper_m": 6096,
+          "upper_ref": "STD",
+          "original": { "lower": "FL100", "upper": "FL200" }
+        },
+        "time": {
+          "validFrom": "2026-01-25T00:00:00Z",
+          "validUntil": "2026-01-25T23:59:59Z",
+          "activations": [
+            { "start": "2026-01-25T08:00:00Z", "end": "2026-01-25T12:00:00Z" }
+          ],
+          "quality": "EXACT",
+          "original": { "rawText": "JAN 25 0800-1200", "note": "Active only between flight levels; G-class below unaffected." }
+        },
+        "link": {
+          "relationType": "NEW",
+          "relatedTo": null,
+          "supersedes": []
+        },
+        "provenance": {
+          "inputs": [{ "source": "NOTAM", "id": "A0070/26" }]
+        },
+        "display": {
+          "title": "High altitude activity",
+          "summary": "REQ_AUTHORISATION • 3048–6096 m STD • 08:00–12:00Z",
+          "content": "Temporary reserved airspace active FL100–FL200."
+        },
+        "labelPoint": [25.2500, 58.2500],
+        "bbox": [25.0000, 58.0000, 25.5000, 58.5000]
+      }
+    }
+  ]
+}

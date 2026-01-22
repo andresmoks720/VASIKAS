@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/unified-restriction.schema.json",
+  "title": "Unified Restriction GeoJSON v2 (meters-first, schedule-unrolled, chain-free client)",
+  "type": "object",
+  "required": ["type", "generatedAt", "lookaheadDays", "units", "rounding", "metadata", "features"],
+  "additionalProperties": false,
+  "properties": {
+    "type": { "const": "FeatureCollection" },
+
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when this file was generated."
+    },
+
+    "lookaheadDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60,
+      "description": "How many days ahead schedule rules were unrolled into explicit activation windows."
+    },
+
+    "units": {
+      "type": "object",
+      "required": ["distance", "altitude"],
+      "additionalProperties": false,
+      "properties": {
+        "distance": { "const": "m" },
+        "altitude": { "const": "m" }
+      }
+    },
+
+    "rounding": {
+      "type": "object",
+      "required": ["distance_m", "altitude_m"],
+      "additionalProperties": false,
+      "properties": {
+        "distance_m": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Rounding step for distances in meters (0 means keep full precision)."
+        },
+        "altitude_m": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Rounding step for altitudes in meters (0 means keep full precision)."
+        }
+      }
+    },
+
+    "metadata": {
+      "type": "object",
+      "required": ["parserVersion", "sources", "counts"],
+      "additionalProperties": false,
+      "properties": {
+        "parserVersion": { "type": "string" },
+        "sources": {
+          "type": "object",
+          "required": ["notamFetchedAt"],
+          "additionalProperties": false,
+          "properties": {
+            "notamFetchedAt": { "type": "string", "format": "date-time" },
+            "eaipVersion": { "type": "string" },
+            "aipEffectiveFrom": { "type": "string", "format": "date-time" },
+            "aipEffectiveUntil": { "type": "string", "format": "date-time" }
+          }
+        },
+        "counts": {
+          "type": "object",
+          "required": ["total", "activeNow"],
+          "additionalProperties": false,
+          "properties": {
+            "total": { "type": "integer", "minimum": 0 },
+            "activeNow": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+
+    "features": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RestrictionFeature" }
+    }
+  },
+
+  "$defs": {
+    "RestrictionFeature": {
+      "type": "object",
+      "required": ["type", "id", "geometry", "properties"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "Feature" },
+
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Effective feature ID. Must be unique within this file. Not a raw NOTAM ID."
+        },
+
+        "geometry": { "$ref": "#/$defs/Geometry" },
+
+        "properties": { "$ref": "#/$defs/RestrictionProperties" }
+      }
+    },
+
+    "Geometry": {
+      "oneOf": [
+        { "$ref": "#/$defs/PolygonGeometry" },
+        { "$ref": "#/$defs/MultiPolygonGeometry" },
+        { "$ref": "#/$defs/PointGeometry" }
+      ],
+      "description": "Geometry for visualization. Prefer Polygon/MultiPolygon; Point is allowed only for circles via properties.shape."
+    },
+
+    "PolygonGeometry": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "Polygon" },
+        "coordinates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 4,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 3,
+              "items": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+
+    "MultiPolygonGeometry": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "MultiPolygon" },
+        "coordinates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 3,
+                "items": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "PointGeometry": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "Point" },
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "type": "number" }
+        }
+      }
+    },
+
+    "RestrictionProperties": {
+      "type": "object",
+      "required": ["category", "restriction", "priority", "tags", "vertical", "time", "link", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": ["AIRSPACE", "UAS_ZONE", "OBSTACLE", "PROCEDURE", "INFO"]
+        },
+
+        "restriction": {
+          "type": "string",
+          "enum": ["PROHIBITED", "RESTRICTED", "DANGER", "REQ_AUTHORISATION", "WARNING", "INFORMATION"]
+        },
+
+        "priority": {
+          "type": "string",
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+        },
+
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Free-form tags for filtering/grouping; backend-controlled vocabulary."
+        },
+
+        "shape": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": { "type": "string", "enum": ["CIRCLE"] },
+            "radius_m": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "required": ["type", "radius_m"],
+          "description": "Present only when geometry.type == Point and the intended shape is a circle."
+        },
+
+        "vertical": { "$ref": "#/$defs/Vertical" },
+
+        "time": { "$ref": "#/$defs/Time" },
+
+        "link": { "$ref": "#/$defs/Link" },
+
+        "provenance": { "$ref": "#/$defs/Provenance" },
+
+        "display": { "$ref": "#/$defs/Display" },
+
+        "labelPoint": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Optional [lon,lat] for stable label placement."
+        },
+
+        "bbox": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "type": "number" },
+          "description": "Optional [minLon,minLat,maxLon,maxLat] for fast culling."
+        }
+      },
+
+      "allOf": [
+        {
+          "if": {
+            "properties": { "shape": { "type": "object" } },
+            "required": ["shape"]
+          },
+          "then": {
+            "description": "If shape is present, geometry should be Point. This constraint is enforced in code (cross-field)."
+          }
+        }
+      ]
+    },
+
+    "Vertical": {
+      "type": "object",
+      "required": ["lower_m", "upper_m", "lower_ref", "upper_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "lower_m": { "type": "number", "minimum": 0 },
+        "upper_m": { "type": ["number", "null"], "minimum": 0 },
+        "lower_ref": {
+          "type": "string",
+          "enum": ["SFC", "AGL", "AMSL", "STD", "UNKNOWN"]
+        },
+        "upper_ref": {
+          "type": "string",
+          "enum": ["SFC", "AGL", "AMSL", "STD", "UNKNOWN"]
+        },
+        "original": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional: original published vertical text/units (e.g., '4000FT AMSL', 'FL100')."
+        }
+      }
+    },
+
+    "Time": {
+      "type": "object",
+      "required": ["validFrom", "validUntil", "activations", "quality"],
+      "additionalProperties": false,
+      "properties": {
+        "validFrom": { "type": "string", "format": "date-time" },
+        "validUntil": { "type": "string", "format": "date-time" },
+
+        "activations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/TimeWindow" },
+          "description": "Explicit hot windows (UTC). Frontend checks now ∈ any window. Unrolled for lookaheadDays."
+        },
+
+        "quality": {
+          "type": "string",
+          "enum": ["EXACT", "APPROX", "PLACEHOLDER", "UNKNOWN"],
+          "description": "EXACT: computed from authoritative rule; PLACEHOLDER: SR/SS placeholder or other simplified assumptions."
+        },
+
+        "original": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional trace fields (raw schedule text, sr/ss policy markers, etc.)."
+        }
+      }
+    },
+
+    "TimeWindow": {
+      "type": "object",
+      "required": ["start", "end"],
+      "additionalProperties": false,
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "status": {
+          "type": "string",
+          "enum": ["ACTIVE", "INACTIVE"],
+          "description": "Optional; typically omitted since windows represent active periods."
+        },
+        "comment": { "type": "string" }
+      }
+    },
+
+    "Link": {
+      "type": "object",
+      "required": ["relationType", "relatedTo", "supersedes"],
+      "additionalProperties": false,
+      "properties": {
+        "relationType": {
+          "type": "string",
+          "enum": ["NEW", "ACTIVATION", "MODIFICATION", "REPLACEMENT", "CANCELLATION"],
+          "description": "Informational only; client must not apply chain logic."
+        },
+        "relatedTo": {
+          "type": ["string", "null"],
+          "description": "Stable ID of the logical structure this feature is tied to (e.g., EAIP airspace ID)."
+        },
+        "supersedes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "IDs of raw notices/effective features that were applied and are no longer emitted as active features."
+        }
+      }
+    },
+
+    "Provenance": {
+      "type": "object",
+      "required": ["inputs"],
+      "additionalProperties": false,
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/ProvenanceInput" }
+        }
+      }
+    },
+
+    "ProvenanceInput": {
+      "type": "object",
+      "required": ["source", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "enum": ["NOTAM", "EAIP", "AIP", "UAS_ZONE", "OTHER"] },
+        "id": { "type": "string", "minLength": 1 }
+      }
+    },
+
+    "Display": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "contact": { "type": "string" }
+      }
+    }
+  }
+}
