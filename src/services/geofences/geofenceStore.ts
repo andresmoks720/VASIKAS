@@ -109,7 +109,10 @@ export class GeofenceStore {
         if (geofence.geometry.kind === "circle") {
             return circleToPolygonWgs84(geofence.geometry.center, geofence.geometry.radiusMeters);
         }
-        return geofence.geometry.coordinates as unknown as GeoJsonPolygon; // Should be handled if we support raw polygons later
+        return {
+            type: "Polygon",
+            coordinates: geofence.geometry.coordinates,
+        };
     }
 }
 

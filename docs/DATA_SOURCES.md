@@ -95,6 +95,16 @@ This document inventories **all data sources** used by the **frontend-first** pr
 - **Refresh:** tiles load on demand.
 - **Notes:** WMTS config details are tracked as TODOs in `src/map/layers/maaAmetOrthoWmts.ts`.
 
+### UAS marked areas (GeoJSON)
+
+- **Purpose:** show UAS marked areas on the map as geofence polygons.
+- **Env var:** `VITE_UAS_GEOFENCE_URL`
+- **Default URL:** `https://utm.eans.ee/avm/utm/uas.geojson`
+- **Refresh:** loaded once at startup (no polling yet).
+- **Mock fallback:** When `VITE_USE_MOCKS=1`, fetches `/mock/uas.geojson` instead.
+- **Error handling:** Load failures log a warning and retry using the mock GeoJSON; if that also fails, UAS areas are skipped (no proxy fallback).
+- **Notes:** If the live endpoint is blocked by CORS/403, keep mocks enabled and document the failure here.
+
 ### Offline basemap (mock mode)
 
 - **Purpose:** provide a deterministic basemap without external tile traffic when `VITE_USE_MOCKS=1` (default).

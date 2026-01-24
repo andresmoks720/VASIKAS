@@ -1,9 +1,9 @@
 import { SensorDto } from "@/services/sensors/sensorsTypes";
-import { LonLat } from "@/shared/types/domain";
+import { GeoJsonPolygon, LonLat } from "@/shared/types/domain";
 
 export type GeofenceGeometry =
   | { kind: "circle"; center: LonLat; radiusMeters: number }
-  | { kind: "polygon"; coordinates: LonLat[] };
+  | { kind: "polygon"; coordinates: GeoJsonPolygon["coordinates"] };
 
 export type PersistedGeofence = {
   id: string;

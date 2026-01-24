@@ -18,14 +18,14 @@ export function createGeofencesLayerController(): LayerController<Geofence[]> {
     source.clear();
     geofences.forEach((geofence) => {
       const poly = geofenceStore.asPolygon(geofence);
-      const ring = poly.coordinates[0].map((pt: [number, number]) => to3857(pt));
+      const rings = poly.coordinates.map((ring) => ring.map((pt: [number, number]) => to3857(pt)));
       const center3857 =
         geofence.geometry.kind === "circle"
           ? to3857([geofence.geometry.center.lon, geofence.geometry.center.lat])
           : null;
 
       const feature = new Feature({
-        geometry: new Polygon([ring]),
+        geometry: new Polygon(rings),
         name: geofence.name,
         center: center3857,
         entityKind: "geofence",

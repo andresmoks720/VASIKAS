@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { GeofenceStore } from "./geofenceStore";
+import { Geofence, GeofenceStore } from "./geofenceStore";
 import { PersistenceAdapter, PersistenceState } from "@/services/persistence/localPersistence";
 import { LonLat } from "@/shared/types/domain";
 
@@ -132,6 +132,31 @@ describe("GeofenceStore", () => {
             expect(poly.type).toBe("Polygon");
             expect(poly.coordinates).toHaveLength(1); // One ring
             expect(poly.coordinates[0].length).toBeGreaterThan(3); // Multiple points
+        });
+
+        it("should return polygon geometry for polygon geofence", () => {
+            const polygonGeofence: Geofence = {
+                id: "poly-1",
+                name: "Polygon Zone",
+                geometry: {
+                    kind: "polygon",
+                    coordinates: [
+                        [
+                            [24.7, 59.4],
+                            [24.8, 59.4],
+                            [24.8, 59.5],
+                            [24.7, 59.5],
+                            [24.7, 59.4],
+                        ],
+                    ],
+                },
+                createdAtUtc: "2024-01-01T00:00:00Z",
+            };
+
+            const poly = store.asPolygon(polygonGeofence);
+            expect(poly.type).toBe("Polygon");
+            expect(poly.coordinates).toHaveLength(1);
+            expect(poly.coordinates[0][0]).toEqual([24.7, 59.4]);
         });
     });
 });
