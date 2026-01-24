@@ -73,6 +73,32 @@ const SENSORS = [
   },
 ] as const;
 
+const UAS_GEOFENCES = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      id: "uas-mock-1",
+      properties: {
+        name: "UAS Mock Zone",
+        description: "MSW UAS geofence sample",
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [24.72, 59.43],
+            [24.79, 59.43],
+            [24.79, 59.47],
+            [24.72, 59.47],
+            [24.72, 59.43],
+          ],
+        ],
+      },
+    },
+  ],
+} as const;
+
 let droneRequestCount = 0;
 const SNAPSHOT_TIME_UTC = "2025-12-18T10:15:30Z";
 const SNAPSHOT_EPOCH_SEC = Math.floor(Date.parse(SNAPSHOT_TIME_UTC) / 1000);
@@ -138,6 +164,7 @@ if (process.env.MSW_ENABLE_ADSB === "1") {
 export const handlers = [
   http.get("/mock/drones.json", () => HttpResponse.json(nextDroneStep())),
   http.get("/mock/sensors.json", () => HttpResponse.json(SENSORS)),
+  http.get("/mock/uas.geojson", () => HttpResponse.json(UAS_GEOFENCES)),
   http.get(/\/v1\/drones/, ({ request }) => {
     const url = new URL(request.url);
     const center = parseCenterParam(url.searchParams.get("center"));

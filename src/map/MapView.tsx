@@ -27,6 +27,8 @@ import {
 } from "@/services/streams/StreamsProvider";
 import { mapApi } from "./mapApi";
 import { Geofence, geofenceStore } from "@/services/geofences/geofenceStore";
+import { fetchUasGeofencesWithFallback } from "@/services/geofences/uasGeofenceClient";
+import { setUasGeofences } from "@/services/geofences/uasGeofenceStore";
 import { createDronesLayerController } from "@/map/layers/controllers/createDronesLayerController";
 import { createGeofencesLayerController } from "@/map/layers/controllers/createGeofencesLayerController";
 import { createNotamsLayerController } from "@/map/layers/controllers/createNotamsLayerController";
@@ -92,6 +94,8 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   const [focusedEntity, setFocusedEntity] = React.useState<{ kind: EntityRef["kind"]; id: string } | null>(null);
   const [visibleTracks, setVisibleTracks] = React.useState<Set<string>>(new Set());
   const [mapReady, setMapReady] = React.useState(false);
+  const [userGeofences, setUserGeofences] = React.useState<Geofence[]>([]);
+  const [uasGeofences, setUasGeofencesState] = React.useState<Geofence[]>([]);
   const offlineFallbackApplied = useRef(false);
 
   const selectionManager = useMemo(() => {
@@ -298,7 +302,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
   // Subscribe to mapApi events
   useEffect(() => {
     const handleSetGeofences = (geofences: Geofence[]) => {
-      geofencesController.setData(geofences);
+      setUserGeofences(geofences);
     };
 
     const handleSetNotams = (notams: NormalizedNotam[]) => {
@@ -366,7 +370,7 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
     mapApi.on("set-track-visibility", handleSetTrackVisibility);
 
     // Initial load
-    handleSetGeofences(geofenceStore.getAll());
+    setUserGeofences(geofenceStore.getAll());
 
     return () => {
       mapApi.off("set-geofences", handleSetGeofences);
@@ -377,6 +381,38 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
       mapApi.off("set-track-visibility", handleSetTrackVisibility);
     };
   }, [geofencesController, notamsController, sensorsController.layer, dronesController.layer]);
+
+  useEffect(() => {
+    geofencesController.setData([...userGeofences, ...uasGeofences]);
+  }, [geofencesController, uasGeofences, userGeofences]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const primaryUrl = ENV.uasGeofenceUrl();
+    const fallbackUrl = ENV.uasGeofence.mockUrl();
+
+    fetchUasGeofencesWithFallback({
+      primaryUrl,
+      fallbackUrl,
+      signal: controller.signal,
+    })
+      .then((geofences) => {
+        setUasGeofencesState(geofences);
+        setUasGeofences(geofences);
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        console.warn("[UAS geofences] Failed to load GeoJSON", error);
+        setUasGeofencesState([]);
+        setUasGeofences([]);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   useEffect(() => {
     window.__debugMap = {

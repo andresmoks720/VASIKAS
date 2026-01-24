@@ -9,6 +9,10 @@ type EnvValues = {
     mockUrl: string;
     liveUrl?: string;
   };
+  uasGeofence: {
+    mockUrl: string;
+    liveUrl?: string;
+  };
   droneUrl: string;
   drones: {
     mode: "track" | "snapshot";
@@ -35,6 +39,7 @@ type EnvValues = {
     dronesMs: number;
     sensorsMs: number;
   };
+  uasGeofenceUrl: string;
 };
 
 export function parseBooleanFlag(name: string, rawValue: string | boolean | undefined, defaultValue: boolean): boolean {
@@ -176,6 +181,11 @@ const NOTAM_MOCK_URL = "/mock/notams.sample.json";
 const DEFAULT_NOTAM_LIVE_URL = "https://aim.eans.ee/web/notampib/area24.json";
 const notamLiveUrl = optionalString("VITE_NOTAM_URL", import.meta.env.VITE_NOTAM_URL) ?? DEFAULT_NOTAM_LIVE_URL;
 
+const UAS_GEOFENCE_MOCK_URL = "/mock/uas.geojson";
+const DEFAULT_UAS_GEOFENCE_LIVE_URL = "https://utm.eans.ee/avm/utm/uas.geojson";
+const uasGeofenceLiveUrl =
+  optionalString("VITE_UAS_GEOFENCE_URL", import.meta.env.VITE_UAS_GEOFENCE_URL) ?? DEFAULT_UAS_GEOFENCE_LIVE_URL;
+
 const envValues: EnvValues = {
   useMocks,
   mapWmtsUrl: optionalString("VITE_MAP_WMTS_URL", import.meta.env.VITE_MAP_WMTS_URL),
@@ -189,6 +199,10 @@ const envValues: EnvValues = {
   notam: {
     mockUrl: NOTAM_MOCK_URL,
     liveUrl: notamLiveUrl,
+  },
+  uasGeofence: {
+    mockUrl: UAS_GEOFENCE_MOCK_URL,
+    liveUrl: uasGeofenceLiveUrl,
   },
   adsbUrl,
   adsb: {
@@ -228,6 +242,13 @@ const envValues: EnvValues = {
     dronesMs: parsePositiveInt("VITE_POLL_DRONES_MS", import.meta.env.VITE_POLL_DRONES_MS, 1000),
     sensorsMs: parsePositiveInt("VITE_POLL_SENSORS_MS", import.meta.env.VITE_POLL_SENSORS_MS, 1000),
   },
+  uasGeofenceUrl: resolveDataUrl({
+    name: "VITE_UAS_GEOFENCE_URL",
+    mockUrl: UAS_GEOFENCE_MOCK_URL,
+    rawValue: uasGeofenceLiveUrl,
+    useMocks,
+    fallbackToMock: true,
+  }),
 };
 
 export const ENV = {
@@ -237,6 +258,10 @@ export const ENV = {
   notam: {
     mockUrl: () => envValues.notam.mockUrl,
     liveUrl: () => envValues.notam.liveUrl,
+  },
+  uasGeofence: {
+    mockUrl: () => envValues.uasGeofence.mockUrl,
+    liveUrl: () => envValues.uasGeofence.liveUrl,
   },
   airspace: {
     eaipEnr51Url: () => optionalString("VITE_EAIP_ENR51_URL", import.meta.env.VITE_EAIP_ENR51_URL) || "",
@@ -267,4 +292,5 @@ export const ENV = {
     dronesMs: () => envValues.poll.dronesMs,
     sensorsMs: () => envValues.poll.sensorsMs,
   },
+  uasGeofenceUrl: () => envValues.uasGeofenceUrl,
 };

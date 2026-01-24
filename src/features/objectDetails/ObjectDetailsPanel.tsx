@@ -7,6 +7,7 @@ import { Aircraft } from "@/services/adsb/adsbTypes";
 import { Drone } from "@/services/drones/droneTypes";
 import { Sensor } from "@/services/sensors/sensorsTypes";
 import { geofenceStore, Geofence } from "@/services/geofences/geofenceStore";
+import { getUasGeofenceById } from "@/services/geofences/uasGeofenceStore";
 import { formatUtcTimestamp } from "@/shared/time/utc";
 import { formatAltitude } from "@/shared/units/altitude";
 import { formatSpeed } from "@/shared/units/speed";
@@ -55,7 +56,7 @@ export function ObjectDetailsPanel({ entity }: { entity: EntityRef }) {
       case "flight":
         return { kind: entity.kind, item: (aircraft ?? []).find((flight) => flight.id === entity.id) };
       case "geofence":
-        return { kind: entity.kind, item: geofenceStore.getById(entity.id) };
+        return { kind: entity.kind, item: geofenceStore.getById(entity.id) ?? getUasGeofenceById(entity.id) };
       case "notam":
         return { kind: entity.kind, item: (notams ?? []).find((notam) => notam.id === entity.id) };
       default:
