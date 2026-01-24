@@ -56,9 +56,11 @@
   - Moved NOTAM processing/parsing modules into `parser/notam` with shared imports via `@parser`.
   - eAIP tooling parser now resolves ENR 5.1 URLs via the latest index and captures airspace names from the identification column.
   - Added NOTAM relevance gating based on Q-code subject/scope and geometry quality, with drop-reason accounting.
+  - Normalized UAS geofence GeoJSON coordinates by converting Web Mercator inputs to WGS-84 lon/lat.
 - Implemented backend normalization output for Unified Restriction GeoJSON v2 (AIP + NOTAM merge, schedule unroll, schema validation, and CLI generator).
-- NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
-- Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
+  - NOTAM panel now shows raw vs displayed counts with an error indicator for feed issues, including live fetch fallback to mock data.
+  - Implemented HTML → airspace → NOTAM enhancement path with runtime HTML fetching and parsing.
+  - Added UAS GeoJSON geofence overlays loaded from `VITE_UAS_GEOFENCE_URL` (mockable) for map display.
 - In progress:
   - (None)
 - Done:

@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "uas-demo-1",
+      "properties": {
+        "name": "UAS Demo Zone A",
+        "description": "Mocked UAS geojson area near Tallinn"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.72, 59.43],
+            [24.79, 59.43],
+            [24.79, 59.47],
+            [24.72, 59.47],
+            [24.72, 59.43]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "uas-demo-2",
+      "properties": {
+        "name": "UAS Demo Zone B",
+        "description": "Mocked multi-polygon demo area"
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [25.05, 59.30],
+              [25.12, 59.30],
+              [25.12, 59.36],
+              [25.05, 59.36],
+              [25.05, 59.30]
+            ]
+          ],
+          [
+            [
+              [25.16, 59.34],
+              [25.22, 59.34],
+              [25.22, 59.38],
+              [25.16, 59.38],
+              [25.16, 59.34]
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

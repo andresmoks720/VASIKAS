@@ -60,6 +60,8 @@
 | UNIT-NORM-ALT-001 | Altitude rounding preserves lower/upper ordering | Yes | `parser/normalize/units.test.ts` | Enforces lower<=upper after rounding. |
 | UNIT-NORM-SCHEMA-001 | Unified Restriction schema validation passes | Yes | `parser/normalize/schemaValidation.test.ts` | Validates example output with AJV. |
 | UNIT-NORM-FILTER-001 | NOTAM relevance gate filters by subject/scope/geometry quality | Yes | `parser/normalize/normalize_notam.test.ts` | Ensures subject/scope/geometry-quality gating. |
+| UNIT-UAS-001 | UAS GeoJSON parsing handles polygon + multipolygon | Yes | `src/services/geofences/uasGeofenceClient.test.ts` | Verifies name/id mapping, polygon splitting, and fetch fallback. |
+| UNIT-UAS-002 | UAS GeoJSON parsing converts Web Mercator inputs | Yes | `src/services/geofences/uasGeofenceClient.test.ts` | Converts EPSG:3857 rings to lon/lat for map display. |
 
 ## Test Plan (current ticket)
 
@@ -113,3 +115,5 @@
 | UNIT-NORM-ALT-001 | Altitude rounding preserves lower/upper ordering. (Implemented) | Unit | `parser/normalize/units.test.ts` |
 | UNIT-NORM-SCHEMA-001 | Unified Restriction schema validation passes. (Implemented) | Unit | `parser/normalize/schemaValidation.test.ts` |
 | UNIT-NORM-FILTER-001 | NOTAM relevance gate filters by subject/scope/geometry quality. (Implemented) | Unit | `parser/normalize/normalize_notam.test.ts` |
+| UNIT-UAS-001 | UAS GeoJSON parsing handles polygon + multipolygon. (Implemented) | Unit | `src/services/geofences/uasGeofenceClient.test.ts` |
+| UNIT-UAS-002 | UAS GeoJSON parsing converts Web Mercator inputs. (Implemented) | Unit | `src/services/geofences/uasGeofenceClient.test.ts` |
