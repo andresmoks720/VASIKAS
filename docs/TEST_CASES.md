@@ -47,6 +47,7 @@
 | UNIT-MOCK-FIXTURES-001 | Mock ADS-B/drone fixtures validate track DTOs | Yes | `src/services/mockFixtures.test.ts` | Guards against empty-track mock regressions. |
 | UNIT-MOCK-ADSB-002 | ADS-B mock fixtures tag mocked altitude comments | Yes | `src/services/mockFixtures.test.ts` | Ensures mock ADS-B data is visibly tagged. |
 | UNIT-MAP-TILE-001 | Offline XYZ tiles use placeholder only on load error | Yes | `src/map/layers/offlineXyz.test.ts` | Ensures fallback only after tile failure. |
+| UNIT-MAP-TRACK-001 | ADS-B track coordinate filtering skips invalid points | Yes | `src/map/adsbTrackUtils.test.ts` | Guards against undefined/NaN track samples. |
 | UNIT-NOTAM-HTML-001 | NOTAM HTML fetch and parse integration | Yes | `src/services/airspace/airspaceHtmlClient.test.ts`, `src/services/airspace/airspaceHtmlParser.test.ts` | Verify HTML fetch → parse → NOTAM enhancement path works. |
 | UNIT-NOTAM-ENHANCE-002 | Enhanced NOTAM stream avoids redundant airspace reloads | Yes | `parser/notam/useEnhancedNotamStream.test.tsx` | Ensures cached airspace data prevents repeat HTML/GeoJSON fetches. |
 | UNIT-NOTAM-ENHANCE-003 | Enhanced NOTAM stream falls back on enhancement errors | Yes | `parser/notam/useEnhancedNotamStream.test.tsx` | Guards error fallback while keeping original geometry data. |
