@@ -17,6 +17,7 @@ import { Fill, RegularShape, Stroke, Style } from "ol/style";
 import { createMaaAmetOrthoLayer } from "./layers/maaAmetOrthoWmts";
 import { createOfflineXyzLayer } from "./layers/offlineXyz";
 import { to3857, to4326 } from "./transforms";
+import { toTrackCoordinates } from "./adsbTrackUtils";
 import { EntityRef, Tool } from "@/layout/MapShell/urlState";
 import { ENV } from "@/shared/env";
 import {
@@ -35,7 +36,6 @@ import { createNotamsLayerController } from "@/map/layers/controllers/createNota
 import { createSensorsLayerController } from "@/map/layers/controllers/createSensorsLayerController";
 import { createSelectionManager } from "@/map/selection/selectionManager";
 import { NormalizedNotam } from "@parser/notam/notamTypes";
-import { TrackPoint } from "@/services/adsb/trackStore";
 
 const ESTONIA_CENTER_LON_LAT: [number, number] = [25.1122, 58.5648]; // Match new ADS-B default center
 const DEFAULT_ZOOM = 7.5;
@@ -503,7 +503,10 @@ export function MapView({ tool, selectedEntity, onSelectEntity }: MapViewProps) 
           return;
         }
 
-        const coords = points.map((pt: TrackPoint) => to3857([pt.position.lon, pt.position.lat]));
+        const coords = toTrackCoordinates(points);
+        if (coords.length < 2) {
+          return;
+        }
         const line = new LineString(coords);
         const existing = source.getFeatureById(featureId) as Feature<LineString> | null;
         const feature =
