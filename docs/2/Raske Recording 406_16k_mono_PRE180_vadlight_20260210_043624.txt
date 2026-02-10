@@ -1,20 +1,4 @@
-noh , kui jutt on hea või ?
-üks , kaks , neli , kuus .
-siis oli suhtumiskeskus , kus oli selle .
-viimane otsus . ma ei oska otsast ka võtta .
-väga hea .
-jah .
-aga kus te asute ?
-oi !
-aga sellise . ?
-ei , me võime jumalast Teamsis teha , et ma lihtsalt ei , alustuseks mina ei teadnud , et te seal olete ja ma arvasin , et .
-no aga sellisel juhul ma võtan , anna mulle hetk , ma toon klapid ja siis me teeme . ma ei tea , kas seal Teamsi linki vist ei olnud praegu küljes , aga siis .
-aga okei , aga te olete üks või kaks siin , kuidas sa oled seal ?
-tere , Allan , hästi palju staatilist tuleb juurde . siis , kui sa ei räägi , siis võid .
-praegu näiteks ei tule enam .
-jaa .
-mini .
-mis te olete seni vaadanud ja mõelnud , ütleme selle se- , drooniseirega seoses ?
+
 suures pildis suuresti see , et ütleme , et sul on üks kaardipilt , kus sa näed peale kõiki droone , mis Eesti kohal lendavad . aga sõltuvalt vajadustest on seal neid hästi palju erijuhte ja kuidas keegi tahab infot näha või mida ta näeb , tahab näha ja selle jagamisega seotud .
 see on eesmärk .
 jah , selles mõttes , et kõik , ei noh , selleks on vaja erinevaid sensoreid ja lõppkokkuvõttes ainus sensor , mis kõike tabab , on radar ja noh , et kogu , kogu Eesti katust me niimoodi ei saa , aga see on see nagu suund , mida me üritame teha .
@@ -46,6 +30,12 @@ nii et vaatame , mis te veel tundsite , et võiks teiega nagu täpsemalt haakuda
 märkasin endale seda 3D vaadet ja maapinna kõrgusega alati , et lihtsalt , et me noh , vaatasin , et huvitavad asjad on ju , et aga mis see nagu , ma ei saa öelda , et meil on nagu hädavajadus on ju , aga Eesti on üsna nagu ikkagi lapik on ju . et seda nagu pole . no aga linna , linnaolukorda sa tahad tegelikult , kui sa võtad täna selle Tallinna 3D kaardi ette , et siis . ei , 3D küll . aga 3D küll jah . et kui see , kui see on . ei ole hädavajalik , aga kindlasti tulevikus on ta nagu , ta väga informatiivne . et kui sa pead midagi otsustama selle põhjalt , et kas see troon tuleb , kust nurga alt ta tuleb , mis seal ette võib jääda , et keegi peab reageerima selle trooni või mis iganes õhusõidukile seal , et siis on see oluline . aga igapäeva sellise nagu teavitamise analüüsi , see väga oluline ei ole , et . jah , aga jah , see samad , eks selleks peaks läbi saama tegelikult sama punkti esimese . küsimus on ju , et kaardikihid , objektid , tsoonid , et noh , see tegelikult me rääkisime läbi , see on vajalik . seal oli nagu jah , onju . no kaardikihi . aluskaard on ikka , on ikka sul , võtad ju selle SIM-i aluskaardi alla ja siis tead siit kõigepealt Google Maps'i või mida iganes saad , aga haldusala piires on mõistlik kasutada kõigil võimalik , igal pool võimalik tööstuskaardi pilti . see on sellise topograafia hea tava .
 millest sul on , või mis küsimus , või mis see sisu on , millistest võrkudest on vajalik ligi pääseda ? AK piiratud või mida sa mõtled ? ja no meil on see SMITi võrk ja see turvavõrk meil nagu endal siin kasutusel ja noh , või kui ma ütlen , et need on küsimused nagu erinevatele osapooltele , mitte niimoodi , onju , et noh , kindlasti sealjuures kaitseväel on , on nagu , nagu oma kinnine võrk , onju , ja . ja siis meil on , meil on veel hästi lahtised , hästi lahtised eraettevõtted , kes on etod , noh , kellele tuleb mingisugust juurdepääsu anda . et selles mõttes ma saan aru , et noh , PPA-s on see sees üsna lihtne , noh , me kõik audendime ennast nime ja parooliga , me oleme mingisuguses kinnises võrgus ja noh , et see info saab sealt liikuda ja ei ole vaja nagu ilmselt kuidagi . kindlasti ei jõuta endiselt alati nime ja parooli , eesnime ja parooli või niimoodi , et . kasutaja nime . nagu selles mõttes , et igal , igalühel oleks nagu personaalne kasutaja , mitte seda , et siis me saame nagu lugeda , et kes on nagu süsteemi nagu juurde pääsenud . aga see võib olla olukord , et see kasutaja ongi noh , KKP operatiivbüroo kasutaja üks ja sellega see asi lõpebki , et me ei saa ainult tugineda selle . siis SMITi autendi peale või siis selle Riia poolt pakutava selle tala peale . sest meil kõik kasutajad ei ole , ei saa ennast autentida oma päris nimega .
 meil on , meil on jah , vari pool on jah .
+
+
+
+probleem isikustatud kasutajatega:
+
+
 kus on kasutajad , kes on politseiametnikud , aga nad nende enda nime või isikukoodi me ei saa kuhugi ühtegi politseisüsteemi jutult kuvada .
 aga meil on selleks muidugi tegelikult on , täna on selle Posa puhul on tehtud eraldi lahendus , tegelikult meil on see lahendus on olemas , kuidas me saame ka nii-öelda kontrollitud anonüümseid kasutajaid luua ja manageerida . on SMIT-iga on see täitsa lahendus olemas .
 et see , see ei ole selles mõttes uus , midagi uut , mida me välja mõtlema , et see on täitsa töötav asi olemas . me kasutame nii erinevates asutustes ka seda , et kõik teised asutused saavad ka seda kasutada ja nendel on oma admini keskkond , oma kasutajanimede jaoks ja nii edasi . probleemide korral lihtsalt siis saab kontrollida , kes sisse logis ja kes see päris kasutuse taga oli , et järelevalve mõttes .
@@ -71,25 +61,20 @@ et kui , kui toimub noh , mingisugune drooniga noh , mingi , mingisugune vedu ja
 ma arvan , et lõpuks on see sarnane , sarnane ka meil menetluste kontekstis jääb sarnaseks onju , et aga seal võib olla mingi tolli kontekstis mingisuguseid seireid ja asju , mingit teist vajadust natukene . et igal juhul nendega tuleb rääkida . kokkupuutepunkt on palju , aga kindlasti on neil oma mingi nurk , mida meie ei kata .
 ega te oma kogemuse põhjal ei oska öelda , et esimeseks kontaktiks , et keda , kelle , kellega võiks tollis nagu rääkida või ?
 nojah , aitäh .
-uurimisosakond on seal või ? kas uurimisosakond on ikka või ? Rätt või ? noh , tõepoolest on Marko Rätt on kõige mõistlikum võtta jah , et Rain on võib-olla liiga kõrge level , et ta niikuinii suur . Marko haldab ju nii uurimispood kui ka nende , nende tee-oti ka . jah , jah . et ja siis Marko ise ka . ma pärast küsin , et saada . okei , väga hea , siis sellest ma räägin Tolliga . ja siin on muidugi ka Keskkonnaamet , on ju , meil jätkuvalt uurimisasutus .
-arvestades , et Keskkonnaamet arvestades keskkonnakuritegusid ja nende iseloomu , siis ma arvan , et nad hea meelega õhus ainult oleksid .
-küsimus on , mis nurga alt , et ja mis vajadustega täpselt , aga jõgede , järvede , metsade kohal puhtalt nende teema kõik . selles mõttes ma hetkel tegelen nagu noh , õhuseirega , mitte nagu . ei , ma saan aru , aga ma ütlen , see vajadus . menetluste raames on nagu noh , nagu meilgi , meil on kriminaalmenetlus , meil lihtsalt on kuriteo valdkonnad on selles mõttes on nagu jagatud sealpool , et noh , keskkonnakuritegudega tegeleb Keskkonnaamet ja ma lihtsalt ütlen , et teemad , mis seal on , noh , neil on t samu asju tekib , kui see võimalus on nagu olemas , on ju . tahad , on sul sealt kontakte ? ja , ja jagan rohkem otsa kontakti .
-okei . et siis jah , rohkem ei ole praegu , teised on niisugused vanglad , vanglade uurimisasutused . vang- , jaa , vanglad , ju , sõjaväepolitseid mul eraldi ei ole , aga ma arvan , et oota , ma pean vaatama , mul on kaitseväel on praegu innovatsiooniväe juhatus ja õhuvägi . ma arvan , et nad äkki kaasavad ise . Nemad võtavad nende vajadused ära . ma arvan küll , jah .
+
+
+
+
+
+sõjaväepolitseid mul eraldi ei ole , aga ma arvan , et oota , ma pean vaatama , mul on kaitseväel on praegu innovatsiooniväe juhatus ja õhuvägi . ma arvan , et nad äkki kaasavad ise . Nemad võtavad nende vajadused ära . ma arvan küll , jah .
 aga küsida võid kontroll küsimusena võid , kui kohtud nendega , et kas nad sõjaväepolitsei vajadustest ka teavad keegi ? ja , et pärast mingi tobe keegi kõrvale ei jääks , kes siis hakkab siin asjade ümber ehitamine .
-jah .
-mhmh .
-nii , ma panin ka seda vestlusesse , siis nii EMTA kui keskkonnaamet ja siis kontaktid siin olemas .
-mhmh .
-ma arvan , et ega teil vist ei olegi nagu noh .
-Teil on see nagu nii niivõrd muud ülesannete hulgas , et ütleme , võib-olla see mingi isikukaitse pool või see on , on võib-olla nagu rohkem nagu troonifookust teile toonud , et ega te nagu ei oska .
-et no okei , et eks te olete pidanud nüüd hakkama mõtlema selle peale , et on , on vaja neid oma sensorid osta ja et kuidas , kuidas nende selle õhuohuga tegeleda , aga mingid et ma ei tea piiriga seoses või , või millegi muuga seoses , et .
-Teil .
-mingid muid nõudeid .
-ma niimoodi ei oska . ma arvan , et suures plaanis katavad need ära , et me võtame jah , mingi teiste tuules päris mitmed asjad ma arvan .
-okei , kohe jah , kohe .
-ilmselt te töötate nii koordinaatsüsteemides kui , kui suuresti ka aadresside pealt . ma olen näinud .
-jaa .
-mis sa ütled , kohe jah , et süsteemidest ? ei , ma lihtsalt , ma mõtlen , tead , ma olen avastanud , et meil on igas tore , et noh , tähendab peale selle , et militaar on oma MRS-is . ja , seda ma tahtsingi öelda , et kui te iganes teete , siis arvestage sellega , et meil kopterid letavad , juhivad asju ühes ja , ja meil on siin teatud üksused , kes panevad MRS-is , et . mis üksus teil ?
+
+
+
+
+eriüksus kasutab MGRS koordinaatsüsteemi
+
+ kui te iganes teete , siis arvestage sellega , et meil kopterid letavad , juhivad asju ühes ja , ja meil on siin teatud üksused , kes panevad MRS-is , et . mis üksus teil ?
 no eriüksus kasutab väga palju mingeid asju .
 ma ainult öelda ei saanud midagi .
 see on , see on sellised , eks .
@@ -113,11 +98,11 @@ selle esimese punkti osas ütleme mehiselt , kui nende noh , ütleme ma , mul ol
 mõni jurist , ma ei tea , kes , sest see ei ole ainult teie teema selles mõttes , et see on mul hetkel , et ma teaksin või nagu äkki on mingites süsteemides seesama , nagu te kirjeldasite , et sellist süsteemi on varemgi , et ma teaksin , millised need reeglid peaksid olema , mis sellele kehtivad , mis selle kaasa tulevad .
 okei , ma mõtlen , mis praegu mõtlen , et ega me lihtsalt , kus meil need olukorrad on , on ju , et kui me teeme nagu arvutitest koopiaid , on ju . siis noh , sama loogika põhimõtteliselt , et me peame , kui me kasutame . noh , digitööndid jah , et digikriminalistika keskus , kes meil seal täna on ? Alo asemel , Allan , on keegi veel pandud ? ei ole keegi , kes on alles . härra Konkurss on . ahah , härra Konkurss on . ühesõnaga . Jete Luik on , on büroo juht praegu . jah , Jete Luik on C3-e pealik , et Jetega , Jete käest küsida , kes see täna kõige õigem inimene on . okei .
 nii .
-mul on enda poolt selline tunne , et ma nagu oleks isegi ära katnud .
-suuresti tänus sellele , et ma olen isikukaitsega juba rääkinud ja ma kujutan asju ette . üks asi , mida ma võin mainida , aga ma kahtlustan , et rohkem monoloogiline on , kuidas teist dokumenti vaatasite , kus kontseptsiooni kirjeldasin . ma alguses hakkasin hurraaga mõtlema igasuguseid noh , selliseid asju välja nagu need pimealad ja nähtamatus . troonid , et ja ma arvan , et see pime ala võib olla kohati millekski hea .
-et mingid , no ütleme , et teised süsteemi kasutajad ei näe nagu , mis selle ala sees nagu toimub .
-aga järjest rohkem ma olen mõelnud , et need nähtamatud droonid on vähemalt väga halb mõte ja ka see . miks nähtamatud droonid meil on , kui me teeme jälitustoiminguid , siis me nii , nii EMTA , meie , KaPo , ELA , kes siin liigutavad , ei taha , et meie need varjatud üksuste droonid oleks see hetkel nähtavad . aga sellega on . me teeme tööd ka näiteks , väga lihtne , me teeme tööd ka sisekontrolli tellimusel meie enda politseiametnike suhtes . noh , see on täiesti , täiesti tavaline . jah . ja no ütleme , et see on peaaegu , ma võin nagu selle üles täheldada , aga see on peaaegu ainus kasutusjuht , mis on nagu väga hea ja nagu selle põhjenduseks . sellepärast , et antud hetkel see , kust me seda varjaksime , on ainus . meie enda süsteem . nii kaua , kui see droon remote ID-d välja pritsib , siis iga muu noh , kaasa arvatud lähedalt ka telefon noh , ütleb sulle , et seal on droon . sul tekib ainult see error , et mille pärast ma nagu näen , et on droon , aga meie süsteemis ei ole teda , et selles mõttes me tegelikult räägime ainult nagu endas noh , pluss me räägime riiklikust süsteemist ja me räägime selle süsteemi kasutajatest , et ma ei saa seda nagu drooni noh , päriselt ju nähtamatuks muuta . et , et see ongi , et mis selle reaalne kasutusjuht oleks . okei , siis tegelikult peab seda nii arvajad , siis me . et pigem , et kui te jah , et kui , et pigem , et kui , kui me saaksime sealt selle noh , kui tal on mingi Estmil või mingi muu noh , modifikatsioon . et , et see nagu välja ei nagu karju , et see on nagu teine asi . et ja nende noh , need alad näiteks , mida mitte välja näidata , et üks . tegelikult põhiasi , mida ma näen nagu , kus seda kasutatakse , ma kasutaks seda võib-olla mingitel õppustel ja seda rohkem sellepärast , et noh , kui õppustel on lubatud lennata mingites kõrgustes ja kaugustes , onju , et siis ei ole vaja , noh , vastasel juhul , kui keegi on mingi , ma ei tea . transpordiamet paneb mingid reeglid , et nad saavad häired kõikidest troonidest , mis lendavad kõrgemale kui sada kakskümmend meetrit , onju . noh , et saad aru , et sa , sa saad lihtsalt selle ala ära nagu varjata , et ja et neid alarme niimoodi tekitaks . aga tegelikult , et ma olen ise hakanud järele mõtlema , et see võib-olla ei ole nii vajalik , kui ma seda ise algul arvasin . noh , kui see annab meile selle võimaluse , et Transpordiamet tõesti ei saa seda häiret , ehk siis tema ei saa ka meie drooniga siia teed nüüd asja . ja seda on varjatud üksusel mingi eristuse tegemise ajal . ja me teame , et me suudame tagada ohutuse ja saja kahekümne asemel tõusta kolmesaja peale korraks . teada , kui kallal see vajadus on .
-see võib olla , kui sa ütled , et see on nagu teema . okei . kuule , aga see , vot nüüd mõtleme , kas just tingimata täna , aga vot , vot see on nagu päris probleem ja , ja see on see , millega , millest ma saan kaasa mõelda ja .
+
+
+
+
+varjatud droonid süsteemis vajalikud. Rasked on nõude omanik!
 ja see on sama probleem , oli see ka kõigi siis jälituse julgeolekuasutuste nendele vahetute üksusel , noh eks see taktika on sama ja et eks me peame siis nii-öelda visuaalselt veenduma , et ei ole ohtu ja me peame vahepeal vaatama kõrgemalt , kui on nii-öelda lubatud , aga siis on jälle tramm kaelas , et . ja okei , aga sa tõid mulle väga hea pointi praegu , et ma varem selle peale niimoodi ei mõelnud . mina olen juba kõik teinud , aitäh kõigile kuulamast ja näeme järgmiseks nädalaks , tere , järgmiseks nädalaks , kuulame teiega järgmiseks nädalaks , tervist .
 ma võtan selle , selle jah , selle asjaga arvesse ja ma tean .
 kelle poolt see nõue sellisel juhul tuleb ja , ja miks ta , ma ei mõelnud seda läbi niimoodi , see oli hea point . ja sama on ka , seesama , võtame siis eri tasustuste eriüksused , meil on neid väga palju ei ole , aga nendel on ka operatsiooni läbiviimisel tegelikult on , on täiesti põhjendatud vajadus tõsta mõni seade kõrgemale . mul , mul on seni ainult kapo enne , enne olnud ja , ja nad ei osanud . ma ei saanud seda välja tuua lihtsalt praegu , kui seda ütled , see on väga hea mõte .
@@ -127,24 +112,3 @@ mõttekas on teha .
 sõnade tänas , jõudu võtmast !
 ma ei tea , mis teie nagu igapäevavajadused on ja paljud teate seda , mis juba on olemas .
 noh , täna seda .
-Tanel on üht-teist mulle näidab , mis seal on , sest ta on meie enda , enda eriüksuse poiss , endine , või ametlikult siiamaani . et , et siis ma üht-teist tean , mis seal on , aga väga palju ei tea .
-vajadusel see , mis ma just kirjeldasin , see on väga aktuaalne vajadus praegu . et ei saa teatud tingimustes enam ilma suurema probleemita ja lõhki minekuta lennata .
-Tallinn jaa .
-see on , ei , see on .
-ja mõte , mille üle sa võiksid natuke mõtiskleda , on see , et kui sa ütled , et noh , selliseid vajadusi võib olla erinevatel osapooltel . sa võid mulle võib-olla äkki osata ette mind soojendada VLA jaoks , sest ma ei ole , mul on tunne , et see on nagu teema , mida ma peaksin kuidagi nagu , nagu nendega tõstatama , sest neil võib olla vajadust , ma ei tea , kas üle piiri lennata . mis hetkel on nagu , nagu see , see teema , et meil oleks vaja , et see piiri peal häiret ei annaks . aga sellisel juhul meil on vaja väga kindlalt see süsteemis ära noh , et see oleks meil väga kindel , et kes ja kui , mis alusel saab nagu seda tekitada , sest vastasel juhul me tekitame endale ise noh augu . ei ole , ei ole kusagilt mitte . et , et aga lihtsalt jah , võib , kui sa , kui sul selle osas mõtteid tekib mulle , ma ei ole veel leppinud kokku , et millal ma VLA-ga seda teen . aga jah , kapo ei osanud seda kahjuks veel välja tuua , hea , et see tuli praegu .
-nii .
-see .
-mul endal ei ole mõtteid , aga kurat , tahaks teid veel piinata , sest vaata , kuidas see praegu tuli . väga , väga õige asi , mis tuli väga .
-tere !
-no üks asi on , et kui teil lambist tuleb mõtteid sellega seoses , saatke sõnum , pange kirja , mis iganes , sest nagu praegu me tegeleme märtsi lõpuni tegeleme väga intensiivselt ja siis ma vaatan , kuidas nagu , aga selles mõttes mina tegelen sellega edasi .
-ja et kõike ei saa korraga , aga noh , nii nagu sa alla välja tõid , et teil on vaja teada , mis hetkel nagu töötab , et mingil , mingite asjadega saab kompromissile minna . jah .
-et peamine , mis mina enda poolt ütlen , et infosüsteem on nagu lihtne , eriti noh , kui me lihtsalt seda teeme . aga ükskõik , mida me valmis programmeerime , ei lahenda seda asja , et meil on sensoreid vaja . ma ei saa välja näidata teile pilti , mida meil ei ole . ja et , et see on , millega ma pigem tõmbaks seda optimismi , et noh , kui teil on nagu omad sensorid , kui teil on mingid mobiilsed sensorid , on ju . et võib-olla teil oleks endal mugavam . noh , seda , nende pilti nagu läbi selle süsteemi vaadata . aga . ja meil on see , see mõte täna isegi hommikupoole siin , istusin seal eriüksusega koos ja siis arutasime seda teemat natukene . et meil endal on plaanis nii-öelda , nii-öelda OPSEC jaoks soe , soetada üht-teist . vähemalt küsida raha selleks ja , ja midagi ära teha . et kui meil täna nagu platvormina , kuhu me selle info saame suunata , kus sellepärast töödelda visuaalselt . kui see on juba olemas , siis on nagu suur võit . mis sorti sensoritest te umbes räägite ? hetkel , hetkel ongi , et meil on siin nüüd lähinädalatel noh , kui ta ongi märtsi lõpuni tegelikult käib erinevate messide asjade külastamine , et üldse nagu see pilt selgeks saada , et mis võimekus , mida me nii-öelda enda jaoks ka , et mis siis nagu kõige paremini meie jaoks töötab , mida me päriselt vajame . et meil hetkel nagu mingid tootjatega mingit sellist kindlat raamatükki nii laov ei ole .
-see on nagu meie selle aasta teemast võetud .
-okei , siis kui ühel hetkel on , aga noh , ma saan aru enne aasta lõppu või midagi , et ei ole kiiret sellega , et siis andke , andke teada ja vaatame , kuidas me saaksime sellega nagu koos minna , et need sinna süsteemi saaks .
-et kui sul on nagu mingid häid soovitusi on nagu sensorite osas , et kuhu poole võiks kohe vaadata , on ju , mida te olete võimelised täna liidestama enda poole peale , siis laenat . mul hakkab enda poolt tunduma , et noh , viidestamine ei ole probleem . pigem on see , et läbi , teie poolt läbi mõelda seda , et mis teie vajadusi reaalselt katab . ja võib-olla , kui te jõuate noh , mingile kaugusele , et võib-olla tahate meiega veel korra nagu läbi põrgatada . et näiteks serantononi seade ei ole üldse täpne . ta on väga hea , et öelda seda . et su lähedal noh , on mingi selline troon onju , aga isegi mitmega nad noh , seda , et sa saaksid kätte tegelikku asukoha , ei , on raske . noh , see ideaaltingimustes nii edasi onju , aga lihtsalt , ma lihtsalt ütlen , samas noh , igasugused muud asjad , mis remote ID-d loevad , et küsimus , et mis on see nii-öelda teie vastasmängija profiil onju . Teie puhul ma eeldaks , et see võiks olla selline üsna tsiviilkasutaja . et kui . nii ja naa . meil on kas nii-öelda uudishimulike tsiviilkasutaja või on meil ikkagi Vene Föderatsiooni vastas . et , et seal on see , et selle tsiviilkasutaja vastu need remote ID lugejad on , noh , nad on odavad . ja , ja selles mõttes . see on isegi võib-olla mõistlik , et sellega saada tunnetus , et kas ja kuidas me saame seda , kas see tegelikult üldsegi on päris see , mida me tahame saavutada , et . et ma , jah , ei kogu see avaliku ja era mängimine on minu jaoks keeruline veel , aga et tegelikult puht tehniliselt see asi , mis remote ID-d loeks , on lihtne ja odav . ja ta on nagu piisavalt , et te võiksite seda igale stack'ile nagu juurde panna . aga teistpidi , noh , asjad , mis ei ole see poest ostetud DJI , siis selle vastu ta on kasutu . sama , samas , noh , ma ütlen , Runtel on tegelikult nüüd , on seda remote ID-d vist hakanud ka sinna integreerima juurde enda toodetesse . ja ka lihtsalt , et näiteks , et Runtelon annab sulle väga umbkaudse suuna , välja arvatud , kui see on remote ID . et selles mõttes , et teistpidi nagu parem seade . aga mul on tunne , et ei ole näinud , aga et küsimus , et kas , kas kusagilt mujalt maailmast saaks midagi , mis oleks natuke täpsem , et töötaks umbes nagu Runtelon , aga et oleks mõistliku hinnasildiga ja natuke täpsem .
-või no ütleme , et noh , mingi vaata kaitse eesmärgil on ta nagu väga hea selleks , et ta noh , kas sul on piisavalt oluline teada seda , et sinu lähedal nagu , nagu lendab mingisugune troon ja noh , no kui ütleme , et sellele ta katab nagu see Runtelon ära onju , aga teistpidi . noh , midagi sõltuvalt kasutusjuhust ja noh , lõppkokkuvõttes , kui sul on vaja teada midagi , mis päriselt lendab , siis ainus viis seda teada on radar . on olemas ECOTIN-i radarid , mis ei ole väga koleda hinnasildiga , aga need on ka , ma ei mäleta , paneel on sada või paarsada tuhat ja noh , oleneb mitu , mitu suunda katad on nagu mitu paneeli , aga mis on radarimaailmas nagu väga odav . aga et noh , et rad- , radarid tulevad , tulevad hinnasildiga , aga teistpidi , see on noh , füüsiline asi , mis õhus lendab , me võime igasuguse raadioside välja lülitada , et noh , et me ei kiir- . me ei kiirga mitte mingisugust asja välja , me lendame raadiovaikuses on ju noh , radarijälg on alati , et pigem nagu paika panna , et mis on need ohuprofiilid või , või noh , mille jaoks teil seda vaja on ja siis vaadata , et mis on selle .
-või nagu hinna , hinnakvaliteedi suhtelt see asi , mis selle teie jaoks ära katab või nagu , et siin on mõistlik , on , et see , see on nagu peamine minu arvates , see otseselt ma kohe , et ma arvan , et see liidestatud saame , kuni noh , hea oleks seda , et ta ei oleks nagu väga kinni . nagu standardina , aga üldiselt nad tänapäeval ei ole ja ma , ma nagu ei näe probleemi , aga et kui keegi müügimees juba mainib , et ja , ja saab küll kuhugi liidestada , siis see on nagu väga , väga fine . vot , okei .
-olgu , nägemist . jaa , kena päeva .
-kuulame teie käest järgmise korda , aitäh !
-aitäh .
-kuna aeg pole ruumi , kui ei ole ruumi , kui on ruum , pole aega .
