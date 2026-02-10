@@ -1,0 +1,75 @@
+seoses selle projektiga ikka veel . jaa .
+mmmm .
+no Raineri kiri on kõige mõistlikum asi , mis on seni olnud , ma ei ole jõudnud . väga .
+nii-öelda listine , aga õige , õige nimekiri , on sul see meil lahti või ? vaata , õige asi on üldse siin kiri allapoole , see ei ole üldse põhimõtteliselt nagu teemas , need on hoopis teised projektid ja asjad . oota , sa otsid selle ?
+jah , näed , need on need .
+millele ta nagu sõltus ?
+võiks vastata , et ta üldse , ma saan aru , kuidagi niimoodi .
+kvalifitseeruks .
+kas meil on mõni inimene , kes on selliseid asju kirjutanud varem või me peaksime rääkima mõne inimesega , kes on ? aga noh , sellepärast ongi , see list on selline , nagu see seal on , et kõikide poole pöördusid , kõik on innovatsioon , innovatletika kokku puutunud . et seal ei ole tavaliselt inimesed valmis .
+ja hommikul ma juba Arminiga rääkisin .
+meie , meie inimeste ja , ja Marge seisukohta nagu kuulda , et .
+või noh , kui ta jõuab selleni .
+sellega nagu hirmus väga kiirelt elada .
+ma tahtsingi .
+leia seda akent üles , kus ma seda otsisin . aga seda Border Force'i ma ei jõudnud tutvuda .
+mida teha ?
+ja nendesse , need dokumentidesse ka sisse .
+aga . sinu jaoks on lihtsalt seal , esialgu on . ei , aga , ei , minu jaoks on mõtlemisainet see , et kas ma olen millestki valesti aru saanud või kus on takistus . aga ma ei saa aru , miks kõik need projektid ei tee avatud koodi . miks ei , või maksimaalselt , et see osa , mis ei peaks olema kuidagi konfidentsiaalne .
+mis iganes , noh , põhjendatud AK märkega , mis iganes , noh , selles mõttes siin mõistab see nagu . hästi , koodid . ja täpselt see .
+täna , mis iganes see Border Force tegi .
+peame meie uuesti tegema . ja me , ükskõik , kust kohast me seda finantseerime , aga kõik riigid nagu ja me ei räägi ainult sedasorti nagu kõik , mida ma näen , omavalitsus , raamatupidamistarkvara . vähe sellest , et nagu . liiga teeniline , aga ma saan aru , mida sa mõtled . nagu , nagu üle Euroopa Liidu kõik riigid arendavad nagu täpselt seesama asi , onju . samas mingid legoplokke , nii edasi ja et kas selleks on mingisugune väga keeruline põhjus , miks seda teha ei saaks või kas see võiks olla . nii , mingisugune eelis .
+et , et kui , et me teeme mingisuguse mõistliku rakenduse ja mida teised saavad kopeerida .
+iseenesest ei ole nagu selles mõttes halb variant , on ju , aga lihtsalt seal tekib küsimus sellele , et kui Kreeka teeb sellise asja valmis , kas sa oled nõus seda võtma ja hakkama sinna sisse piiluma , mis seal kõik koodiread on . kas on kõik õige , kas on , noh , selles mõttes , vaata , noh , hästi palju programme , hästi palju erinevaid asju on maailmas olemas , aga . aga ikkagi inimesed tahavad teha iseendale , nii nagu mina tahan ja . ma ei tea , kui palju täna tuleb .
+võtame näiteks need sõnumirakendused , onju , neid on , need on selles mõttes avatud , onju , et põhimõtteliselt ma võin seda jooksutada , noh .
+kui me räägime , ma ei tea , kas signaal on või ? signaal on , ma ei suuda kedagi ühtegi teist nimetada . on täpselt samamoodi , et noh , et kui me , kui me võtame need platvormid , onju , noh , need on täpselt samamoodi avatud , onju , et sa võid sinna liidestada mis , mis iganes sulle pähe tuleb .
+aga , aga no need on väga , kuidas mõtled ?
+no ta on .
+ei ole nagu spetsiifilised või , või noh , nad on üheks eesmärgiks nagu ette nähtud . ma ei oska isegi öelda .
+ja see on nagu laiatarbe komp , on ju . Need , mida meie tänaselt kasutame , need on nagu väga kitsad ja nišikad ja noh , ma ei tea , ei noh , selles mõttes . mis koosnevad väga standardsetest komponentidest , mida kui tervikuna ei ole kellelgi vaja . jälle , ma olen otsinud , ma ei ole leidnud , aga näiteks ma tõstatan probleemi , millega ma olen nagu oma seda vasika osas nagu praegu kokku puutunud . kui me vaatame , kas te teate , mis asi on notam ? ja mida sinna sisse kirjutatakse . ja aga kas , aga Notam on loodud selleks , et saad nagu noh , inimeste vahel vähe nagu informatsiooni vahetada .
+täna on võimalik saada JSON faile , aga nad panevad sinna sisse selle sama info . ja kui me paneme sinna sisse , see info on kujul . mis see JSON on ? see on lihtsalt faili formaat , ühesõnaga , et fail on tehtud selleks , et arvutid seda lugeda saaks , aga info seal sees on seesama , mida , mis on formaadis , mis on nagu inimestele . ja täie , nagu ma ei ole jõudnud süveneda , mis on eksootilisemad asjad seal , aga täiesti tavalised , mitte eksootilised asjad on mingisugused schedule'id . nagu plaanid , onju , kus on Monday to Friday except holidays from sunrise to dusk , niimoodi , onju . mitte ükski nendest asjadest ei ole . kui ma teen mingisugust süsteemi , mis loeb , et kas ala kehtib ja kas droon tohib seal sees olla , siis mul on vaja nagu mingit asja , mis arvutaks välja niimoodi , kas täna , kas see , kas päikest tõus on ära . ja , ja nagu , et mis kuupäevad onju , et .
+jah , mõnel määral on võib-olla see kasulik , et seal on nagu nii palju segasteksti , et aga see võiks olla nagu reaalne , nagu kaardirakendus , kus on kuvatud . no täna . et rumal inimene . no , jah . et noh , ma kasutaksin seda notameid , ma loeksin seda iga päev , on hea meel , kui ma suudaksin seda lugeda , aga kui ta on sellises formaadis , nagu ta praegu on , noh see , see iksi peale vajutamine on väga kiire . ja noh , ma ei räägi seda , et me peame seda asja praegu täna tegema hakkama , aga lihtsalt , et kui keegi nendest mingi programmi raames oleks selle tüki ära teinud , mul oleks seda tükki praegu vaja .
+keela , ma ei tea , võtta nendega ühendust , küsida . aga me , me lihtsalt , ei , ma mõtlesin selles kontekstis , et saad aru , et kui me , et kui , kui võib-olla sa ütled , et noh , et see on nii niši asi , mida me teeme ja see suur asi on niši asi , aga seal sees on nagu noh , täpselt sellised tükid , et kuidas lugeda notameid või , või noh
+et on olemas üks väga konkreetne asi , mis ei tohi olla avalik .
+ja võib-olla on veel mõned aspektid , aga suur , suur osa sellest . täiesti noh , Linux on turvaline sellepärast , et on avalik . Windows on turvaline sellepärast , et kõik ei tea , mis seal on , kunagi haagi kavastab mingi augu . jah , no minu jaoks on see selles mõttes nagu , noh , ma ei ole spetsialist , ma ei oska nagu selles mõttes detailidest kaasa rääkida , aga ma saan .
+arhitektuurist või sellest nagu aru , mida sa ja , noh .
+ma olen nõus , et me ei pea selles mõttes , et kui meil on blanket olemas , on ju , siis me ei pea iga kord seda blanketi tegema , et noh , kirjutada , et tere , on ju , ja lugupidamisega ja kõik , kõik . noh , jumala eest .
+ja noh , igasugune koostöö selles osas oleks nagu tore . kõik oma hullud , hullud ideed selles mõttes kirja panna ja , ja . see , see hull idee , noh , tähendab , jaa , me võime seda kaaluda , aga selle hullu idee mõte peamiselt ei olnud mitte see , et meie tingimõtteliselt tegema peame , aga nagu , kurat , me vaatame asju , kus nad on teinud mingisuguse C-kage järjekordselt valmis , on ju , mingisugune jutt tuleb juurde ja mul ei ole sellest mitte mingit kasu , et Euroopa Liit on sinna raha köhinud , sest mul teda jätkuvalt ei ole .
+pool aastat .
+teeme seda tööd , mida kõik teevad sarnaselt C2 loomisel ja selle asemel , et kulutada see pool aastat sinna , me võiksime kulutada ala , alates kuuest , või tähendab , alustada sealt , kus nagu teised pooleli jäid , kuuest-kuust ja siis sealt edasi minna , noh .
+see pigem ei käi jutt kuuest-kuust või miljonitest .
+noh , ega iga , iga ajalise raami taga on rahaline mõõde ja rahalise mõõte taga on alati inimtunnid onju .
+ehkki vot jah .
+ma arvan , et seda me saame tõenäoliselt alles esmaspäeval või teisipäeval .
+ühesõnaga , sinna nagu ei ole kiiret , aga lihtsalt selline väike mõttepojake , et äkki , kas meil on sealt võimalik raha saada ?
+mulle tundub , et see taotlusvoolane oleks niisugune pigem pisikene , sest . see oli kusagil , et alates poolteist miljonit . jaa , minimaalne peab olema poolteist kuni kakskümmend viis , onju . sellepärast , et kui me vaatame praeguseid taotlusi , mis on tulnud , on sada viiskümmend ja kakssada viiskümmend miljonit , noh , ja kui me teeme taotluse viiele miljonile , siis noh , me , meid lükatakse kõrvale , sellepärast et miinimum on kaksteist miljonit . et , et see on täpselt sihuke vahemik , mis meil nagu selles mõttes sobiks .
+aga noh , jällegi mul on hea siin tangutada ja öelda , kuna ma ei tea , noh , mind ei kammitse midagi vaata . mina lihtsalt ütlen välja , onju ja siis inimesed ütlevad kindlasti , et miks me ei saa seda ja miks me ei tohi ja kuidas me ei saa ja . aga mul nagu natukene teistsugune , et noh , et kurat , aga siis äkki , äkki midagi ikka saab . see , kuni seda moti ei ole ära tapetud , see on hea omadus .
+see tapmine käib igapäevaselt , igal pool , aga ilusti pole , teistmoodi .
+mmmm , ma ei tea , selle pidi sul jah .
+oi juba .
+seda , seda tagasi .
+no tähendab .
+jah , nii et kõik teemad läksid hästi .
+tuleks Rainerile panna siia sisse .
+ei tea palju sina oled DJ-i troone vandunud elus , aga mida teinud ? DJ-i troone vandunud .
+aga ilmselt omajagu .
+mul on hullemaid . ei , mitte troonid nagu , ütleme , DJ-d kui kontsepti . ja ma olen kunagi Nemo ja noh , kõigiga nendega , et . ja siis nad ütlevad , et aga ei ole ju paremat , onju . ja siis iga riik köhis välja , ma ei mäleta , kust ma kuulsin veel , et . sommid võtsid , ostsid kaheteist miljoni eest ja , ja nagu , nagu igaüks ostab , onju . niimoodi . ja mu nimed ei ole paremad , sellepärast et kõik , kurat , maksavad oma raha nagu sinna . onju , ja loomulikult neil on raha nagu seda teha , onju , selle asemel , et kurat , tehke üks konsortsium , kus Euroopa Liidus nagu noh , jaa , pange see pakk kokku ja siis , siis te saate mingisuguse parema asja , onju , aga siis , kui me nagu oma tasku peal vaadatakse lätlast ja atlast , et nojaa , aga noh , et DJ teeb paremat , onju . muidugi ta teeb paremat , vaata eelarveid , onju . noh , see , seesama asi , et kas Euroopa Liit nagu jagab oma raha nagu või noh , iga riik teeb mingisugust asja , siis ei saa aru , et miks suurt asja nagu te nii , aitäh teile , jätkuvalt juba edasi , kõike head !
+see , see on see asi , mis nende nagu selle ühisuse juures mulle on arusaamatu .
+jah , vaatamata juba alustasid väikeste nii-öelda hobidroonidega , onju . ja siis üks , üks hetk jõustruktuurid avastasid , et ohoo . kas , kas tead , milline DJ droon alguses välja nägi või ? jaa , minul on kõige esimene DJ droon olnud
+Phantom kolm .
+selline tunne , et see troon tuleb , võib sulle pildi pealt tuttav tulla , sest üks teine troon on täna täpselt sama näoga , mille , mida me ostame .
+väga sarnane on üks , teine . miks meil kõik nii aeglane on ? meil on mingisugused , ma ei tea , mis turuasjad vahel .
+see troon .
+no tuttav pilt ette . täna me ostame nüüd , see sihtmärk troon on põhimõtteliselt sama asi , noh , see . näiteks te ostete juba mingi peldis täis , kuradi , ma ei tea , kui palju . lihtsalt , et see asi , noh , need on jupid , mida on odavam saada , sest kuna ei ole patenti ja Hiina nagunii ja tehti järgi ja nii edasi . ei , aga kui , no saaks , aga ei , see ei ole . aga see droon oli tegelikult DJI esimene toode . kui see oli , ma ei saa isegi öelda , et see oli esimene toode , sest tegelikult nad tegid ka seda elektroonikat , mis sinna , sinna nagu droonide peale käis . et võib-olla neil oli enne , kui nad drooni tegid , isegi mingi elektroonika asi väljas . aga tegelikult nende teekond algas sealt .
+et see , see ei olnud alguses ei olnud , see oli isetehtav lego , see ei olnud nagu see karbi toode , et karbi , sealt edasi jõudsid need karbi tooteid .
+ja .
+pambu läbi printerid ütlevad minu , ei .
+minu arvates Sass ostis ühe .
+kolm tööbriterit . kolm , kolm tööbriter . jah , ma ei ole nendega väga kokku puutunud . aga lihtsalt , et Bambulaev on täna .
+tegelikult teinud selle sama asja kolm D printerite turuga , mis DJ tegi droonituruga .
+ja mõnes mõttes mul on nende printer . ta tõepoolest oli nagu suur hüpe edasi , aga teistpidi ta on täpselt sama kinnine ja nii edasi .
+mis , mis see huvitav aspekt on , see , et . ?
+see firma on otseselt DJ-ga seotud .
+ja .
+tored hiinlased teevad , aga me laseme järjekordselt nagu .
+aa , selle juba ?
