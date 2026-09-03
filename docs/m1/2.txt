@@ -1,0 +1,232 @@
+SMIT Lattice node – vajalikud võrguühendused ja ligipääsud
+1. Eesmärk
+Piloodi esimeses etapis paigaldatakse PPA keskne Lattice node SMIT serverikeskkonda. Selle node ülesanne on koondada PPA eri võrkudest Lattice kaudu saabuv operatiivinfo, pakkuda PPA domeenivõrgu kasutajatele Lattice C2 kasutajaliidest ning olla esialgu ainus PPA Lattice node, mis suhtleb Kaitseväe Lattice keskkonnaga.
+Esimeses etapis on SMIT node'il neli põhilist võrgurolli:
+1.	võtta vastu Turvavõrgu adapteri kaudu Remote ID, RF suunamäärajate ja vajadusel muu suunatud sensorinfo;
+2.	suhelda Mustvee Lattice node'iga üle Lattice Mesh ühenduse;
+3.	võimaldada PPA domeenivõrgu kasutajatele Lattice C2 kasutajaliides;
+4.	vahetada kokkulepitud operatiivinfot Kaitseväe Lattice node'iga.
+Lisaks peab PPA administraatoritel olema domeenivõrgust kontrollitud haldusligipääs SMIT Lattice node'ile.
+Andurili arhitektuur eeldab L3 marsruutimist node'ide vahel ning site-to-site ühenduse loomiseks lattice-vpn/strongswan põhist IPSec VPN-i. Iga node võib paikneda oma alamvõrgus.
+2. Üldine andmevoog
+Andmevood on toodud siharhitektuuri joonisel. 
+Esimeses etapis Mustvee node ei suhtle otse Kaitseväega. Kaitseväe ühenduse PPA-poolne lõpp-punkt on SMIT Lattice node. Piloodi eesmärkide kohaselt ühendatakse esimeses etapis kaks PPA node, millest vaid üks suhtleb esialgu kaitseväega.
+________________________________________
+3. Turvavõrk → SMIT Lattice node
+Turvavõrgus paikneb üks PPA hallatav adapter, mis koondab valitud sensorite andmed. Esialgu on peamised sisendid:
+•	Remote ID;
+•	RF suunamäärajad;
+•	vajadusel teised väikese andmemahuga sensorid.
+Adapter algatab ühenduse Turvavõrgust SMIT Lattice node suunas. SMIT node ei vaja selleks üldist ligipääsu Turvavõrgu sensoritele.
+Soovitud liiklusmudel:
+Turvavõrgu adapter
+        |
+        | Väljuv liiklus
+        | Lattice REST SDK / HTTPS
+        v
+SMIT Lattice node
+Piloodis kasutatakse esialgu Lattice REST SDK-d.
+Planeeritav tulemüürireegel:
+Lähtekoht	Sihtkoht	Protokoll	Port	Otstarve
+Turvavõrgu adapter	SMIT Lattice node	HTTPS/TCP	443	Lattice REST SDK kaudu sensoriinfo saatmine
+Selle integratsiooni jaoks ei ole kavandatud Turvavõrgu ja SMIT võrgu üldist kahepoolset marsruutimist. Vajalik on ainult määratud adapteri ühendus määratud Lattice node endpoint'i.
+
+________________________________________
+4. Mustvee Lattice node ↔ SMIT Lattice node
+Mustvee node'ist jõuab SMIT node'i Lattice kaudu Idaseire radaritest pärinev operatiivinfo.
+Radarite ASTERIX toorvooge ei transpordita SMIT node'i otse. ASTERIX sisend läheb Mustvee Lattice node'i ning node'ide vahel liigub Lattice Mesh andmevahetus.
+Terma radarid
+     |
+     | ASTERIX
+     v
+Mustvee Lattice node
+     |
+     | Lattice Mesh
+     v
+SMIT Lattice node
+See vastab piloodi eesmärgile, kus päris sensoriinfo siseneb ühte PPA node ja jõuab Lattice kaudu teise node'i.
+Mustvee Lattice node <-> SMIT Lattice node
+
+5455	UDP	strongSwan
+6003  	TCP	dsb-flux-adapter
+6206	TCP	DSB
+6207	TCP	DSB
+6849	UDP	DSB
+6850	TCP	lattice-vpn
+7025	TCP	registration________________________________________
+5. PPA domeenivõrgu kasutajad → SMIT Lattice node
+SMIT Lattice node on esialgu PPA kasutajate peamine C2 kasutajaliidese lõpp-punkt. 
+Esialgu kasutame C2 liikluseks 443 HTTPS porti. Piloodi jaoks ei ole põhjust 80/TCP kasutajavõrgust avada, kui selleks eraldi vajadust ei teki.
+
+________________________________________
+6. PPA administraatorid → SMIT Lattice node
+PPA peab suutma Lattice node'i tavapäraselt ise hallata. Piloodi eesmärkides on eraldi nõutud, et PPA sees tekiks kompetents node'i administreerimiseks, seadistamiseks, kasutajate ja rollide haldamiseks, jagamisreeglite muutmiseks ja konfigureerimiseks ning haldus ei sõltuks välisest ligipääsust.
+
+Selleks vajalikud juurdepääsud
+
+Vajalikud haldusühendused:
+Lähtekoht	Sihtkoht	Protokoll	Port	Otstarve
+PPA haldusala sisevõrk (PPA domeen)	SMIT Lattice node	SSH/TCP	22	OS ja tehniline haldus
+PPA haldusala sisevõrk (PPA domeen)	SMIT Lattice node	HTTPS/TCP	443	Lattice veebiliidesed ja haldus
+
+
+Ligipääs tuleks võimaldada ainult määratud administraatoritele. 
+Anduril ei vaja piloodi tavapäraseks tööks ligipääsu PPA võrku.
+
+________________________________________
+7. SMIT Lattice node ↔ Kaitseväe Lattice node
+
+Esimeses etapis on SMIT Lattice node ainus PPA node, mis suhtleb Kaitseväe Lattice keskkonnaga.
+Mustvee node vahetab esialgu infot Kaitseväega läbi SMITi node.
+
+Kaitseväel ei ole selle lahenduse kaudu otsest võrguühendust:
+•	Mustvee serverikeskkonda;
+•	Idaseire radarivõrkudesse;
+•	Turvavõrku;
+•	Turvavõrgu sensoritesse.
+
+PPA kontrollib Lattice jagamisreeglitega, milline operatiivinfo Kaitseväele edastatakse ja milline jääb ainult PPA keskkonda. Piloodi vastuvõtutingimustes on see eraldi võimekus: PPA administraator peab saama hallata, millist infot Kaitseväega jagatakse.
+Võrgutasemel tuleb SMIT node'i ja Kaitseväe Lattice lõpp-punkti vahel planeerida Lattice node-to-node ühenduskomplekt:
+Port	Protokoll	Otstarve
+5455	UDP	strongSwan
+6003  	TCP	dsb-flux-adapter
+6206	TCP	DSB
+6207	TCP	DSB
+6849	UDP	DSB
+6850	TCP	lattice-vpn
+7025	TCP	registration
+
+________________________________________
+9. SMIT node'ile mittevajalikud ühendused esimeses etapis
+SMIT node'ile ei ole esialgu vaja:
+•	otsest ligipääsu Remote ID või RF sensoritele Turvavõrgus;
+•	üldist ligipääsu Turvavõrku;
+•	üldist ligipääsu Idaseirevõrku;
+•	80/TCP kasutajaliidese jaoks, kui HTTPS katab kõik vajadused;
+•	otsest Mustvee → KV võrguühendust.
+
+________________________________________
+10. SMIT-i node vajalik esialgne tulemüürimaatriks
+Lähtekoht	Sihtkoht	Port / protokoll	Otstarve
+Turvavõrgu adapter	SMIT Lattice node	TCP 443	Lattice REST SDK sensorinfo
+PPA domeenivõrgu kasutajad	SMIT Lattice node	TCP 443	C2 veebiliides
+PPA adminvõrk	SMIT Lattice node	TCP 22	SSH haldus
+PPA adminvõrk	SMIT Lattice node	TCP 443	Lattice haldus/UI
+Mustvee Lattice node	SMIT Lattice node	UDP 5455, TCP 6206, TCP 6207, UDP 6849, TCP 6850	Lattice Mesh / VPN
+SMIT Lattice node	Mustvee Lattice node	samad pordid vastavalt Andurili kinnitatud suundadele	Lattice Mesh / VPN
+SMIT Lattice node ↔ KV Lattice node	sama Lattice node-to-node komplekt	Lattice Mesh	
+SMIT Lattice node	Resource Authority	TCP 7025	node registreerimine
+Lisaks võivad node'il olla tavapärased infrastruktuurisõltuvused, näiteks DNS või ajasünkroniseerimine, kuid kasutatud allikad ei anna PPA jaoks nende konkreetseid sihtaadresse ega nõutud konfiguratsiooni. Neid ei ole seetõttu siin tulemüürinõudena fikseeritud.
+________________________________________
+11. Piiratud andmevahetus
+SMIT node ei toimiks võrkudevahelise ruuteri ega lüüsina. Võrguühendused piiratakse rangelt konkreetsete IP-aadresside ja portidega.
+Turvavõrgu adapter edastab sensoriinfo kontrollitud API ühenduse kaudu SMIT Lattice node'i. Mustvee Lattice node edastab radaritest saadud operatiivinfo Lattice Mesh'i kaudu SMIT Lattice node'i. PPA kasutajad pääsevad SMIT Lattice node'i kasutajaliidesele ligi HTTPS pordi 443 kaudu.
+SMIT Lattice node on keskne PPA-poolne koondus- ja jagamispunkt, mis suhtleb edasi Kaitseväe Lattice keskkonnaga üle Lattice Mesh'i. Turvavõrk, Mustvee ja Kaitsevägi ei vaja omavahel otseseid võrguühendusi.
+
+
+Kõik võrkudevahelised ühendused piiratakse konkreetsete lähte- ja sihtaadresside ning vajalike portidega.
+See võimaldab piloodis tõestada Lattice põhiidee: eri PPA võrkudest pärinev operatiivinfo jõuab keskse node kaudu ühisesse olukorrapilti ning lubatud osa sellest saab kontrollitult edasi jagada, ilma et olemasolevaid sensorivõrke omavahel üldiselt avataks.
+
+
+
+
+Mustvee Lattice node – radarite andmevood ja vajalikud võrguühendused
+1. Eesmärk
+Piloodi raames paigaldatakse Mustvee serverikeskkonda Lattice node, mille ülesanne on võtta vastu kahe valitud Terma radari olemasolevad ASTERIX andmevood ning edastada neist Lattice'i poolt töödeldud operatiivinfo edasi PPA kesksele SMIT-i Lattice node'ile. Piloodi eesmärkide kohaselt ühendatakse esimeses etapis kaks PPA node, millest vaid SMITi oma suhtleb esialgu kaitseväega.
+Olemasolevat radarisüsteemi ja Mustasaare tootmistarkvara selleks tarvis ei muudeta. Lattice saab olemasolevatest radarivoogudest paralleelse sisendi. Radarivoogude integratsiooni, ASTERIX-sõnumite tõlgendamise ja teisendamise pakub Anduril. Andurili poolelt on kinnitatud, et Lattice tarkvarapaketile on neil olemas  lisnduv  ASTERIX liidese komponenti mis toetab mitut ASTERIX andmetüüpi ning lisavad neid tüüpe vajadusel juurde.
+Piloodi põhimõte on, et kahe radari olemasolevad ASTERIX-andmevood sisestatakse Mustvee Lattice node'i. Radarivoogude Lattice-poolne töötlemine toimub Mustvee node'is ning node'idevaheline andmevahetus SMIT-i node'iga toimub Lattice Mesh kaudu. Edaspidi jagatakse SMITi node kaudu õhuseire infot Kaitseväega. Piloodi lõpuks suhtlevad kõik noded Kaitseväega otse.
+
+2. Üldised andmevood
+Andmevood on toodud siharhitektuuri joonisel. 
+Esimeses etapis Mustvee node ei suhtle otse Kaitseväega. Kaitseväe ühenduse PPA-poolne lõpp-punkt on SMIT Lattice node. Piloodi eesmärkide kohaselt ühendatakse esimeses etapis kaks PPA node, millest vaid üks suhtleb esialgu kaitseväega.
+
+Mustvee Lattice node'ile suunatakse vähemalt kahe radari ASTERIX-andmevood. Tarvis on erinevaid radari andmevoogusid, mis esindaksid PPA radariparki ning tõestaksid integratsioonide töö ka teistel radaritel.
+Mõlema radari puhul soovime Lattice'ile suunata kõik ASTERIX sõnumitüübid, mida vastav radar või selle olemasolev väljund praegu kasutab. Õhuväele edastame ainult õhukanali vood. Anduril otsustab pärast andmevoo Lattice node'i jõudmist, milliseid sõnumeid ja välju integratsioonis lõpuks kasutatakse.
+Andurili kohtumisel kirjeldati radarisisendi jaoks vajalikku infot kujul:
+•	ASTERIX multicast-grupp või muu sihtaadress;
+•	UDP port;
+•	olemasolevad ASTERIX sõnumitüübid;
+•	radarist või radarivõrgust Lattice VM-i jõudev andmevoog.
+Andurili hinnang oli, et kui radarivoog jõuab VM-i, saab edasise integratsiooni teha Lattice sees.
+Vajalikud radarivoogude parameetrid
+Mõlema radari kohta on vaja määrata vähemalt:
+Parameeter	Vajalik info
+Radar	Radar 1 / Radar 2
+Andmevorming	ASTERIX
+Transport	UDP
+Lähteaadress	konkreetne radari või andmevoo lähteaadress
+Sihtaadress	Mustvee Lattice node või multicast-grupp
+Multicast-grupp	olemasolev grupp või Lattice jaoks loodav täiendav väljund
+UDP port	olemasoleva ASTERIX voo port
+ASTERIX sõnumid	kõik praegu selles voos kasutatavad tüübid
+Andurili Lattice dokumentatsioonis on ASTERIX vaikimisi sisendportidena toodud:
+•	UDP 21113
+•	UDP 7002
+Need on Lattice poole vaikimisi pordid, mitte kinnitus selle kohta, et PPA olemasolevad radarivood juba neid porte kasutavad. Kui olemasolevad radarivood kasutavad muid porte, tuleb kasutada tegelikke olemasolevaid porte või seadistada paralleelne väljund vastavalt kokkuleppele.
+Oluline on võimaldada vajalik UDP liiklus Lattice node’ni, sõltumata võrkude täpsemast arhitektuurist ning kas infoedastus node’i lahendatakse multicastiga või teisiti. 
+
+Seega peab olemasolev infovoog jätkama sõltumatult Lattice'ist. Lattice'ile kasutatakse võimalusel olemasoleva andmevoo koopiat, multicast-liitumist või radari täiendavat väljundit. 
+
+4. Mustvee Lattice node ↔ SMIT Lattice node
+Mustvee node peab suhtlema PPA keskse SMIT-i Lattice node'iga.
+See ühendus kannab Lattice Mesh liiklust, mitte radarite ASTERIX toorvoogu.
+
+Mustvee Lattice node <-> SMIT Lattice node
+
+
+5455	UDP	strongSwan
+6003  	TCP	dsb-flux-adapter
+6206	TCP	DSB
+6207	TCP	DSB
+6849	UDP	DSB
+6850	TCP	lattice-vpn
+7025	TCP	registration 
+
+Täpset lõplikku komplekti tuleb rakendamisel kontrollida Andurili konkreetse PPA tarkvarapakett konfiguratsiooni järgi, sest nende dokumentides esineb teenusenimetuste osas erinevusi. Anduril on ise kirjeldanud, et node-to-node suhtluseks on olemas konkreetne teenuste, portide ja protokollide nimekiri.
+5. PPA domeenivõrk → Mustvee serverikeskkond
+Lattice Mesh ühendusest eraldi peab andma haldamiseks PPA administraatorile kaugjuurdepääsu PPA domeenivõrgust Mustvee serverikeskkonda. Juuredpääsu tehniline võimalus on juba olemas.
+See on vajalik näiteks:
+•	VM-i loomise ja haldamise jaoks;
+•	Lattice node'i paigaldamiseks;
+•	konfiguratsiooni muutmiseks;
+•	logide ja teenuste kontrollimiseks;
+•	tõrkeotsinguks.
+Mustvee suunas on juba olemas kaugühenduse tee läbi Idaseire/Juniperi infrastruktuuri. Seda ei käsitleta Lattice Mesh liiklusena ning selle olemasolevat arhitektuuri ei ole selle dokumendi jaoks vaja täiendavalt avaldada.
+Lattice VM-i enda halduse seisukohalt on Andurili dokumentatsioonis asjakohased:
+Port	Protokoll	Otstarve
+22	TCP	SSH
+443	TCP/HTTPS	Lattice veebiliides ja HTTPS teenused
+Seega peab määratud PPA administraatoritel olema PPA domeenivõrgust olemasoleva kaugühenduse kaudu võimalik jõuda vähemalt Mustvee Lattice VM-i vajalike haldusliidesteni.
+Seda tasub käsitleda eraldi reeglina:
+PPA haldus / domeenivõrk
+        |
+        | olemasolev remote tee
+        v
+Mustvee serverikeskkond
+        |
+        +-> Mustvee Lattice VM
+            TCP 22
+            TCP 443
+6. Mida Mustvee node ei pea tegema
+Piloodi esimeses etapis ei ole Mustvee Lattice node'il vaja:
+•	otse Kaitseväe Lattice node'iga suhelda;
+•	anda kasutajatele PPA domeenivõrgust C2 kasutajaliidest;
+•	saada Turvavõrgu sensorivooge;
+•	pääseda üldiselt teistesse Idaseire süsteemidesse;
+•	saada laia ligipääsu Mustasaare serveritele või tarkvarale.
+Kaitseväe suunal suhtleb esialgu ainult SMIT-i Lattice node.
+Seega on Mustvee node'i välised vajadused algselt piiratud kolme ühendusega:
+1.	kaks radarite ASTERIX sisendvoogu;
+2.	Lattice Mesh ühendus SMIT-i node'iga;
+3.	PPA administraatorite kaugjuurdepääs Mustvee Lattice VM-ile.
+7. Jagatava võrguinfo piir
+Selle lahenduse teostamiseks peaks ülaltoodud info olema piisav lähtekoht.
+Edasiseks tehniliseks seadistamiseks saab vajaduse järgi anda konkreetsetele teostajatele minimaalselt vajaliku info, näiteks:
+•	Andmevoogude  lähteaadressid Lattice jaoks;
+•	UDP pordid;
+•	Mustvee Lattice VM-i aadress;
+•	SMIT Lattice node'i aadress;
+•	vajalikud tulemüürireeglid.
+Idaseire muu võrguarhitektuur, marsruutimine, võrguseadmed, alamvõrgud ja muud tehnilised detailid ei kuulu Lattice integratsiooni sisendisse ning neid ei ole vaja Andurilile ega teistele kolmandatele osapooltele edasi anda.
+
+
